@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { HashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -9,13 +8,7 @@ const queryClient = new QueryClient();
 export const App = () => (
   <QueryClientProvider client={queryClient}>
     <HashRouter>
-      <div>
-        <Suspense
-          fallback={<div>Brrr... here should be your loader component</div>}
-        >
-          <Router />
-        </Suspense>
-      </div>
+      <Router />
     </HashRouter>
   </QueryClientProvider>
 );

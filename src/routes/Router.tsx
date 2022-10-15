@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { FC, lazy } from 'react';
-import { RouteObject, useRoutes } from 'react-router-dom';
+import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
 export const Movies = lazy(() =>
   import('../pages/Movies').then(module => ({
@@ -20,6 +20,10 @@ export const NotFound = lazy(() =>
 const routes: RouteObject[] = [
   {
     path: '',
+    element: <Navigate to="/movies" />,
+  },
+  {
+    path: 'movies',
     element: <Movies />,
   },
   {
