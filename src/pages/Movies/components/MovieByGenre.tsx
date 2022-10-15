@@ -6,20 +6,20 @@ import { AxiosError } from 'axios';
 import { MovieService } from '../../../api/services/movieService';
 import { Pagination, Movie } from '../../../core/models';
 import { MovieList } from '../../../shared/components/MovieList';
-import { DISCOVER } from '../../../core/constants';
 
-const MainComponent = () => {
-  const { discover } = useParams();
-  const title = DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
+const MovieByGenreComponent = () => {
+  const params = useParams();
+  const genreId = parseInt(params.genreId ?? '', 10);
   const {
     data: movies,
     isLoading,
     isError,
     error,
   } = useQuery<Pagination<Movie>, AxiosError>(
-    ['movies', discover],
-    () => MovieService.getMovies(discover),
+    ['moviesByGenre', genreId],
+    () => MovieService.getMoviesByGenre(genreId),
   );
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -28,8 +28,8 @@ const MainComponent = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <MovieList movies={movies.results} title={title}/>
+    <MovieList movies={movies.results} title="Genre"/>
   );
 };
 
-export const Main = memo(MainComponent);
+export const MovieByGenre = memo(MovieByGenreComponent);

@@ -30,7 +30,7 @@ const SidebarComponent = ({ type }: Props) => {
   };
 
   const onGenreClick = (genre: Genre) => {
-    navigate(`/genre/${genre.id}`);
+    navigate(`/${type}/genre/${genre.id}`);
   };
 
   if (isLoading) {

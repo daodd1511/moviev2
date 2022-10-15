@@ -6,9 +6,14 @@ export const Movies = lazy(() =>
     default: module.Movies,
   })));
 
-export const Main = lazy(() =>
-  import('./components/Main').then(module => ({
-    default: module.Main,
+export const MovieByDiscover = lazy(() =>
+  import('./components').then(module => ({
+    default: module.MovieByDiscover,
+  })));
+
+export const MovieByGenre = lazy(() =>
+  import('./components').then(module => ({
+    default: module.MovieByGenre,
   })));
 
 export const movieRoutes: RouteObject[] = [
@@ -17,12 +22,16 @@ export const movieRoutes: RouteObject[] = [
     element: <Movies />,
     children: [
       {
-        path: '',
-        element: <Navigate to="popular" />,
+        path: 'genre/:genreId',
+        element: <MovieByGenre />,
       },
       {
         path: ':discover',
-        element: <Main />,
+        element: <MovieByDiscover />,
+      },
+      {
+        path: '',
+        element: <Navigate to="popular" />,
       },
     ],
   },
