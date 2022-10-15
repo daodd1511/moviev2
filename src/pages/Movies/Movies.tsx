@@ -1,39 +1,22 @@
 import { memo } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { Outlet } from 'react-router-dom';
 
-import { AxiosError } from 'axios';
+import { Type } from '../../core/enums';
 
-import { MovieService } from '../../api/services/movieService';
-import { Movie } from '../../core/models/movie/movie.model';
+import { Sidebar } from './components';
 
-const MoviesComponent = () => {
-  const header = 'Movies';
-  const {
-    data: movies,
-    isLoading,
-    isError,
-    error,
-  } = useQuery<readonly Movie[], AxiosError>(
-    ['movies'],
-    MovieService.getMovies,
-  );
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  return (
-    <div>
-      <h1 className="text-2xl text-red-500">{header}</h1>
-      <button className="btn btn-secondary">Click me!</button>
-      {movies.map(movie => (
-        <div key={movie.id}>{movie.title}</div>
-      ))}
+const MoviesComponent = () => (
+  <div className="flex">
+    <div className="w-60 min-h-screen">
+      <Sidebar
+        type={Type.Movie}
+      />
     </div>
-  );
-};
+    <div className="divider divider-horizontal" />
+    <div className="grow">
+      <Outlet />
+    </div>
+  </div>
+);
 
 export const Movies = memo(MoviesComponent);
