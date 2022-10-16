@@ -7,9 +7,13 @@ import { MovieService } from '../../../api/services/movieService';
 import { Pagination, Movie } from '../../../core/models';
 import { MovieList } from '../../../shared/components/MovieList';
 
+import { Type } from '../../../core/enums';
+
 const MovieByGenreComponent = () => {
   const params = useParams();
   const genreId = parseInt(params.genreId ?? '', 10);
+  const { data: genres } = useQuery(['genres'], () => MovieService.getGenres(Type.Movie));
+  const title = genres?.find(genre => genre.id === genreId)?.name ?? 'Genre';
   const {
     data: movies,
     isLoading,
@@ -28,7 +32,10 @@ const MovieByGenreComponent = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <MovieList movies={movies.results} title="Genre"/>
+    <div className="px-8 py-12">
+      <h1 className="text-2xl font-medium pb-10">{title}</h1>
+      <MovieList movies={movies.results} />
+    </div>
   );
 };
 

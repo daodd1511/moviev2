@@ -28,7 +28,10 @@ const MovieByDiscoverComponent = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <MovieList movies={movies.results} title={title}/>
+    <div className="px-8 py-12">
+      <h1 className="text-2xl font-medium pb-10">{title}</h1>
+      <MovieList movies={movies.results}/>
+    </div>
   );
 };
 

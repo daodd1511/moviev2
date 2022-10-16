@@ -2,23 +2,17 @@ import { memo } from 'react';
 
 import { Movie } from '../../core/models';
 
+import { MovieListItem } from './MovieListItem';
+
 interface Props {
 
-  /** Discover type. */
+  /** Movies data. */
   readonly movies: readonly Movie[];
-
-  /** Title. */
-  readonly title: string;
 }
 
-const MovieListComponent = ({ movies, title }: Props) => (
+const MovieListComponent = ({ movies }: Props) => (
   <div>
-    <h1 className="text-2xl text-red-500">{title}</h1>
-    <div>
-      {movies.map(movie => <div key={movie.id}>
-        {movie.title}
-      </div>)}
-    </div>
+    {movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)}
   </div>
 );
 

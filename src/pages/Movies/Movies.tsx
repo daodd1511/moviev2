@@ -12,7 +12,7 @@ const MoviesComponent = () => (
         type={Type.Movie}
       />
     </div>
-    <div className="divider divider-horizontal" />
+    <div className="divider divider-horizontal m-0 w-0" />
     <div className="grow">
       <Outlet />
     </div>
