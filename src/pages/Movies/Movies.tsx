@@ -7,7 +7,7 @@ import { Sidebar } from './components';
 
 const MoviesComponent = () => (
   <div className="flex">
-    <div className="w-60 min-h-screen">
+    <div className="min-h-screen">
       <Sidebar
         type={Type.Movie}
       />

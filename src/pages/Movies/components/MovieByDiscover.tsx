@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { MovieService } from '../../../api/services/movieService';
+import { Spinner } from '../../../shared/components';
 import { Pagination, Movie } from '../../../core/models';
 import { MovieList } from '../../../shared/components/MovieList';
 import { DISCOVER } from '../../../core/constants';
@@ -21,7 +22,7 @@ const MovieByDiscoverComponent = () => {
     () => MovieService.getMovies(discover),
   );
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><Spinner /></div>;
   }
 
   if (isError) {

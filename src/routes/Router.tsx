@@ -2,16 +2,16 @@
 import { FC, lazy } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
-import { movieRoutes } from '../pages/Movies/routes';
-
-export const Movie = lazy(() =>
-  import('../pages/Movie').then(module => ({
-    default: module.Movie,
-  })));
+import { movieRoutes } from './movies.routes';
 
 export const NotFound = lazy(() =>
   import('../pages/NotFound').then(module => ({
     default: module.NotFound,
+  })));
+
+export const Movie = lazy(() =>
+  import('../pages/Movie').then(module => ({
+    default: module.Movie,
   })));
 
 const routes: RouteObject[] = [
@@ -21,7 +21,7 @@ const routes: RouteObject[] = [
   },
   ...movieRoutes,
   {
-    path: 'movie/:id',
+    path: 'movie/detail/:id',
     element: <Movie />,
   },
   {

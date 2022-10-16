@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
 import { Router } from './routes/Router';
-import { Spinner } from './shared/components/Spinner/Spinner';
+import { Spinner } from './shared/components';
 
 const queryClient = new QueryClient();
 

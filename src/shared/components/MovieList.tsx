@@ -11,7 +11,7 @@ interface Props {
 }
 
 const MovieListComponent = ({ movies }: Props) => (
-  <div>
+  <div className="grid grid-cols-4 gap-x-6 gap-y-10">
     {movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)}
   </div>
 );

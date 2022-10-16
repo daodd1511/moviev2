@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 
 import { MovieService } from '../../../api/services/movieService';
 import { Pagination, Movie } from '../../../core/models';
-import { MovieList } from '../../../shared/components/MovieList';
+import { MovieList, Spinner } from '../../../shared/components';
 
 import { Type } from '../../../core/enums';
 
@@ -25,7 +25,7 @@ const MovieByGenreComponent = () => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><Spinner /></div>;
   }
 
   if (isError) {

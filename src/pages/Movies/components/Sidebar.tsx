@@ -43,7 +43,7 @@ const SidebarComponent = ({ type }: Props) => {
   }
 
   return (
-    <aside className="p-6">
+    <aside className="p-6 w-60">
       <h1 className="pb-10 text-2xl">Dao movies</h1>
       {/* Discover */}
       <div className="pb-8">
