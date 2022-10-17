@@ -5,12 +5,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
-  },
-  plugins: [
-    require("daisyui"),
-  ],
-    daisyui: {
-    themes: false,
+    extend: {
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        'autoFit': 'repeat(auto-fit, minmax(10rem, 20rem))',
+      }
+    },
   },
 }

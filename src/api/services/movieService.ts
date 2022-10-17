@@ -5,8 +5,8 @@ import { PaginationMapper, MovieMapper, GenreMapper } from '../../core/mappers';
 import { Movie, Genre, Pagination } from '../../core/models';
 
 export namespace MovieService {
-  export const getMovies = async(discoverValue?: string): Promise<Pagination<Movie>> => {
-    const response = await api.get<PaginationDto<MovieDto>>(`/movie/${discoverValue ?? 'popular'}`);
+  export const getMovies = async(page: number, discoverValue?: string): Promise<Pagination<Movie>> => {
+    const response = await api.get<PaginationDto<MovieDto>>(`/movie/${discoverValue ?? 'popular'}?page=${page}`);
     const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
     return movies;
   };

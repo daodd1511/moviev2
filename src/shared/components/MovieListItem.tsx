@@ -23,7 +23,7 @@ const MovieListItemComponent = ({ movie }: Props) => {
   };
 
   return (
-    <Link to={`/movie/detail/${movie.id}`} className="h-fit hover:scale-105 transition-all pb-4 hover:bg-slate-700 hover:text-white hover:rounded-lg">
+    <Link to={`/movie/detail/${movie.id}`} className="h-fit hover:scale-105 transition-all pb-4 hover:bg-slate-700 hover:text-white hover:rounded-lg block">
       <img src={imageURL} alt={`${movie.title} image`} className="rounded-lg shadow-2xl" />
       <div className="text-md pt-2 pb-4 text-center">{movie.title}</div>
       <div className="flex justify-evenly">

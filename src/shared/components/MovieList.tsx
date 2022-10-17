@@ -11,8 +11,11 @@ interface Props {
 }
 
 const MovieListComponent = ({ movies }: Props) => (
-  <div className="grid grid-cols-4 gap-x-6 gap-y-10">
-    {movies.map(movie => <MovieListItem key={movie.id} movie={movie} />)}
+  <div className="grid grid-cols-autoFit gap-x-6 gap-y-10 place-content-evenly">
+    {movies.map(movie =>
+      <div key={movie.id}>
+        <MovieListItem movie={movie} />
+      </div>)}
   </div>
 );
 
