@@ -17,8 +17,8 @@ export namespace MovieService {
     return genres;
   };
 
-  export const getMoviesByGenre = async(genreId: number): Promise<Pagination<Movie>> => {
-    const response = await api.get<PaginationDto<MovieDto>>(`/discover/movie?with_genres=${genreId}`);
+  export const getMoviesByGenre = async(genreId: number, page: number): Promise<Pagination<Movie>> => {
+    const response = await api.get<PaginationDto<MovieDto>>(`/discover/movie?with_genres=${genreId}&page=${page}`);
     const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
     return movies;
   };

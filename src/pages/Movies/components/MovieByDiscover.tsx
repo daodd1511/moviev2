@@ -15,7 +15,7 @@ const MovieByDiscoverComponent = () => {
   const title =
     DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
   const {
-    data: movies,
+    data,
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
@@ -58,7 +58,7 @@ const MovieByDiscoverComponent = () => {
   return (
     <div className="px-8 py-12">
       <h1 className="pb-10 text-2xl font-medium">{title}</h1>
-      {movies.pages.map((moviePage, i) => (
+      {data.pages.map((moviePage, i) => (
         <MovieList key={i} movies={moviePage.results} />
       ))}
       <div className="loader" ref={observerElement}>
