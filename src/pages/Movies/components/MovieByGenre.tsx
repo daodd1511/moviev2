@@ -12,20 +12,23 @@ import { Type } from '../../../core/enums';
 const MovieByGenreComponent = () => {
   const params = useParams();
   const genreId = parseInt(params.genreId ?? '', 10);
-  const { data: genres } = useQuery(['genres'], () => MovieService.getGenres(Type.Movie));
+  const { data: genres } = useQuery(['genres'], () =>
+    MovieService.getGenres(Type.Movie));
   const title = genres?.find(genre => genre.id === genreId)?.name ?? 'Genre';
   const {
     data: movies,
     isLoading,
     isError,
     error,
-  } = useQuery<Pagination<Movie>, AxiosError>(
-    ['moviesByGenre', genreId],
-    () => MovieService.getMoviesByGenre(genreId),
-  );
+  } = useQuery<Pagination<Movie>, AxiosError>(['moviesByGenre', genreId], () =>
+    MovieService.getMoviesByGenre(genreId));
 
   if (isLoading) {
-    return <div><Spinner /></div>;
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (isError) {
@@ -33,7 +36,7 @@ const MovieByGenreComponent = () => {
   }
   return (
     <div className="px-8 py-12">
-      <h1 className="text-2xl font-medium pb-10">{title}</h1>
+      <h1 className="pb-10 text-2xl font-medium">{title}</h1>
       <MovieList movies={movies.results} />
     </div>
   );

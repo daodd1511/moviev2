@@ -12,7 +12,8 @@ import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
 
 const MovieByDiscoverComponent = () => {
   const { discover } = useParams();
-  const title = DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
+  const title =
+    DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
   const {
     data: movies,
     fetchNextPage,
@@ -32,14 +33,23 @@ const MovieByDiscoverComponent = () => {
     },
   );
 
-  const { observerElement } = useInfiniteScroll({
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.5,
-  }, fetchNextPage, hasNextPage, isFetchingNextPage);
+  const { observerElement } = useInfiniteScroll(
+    {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5,
+    },
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  );
 
   if (isLoading) {
-    return <div><Spinner /></div>;
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (isError) {
@@ -47,11 +57,11 @@ const MovieByDiscoverComponent = () => {
   }
   return (
     <div className="px-8 py-12">
-      <h1 className="text-2xl font-medium pb-10">{title}</h1>
+      <h1 className="pb-10 text-2xl font-medium">{title}</h1>
       {movies.pages.map((moviePage, i) => (
-        <MovieList key={i} movies={moviePage.results}/>
+        <MovieList key={i} movies={moviePage.results} />
       ))}
-      <div className='loader' ref={observerElement}>
+      <div className="loader" ref={observerElement}>
         {hasNextPage !== undefined && isFetchingNextPage && <Spinner />}
       </div>
     </div>

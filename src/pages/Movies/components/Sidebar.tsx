@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { MovieService } from '../../../api/services/movieService';
 import { DISCOVER } from '../../../core/constants';
-
+import { Spinner } from '../../../shared/components';
 import { Type } from '../../../core/enums';
 import { Genre } from '../../../core/models';
 
@@ -35,7 +35,11 @@ const SidebarComponent = ({ type }: Props) => {
   };
 
   if (isLoading) {
-    return <div>Genres Loading...</div>;
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (isError) {
@@ -43,16 +47,20 @@ const SidebarComponent = ({ type }: Props) => {
   }
 
   return (
-    <aside className="p-6 w-60">
+    <aside className="w-60 p-6">
       <h1 className="pb-10 text-2xl">Dao movies</h1>
       {/* Discover */}
       <div className="pb-8">
-        <h2 className="font-medium">Discover</h2>
+        <h2 className="pb-4 font-medium">Discover</h2>
         <div className="flex flex-col">
           {DISCOVER.map(item => (
             <button
-              className={`my-1 rounded-full px-4 py-2 text-left text-sm font-medium text-gray-400 border 
-              ${(discover !== undefined) && discover === item.value ? 'border-black text-black' : 'border-transparent hover:border-gray-400'} `}
+              className={`my-1 rounded-full border px-4 py-2 text-left text-sm font-medium text-gray-400 
+              ${
+                discover !== undefined && discover === item.value ?
+                  'border-black text-black' :
+                  'border-transparent hover:border-gray-400'
+              } `}
               type="button"
               key={item.value}
               onClick={() => onDiscoverClick(item.value)}
@@ -64,12 +72,16 @@ const SidebarComponent = ({ type }: Props) => {
       </div>
       {/* Genre */}
       <div className="pb-8">
-        <h2 className="font-medium">Genres</h2>
+        <h2 className="pb-4 font-medium">Genres</h2>
         <div className="flex flex-col">
           {genres.map(genre => (
             <button
-              className={`my-1 rounded-full px-4 py-2 text-left text-sm font-medium text-gray-400 border  
-              ${(genreId !== undefined) && genreId === genre.id.toString() ? 'border-black text-black' : 'border-transparent hover:border-gray-400'}`}
+              className={`my-1 rounded-full border px-4 py-2 text-left text-sm font-medium text-gray-400  
+              ${
+                genreId !== undefined && genreId === genre.id.toString() ?
+                  'border-black text-black' :
+                  'border-transparent hover:border-gray-400'
+              }`}
               type="button"
               key={genre.id}
               onClick={() => onGenreClick(genre)}
