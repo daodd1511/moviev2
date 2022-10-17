@@ -7,12 +7,12 @@ import { Sidebar } from './components';
 
 const MoviesComponent = () => (
   <div className="flex">
-    <div className="min-h-screen">
+    <div className="overflow-y-auto overflow-x-hidden h-screen sticky top-0">
       <Sidebar
         type={Type.Movie}
       />
     </div>
-    <div className="divider divider-horizontal m-0 w-0" />
+    <div className="py-2 w-[1px] bg-slate-300" />
     <div className="grow">
       <Outlet />
     </div>
