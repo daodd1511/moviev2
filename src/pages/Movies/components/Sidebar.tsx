@@ -34,6 +34,10 @@ const SidebarComponent = ({ type }: Props) => {
     navigate(`/${type}/genre/${genre.id}`);
   };
 
+  const onWatchTypeButtonClick = (value: Type) => {
+    navigate(`/${value}`);
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -49,6 +53,11 @@ const SidebarComponent = ({ type }: Props) => {
   return (
     <aside className="w-60 p-6">
       <h1 className="pb-10 text-2xl">Dao movies</h1>
+      {/* Watch type */}
+      <div className="flex justify-between">
+        <button onClick={() => onWatchTypeButtonClick(Type.Movie)}>Movie</button>
+        <button onClick={() => onWatchTypeButtonClick(Type.Tv)}>Tv</button>
+      </div>
       {/* Discover */}
       <div className="pb-8">
         <h2 className="pb-4 font-medium">Discover</h2>

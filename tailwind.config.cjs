@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         // Simple 16 column grid
-        'autoFit': 'repeat(auto-fit, minmax(10rem, 20rem))',
+        'autoFit': 'repeat(auto-fit, minmax(10rem, 18rem))',
       }
     },
   },

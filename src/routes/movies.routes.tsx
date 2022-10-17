@@ -18,7 +18,7 @@ export const MovieByGenre = lazy(() =>
 
 export const movieRoutes: RouteObject[] = [
   {
-    path: 'movie',
+    path: ':type',
     element: <Movies />,
     children: [
       {
