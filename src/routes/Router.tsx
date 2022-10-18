@@ -2,6 +2,8 @@
 import { FC, lazy } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
+import { Type } from '../core/enums';
+
 import { movieRoutes } from './movies.routes';
 
 export const NotFound = lazy(() =>
@@ -22,7 +24,11 @@ const routes: RouteObject[] = [
   ...movieRoutes,
   {
     path: 'movie/detail/:id',
-    element: <Movie />,
+    element: <Movie type={Type.Movie}/>,
+  },
+  {
+    path: 'tv/detail/:id',
+    element: <Movie type={Type.Tv}/>,
   },
   {
     path: '*',

@@ -8,3 +8,7 @@ export const api: AxiosInstance = axios.create({
     api_key: API_CONFIG.apiKey,
   },
 });
+
+export const videoApi: AxiosInstance = axios.create({
+  baseURL: API_CONFIG.videoApiUrl,
+});

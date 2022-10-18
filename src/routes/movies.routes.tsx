@@ -25,7 +25,6 @@ export const movieRoutes: RouteObject[] = [
         path: 'genre/:genreId',
         element: <MovieByGenre />,
       },
-
       {
         path: ':discover',
         element: <MovieByDiscover />,
