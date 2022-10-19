@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 export const Spinner = () => (
-  <div className="text-center">
+  <div className="text-center flex h-full w-full items-center justify-center">
     <div role="status">
       <svg
         className="inline mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

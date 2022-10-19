@@ -19,7 +19,7 @@ export const Movie = lazy(() =>
 const routes: RouteObject[] = [
   {
     path: '',
-    element: <Navigate to="/movie/popular" />,
+    element: <Navigate to="/movie/discover/popular" />,
   },
   ...movieRoutes,
   {

@@ -18,7 +18,7 @@ export const MovieByGenre = lazy(() =>
 
 export const movieRoutes: RouteObject[] = [
   {
-    path: ':type',
+    path: 'movie',
     element: <Movies />,
     children: [
       {
@@ -26,12 +26,12 @@ export const movieRoutes: RouteObject[] = [
         element: <MovieByGenre />,
       },
       {
-        path: ':discover',
+        path: 'discover/:discover',
         element: <MovieByDiscover />,
       },
       {
         path: '',
-        element: <Navigate to="popular" />,
+        element: <Navigate to="discover/popular" />,
       },
     ],
   },

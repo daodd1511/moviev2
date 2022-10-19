@@ -1,8 +1,8 @@
 import { api } from '..';
-import { PaginationDto, MovieDto, GenreResponseDto } from '../../core/dtos';
+import { PaginationDto, MovieDto, GenreResponseDto, MovieDetailDto } from '../../core/dtos';
 import { Type } from '../../core/enums';
-import { PaginationMapper, MovieMapper, GenreMapper } from '../../core/mappers';
-import { Movie, Genre, Pagination } from '../../core/models';
+import { PaginationMapper, MovieMapper, GenreMapper, MovieDetailMapper } from '../../core/mappers';
+import { Movie, Genre, Pagination, MovieDetail } from '../../core/models';
 
 export namespace MovieService {
   export const getMovies = async(page: number, discoverValue?: string): Promise<Pagination<Movie>> => {
@@ -21,5 +21,14 @@ export namespace MovieService {
     const response = await api.get<PaginationDto<MovieDto>>(`/discover/movie?with_genres=${genreId}&page=${page}`);
     const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
     return movies;
+  };
+
+  export const getMovieDetail = async(movieId: number | undefined): Promise<MovieDetail> => {
+    if (movieId === undefined) {
+      return [] as unknown as MovieDetail;
+    }
+    const response = await api.get<MovieDetailDto>(`/movie/${movieId}`);
+    const movie = MovieDetailMapper.fromDto(response.data);
+    return movie;
   };
 }
