@@ -19,7 +19,6 @@ const MovieByGenreComponent = () => {
     data,
     fetchNextPage,
     isFetchingNextPage,
-    isFetching,
     hasNextPage,
     isLoading,
     isError,
@@ -46,7 +45,7 @@ const MovieByGenreComponent = () => {
     isFetchingNextPage,
   );
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <Spinner />;
   }
 

@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         // Simple 16 column grid
-        'autoFit': 'repeat(auto-fit, minmax(10rem, 18rem))',
+        'autoFit': 'repeat(auto-fit, minmax(0, 18rem))',
       },
       fontFamily: {
         'sans': ['Be Vietnam Pro', ...defaultTheme.fontFamily.sans],
