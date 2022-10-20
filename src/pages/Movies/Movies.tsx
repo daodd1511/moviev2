@@ -4,6 +4,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import { Type } from '../../core/enums';
 
 import { Sidebar } from './components';
+import { Search } from './components/Search';
 
 const SCROLL_THRESHOLD = 800;
 
@@ -27,24 +28,29 @@ const MoviesComponent = () => {
     });
   };
   return (
-    <div className="flex">
-      <div className="sticky top-0 h-screen overflow-y-auto overflow-x-hidden">
-        <Sidebar type={type as Type ?? Type.Movie} />
+    <>
+      <div className="w-1/3 absolute top-10 right-10">
+        <Search />
       </div>
-      <div className="w-[1px] bg-slate-300 py-2" />
-      <div className="grow">
-        <Outlet />
-      </div>
-      {showTopBtn && (
-        <button
-          type="button"
-          className="fixed bottom-5 right-5 z-10 h-10 w-10 rounded-full bg-sky-400"
-          onClick={goToTop}
-        >
+      <div className="flex">
+        <div className="sticky top-0 h-screen overflow-y-auto overflow-x-hidden">
+          <Sidebar type={type as Type ?? Type.Movie} />
+        </div>
+        <div className="w-[1px] bg-slate-300 py-2" />
+        <div className="grow">
+          <Outlet />
+        </div>
+        {showTopBtn && (
+          <button
+            type="button"
+            className="fixed bottom-5 right-5 z-10 h-10 w-10 rounded-full bg-sky-400"
+            onClick={goToTop}
+          >
           Top
-        </button>
-      )}
-    </div>
+          </button>
+        )}
+      </div>
+    </>
   );
 };
 

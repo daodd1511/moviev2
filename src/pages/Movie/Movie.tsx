@@ -13,6 +13,9 @@ import { API_CONFIG } from '../../api/config';
 import { PosterSizes, Type } from '../../core/enums';
 import { IMAGE_BASE_URL } from '../../core/constants';
 
+import { Content } from './components/Content';
+import { Recommend } from './components/Recommend';
+
 interface Props {
 
   /** Movie type. */
@@ -46,14 +49,14 @@ const MovieComponent = ({ type }: Props) => {
       `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${movie.posterPath}` :
       '/images/no-image.png';
   return (
-    <>
+    <div className="p-10">
       <div>Movie detail page</div>
       <div className="m-auto flex max-w-screen-xl">
         <div className="max-w-[40%] p-10">
           <img
             src={imageURL}
             alt={`${movie.title} image`}
-            className="max-w-full rounded-xl"
+            className="max-w-full rounded-xl shadow-2xl"
           />
           <div>
             <button
@@ -66,28 +69,10 @@ const MovieComponent = ({ type }: Props) => {
           </div>
         </div>
         <div className="max-w-[60%] p-10">
-          <div className="pb-8">
-            <h1 className="mb-2 text-5xl font-extralight text-slate-700">
-              {movie.title.toUpperCase()}
-            </h1>
-            <h2 className="text-lg font-bold text-slate-700">
-              {movie.tagline.toUpperCase()}
-            </h2>
-          </div>
-          <div className="pb-8">
-            <h3 className="mb-2 text-lg font-medium">Genres</h3>
-            <ul>
-              {movie.genres.map(genre => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="pb-6">
-            <h3 className="mb-2 text-lg font-medium">Synopsys</h3>
-            <p className="font-light">{movie.overview}</p>
-          </div>
+          <Content movie={movie}/>
         </div>
       </div>
+      <Recommend movieId={movie.id}/>
       <pre>{JSON.stringify(movie, null, 2)}</pre>
       {isWatchMovie && videoSource !== null && (
         <Modal setIsOpen={setIsWatchMovie}>
@@ -103,7 +88,7 @@ const MovieComponent = ({ type }: Props) => {
           </div>
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 

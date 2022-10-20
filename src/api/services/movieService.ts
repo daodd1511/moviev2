@@ -31,4 +31,12 @@ export namespace MovieService {
     const movie = MovieDetailMapper.fromDto(response.data);
     return movie;
   };
+
+  export const searchMovies = async(query: string): Promise<Pagination<Movie>> => {
+    const response = await api.get<PaginationDto<MovieDto>>(`/search/movie?query=${query}`);
+    const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
+    return movies;
+  };
+
+  export const getMovieRecommendation = (movieId: number): Promise<Pagination<Movie>> => getMovies(1, `${movieId}/recommendations`);
 }
