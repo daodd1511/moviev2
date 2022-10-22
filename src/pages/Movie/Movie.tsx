@@ -37,7 +37,12 @@ const MovieComponent = ({ type }: Props) => {
     id !== undefined ? `${API_CONFIG.videoApiUrl}${type}?id=${id}` : null;
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="h-screen w-screen">
+        {' '}
+        <Spinner />
+      </div>
+    );
   }
 
   if (isError) {
@@ -69,14 +74,14 @@ const MovieComponent = ({ type }: Props) => {
           </div>
         </div>
         <div className="max-w-[60%] p-10">
-          <Content movie={movie}/>
+          <Content movie={movie} />
         </div>
       </div>
-      <Recommend movieId={movie.id}/>
+      <Recommend movieId={movie.id} />
       <pre>{JSON.stringify(movie, null, 2)}</pre>
       {isWatchMovie && videoSource !== null && (
         <Modal setIsOpen={setIsWatchMovie}>
-          <div className="w-5/6 z-50">
+          <div className="z-50 w-5/6">
             <iframe
               src={videoSource}
               width="100%"

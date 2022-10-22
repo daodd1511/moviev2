@@ -29,7 +29,7 @@ const MoviesComponent = () => {
   };
   return (
     <>
-      <div className="w-1/3 absolute top-10 right-10">
+      <div className="w-1/3 absolute top-10 right-10 z-50">
         <Search />
       </div>
       <div className="flex">
