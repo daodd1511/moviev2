@@ -1,19 +1,19 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { MovieService } from '../../../api/services/movieService';
-import { Spinner } from '../../../shared/components';
-import { Pagination, Movie } from '../../../core/models';
-import { MovieList } from '../../../shared/components/Movie/MovieList';
-import { MOVIE_DISCOVER } from '../../../core/constants';
+import { Pagination, Tv } from '../../../core/models';
+import { Spinner, TvList } from '../../../shared/components';
 import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
+import { TvService } from '../../../api/services/tvService';
 
-const MovieByDiscoverComponent = () => {
-  const { discover } = useParams();
-  const title =
-    MOVIE_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
+const TvByGenreComponent = () => {
+  const params = useParams();
+  const genreId = parseInt(params.genreId ?? '', 10);
+  const { data: genres } = useQuery(['genres'], () =>
+    TvService.getGenres());
+  const title = genres?.find(genre => genre.id === genreId)?.name ?? 'Genre';
   const {
     data,
     fetchNextPage,
@@ -22,9 +22,9 @@ const MovieByDiscoverComponent = () => {
     isLoading,
     isError,
     error,
-  } = useInfiniteQuery<Pagination<Movie>, AxiosError>(
-    ['moviesByDiscover', discover],
-    ({ pageParam = 1 }) => MovieService.getMovies(pageParam, discover),
+  } = useInfiniteQuery<Pagination<Tv>, AxiosError>(
+    ['tvsByGenre', genreId],
+    ({ pageParam = 1 }) => TvService.getTvsByGenre(genreId, pageParam),
     {
       getNextPageParam(lastPage) {
         const nextPage = lastPage.page + 1;
@@ -54,8 +54,8 @@ const MovieByDiscoverComponent = () => {
   return (
     <div className="px-8 py-12">
       <h1 className="pb-10 text-2xl font-medium">{title}</h1>
-      {data.pages.map((moviePage, i) => (
-        <MovieList key={i} movies={moviePage.results} />
+      {data.pages.map((tvPage, i) => (
+        <TvList key={i} tvs={tvPage.results} />
       ))}
       <div className="loader" ref={observerElement}>
         {hasNextPage !== undefined && isFetchingNextPage && <Spinner />}
@@ -64,4 +64,4 @@ const MovieByDiscoverComponent = () => {
   );
 };
 
-export const MovieByDiscover = memo(MovieByDiscoverComponent);
+export const TvByGenre = memo(TvByGenreComponent);

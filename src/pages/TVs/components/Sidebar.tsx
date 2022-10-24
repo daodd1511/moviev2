@@ -3,8 +3,8 @@ import { AxiosError } from 'axios';
 import { memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { MovieService } from '../../../api/services/movieService';
-import { MOVIE_DISCOVER } from '../../../core/constants';
+import { TvService } from '../../../api/services/tvService';
+import { TV_DISCOVER } from '../../../core/constants';
 import { Spinner } from '../../../shared/components';
 import { Type } from '../../../core/enums';
 import { Genre } from '../../../core/models';
@@ -24,7 +24,7 @@ const SidebarComponent = ({ type }: Props) => {
     isError,
     error,
   } = useQuery<readonly Genre[], AxiosError>(['genres', type], () =>
-    MovieService.getGenres());
+    TvService.getGenres());
 
   const onDiscoverClick = (value: string) => {
     navigate(`/${type}/discover/${value}`);
@@ -58,7 +58,7 @@ const SidebarComponent = ({ type }: Props) => {
       <div className="pb-8">
         <h2 className="pb-4 font-medium">Discover</h2>
         <div className="flex flex-col">
-          {MOVIE_DISCOVER.map(item => (
+          {TV_DISCOVER.map(item => (
             <button
               className={`my-1 rounded-full border px-4 py-2 text-left text-sm font-medium text-gray-400 
               ${

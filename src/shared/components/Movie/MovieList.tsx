@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { Movie } from '../../core/models';
+import { Movie } from '../../../core/models';
 
 import { MovieListItem } from './MovieListItem';
 

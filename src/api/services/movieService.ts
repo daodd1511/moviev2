@@ -1,6 +1,5 @@
 import { api } from '..';
 import { PaginationDto, MovieDto, GenreResponseDto, MovieDetailDto } from '../../core/dtos';
-import { Type } from '../../core/enums';
 import { PaginationMapper, MovieMapper, GenreMapper, MovieDetailMapper } from '../../core/mappers';
 import { Movie, Genre, Pagination, MovieDetail } from '../../core/models';
 
@@ -11,8 +10,8 @@ export namespace MovieService {
     return movies;
   };
 
-  export const getGenres = async(type: Type): Promise<readonly Genre[]> => {
-    const response = await api.get<GenreResponseDto>(`/genre/${type}/list`);
+  export const getGenres = async(): Promise<readonly Genre[]> => {
+    const response = await api.get<GenreResponseDto>('/genre/movie/list');
     const genres = response.data.genres.map(genreDto => GenreMapper.fromDto(genreDto));
     return genres;
   };

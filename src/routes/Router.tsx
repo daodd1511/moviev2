@@ -2,9 +2,8 @@
 import { FC, lazy } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
-import { Type } from '../core/enums';
-
-import { movieRoutes } from './movies.routes';
+import { movieRoutes } from './movie.routes';
+import { tvRoutes } from './tv.routes';
 
 export const NotFound = lazy(() =>
   import('../pages/NotFound').then(module => ({
@@ -16,19 +15,25 @@ export const Movie = lazy(() =>
     default: module.Movie,
   })));
 
+export const Tv = lazy(() =>
+  import('../pages/TV').then(module => ({
+    default: module.TV,
+  })));
+
 const routes: RouteObject[] = [
   {
     path: '',
     element: <Navigate to="/movie/discover/popular" />,
   },
   ...movieRoutes,
+  ...tvRoutes,
   {
     path: 'movie/detail/:id',
-    element: <Movie type={Type.Movie}/>,
+    element: <Movie />,
   },
   {
     path: 'tv/detail/:id',
-    element: <Movie type={Type.Tv}/>,
+    element: <Tv />,
   },
   {
     path: '*',
