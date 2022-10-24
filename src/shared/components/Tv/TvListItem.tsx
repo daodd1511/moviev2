@@ -27,7 +27,7 @@ const TvListItemComponent = ({ tv }: Props) => {
       <p className="text-md p-2 pb-4 text-center">{tv.name}</p>
       <div className="flex justify-evenly">
         <div className="flex items-center text-center text-sm px-2 py-1 border border-gray-300 rounded-lg">{formatToYear(tv.firstAirDate)}</div>
-        <div className="text-center text-sm ml-2 p-2 border border-gray-300 rounded-lg">{tv.voteAverage}</div>
+        <div className="text-center text-sm ml-2 p-2 border border-gray-300 rounded-lg">{tv.voteAverage.toFixed(1)}</div>
       </div>
     </Link>
   );

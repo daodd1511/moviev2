@@ -10,7 +10,7 @@ export const App = () => (
   <QueryClientProvider client={queryClient}>
     <HashRouter>
       <Suspense>
-        <Router />
+        <Router/>
       </Suspense>
     </HashRouter>
   </QueryClientProvider>

@@ -7,6 +7,9 @@ import { PaginationDto, GenreResponseDto } from '../../core/dtos';
 import { PaginationMapper, GenreMapper } from '../../core/mappers';
 import { Genre, Pagination, TvDetail } from '../../core/models';
 import { Tv } from '../../core/models/tv/tv.model';
+import { Episode } from '../../core/models/tv/episode.model';
+import { EpisodeMapper } from '../../core/mappers/tv/episode.mapper';
+import { EpisodeDto } from '../../core/dtos/tv/episode.dto';
 
 export namespace TvService {
   export const getTvs = async(page: number, discoverValue?: string): Promise<Pagination<Tv>> => {
@@ -43,4 +46,12 @@ export namespace TvService {
   };
 
   export const getTvRecommendation = (tvId: number): Promise<Pagination<Tv>> => getTvs(1, `${tvId}/recommendations`);
+
+  export const getSeasonDetail = async(tvId: number | undefined, seasonNumber: number | undefined): Promise<readonly Episode[]> => {
+    if (tvId === undefined || seasonNumber === undefined) {
+      return [] as unknown as Episode[];
+    }
+    const { data: season } = await api.get<{ readonly episodes: readonly EpisodeDto[]; }>(`/tv/${tvId}/season/${seasonNumber}`);
+    return season.episodes.map(episodeDto => EpisodeMapper.fromDto(episodeDto));
+  };
 }
