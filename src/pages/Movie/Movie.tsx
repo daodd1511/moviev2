@@ -20,6 +20,7 @@ const MovieComponent = () => {
   const { id } = useParams();
   const movieId = id !== undefined ? parseInt(id, 10) : undefined;
   const [isWatchMovie, setIsWatchMovie] = useState(false);
+  const [isFullSizeImage, setIsFullSizeImage] = useState(false);
   const {
     data: movie,
     isLoading,
@@ -33,7 +34,6 @@ const MovieComponent = () => {
   if (isLoading) {
     return (
       <div className="h-screen w-screen">
-        {' '}
         <Spinner />
       </div>
     );
@@ -47,6 +47,9 @@ const MovieComponent = () => {
     movie.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${movie.posterPath}` :
       '/images/no-image.png';
+      const fullSizeImageUrl = movie.posterPath !== null ?
+        `${IMAGE_BASE_URL}${PosterSizes.original}${movie.posterPath}` :
+        '/images/no-image.png';
   return (
     <div className="p-10">
       <Link to="/movie" className="text-3xl">Home</Link>
@@ -57,6 +60,7 @@ const MovieComponent = () => {
             src={imageURL}
             alt={`${movie.title} image`}
             className="max-w-full rounded-xl shadow-2xl"
+            onClick={() => setIsFullSizeImage(true)}
           />
           <div>
             <button
@@ -85,6 +89,11 @@ const MovieComponent = () => {
               className="aspect-video"
             />
           </div>
+        </Modal>
+      )}
+      {isFullSizeImage && fullSizeImageUrl !== null && (
+        <Modal setIsOpen={setIsFullSizeImage}>
+          <img src={fullSizeImageUrl} alt="full size image" className="h-[95vh]" />
         </Modal>
       )}
     </div>
