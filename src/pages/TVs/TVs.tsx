@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { Navbar } from '../../shared/components';
 import { Type } from '../../core/enums';
 
 import { Sidebar } from './components';
@@ -28,6 +29,8 @@ const TVsComponent = () => {
   };
   return (
     <>
+      {/* <Navbar>
+      </Navbar> */}
       <div className="w-1/3 absolute top-10 right-10 z-50">
         <Search />
       </div>
