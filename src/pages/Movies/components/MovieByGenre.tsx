@@ -6,14 +6,13 @@ import { AxiosError } from 'axios';
 import { MovieService } from '../../../api/services/movieService';
 import { Pagination, Movie } from '../../../core/models';
 import { MovieList, Spinner } from '../../../shared/components';
-import { Type } from '../../../core/enums';
 import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
 
 const MovieByGenreComponent = () => {
   const params = useParams();
   const genreId = parseInt(params.genreId ?? '', 10);
   const { data: genres } = useQuery(['genres'], () =>
-    MovieService.getGenres(Type.Movie));
+    MovieService.getGenres());
   const title = genres?.find(genre => genre.id === genreId)?.name ?? 'Genre';
   const {
     data,
