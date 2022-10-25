@@ -9,14 +9,16 @@ import { PosterSizes } from '../../../core/enums';
 import { Pagination, Tv } from '../../../core/models';
 import { Spinner } from '../../../shared/components';
 import { TvService } from '../../../api/services/tvService';
+import { useDebounce } from '../../../shared/hooks';
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const debounceSearchQuery = useDebounce<string>(searchQuery);
   const { data, isLoading, isError, error } = useQuery<
     Pagination<Tv>,
     AxiosError
-  >(['tvSearch', searchQuery], () => TvService.searchTvs(searchQuery), {
-    enabled: searchQuery !== '',
+  >(['tvSearch', debounceSearchQuery], () => TvService.searchTvs(debounceSearchQuery), {
+    enabled: debounceSearchQuery !== '',
   });
   return (
     <>
