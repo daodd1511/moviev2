@@ -59,7 +59,7 @@ const MovieComponent = () => {
           <img
             src={imageURL}
             alt={`${movie.title} image`}
-            className="max-w-full rounded-xl shadow-2xl"
+            className="max-w-full rounded-xl shadow-2xl cursor-zoom-in"
             onClick={() => setIsFullSizeImage(true)}
           />
           <div>
