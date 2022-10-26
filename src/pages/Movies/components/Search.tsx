@@ -49,7 +49,7 @@ const SearchComponent = () => {
         <input
           type="search"
           className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-gray-900 "
-          placeholder="Search TVs"
+          placeholder="Search Movies"
           required
           onChange={e => setSearchQuery(e.target.value)}
         />

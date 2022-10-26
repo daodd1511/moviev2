@@ -27,7 +27,7 @@ const TVsComponent = () => {
     });
   };
   return (
-    <>
+    <div className="relative">
       <div className="w-1/5 absolute top-10 right-10 z-10">
         <Search />
       </div>
@@ -49,7 +49,7 @@ const TVsComponent = () => {
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

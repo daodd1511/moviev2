@@ -28,8 +28,8 @@ const MoviesComponent = () => {
     });
   };
   return (
-    <>
-      <div className="w-1/3 absolute top-10 right-10 z-50">
+    <div className="relative">
+      <div className="w-1/5 absolute top-10 right-10 z-50">
         <Search />
       </div>
       <div className="flex">
@@ -50,7 +50,7 @@ const MoviesComponent = () => {
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
