@@ -38,7 +38,7 @@ const SidebarComponent = ({ type }: Props) => {
   }
 
   return (
-    <aside className="w-60 p-6">
+    <aside className="w-60 p-6 h-0">
       {/* Genre */}
       <div className="pb-8">
         <h2 className="pb-4 font-medium">Genres</h2>

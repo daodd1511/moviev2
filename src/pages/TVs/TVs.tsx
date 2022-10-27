@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 import { Type } from '../../core/enums';
 
@@ -9,6 +9,7 @@ import { Search } from './components/Search';
 const SCROLL_THRESHOLD = 800;
 
 const TVsComponent = () => {
+  const params = useParams();
   const [showTopBtn, setShowTopBtn] = useState(false);
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -26,6 +27,9 @@ const TVsComponent = () => {
       behavior: 'smooth',
     });
   };
+  useEffect(() => {
+    goToTop();
+  }, [params]);
   return (
     <div className="relative">
       <div className="w-1/5 absolute top-10 right-10 z-10">

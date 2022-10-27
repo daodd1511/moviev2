@@ -1,16 +1,17 @@
 /* eslint-disable max-lines-per-function */
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { TvDetail } from 'core/models';
 
+import { assertNonNull } from '../../core/utils/assertNonNull';
 import { TvService } from '../../api/services/tvService';
 import { Modal } from '../../shared/components/Modal';
 import { Spinner } from '../../shared/components';
 import { API_CONFIG } from '../../api/config';
 import { PosterSizes } from '../../core/enums';
-import { IMAGE_BASE_URL } from '../../core/constants';
+import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../core/constants';
 
 import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
@@ -18,11 +19,12 @@ import { Select } from './components/Select';
 
 const TVComponent = () => {
   const { id } = useParams();
-  const tvId = id !== undefined ? parseInt(id, 10) : undefined;
+  assertNonNull(id, 'TV id is null');
+  const tvId = parseInt(id, 10);
   const [isWatchTv, setIsWatchTv] = useState(false);
   const [isFullSizeImage, setIsFullSizeImage] = useState(false);
-  const [seasonNumber, setSeasonNumber] = useState<number>(-1);
-  const [episodeNumber, setEpisodeNumber] = useState<number>(-1);
+  const [season, setSeason] = useState<number>(-1);
+  const [episode, setEpisode] = useState<number>(-1);
   const {
     data: tv,
     isLoading,
@@ -32,11 +34,41 @@ const TVComponent = () => {
     TvService.getTvDetail(tvId));
 
   const videoSource =
-    id !== undefined &&
-    seasonNumber !== undefined &&
-    episodeNumber !== undefined ?
-      `${API_CONFIG.videoApiUrl}tv?id=${id}&s=${seasonNumber}&e=${episodeNumber}` :
+    id !== undefined && season !== undefined && episode !== undefined ?
+      `${API_CONFIG.videoApiUrl}tv?id=${id}&s=${season}&e=${episode}` :
       null;
+
+  useEffect(() => {
+    const storageKey = `${LOCAL_STORAGE_KEY.watchTV}_${id}`;
+    if (isWatchTv) {
+      localStorage.setItem(storageKey, JSON.stringify({ id, season, episode }));
+    }
+  }, [isWatchTv]);
+  useEffect(() => {
+    const storageKey = `${LOCAL_STORAGE_KEY.watchTV}_${id}`;
+    const data = localStorage.getItem(storageKey);
+    if (data !== null) {
+      const {
+        id: storageId,
+        season: storageSeason,
+        episode: storageEpisode,
+      } = JSON.parse(data);
+      if (id === storageId) {
+        setSeason(storageSeason);
+        setEpisode(storageEpisode);
+      }
+    }
+  }, []);
+
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+  useEffect(() => {
+    goToTop();
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -54,9 +86,10 @@ const TVComponent = () => {
     tv.posterPath !== null ?
       `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${tv.posterPath}` :
       '/images/no-image.png';
-  const fullSizeImageUrl = tv.posterPath !== null ?
-    `${IMAGE_BASE_URL}${PosterSizes.original}${tv.posterPath}` :
-    '/images/no-image.png';
+  const fullSizeImageUrl =
+    tv.posterPath !== null ?
+      `${IMAGE_BASE_URL}${PosterSizes.original}${tv.posterPath}` :
+      '/images/no-image.png';
   return (
     <div className="p-10">
       <div className="m-auto flex max-w-screen-xl">
@@ -64,21 +97,21 @@ const TVComponent = () => {
           <img
             src={imageURL}
             alt={`${tv.name} image`}
-            className="max-w-full rounded-xl shadow-2xl cursor-zoom-in"
+            className="max-w-full cursor-zoom-in rounded-xl shadow-2xl"
             onClick={() => setIsFullSizeImage(true)}
           />
           <div>
             <Select
-              seasonNumber={seasonNumber}
-              episodeNumber={episodeNumber}
-              setEpisodeNumber={setEpisodeNumber}
-              setSeasonNumber={setSeasonNumber}
+              season={season}
+              episode={episode}
+              setEpisode={setEpisode}
+              setSeason={setSeason}
               tv={tv}
               tvId={tvId}
             />
             <button
               type="button"
-              disabled={seasonNumber === -1 || episodeNumber === -1}
+              disabled={season === -1 || episode === -1}
               className="mr-2 mb-2 w-full rounded-lg border border-blue-700 px-5 py-2.5 text-center text-sm font-medium text-blue-700 hover:bg-blue-800 hover:text-white disabled:cursor-not-allowed    disabled:hover:bg-transparent disabled:hover:text-blue-700"
               onClick={() => setIsWatchTv(true)}
             >
@@ -107,7 +140,11 @@ const TVComponent = () => {
       )}
       {isFullSizeImage && fullSizeImageUrl !== null && (
         <Modal setIsOpen={setIsFullSizeImage}>
-          <img src={fullSizeImageUrl} alt="full size image" className="h-[95vh]" />
+          <img
+            src={fullSizeImageUrl}
+            alt="full size image"
+            className="h-[95vh]"
+          />
         </Modal>
       )}
     </div>

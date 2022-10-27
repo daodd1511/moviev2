@@ -9,7 +9,7 @@ import { Search } from './components/Search';
 const SCROLL_THRESHOLD = 800;
 
 const MoviesComponent = () => {
-  const { type } = useParams();
+  const params = useParams();
   const [showTopBtn, setShowTopBtn] = useState(false);
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -20,6 +20,9 @@ const MoviesComponent = () => {
       }
     });
   }, []);
+  useEffect(() => {
+    goToTop();
+  }, [params]);
 
   const goToTop = () => {
     window.scrollTo({
@@ -34,7 +37,7 @@ const MoviesComponent = () => {
       </div>
       <div className="flex">
         <div className="sticky top-0 h-screen overflow-y-auto overflow-x-hidden">
-          <Sidebar type={type as Type ?? Type.Movie} />
+          <Sidebar type={Type.Movie} />
         </div>
         <div className="w-[1px] bg-slate-300 py-2" />
         <div className="grow">
