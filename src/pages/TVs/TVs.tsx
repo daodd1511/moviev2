@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 
+import { goToTop } from '../../core/utils';
 import { Type } from '../../core/enums';
 
 import { Sidebar } from './components';
@@ -20,13 +21,6 @@ const TVsComponent = () => {
       }
     });
   }, []);
-
-  const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
   useEffect(() => {
     goToTop();
   }, [params]);

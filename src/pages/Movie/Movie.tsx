@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
@@ -12,13 +12,15 @@ import { Spinner } from '../../shared/components';
 import { API_CONFIG } from '../../api/config';
 import { PosterSizes } from '../../core/enums';
 import { IMAGE_BASE_URL } from '../../core/constants';
+import { goToTop, assertNonNull } from '../../core/utils';
 
 import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
 
 const MovieComponent = () => {
   const { id } = useParams();
-  const movieId = id !== undefined ? parseInt(id, 10) : undefined;
+  assertNonNull(id, 'Movie id is null');
+  const movieId = parseInt(id, 10);
   const [isWatchMovie, setIsWatchMovie] = useState(false);
   const [isFullSizeImage, setIsFullSizeImage] = useState(false);
   const {
@@ -31,6 +33,9 @@ const MovieComponent = () => {
   const videoSource =
     id !== undefined ? `${API_CONFIG.videoApiUrl}movie?id=${id}` : null;
 
+  useEffect(() => {
+      goToTop();
+    }, [id]);
   if (isLoading) {
     return (
       <div className="h-screen w-screen">

@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 
+import { goToTop } from '../../core/utils';
 import { Type } from '../../core/enums';
 
 import { Sidebar } from './components';
@@ -23,13 +24,6 @@ const MoviesComponent = () => {
   useEffect(() => {
     goToTop();
   }, [params]);
-
-  const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
   return (
     <div className="relative">
       <div className="w-1/5 absolute top-10 right-10 z-50">

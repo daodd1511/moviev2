@@ -3,14 +3,14 @@ import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { TvDetail } from 'core/models';
 
-import { assertNonNull } from '../../core/utils/assertNonNull';
+import { assertNonNull, goToTop } from '../../core/utils';
 import { TvService } from '../../api/services/tvService';
 import { Modal } from '../../shared/components/Modal';
 import { Spinner } from '../../shared/components';
 import { API_CONFIG } from '../../api/config';
 import { PosterSizes } from '../../core/enums';
+import { TvDetail } from '../../core/models';
 import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../core/constants';
 
 import { Content } from './components/Content';
@@ -45,6 +45,8 @@ const TVComponent = () => {
     }
   }, [isWatchTv]);
   useEffect(() => {
+    setSeason(-1);
+    setEpisode(-1);
     const storageKey = `${LOCAL_STORAGE_KEY.watchTV}_${id}`;
     const data = localStorage.getItem(storageKey);
     if (data !== null) {
@@ -58,15 +60,6 @@ const TVComponent = () => {
         setEpisode(storageEpisode);
       }
     }
-  }, []);
-
-  const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-  useEffect(() => {
     goToTop();
   }, [id]);
 

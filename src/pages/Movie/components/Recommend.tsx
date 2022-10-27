@@ -16,7 +16,8 @@ const RecommendComponent = ({ movieId }: Props) => {
   const { data, isLoading, isError, error } = useQuery<
     Pagination<Movie>,
     AxiosError
-  >(['recommend', movieId], () => MovieService.getMovieRecommendation(movieId));
+  >(['movieRecommend', movieId], () =>
+    MovieService.getMovieRecommendation(movieId));
 
   if (isLoading) {
     return <Spinner />;
@@ -29,7 +30,15 @@ const RecommendComponent = ({ movieId }: Props) => {
   return (
     <div>
       <h3 className="mb-6 text-3xl font-medium ">Recommendations</h3>
-      <MovieList movies={data.results} />
+      {data?.results.length !== 0 ?
+        (
+          <MovieList movies={data.results} />
+        ) :
+        (
+          <div className="text-center text-2xl font-medium">
+          No Recommendations
+          </div>
+        )}
     </div>
   );
 };
