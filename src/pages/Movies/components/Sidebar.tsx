@@ -4,7 +4,6 @@ import { memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { MovieService } from '../../../api/services/movieService';
-import { MOVIE_DISCOVER } from '../../../core/constants';
 import { Spinner } from '../../../shared/components';
 import { Type } from '../../../core/enums';
 import { Genre } from '../../../core/models';
@@ -17,25 +16,17 @@ interface Props {
 
 const SidebarComponent = ({ type }: Props) => {
   const navigate = useNavigate();
-  const { discover, genreId } = useParams();
+  const { genreId } = useParams();
   const {
     data: genres,
     isLoading,
     isError,
     error,
-  } = useQuery<readonly Genre[], AxiosError>(['genres', type], () =>
+  } = useQuery<readonly Genre[], AxiosError>(['movieGenres', type], () =>
     MovieService.getGenres());
-
-  const onDiscoverClick = (value: string) => {
-    navigate(`/${type}/discover/${value}`);
-  };
 
   const onGenreClick = (genre: Genre) => {
     navigate(`/${type}/genre/${genre.id}`);
-  };
-
-  const onWatchTypeButtonClick = (value: Type) => {
-    navigate(`/${value}`);
   };
 
   if (isLoading) {
@@ -48,33 +39,6 @@ const SidebarComponent = ({ type }: Props) => {
 
   return (
     <aside className="w-60 p-6">
-      <h1 className="pb-10 text-2xl">Dao movies</h1>
-      {/* Watch type */}
-      <div className="flex justify-between">
-        <button onClick={() => onWatchTypeButtonClick(Type.Movie)}>Movie</button>
-        <button onClick={() => onWatchTypeButtonClick(Type.Tv)}>Tv</button>
-      </div>
-      {/* Discover */}
-      <div className="pb-8">
-        <h2 className="pb-4 font-medium">Discover</h2>
-        <div className="flex flex-col">
-          {MOVIE_DISCOVER.map(item => (
-            <button
-              className={`my-1 rounded-full border px-4 py-2 text-left text-sm font-medium text-gray-400 
-              ${
-                discover !== undefined && discover === item.value ?
-                  'border-black text-black' :
-                  'border-transparent hover:border-gray-400'
-              } `}
-              type="button"
-              key={item.value}
-              onClick={() => onDiscoverClick(item.value)}
-            >
-              {item.name}
-            </button>
-          ))}
-        </div>
-      </div>
       {/* Genre */}
       <div className="pb-8">
         <h2 className="pb-4 font-medium">Genres</h2>

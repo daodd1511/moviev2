@@ -12,7 +12,9 @@ export const App = () => (
     <HashRouter>
       <Suspense>
         <Navbar />
-        <div className="pt-4"><Router/></div>
+        <div className="m-auto max-w-screen-2xl pt-4">
+          <Router />
+        </div>
       </Suspense>
     </HashRouter>
   </QueryClientProvider>

@@ -42,10 +42,10 @@ const TVsComponent = () => {
         {showTopBtn && (
           <button
             type="button"
-            className="fixed bottom-5 right-5 z-10 h-10 w-10 rounded-full bg-sky-400"
+            className="fixed bottom-5 right-5 z-10 h-10 w-10 rounded-full flex justify-center items-center"
             onClick={goToTop}
           >
-          Top
+            <img src="/images/up.png" alt="Up icon"/>
           </button>
         )}
       </div>

@@ -41,7 +41,6 @@ const TvByGenreComponent = () => {
     },
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   );
 
   if (isLoading) {

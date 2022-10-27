@@ -41,7 +41,6 @@ const MovieByGenreComponent = () => {
     },
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   );
 
   if (isLoading) {

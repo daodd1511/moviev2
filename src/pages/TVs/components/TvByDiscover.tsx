@@ -40,7 +40,6 @@ const TvByDiscoverComponent = () => {
     },
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   );
 
   if (isLoading) {

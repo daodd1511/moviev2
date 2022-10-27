@@ -41,7 +41,6 @@ const MovieByDiscoverComponent = () => {
     },
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   );
 
   if (isLoading) {
