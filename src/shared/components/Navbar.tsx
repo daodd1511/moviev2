@@ -15,7 +15,7 @@ const TVLinks = {
 };
 
 const NavbarComponent = () => (
-  <nav className="navbar bg-sky-900 text-white">
+  <nav className="navbar bg-[#023246] text-white">
     <div className="m-auto w-full flex max-w-screen-2xl ">
       <div>
         <Link to="/" className="px-6 text-xl normal-case hover:bg-transparent">

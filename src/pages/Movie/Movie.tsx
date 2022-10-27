@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -52,8 +52,6 @@ const MovieComponent = () => {
         '/images/no-image.png';
   return (
     <div className="p-10">
-      <Link to="/movie" className="text-3xl">Home</Link>
-      <div>Movie detail page</div>
       <div className="m-auto flex max-w-screen-xl">
         <div className="max-w-[40%] p-10">
           <img

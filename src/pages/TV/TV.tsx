@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import { memo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { TvDetail } from 'core/models';
@@ -59,10 +59,6 @@ const TVComponent = () => {
     '/images/no-image.png';
   return (
     <div className="p-10">
-      <Link to="/tv" className="text-3xl">
-        Home
-      </Link>
-      <div>Tv detail page</div>
       <div className="m-auto flex max-w-screen-xl">
         <div className="max-w-[40%] p-10">
           <img
