@@ -1,8 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import { memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { assertNonNull, goToTop } from '../../core/utils';
 import { TvService } from '../../api/services/tvService';
@@ -19,6 +21,7 @@ import { Recommend } from './components/Recommend';
 import { Select } from './components/Select';
 
 const TVComponent = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   assertNonNull(id, 'TV id is null');
   const tvId = parseInt(id, 10);
@@ -64,6 +67,10 @@ const TVComponent = () => {
     goToTop();
   }, [id]);
 
+  const onBackButtonClick = () => {
+    navigate(-1);
+  };
+
   if (isLoading) {
     return <Spinner />;
 }
@@ -82,6 +89,13 @@ const TVComponent = () => {
       '/images/no-image.png';
   return (
     <div className="p-10 relative">
+      <button
+        type="button"
+        className="absolute top-2 left-0"
+        onClick={onBackButtonClick}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
+      </button>
       <div className="w-1/5 absolute top-0 right-0">
         <Search />
       </div>

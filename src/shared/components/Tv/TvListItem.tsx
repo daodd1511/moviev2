@@ -19,12 +19,23 @@ const TvListItemComponent = ({ tv }: Props) => {
       '/images/no-image.png';
 
   return (
-    <Link to={`/tv/detail/${tv.id}`} className="h-fit hover:scale-105 transition-all pb-4 hover:bg-slate-700 hover:text-white hover:rounded-lg block group">
-      <img src={imageURL} alt={`${tv.name} image`} className="rounded-lg group-hover:rounded-bl-none group-hover:rounded-br-none shadow-2xl" />
+    <Link
+      to={`/tv/detail/${tv.id}`}
+      className="group block h-fit pb-4 transition-all hover:scale-105 hover:rounded-lg hover:bg-slate-700 hover:text-white"
+    >
+      <img
+        src={imageURL}
+        alt={`${tv.name} image`}
+        className="rounded-lg shadow-2xl group-hover:rounded-bl-none group-hover:rounded-br-none"
+      />
       <p className="text-md p-2 pb-4 text-center">{tv.name}</p>
       <div className="flex justify-evenly">
-        <div className="flex items-center text-center text-sm px-2 py-1 border border-gray-300 rounded-lg">{formatToYear(tv.firstAirDate)}</div>
-        <div className="text-center text-sm ml-2 p-2 border border-gray-300 rounded-lg">{tv.voteAverage.toFixed(1)}</div>
+        <div className="flex items-center rounded-lg border border-gray-300 px-2 py-1 text-center text-sm">
+          {formatToYear(tv.firstAirDate)}
+        </div>
+        <div className="ml-2 rounded-lg border border-gray-300 p-2 text-center text-sm">
+          {tv.voteAverage.toFixed(1)}
+        </div>
       </div>
     </Link>
   );

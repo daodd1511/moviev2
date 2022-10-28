@@ -1,15 +1,15 @@
 import { memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-
 import { AxiosError } from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { Modal } from '../../shared/components/Modal';
 import { MovieDetail } from '../../core/models';
 import { MovieService } from '../../api/services/movieService';
 import { Spinner } from '../../shared/components';
-import { BackdropSizes, PosterSizes } from '../../core/enums';
+import { PosterSizes } from '../../core/enums';
 import { IMAGE_BASE_URL } from '../../core/constants';
 import { goToTop, assertNonNull } from '../../core/utils';
 import { Search } from '../../pages/Movies/components/Search';
@@ -19,6 +19,7 @@ import { Recommend } from './components/Recommend';
 
 const MovieComponent = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   assertNonNull(id, 'Movie id is null');
   const movieId = parseInt(id, 10);
   const [isFullSizeImage, setIsFullSizeImage] = useState(false);
@@ -30,8 +31,12 @@ const MovieComponent = () => {
   } = useQuery<MovieDetail, AxiosError>(['movie', movieId], () =>
     MovieService.getMovieDetail(movieId));
   useEffect(() => {
-      goToTop();
-    }, [id]);
+    goToTop();
+  }, [id]);
+
+  const onBackButtonClick = () => {
+    navigate(-1);
+  };
   if (isLoading) {
     return (
       <div className="h-screen w-screen">
@@ -48,16 +53,21 @@ const MovieComponent = () => {
     movie.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${movie.posterPath}` :
       '/images/no-image.png';
-      const fullSizeImageUrl = movie.posterPath !== null ?
-        `${IMAGE_BASE_URL}${PosterSizes.original}${movie.posterPath}` :
-        '/images/no-image.png';
-    const backdropUrl =
-        movie.backdropPath != null ?
-          `${IMAGE_BASE_URL}${BackdropSizes.original}${movie.backdropPath}` :
-          '/images/no-image.png';
+  const fullSizeImageUrl =
+    movie.posterPath !== null ?
+      `${IMAGE_BASE_URL}${PosterSizes.original}${movie.posterPath}` :
+      '/images/no-image.png';
+
   return (
-    <div className="pt-10 relative">
-      <div className="w-1/5 absolute top-0 right-0">
+    <div className="relative pt-10">
+      <button
+        type="button"
+        className="absolute top-2 left-0"
+        onClick={onBackButtonClick}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
+      </button>
+      <div className="absolute top-0 right-0 w-1/5">
         <Search />
       </div>
       <div className="m-auto flex max-w-screen-xl pb-10 pt-4">
@@ -65,7 +75,7 @@ const MovieComponent = () => {
           <img
             src={imageUrl}
             alt={`${movie.title} image`}
-            className="max-w-full rounded-xl shadow-2xl cursor-zoom-in"
+            className="max-w-full cursor-zoom-in rounded-xl shadow-2xl"
             onClick={() => setIsFullSizeImage(true)}
           />
         </div>
@@ -76,7 +86,11 @@ const MovieComponent = () => {
       <Recommend movieId={movie.id} />
       {isFullSizeImage && fullSizeImageUrl !== null && (
         <Modal setIsOpen={setIsFullSizeImage}>
-          <img src={fullSizeImageUrl} alt="full size image" className="h-[95vh]" />
+          <img
+            src={fullSizeImageUrl}
+            alt="full size image"
+            className="h-[95vh]"
+          />
         </Modal>
       )}
     </div>
