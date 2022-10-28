@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { IMAGE_BASE_URL } from '../../../core/constants';
 import { PosterSizes } from '../../../core/enums';
 import { Tv } from '../../../core/models/tv/tv.model';
+import { formatToYear } from '../../../core/utils';
 interface Props {
 
   /** Tv data. */
@@ -16,10 +17,6 @@ const TvListItemComponent = ({ tv }: Props) => {
     tv.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.large}${tv.posterPath}` :
       '/images/no-image.png';
-  const formatToYear = (date: string) => {
-    const dateObj = new Date(date);
-    return dateObj.getFullYear();
-  };
 
   return (
     <Link to={`/tv/detail/${tv.id}`} className="h-fit hover:scale-105 transition-all pb-4 hover:bg-slate-700 hover:text-white hover:rounded-lg block group">

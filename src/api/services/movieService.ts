@@ -26,7 +26,7 @@ export namespace MovieService {
     if (movieId === undefined) {
       return [] as unknown as MovieDetail;
     }
-    const response = await api.get<MovieDetailDto>(`/movie/${movieId}`);
+    const response = await api.get<MovieDetailDto>(`/movie/${movieId}`, { params: { append_to_response: 'videos' } });
     const movie = MovieDetailMapper.fromDto(response.data);
     return movie;
   };

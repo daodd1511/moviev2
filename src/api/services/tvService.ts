@@ -34,7 +34,7 @@ export namespace TvService {
     if (tvId === undefined) {
       return [] as unknown as TvDetail;
     }
-    const response = await api.get<TvDetailDto>(`/tv/${tvId}`);
+    const response = await api.get<TvDetailDto>(`/tv/${tvId}`, { params: { append_to_response: 'videos' } });
     const tv = TvDetailMapper.fromDto(response.data);
     return tv;
   };

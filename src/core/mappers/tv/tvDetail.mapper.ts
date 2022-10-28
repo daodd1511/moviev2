@@ -3,6 +3,8 @@ import { TvDetailDto } from '../../dtos/tv/tvDetail.dto';
 
 import { GenreMapper } from '../genre.mapper';
 
+import { VideoMapper } from '../video.mapper';
+
 import { TvMapper } from './tv.mapper';
 import { SeasonMapper } from './season.mapper';
 
@@ -18,6 +20,7 @@ export namespace TvDetailMapper {
       seasons: dto.seasons.map(season => SeasonMapper.fromDto(season)),
       tagline: dto.tagline,
       genres: dto.genres.map(genre => GenreMapper.fromDto(genre)),
+      videos: dto.videos.results.map(video => VideoMapper.fromDto(video)),
     });
   }
 }

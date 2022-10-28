@@ -48,7 +48,7 @@ const SearchComponent = () => {
         </div>
         <input
           type="search"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-gray-900 "
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-gray-900 outline-none"
           placeholder="Search Movies"
           required
           onChange={e => setSearchQuery(e.target.value)}
@@ -60,7 +60,7 @@ const SearchComponent = () => {
           {isError && <div>Error: {error.message}</div>}
           {data?.results.map(movie => (
             <Link
-              to={`/tv/detail/${movie.id}`}
+              to={`/movie/detail/${movie.id}`}
               key={movie.id}
               className="flex items-center border-b border-gray-200 p-4"
             >

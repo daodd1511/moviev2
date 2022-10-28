@@ -1,4 +1,5 @@
 import { GenreDto } from '../genre.dto';
+import { VideoResponseDto } from '../video.dto';
 
 import { SeasonDto } from './season.dto';
 import { TvDto } from './tv.dto';
@@ -14,4 +15,7 @@ export interface TvDetailDto extends TvDto {
 
   /** Genres. */
   readonly genres: GenreDto[];
+
+  /** Videos. */
+  readonly videos: VideoResponseDto;
 }

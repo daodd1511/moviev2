@@ -1,7 +1,10 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { formatToYear } from '../../../core/utils';
 import { Genre, MovieDetail } from '../../../core/models';
+
+import { Buttons } from './Buttons';
 
 interface Props {
 
@@ -20,9 +23,10 @@ const ContentComponent = ({ movie }: Props) => {
         <h1 className="mb-2 text-5xl font-extralight text-slate-700">
           {movie.title.toUpperCase()}
         </h1>
-        <h2 className="text-lg font-bold text-slate-700">
+        <h2 className="mb-2 text-lg font-bold text-slate-700">
           {movie.tagline.toUpperCase()}
         </h2>
+        <h3 className="text-slate-400">{movie.voteAverage.toFixed(1)} / {movie.runtime} min / {formatToYear(movie.releaseDate)}</h3>
       </div>
       <div className="pb-8">
         <h3 className="mb-2 text-lg font-medium">Genres</h3>
@@ -38,10 +42,11 @@ const ContentComponent = ({ movie }: Props) => {
           ))}
         </ul>
       </div>
-      <div className="pb-6">
+      <div className="pb-8">
         <h3 className="mb-2 text-lg font-medium">Synopsys</h3>
         <p className="font-light">{movie.overview}</p>
       </div>
+      <Buttons movie={movie}/>
     </>
   );
 };

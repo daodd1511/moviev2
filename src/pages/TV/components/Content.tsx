@@ -3,13 +3,21 @@ import { useNavigate } from 'react-router-dom';
 
 import { Genre, TvDetail } from '../../../core/models';
 
+import { Buttons } from './Buttons';
+
 interface Props {
 
   /** Tv detail. */
   readonly tv: TvDetail;
+
+  /** Set is watch tv state. */
+  readonly setIsWatchTv: (isWatchTv: boolean) => void;
+
+  /** Watch button disable state. */
+  readonly isWatchButtonDisabled: boolean;
 }
 
-const ContentComponent = ({ tv }: Props) => {
+const ContentComponent = ({ tv, setIsWatchTv, isWatchButtonDisabled }: Props) => {
   const navigate = useNavigate();
   const onGenreClick = (genre: Genre) => {
     navigate(`/tv/genre/${genre.id}`);
@@ -42,6 +50,7 @@ const ContentComponent = ({ tv }: Props) => {
         <h3 className="mb-2 text-lg font-medium">Synopsys</h3>
         <p className="font-light">{tv.overview}</p>
       </div>
+      <Buttons tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={isWatchButtonDisabled}/>
     </>
   );
 };

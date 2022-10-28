@@ -1,4 +1,4 @@
-import { Genre, Movie } from '..';
+import { Genre, Movie, Video } from '..';
 import { OmitImmerable } from '../../immerable';
 import { SpokenLanguage } from '../spokenLang.model';
 
@@ -34,6 +34,9 @@ export class MovieDetail extends Movie {
   /** Video. */
   public readonly video: boolean;
 
+  /** Videos. */
+  public readonly videos: readonly Video[];
+
   public constructor(data: InitArgsMovieDetail) {
     super(data);
     this.budget = data.budget;
@@ -46,6 +49,7 @@ export class MovieDetail extends Movie {
     this.status = data.status;
     this.tagline = data.tagline;
     this.video = data.video;
+    this.videos = data.videos;
   }
 }
 

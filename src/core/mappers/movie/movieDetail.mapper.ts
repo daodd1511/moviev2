@@ -2,7 +2,7 @@ import { MovieDetail } from '../../models/movie/movieDetail.model';
 import { MovieDetailDto } from '../../dtos/movie/movieDetail.dto';
 import { GenreMapper } from '../genre.mapper';
 import { SpokenLangMapper } from '../spokenLang.mapper';
-import { MovieMapper } from '..';
+import { MovieMapper, VideoMapper } from '..';
 
 export namespace MovieDetailMapper {
 
@@ -23,6 +23,7 @@ export namespace MovieDetailMapper {
       status: dto.status,
       tagline: dto.tagline,
       video: dto.video,
+      videos: dto.videos.results.map(video => VideoMapper.fromDto(video)),
     });
   }
 }

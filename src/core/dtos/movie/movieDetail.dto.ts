@@ -1,4 +1,4 @@
-import { GenreDto, MovieDto } from '..';
+import { GenreDto, MovieDto, VideoResponseDto } from '..';
 import { SpokenLanguageDto } from '../spokenLang.dto';
 
 /** Movie detail dto. */
@@ -33,6 +33,9 @@ export interface MovieDetailDto extends MovieDto {
 
   /** Video. */
   readonly video: boolean;
+
+  /** Videos. */
+  readonly videos: VideoResponseDto;
 
 }
 

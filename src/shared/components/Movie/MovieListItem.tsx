@@ -6,6 +6,7 @@ import { Movie } from '../../../core/models';
 
 import { IMAGE_BASE_URL } from '../../../core/constants';
 import { PosterSizes } from '../../../core/enums';
+import { formatToYear } from '../../../core/utils';
 
 interface Props {
 
@@ -18,11 +19,6 @@ const MovieListItemComponent = ({ movie }: Props) => {
     movie.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.large}${movie.posterPath}` :
       '/images/no-image.png';
-  const formatToYear = (date: string) => {
-    const dateObj = new Date(date);
-    return dateObj.getFullYear();
-  };
-
   return (
     <Link to={`/movie/detail/${movie.id}`} className="h-fit hover:scale-105 transition-all pb-4 hover:bg-slate-700 hover:text-white hover:rounded-lg block group">
       <img src={imageURL} alt={`${movie.title} image`} className="rounded-lg group-hover:rounded-bl-none group-hover:rounded-br-none shadow-2xl" />

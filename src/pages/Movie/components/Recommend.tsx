@@ -29,7 +29,7 @@ const RecommendComponent = ({ movieId }: Props) => {
 
   return (
     <div>
-      <h3 className="mb-6 text-3xl font-medium ">Recommendations</h3>
+      <h3 className="mb-6 text-3xl font-extralight text-slate-700 ">Recommendations</h3>
       {data?.results.length !== 0 ?
         (
           <MovieList movies={data.results} />

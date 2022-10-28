@@ -12,6 +12,7 @@ import { API_CONFIG } from '../../api/config';
 import { PosterSizes } from '../../core/enums';
 import { TvDetail } from '../../core/models';
 import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../core/constants';
+import { Search } from '../../pages/TVs/components/Search';
 
 import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
@@ -64,12 +65,8 @@ const TVComponent = () => {
   }, [id]);
 
   if (isLoading) {
-    return (
-      <div className="h-screen w-screen">
-        <Spinner />
-      </div>
-    );
-  }
+    return <Spinner />;
+}
 
   if (isError) {
     return <div>Error: {error.message}</div>;
@@ -84,7 +81,10 @@ const TVComponent = () => {
       `${IMAGE_BASE_URL}${PosterSizes.original}${tv.posterPath}` :
       '/images/no-image.png';
   return (
-    <div className="p-10">
+    <div className="p-10 relative">
+      <div className="w-1/5 absolute top-0 right-0">
+        <Search />
+      </div>
       <div className="m-auto flex max-w-screen-xl">
         <div className="max-w-[40%] p-10">
           <img
@@ -102,18 +102,10 @@ const TVComponent = () => {
               tv={tv}
               tvId={tvId}
             />
-            <button
-              type="button"
-              disabled={season === -1 || episode === -1}
-              className="mr-2 mb-2 w-full rounded-lg border border-blue-700 px-5 py-2.5 text-center text-sm font-medium text-blue-700 hover:bg-blue-800 hover:text-white disabled:cursor-not-allowed    disabled:hover:bg-transparent disabled:hover:text-blue-700"
-              onClick={() => setIsWatchTv(true)}
-            >
-              Watch Tv
-            </button>
           </div>
         </div>
         <div className="max-w-[60%] p-10">
-          <Content tv={tv} />
+          <Content tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={season === -1 || episode === -1}/>
         </div>
       </div>
       <Recommend tvId={tv.id} />
