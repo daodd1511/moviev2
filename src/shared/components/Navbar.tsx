@@ -19,7 +19,7 @@ const NavbarComponent = () => (
     <div className="m-auto w-full flex max-w-screen-2xl ">
       <div>
         <Link to="/" className="px-6 text-xl normal-case hover:bg-transparent">
-          daoMovies
+          Movies
         </Link>
       </div>
       <div>

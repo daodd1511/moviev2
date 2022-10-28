@@ -8,7 +8,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from '../../shared/components/Modal';
 import { MovieDetail } from '../../core/models';
 import { MovieService } from '../../api/services/movieService';
-import { Spinner } from '../../shared/components';
+import { Footer, Spinner } from '../../shared/components';
 import { PosterSizes } from '../../core/enums';
 import { IMAGE_BASE_URL } from '../../core/constants';
 import { goToTop, assertNonNull } from '../../core/utils';
@@ -38,11 +38,7 @@ const MovieComponent = () => {
     navigate(-1);
   };
   if (isLoading) {
-    return (
-      <div className="h-screen w-screen">
-        <Spinner />
-      </div>
-    );
+    return <Spinner />;
   }
 
   if (isError) {
@@ -59,15 +55,15 @@ const MovieComponent = () => {
       '/images/no-image.png';
 
   return (
-    <div className="relative pt-10">
+    <div className="relative p-10">
       <button
         type="button"
-        className="absolute top-2 left-0"
+        className="absolute top-2 left-10"
         onClick={onBackButtonClick}
       >
         <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
       </button>
-      <div className="absolute top-0 right-0 w-1/5">
+      <div className="absolute top-0 right-10 w-1/5">
         <Search />
       </div>
       <div className="m-auto flex max-w-screen-xl pb-10 pt-4">
@@ -84,6 +80,7 @@ const MovieComponent = () => {
         </div>
       </div>
       <Recommend movieId={movie.id} />
+      <Footer />
       {isFullSizeImage && fullSizeImageUrl !== null && (
         <Modal setIsOpen={setIsFullSizeImage}>
           <img

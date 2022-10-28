@@ -9,7 +9,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { assertNonNull, goToTop } from '../../core/utils';
 import { TvService } from '../../api/services/tvService';
 import { Modal } from '../../shared/components/Modal';
-import { Spinner } from '../../shared/components';
+import { Footer, Spinner } from '../../shared/components';
 import { API_CONFIG } from '../../api/config';
 import { PosterSizes } from '../../core/enums';
 import { TvDetail } from '../../core/models';
@@ -91,12 +91,12 @@ const TVComponent = () => {
     <div className="p-10 relative">
       <button
         type="button"
-        className="absolute top-2 left-0"
+        className="absolute top-2 left-10"
         onClick={onBackButtonClick}
       >
         <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
       </button>
-      <div className="w-1/5 absolute top-0 right-0">
+      <div className="w-1/5 absolute top-0 right-10">
         <Search />
       </div>
       <div className="m-auto flex max-w-screen-xl">
@@ -123,6 +123,8 @@ const TVComponent = () => {
         </div>
       </div>
       <Recommend tvId={tv.id} />
+      <Footer />
+
       {isWatchTv && videoSource !== null && (
         <Modal setIsOpen={setIsWatchTv}>
           <div className="z-50 w-5/6">
