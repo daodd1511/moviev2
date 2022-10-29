@@ -3,17 +3,11 @@ import { FC, lazy } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
 import { movieRoutes } from '../features/Movie/routes';
-
-import { tvRoutes } from './tv.routes';
+import { tvRoutes } from '../features/Tv/routes';
 
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
     default: module.NotFound,
-  })));
-
-export const Tv = lazy(() =>
-  import('../pages/TV').then(module => ({
-    default: module.TV,
   })));
 
 const routes: RouteObject[] = [
@@ -23,10 +17,6 @@ const routes: RouteObject[] = [
   },
   ...tvRoutes,
   ...movieRoutes,
-  {
-    path: 'tv/detail/:id',
-    element: <Tv />,
-  },
   {
     path: '*',
     element: <NotFound />,

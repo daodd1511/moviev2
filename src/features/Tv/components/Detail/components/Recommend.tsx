@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { memo } from 'react';
 
-import { TvService } from '../../../api/services/tvService';
-import { Spinner, TvList } from '../../../shared/components';
-import { Pagination, Tv } from '../../../models';
+import { TvService } from '../../../../../api/services/tvService';
+import { Spinner, TvList } from '../../../../../shared/components';
+import { Pagination, Tv } from '../../../../../models';
 
 interface Props {
 

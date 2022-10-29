@@ -3,11 +3,10 @@ import { Outlet, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
-import { goToTop } from '../../shared/utils';
-import { Type } from '../../shared/enums';
+import { goToTop } from '../../../shared/utils';
+import { Type } from '../../../shared/enums';
 
-import { Sidebar } from './components';
-import { Search } from './components/Search';
+import { Sidebar, Search } from '../components';
 
 const SCROLL_THRESHOLD = 800;
 
@@ -53,4 +52,4 @@ const TVsComponent = () => {
   );
 };
 
-export const TVs = memo(TVsComponent);
+export const TVsPage = memo(TVsComponent);

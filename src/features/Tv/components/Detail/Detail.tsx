@@ -6,21 +6,18 @@ import { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { assertNonNull, goToTop } from '../../shared/utils';
-import { TvService } from '../../api/services/tvService';
-import { Modal } from '../../shared/components/Modal';
-import { Footer, Spinner } from '../../shared/components';
-import { API_CONFIG } from '../../api/config';
-import { PosterSizes } from '../../shared/enums';
-import { TvDetail } from '../../models';
-import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../shared/constants';
-import { Search } from '../../pages/TVs/components/Search';
+import { assertNonNull, goToTop } from '../../../../shared/utils';
+import { TvService } from '../../../../api/services/tvService';
+import { Modal } from '../../../../shared/components/Modal';
+import { Footer, Spinner } from '../../../../shared/components';
+import { API_CONFIG } from '../../../../api/config';
+import { PosterSizes } from '../../../../shared/enums';
+import { TvDetail } from '../../../../models';
+import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../../../shared/constants';
 
-import { Content } from './components/Content';
-import { Recommend } from './components/Recommend';
-import { Select } from './components/Select';
+import { Content, Recommend, Select } from './components';
 
-const TVComponent = () => {
+const TvDetailComponent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   assertNonNull(id, 'TV id is null');
@@ -96,9 +93,9 @@ const TVComponent = () => {
       >
         <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
       </button>
-      <div className="w-1/5 absolute top-0 right-10">
+      {/* <div className="w-1/5 absolute top-0 right-10">
         <Search />
-      </div>
+      </div> */}
       <div className="m-auto flex max-w-screen-xl">
         <div className="max-w-[40%] p-10">
           <img
@@ -152,4 +149,4 @@ const TVComponent = () => {
   );
 };
 
-export const TV = memo(TVComponent);
+export const Detail = memo(TvDetailComponent);
