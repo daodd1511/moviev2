@@ -5,21 +5,20 @@ import { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { Modal } from '../../shared/components/Modal';
-import { MovieDetail } from '../../models';
-import { MovieService } from '../../api/services/movieService';
-import { Footer, Spinner } from '../../shared/components';
-import { PosterSizes } from '../../shared/enums';
-import { IMAGE_BASE_URL } from '../../shared/constants';
-import { goToTop, assertNonNull } from '../../shared/utils';
-import { Search } from '../../pages/Movies/components/Search';
+import { Modal } from '../../../../shared/components/Modal';
+import { MovieDetail } from '../../../../models';
+import { MovieService } from '../../../../api/services/movieService';
+import { Footer, Spinner } from '../../../../shared/components';
+import { PosterSizes } from '../../../../shared/enums';
+import { IMAGE_BASE_URL } from '../../../../shared/constants';
+import { goToTop, assertNonNull } from '../../../../shared/utils';
 
-import noImage from '../../assets/no-image.png';
+// import { Search } from '../../../../pages/Movies/components/Search';
 
 import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
 
-const MovieComponent = () => {
+const MovieDetailComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   assertNonNull(id, 'Movie id is null');
@@ -30,7 +29,7 @@ const MovieComponent = () => {
     isLoading,
     isError,
     error,
-  } = useQuery<MovieDetail, AxiosError>(['movie', movieId], () =>
+  } = useQuery<MovieDetail, AxiosError>(['movieDetail', movieId], () =>
     MovieService.getMovieDetail(movieId));
   useEffect(() => {
     goToTop();
@@ -50,11 +49,11 @@ const MovieComponent = () => {
   const imageUrl =
     movie.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${movie.posterPath}` :
-      { noImage };
+      '/images/no-image.png';
   const fullSizeImageUrl =
     movie.posterPath !== null ?
       `${IMAGE_BASE_URL}${PosterSizes.original}${movie.posterPath}` :
-      { noImage };
+      '/images/no-image.png';
 
   return (
     <div className="relative p-10">
@@ -65,9 +64,9 @@ const MovieComponent = () => {
       >
         <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
       </button>
-      <div className="absolute top-0 right-10 w-1/5">
+      {/* <div className="absolute top-0 right-10 w-1/5">
         <Search />
-      </div>
+      </div> */}
       <div className="m-auto flex max-w-screen-xl pb-10 pt-4">
         <div className="max-w-[38%] p-10">
           <img
@@ -96,4 +95,4 @@ const MovieComponent = () => {
   );
 };
 
-export const Movie = memo(MovieComponent);
+export const Detail = memo(MovieDetailComponent);

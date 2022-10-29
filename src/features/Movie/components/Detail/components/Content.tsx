@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { formatToYear } from '../../../shared/utils';
-import { Genre, MovieDetail } from '../../../models';
+import { formatToYear } from '../../../../../shared/utils';
+import { Genre, MovieDetail } from '../../../../../models';
 
 import { Buttons } from './Buttons';
 
@@ -43,7 +43,7 @@ const ContentComponent = ({ movie }: Props) => {
         </ul>
       </div>
       <div className="pb-8">
-        <h3 className="mb-2 text-lg font-medium">Synopsys</h3>
+        <h3 className="mb-2 text-lg font-medium">Overview</h3>
         <p className="font-light">{movie.overview}</p>
       </div>
       <Buttons movie={movie}/>

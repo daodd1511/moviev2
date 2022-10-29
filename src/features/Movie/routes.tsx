@@ -2,18 +2,23 @@ import { lazy } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
 export const Movies = lazy(() =>
-  import('../pages/Movies').then(module => ({
+  import('./pages/MoviesPage').then(module => ({
     default: module.Movies,
   })));
 
 export const MovieByDiscover = lazy(() =>
-  import('../pages/Movies/components').then(module => ({
+  import('./components').then(module => ({
     default: module.MovieByDiscover,
   })));
 
 export const MovieByGenre = lazy(() =>
-  import('../pages/Movies/components').then(module => ({
+  import('./components').then(module => ({
     default: module.MovieByGenre,
+  })));
+
+export const DetailPage = lazy(() =>
+  import('./pages/DetailPage').then(module => ({
+    default: module.DetailPage,
   })));
 
 export const movieRoutes: RouteObject[] = [
@@ -34,5 +39,9 @@ export const movieRoutes: RouteObject[] = [
         element: <Navigate to="discover/popular" />,
       },
     ],
+  },
+  {
+    path: 'movie/detail/:id',
+    element: <DetailPage />,
   },
 ];

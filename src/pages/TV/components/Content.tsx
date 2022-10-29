@@ -47,7 +47,7 @@ const ContentComponent = ({ tv, setIsWatchTv, isWatchButtonDisabled }: Props) =>
         </ul>
       </div>
       <div className="pb-6">
-        <h3 className="mb-2 text-lg font-medium">Synopsys</h3>
+        <h3 className="mb-2 text-lg font-medium">Overview</h3>
         <p className="font-light">{tv.overview}</p>
       </div>
       <Buttons tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={isWatchButtonDisabled}/>

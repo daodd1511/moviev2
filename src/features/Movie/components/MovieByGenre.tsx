@@ -11,7 +11,7 @@ import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
 const MovieByGenreComponent = () => {
   const params = useParams();
   const genreId = parseInt(params.genreId ?? '', 10);
-  const { data: genres } = useQuery(['genres'], () =>
+  const { data: genres } = useQuery(['moviesByGenre'], () =>
     MovieService.getGenres());
   const title = genres?.find(genre => genre.id === genreId)?.name ?? 'Genre';
   const {

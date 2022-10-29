@@ -22,7 +22,7 @@ const SidebarComponent = ({ type }: Props) => {
     isLoading,
     isError,
     error,
-  } = useQuery<readonly Genre[], AxiosError>(['movieGenres', type], () =>
+  } = useQuery<readonly Genre[], AxiosError>(['genres', type], () =>
     MovieService.getGenres());
 
   const onGenreClick = (genre: Genre) => {
