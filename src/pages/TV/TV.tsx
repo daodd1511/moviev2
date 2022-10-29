@@ -6,14 +6,14 @@ import { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { assertNonNull, goToTop } from '../../core/utils';
+import { assertNonNull, goToTop } from '../../shared/utils';
 import { TvService } from '../../api/services/tvService';
 import { Modal } from '../../shared/components/Modal';
 import { Footer, Spinner } from '../../shared/components';
 import { API_CONFIG } from '../../api/config';
-import { PosterSizes } from '../../core/enums';
-import { TvDetail } from '../../core/models';
-import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../core/constants';
+import { PosterSizes } from '../../shared/enums';
+import { TvDetail } from '../../models';
+import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../shared/constants';
 import { Search } from '../../pages/TVs/components/Search';
 
 import { Content } from './components/Content';

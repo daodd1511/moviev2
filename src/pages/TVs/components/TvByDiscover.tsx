@@ -5,8 +5,8 @@ import { AxiosError } from 'axios';
 
 import { TvService } from '../../../api/services/tvService';
 import { Spinner, TvList } from '../../../shared/components';
-import { Pagination, Tv } from '../../../core/models';
-import { TV_DISCOVER } from '../../../core/constants';
+import { Pagination, Tv } from '../../../models';
+import { TV_DISCOVER } from '../../../shared/constants';
 import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
 
 const TvByDiscoverComponent = () => {

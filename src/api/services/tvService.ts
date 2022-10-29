@@ -1,15 +1,7 @@
-import { TvDetailMapper } from '../../core/mappers/tv/tvDetail.mapper';
-import { TvDetailDto } from '../../core/dtos/tv/tvDetail.dto';
-import { TvDto } from '../../core/dtos/tv/tv.dto';
-import { TvMapper } from '../../core/mappers/tv/tv.mapper';
 import { api } from '..';
-import { PaginationDto, GenreResponseDto } from '../../core/dtos';
-import { PaginationMapper, GenreMapper } from '../../core/mappers';
-import { Genre, Pagination, TvDetail } from '../../core/models';
-import { Tv } from '../../core/models/tv/tv.model';
-import { Episode } from '../../core/models/tv/episode.model';
-import { EpisodeMapper } from '../../core/mappers/tv/episode.mapper';
-import { EpisodeDto } from '../../core/dtos/tv/episode.dto';
+import { PaginationDto, GenreResponseDto, EpisodeDto, TvDetailDto, TvDto } from '../dtos';
+import { PaginationMapper, GenreMapper, EpisodeMapper, TvDetailMapper, TvMapper } from '../mappers';
+import { Episode, Genre, Pagination, TvDetail, Tv } from '../../models';
 
 export namespace TvService {
   export const getTvs = async(page: number, discoverValue?: string): Promise<Pagination<Tv>> => {

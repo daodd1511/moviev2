@@ -5,8 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { MovieService } from '../../../api/services/movieService';
 import { Spinner } from '../../../shared/components';
-import { Type } from '../../../core/enums';
-import { Genre } from '../../../core/models';
+import { Type } from '../../../shared/enums';
+import { Genre } from '../../../models';
 
 interface Props {
 

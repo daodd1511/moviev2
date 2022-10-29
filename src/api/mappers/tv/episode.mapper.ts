@@ -1,5 +1,6 @@
-import { EpisodeDto } from '../../dtos/tv/episode.dto';
-import { Episode } from '../../models/tv/episode.model';
+import { EpisodeDto } from '../../dtos';
+
+import { Episode } from '../../../models';
 
 export namespace EpisodeMapper {
 

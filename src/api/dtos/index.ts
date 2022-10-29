@@ -4,3 +4,7 @@ export * from './pagination.dto';
 export * from './spokenLang.dto';
 export * from './movie/movieDetail.dto';
 export * from './video.dto';
+export * from './tv/tv.dto';
+export * from './tv/tvDetail.dto';
+export * from './tv/season.dto';
+export * from './tv/episode.dto';

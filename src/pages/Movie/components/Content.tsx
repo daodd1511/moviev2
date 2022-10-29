@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { formatToYear } from '../../../core/utils';
-import { Genre, MovieDetail } from '../../../core/models';
+import { formatToYear } from '../../../shared/utils';
+import { Genre, MovieDetail } from '../../../models';
 
 import { Buttons } from './Buttons';
 

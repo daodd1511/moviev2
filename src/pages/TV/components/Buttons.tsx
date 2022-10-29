@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faVideo } from '@fortawesome/free-solid-svg-icons';
 
-import { TvDetail, Video } from '../../../core/models';
+import { TvDetail, Video } from '../../../models';
 import { Modal } from '../../../shared/components/Modal';
 
 interface Props {

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { Tv } from '../../../core/models/tv/tv.model';
+import { Tv } from '../../../models';
 
 import { TvListItem } from './TvListItem';
 

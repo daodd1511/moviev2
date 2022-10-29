@@ -4,7 +4,7 @@ import { faPlay, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { faImdb } from '@fortawesome/free-brands-svg-icons';
 
 import { API_CONFIG } from '../../../api/config';
-import { MovieDetail, Video } from '../../../core/models';
+import { MovieDetail, Video } from '../../../models';
 import { Modal } from '../../../shared/components/Modal';
 
 interface Props {

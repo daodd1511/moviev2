@@ -1,4 +1,4 @@
-import { OmitImmerable } from '../../immerable';
+import { OmitImmerable } from '../immerable';
 
 import { Genre } from '../genre.model';
 

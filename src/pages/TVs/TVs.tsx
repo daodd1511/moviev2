@@ -3,8 +3,8 @@ import { Outlet, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
-import { goToTop } from '../../core/utils';
-import { Type } from '../../core/enums';
+import { goToTop } from '../../shared/utils';
+import { Type } from '../../shared/enums';
 
 import { Sidebar } from './components';
 import { Search } from './components/Search';

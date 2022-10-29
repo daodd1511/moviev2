@@ -4,7 +4,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { MovieService } from '../../../api/services/movieService';
-import { Pagination, Movie } from '../../../core/models';
+import { Pagination, Movie } from '../../../models';
 import { MovieList, Spinner } from '../../../shared/components';
 import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
 

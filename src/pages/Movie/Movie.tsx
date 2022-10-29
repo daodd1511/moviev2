@@ -6,13 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { Modal } from '../../shared/components/Modal';
-import { MovieDetail } from '../../core/models';
+import { MovieDetail } from '../../models';
 import { MovieService } from '../../api/services/movieService';
 import { Footer, Spinner } from '../../shared/components';
-import { PosterSizes } from '../../core/enums';
-import { IMAGE_BASE_URL } from '../../core/constants';
-import { goToTop, assertNonNull } from '../../core/utils';
+import { PosterSizes } from '../../shared/enums';
+import { IMAGE_BASE_URL } from '../../shared/constants';
+import { goToTop, assertNonNull } from '../../shared/utils';
 import { Search } from '../../pages/Movies/components/Search';
+
+import noImage from '../../assets/no-image.png';
 
 import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
@@ -48,11 +50,11 @@ const MovieComponent = () => {
   const imageUrl =
     movie.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${movie.posterPath}` :
-      '/images/no-image.png';
+      { noImage };
   const fullSizeImageUrl =
     movie.posterPath !== null ?
       `${IMAGE_BASE_URL}${PosterSizes.original}${movie.posterPath}` :
-      '/images/no-image.png';
+      { noImage };
 
   return (
     <div className="relative p-10">

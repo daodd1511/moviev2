@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 import { MovieService } from '../../../api/services/movieService';
 import { MovieList, Spinner } from '../../../shared/components';
-import { Movie, Pagination } from '../../../core/models';
+import { Movie, Pagination } from '../../../models';
 
 interface Props {
 

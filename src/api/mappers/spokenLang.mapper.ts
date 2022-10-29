@@ -1,5 +1,6 @@
-import { SpokenLanguageDto } from '../dtos/spokenLang.dto';
-import { SpokenLanguage } from '../models/spokenLang.model';
+import { SpokenLanguageDto } from '../dtos';
+
+import { SpokenLanguage } from '../../models';
 
 export namespace SpokenLangMapper {
 

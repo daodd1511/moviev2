@@ -1,5 +1,6 @@
-import { GenreDto } from '../dtos/genre.dto';
-import { Genre } from '../models/genre.model';
+import { GenreDto } from '../dtos';
+
+import { Genre } from '../../models';
 
 export namespace GenreMapper {
 

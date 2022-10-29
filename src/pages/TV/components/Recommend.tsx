@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 import { TvService } from '../../../api/services/tvService';
 import { Spinner, TvList } from '../../../shared/components';
-import { Pagination, Tv } from '../../../core/models';
+import { Pagination, Tv } from '../../../models';
 
 interface Props {
 

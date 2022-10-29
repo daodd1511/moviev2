@@ -1,5 +1,5 @@
 import { Genre, Movie, Video } from '..';
-import { OmitImmerable } from '../../immerable';
+import { OmitImmerable } from '../immerable';
 import { SpokenLanguage } from '../spokenLang.model';
 
 /** Movie. */

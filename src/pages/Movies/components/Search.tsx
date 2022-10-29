@@ -4,9 +4,9 @@ import { memo, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { IMAGE_BASE_URL } from '../../../core/constants';
-import { PosterSizes } from '../../../core/enums';
-import { Movie, Pagination } from '../../../core/models';
+import { IMAGE_BASE_URL } from '../../../shared/constants';
+import { PosterSizes } from '../../../shared/enums';
+import { Movie, Pagination } from '../../../models';
 import { Spinner } from '../../../shared/components';
 import { useDebounce } from '../../../shared/hooks';
 import { MovieService } from '../../../api/services/movieService';
@@ -24,7 +24,7 @@ const SearchComponent = () => {
     <>
       <label
         htmlFor="default-search"
-        className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        className="sr-only mb-2 text-sm font-medium text-gray-900"
       >
           Search
       </label>
@@ -32,7 +32,7 @@ const SearchComponent = () => {
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <svg
             aria-hidden="true"
-            className="h-5 w-5 text-gray-500 dark:text-gray-400"
+            className="h-5 w-5 text-gray-500"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -74,7 +74,7 @@ const SearchComponent = () => {
                 className="h-20 rounded-lg"
               />
               <div className="ml-4">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                <h3 className="text-lg font-medium text-gray-900">
                   {movie.title}
                 </h3>
               </div>

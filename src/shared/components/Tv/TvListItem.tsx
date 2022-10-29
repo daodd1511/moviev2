@@ -2,10 +2,11 @@ import { memo } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { IMAGE_BASE_URL } from '../../../core/constants';
-import { PosterSizes } from '../../../core/enums';
-import { Tv } from '../../../core/models/tv/tv.model';
-import { formatToYear } from '../../../core/utils';
+import { Tv } from '../../../models/';
+
+import { IMAGE_BASE_URL } from '../../constants';
+import { PosterSizes } from '../../enums';
+import { formatToYear } from '../../utils';
 interface Props {
 
   /** Tv data. */

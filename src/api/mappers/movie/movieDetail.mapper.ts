@@ -1,8 +1,8 @@
-import { MovieDetail } from '../../models/movie/movieDetail.model';
-import { MovieDetailDto } from '../../dtos/movie/movieDetail.dto';
-import { GenreMapper } from '../genre.mapper';
-import { SpokenLangMapper } from '../spokenLang.mapper';
-import { MovieMapper, VideoMapper } from '..';
+import { GenreMapper, MovieMapper, SpokenLangMapper, VideoMapper } from '..';
+
+import { MovieDetailDto } from '../../dtos';
+
+import { MovieDetail } from '../../../models';
 
 export namespace MovieDetailMapper {
 

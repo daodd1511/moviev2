@@ -1,5 +1,6 @@
-import { SeasonDto } from '../../dtos/tv/season.dto';
-import { Season } from '../../models/tv/season.model';
+import { SeasonDto } from '../../dtos/';
+
+import { Season } from '../../../models/';
 
 export namespace SeasonMapper {
 

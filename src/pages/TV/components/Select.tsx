@@ -3,8 +3,7 @@ import { AxiosError } from 'axios';
 import { ChangeEvent, memo } from 'react';
 
 import { TvService } from '../../../api/services/tvService';
-import { TvDetail } from '../../../core/models';
-import { Episode } from '../../../core/models/tv/episode.model';
+import { TvDetail, Episode } from '../../../models';
 
 interface Props {
 

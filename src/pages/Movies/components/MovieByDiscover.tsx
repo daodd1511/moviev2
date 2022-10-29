@@ -5,9 +5,9 @@ import { AxiosError } from 'axios';
 
 import { MovieService } from '../../../api/services/movieService';
 import { Spinner } from '../../../shared/components';
-import { Pagination, Movie } from '../../../core/models';
+import { Pagination, Movie } from '../../../models';
 import { MovieList } from '../../../shared/components/Movie/MovieList';
-import { MOVIE_DISCOVER } from '../../../core/constants';
+import { MOVIE_DISCOVER } from '../../../shared/constants';
 import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
 
 const MovieByDiscoverComponent = () => {
