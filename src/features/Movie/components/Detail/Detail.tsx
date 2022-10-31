@@ -17,8 +17,6 @@ import { IMAGE_BASE_URL } from '@/shared/constants';
 import { goToTop, assertNonNull } from '@/shared/utils';
 import { NotFound } from '@/shared/components/NotFound';
 
-// import { Search } from '@/pages/Movies/components/Search';
-
 const MovieDetailComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -68,9 +66,6 @@ const MovieDetailComponent = () => {
       >
         <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
       </button>
-      {/* <div className="absolute top-0 right-10 w-1/5">
-        <Search />
-      </div> */}
       <div className="m-auto flex max-w-screen-xl pb-10 pt-4">
         <div className="max-w-[38%] p-10">
           <img

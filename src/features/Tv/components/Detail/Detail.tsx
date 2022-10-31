@@ -93,9 +93,6 @@ const TvDetailComponent = () => {
       >
         <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
       </button>
-      {/* <div className="w-1/5 absolute top-0 right-10">
-        <Search />
-      </div> */}
       <div className="m-auto flex max-w-screen-xl">
         <div className="max-w-[40%] p-10">
           <img
