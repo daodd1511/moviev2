@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Genre, TvDetail } from '../../../../../models';
-
 import { Buttons } from './Buttons';
+
+import { Genre, TvDetail } from '@/models';
 
 interface Props {
 

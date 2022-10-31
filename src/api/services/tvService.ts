@@ -1,7 +1,8 @@
 import { api } from '..';
 import { PaginationDto, GenreResponseDto, EpisodeDto, TvDetailDto, TvDto } from '../dtos';
 import { PaginationMapper, GenreMapper, EpisodeMapper, TvDetailMapper, TvMapper } from '../mappers';
-import { Episode, Genre, Pagination, TvDetail, Tv } from '../../models';
+
+import { Episode, Genre, Pagination, TvDetail, Tv } from '@/models';
 
 export namespace TvService {
   export const getTvs = async(page: number, discoverValue?: string): Promise<Pagination<Tv>> => {

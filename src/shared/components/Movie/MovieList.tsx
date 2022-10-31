@@ -1,8 +1,8 @@
 import { memo } from 'react';
 
-import { Movie } from '../../../models';
-
 import { MovieListItem } from './MovieListItem';
+
+import { Movie } from '@/models';
 
 interface Props {
 

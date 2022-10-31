@@ -2,7 +2,7 @@ import { GenreMapper, MovieMapper, SpokenLangMapper, VideoMapper } from '..';
 
 import { MovieDetailDto } from '../../dtos';
 
-import { MovieDetail } from '../../../models';
+import { MovieDetail } from '@/models';
 
 export namespace MovieDetailMapper {
 

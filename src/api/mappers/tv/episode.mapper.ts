@@ -1,6 +1,6 @@
 import { EpisodeDto } from '../../dtos';
 
-import { Episode } from '../../../models';
+import { Episode } from '@/models';
 
 export namespace EpisodeMapper {
 

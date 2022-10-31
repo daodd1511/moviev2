@@ -4,12 +4,12 @@ import { memo, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { IMAGE_BASE_URL } from '../../../shared/constants';
-import { PosterSizes } from '../../../shared/enums';
-import { Pagination, Tv } from '../../../models';
-import { Spinner } from '../../../shared/components';
-import { TvService } from '../../../api/services/tvService';
-import { useDebounce } from '../../../shared/hooks';
+import { IMAGE_BASE_URL } from '@/shared/constants';
+import { PosterSizes } from '@/shared/enums';
+import { Pagination, Tv } from '@/models';
+import { Spinner } from '@/shared/components';
+import { TvService } from '@/api/services/tvService';
+import { useDebounce } from '@/shared/hooks';
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');

@@ -6,16 +6,16 @@ import { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { assertNonNull, goToTop } from '../../../../shared/utils';
-import { TvService } from '../../../../api/services/tvService';
-import { Modal } from '../../../../shared/components/Modal';
-import { Footer, Spinner } from '../../../../shared/components';
-import { API_CONFIG } from '../../../../api/config';
-import { PosterSizes } from '../../../../shared/enums';
-import { TvDetail } from '../../../../models';
-import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '../../../../shared/constants';
-
 import { Content, Recommend, Select } from './components';
+
+import { assertNonNull, goToTop } from '@/shared/utils';
+import { TvService } from '@/api/services/tvService';
+import { Modal } from '@/shared/components/Modal';
+import { Footer, Spinner } from '@/shared/components';
+import { API_CONFIG } from '@/api/config';
+import { PosterSizes } from '@/shared/enums';
+import { TvDetail } from '@/models';
+import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '@/shared/constants';
 
 const TvDetailComponent = () => {
   const navigate = useNavigate();

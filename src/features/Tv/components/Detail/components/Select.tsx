@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ChangeEvent, memo } from 'react';
 
-import { TvService } from '../../../../../api/services/tvService';
-import { TvDetail, Episode } from '../../../../../models';
+import { TvService } from '@/api/services/tvService';
+import { TvDetail, Episode } from '@/models';
 
 interface Props {
 

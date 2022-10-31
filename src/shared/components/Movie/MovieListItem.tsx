@@ -2,11 +2,11 @@ import { memo } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Movie } from '../../../models';
-
 import { IMAGE_BASE_URL } from '../../constants';
 import { PosterSizes } from '../../enums';
 import { formatToYear } from '../../utils';
+
+import { Movie } from '@/models';
 
 interface Props {
 

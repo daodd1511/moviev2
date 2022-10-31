@@ -1,6 +1,6 @@
 import { TvDto } from '../../dtos/';
 
-import { Tv } from '../../../models';
+import { Tv } from '@/models';
 
 export namespace TvMapper {
 

@@ -1,10 +1,10 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { formatToYear } from '../../../../../shared/utils';
-import { Genre, MovieDetail } from '../../../../../models';
-
 import { Buttons } from './Buttons';
+
+import { Genre, MovieDetail } from '@/models';
+import { formatToYear } from '@/shared/utils';
 
 interface Props {
 

@@ -5,18 +5,18 @@ import { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { Modal } from '../../../../shared/components/Modal';
-import { MovieDetail } from '../../../../models';
-import { MovieService } from '../../../../api/services/movieService';
-import { Footer, Spinner } from '../../../../shared/components';
-import { PosterSizes } from '../../../../shared/enums';
-import { IMAGE_BASE_URL } from '../../../../shared/constants';
-import { goToTop, assertNonNull } from '../../../../shared/utils';
-
-// import { Search } from '../../../../pages/Movies/components/Search';
-
 import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
+
+import { Modal } from '@/shared/components/Modal';
+import { MovieDetail } from '@/models';
+import { MovieService } from '@/api/services/movieService';
+import { Footer, Spinner } from '@/shared/components';
+import { PosterSizes } from '@/shared/enums';
+import { IMAGE_BASE_URL } from '@/shared/constants';
+import { goToTop, assertNonNull } from '@/shared/utils';
+
+// import { Search } from '@/pages/Movies/components/Search';
 
 const MovieDetailComponent = () => {
   const { id } = useParams();

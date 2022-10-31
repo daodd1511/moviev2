@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { TvService } from '../../../api/services/tvService';
-import { Spinner, TvList } from '../../../shared/components';
-import { Pagination, Tv } from '../../../models';
-import { TV_DISCOVER } from '../../../shared/constants';
-import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
+import { TvService } from '@/api/services/tvService';
+import { Spinner, TvList } from '@/shared/components';
+import { Pagination, Tv } from '@/models';
+import { TV_DISCOVER } from '@/shared/constants';
+import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 
 const TvByDiscoverComponent = () => {
   const { discover } = useParams();

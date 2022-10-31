@@ -2,7 +2,7 @@ import { SeasonMapper, TvMapper, VideoMapper, GenreMapper } from '..';
 
 import { TvDetailDto } from '../../dtos';
 
-import { TvDetail } from '../../../models/';
+import { TvDetail } from '@/models/';
 
 export namespace TvDetailMapper {
 

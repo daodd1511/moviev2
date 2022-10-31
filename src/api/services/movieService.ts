@@ -1,7 +1,8 @@
 import { api } from '..';
 import { PaginationDto, MovieDto, GenreResponseDto, MovieDetailDto } from '../dtos';
 import { PaginationMapper, MovieMapper, GenreMapper, MovieDetailMapper } from '../mappers';
-import { Movie, Genre, Pagination, MovieDetail } from '../../models';
+
+import { Movie, Genre, Pagination, MovieDetail } from '@/models';
 
 export namespace MovieService {
   export const getMovies = async(page: number, discoverValue?: string): Promise<Pagination<Movie>> => {

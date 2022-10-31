@@ -1,5 +1,6 @@
 import { MovieDto } from '../../dtos';
-import { Movie } from '../../../models';
+
+import { Movie } from '@/models';
 
 export namespace MovieMapper {
 

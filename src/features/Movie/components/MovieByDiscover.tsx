@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { MovieService } from '../../../api/services/movieService';
-import { Spinner } from '../../../shared/components';
-import { Pagination, Movie } from '../../../models';
-import { MovieList } from '../../../shared/components/Movie/MovieList';
-import { MOVIE_DISCOVER } from '../../../shared/constants';
-import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
+import { MovieService } from '@/api/services/movieService';
+import { Spinner } from '@/shared/components';
+import { Pagination, Movie } from '@/models';
+import { MovieList } from '@/shared/components/Movie/MovieList';
+import { MOVIE_DISCOVER } from '@/shared/constants';
+import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 
 const MovieByDiscoverComponent = () => {
   const { discover } = useParams();

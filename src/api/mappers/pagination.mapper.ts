@@ -1,6 +1,6 @@
 import { PaginationDto } from '../dtos';
 
-import { Pagination } from '../../models/';
+import { Pagination } from '@/models/';
 
 export namespace PaginationMapper {
 

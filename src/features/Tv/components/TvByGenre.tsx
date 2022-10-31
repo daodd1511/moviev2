@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { Pagination, Tv } from '../../../models';
-import { Spinner, TvList } from '../../../shared/components';
-import { useInfiniteScroll } from '../../../shared/hooks/useInfiniteScroll';
-import { TvService } from '../../../api/services/tvService';
+import { Pagination, Tv } from '@/models';
+import { Spinner, TvList } from '@/shared/components';
+import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
+import { TvService } from '@/api/services/tvService';
 
 const TvByGenreComponent = () => {
   const params = useParams();

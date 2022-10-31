@@ -1,6 +1,6 @@
 import { VideoDto } from '../dtos';
 
-import { Video } from '../../models';
+import { Video } from '@/models';
 
 export namespace VideoMapper {
 

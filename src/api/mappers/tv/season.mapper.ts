@@ -1,6 +1,6 @@
 import { SeasonDto } from '../../dtos/';
 
-import { Season } from '../../../models/';
+import { Season } from '@/models/';
 
 export namespace SeasonMapper {
 
