@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { memo, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'react-router-dom';
 
@@ -13,6 +15,7 @@ import { SearchService } from '@/api/services/searchService';
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const debounceSearchQuery = useDebounce<string>(searchQuery);
   const { data, isLoading, isError, error } = useQuery<
@@ -23,33 +26,11 @@ const SearchComponent = () => {
   });
   return (
     <>
-      <label
-        htmlFor="default-search"
-        className="sr-only mb-2 text-sm font-medium text-gray-900"
-      >
-          Search
-      </label>
+      <FontAwesomeIcon icon={faMagnifyingGlass} className="absolute top-3 left-3" />
       <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <svg
-            aria-hidden="true"
-            className="h-5 w-5 text-gray-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            ></path>
-          </svg>
-        </div>
         <input
           type="search"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-gray-900 outline-none"
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 outline-none"
           placeholder="Search Movies"
           onFocus={() => setIsSearching(true)}
           required
