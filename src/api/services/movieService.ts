@@ -33,7 +33,7 @@ export namespace MovieService {
   };
 
   export const searchMovies = async(query: string): Promise<Pagination<Movie>> => {
-    const response = await api.get<PaginationDto<MovieDto>>(`/search/movie?query=${query}`);
+    const response = await api.get<PaginationDto<MovieDto>>(`/search/multi?query=${query}`);
     const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
     return movies;
   };

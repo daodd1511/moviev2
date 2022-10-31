@@ -15,6 +15,7 @@ import { Footer, Spinner } from '@/shared/components';
 import { PosterSizes } from '@/shared/enums';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { goToTop, assertNonNull } from '@/shared/utils';
+import { NotFound } from '@/shared/components/NotFound';
 
 // import { Search } from '@/pages/Movies/components/Search';
 
@@ -43,6 +44,9 @@ const MovieDetailComponent = () => {
   }
 
   if (isError) {
+    if (error.response?.status === 404) {
+      return <NotFound />;
+    }
     return <div>Error: {error.message}</div>;
   }
 
