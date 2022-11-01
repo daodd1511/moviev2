@@ -2,7 +2,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Search } from './Search';
+import { Search } from './Search/Search';
 
 const MovieLinks = {
   popular: '/movie/discover/popular',
@@ -17,7 +17,7 @@ const TVLinks = {
 };
 
 const NavbarComponent = () => (
-  <nav className="navbar bg-[#023246] text-white">
+  <nav className="navbar bg-[#023246] text-white flex">
     <div className="m-auto w-full flex max-w-screen-2xl ">
       <div>
         <Link to="/" className="px-6 text-xl normal-case hover:bg-transparent">
@@ -78,8 +78,8 @@ const NavbarComponent = () => (
           </li>
         </ul>
       </div>
-      <Search />
     </div>
+    <Search />
   </nav>
 );
 

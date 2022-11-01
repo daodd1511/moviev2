@@ -10,9 +10,9 @@ const queryClient = new QueryClient();
 export const App = () => (
   <QueryClientProvider client={queryClient}>
     <HashRouter>
+      <Navbar />
       <Suspense>
-        <Navbar />
-        <div className="m-auto max-w-screen-2xl pt-4">
+        <div className="m-auto max-w-screen-2xl">
           <Router />
         </div>
       </Suspense>

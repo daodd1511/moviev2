@@ -15,6 +15,9 @@ module.exports = {
       fontFamily: {
         'sans': ['Be Vietnam Pro', ...defaultTheme.fontFamily.sans],
       },
+      height: {
+        'carousel': 'calc(100vh - 4rem)',
+      }
     },
   },
     daisyui: {
