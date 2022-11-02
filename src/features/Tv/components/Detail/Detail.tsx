@@ -113,15 +113,16 @@ const TvDetailComponent = () => {
           </div>
         </div>
         <div className="max-w-[60%] p-10">
-          <Content tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={season === -1 || episode === -1}/>
+          <Content tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={false}/>
         </div>
       </div>
       <Recommend tvId={tv.id} />
       <Footer />
 
       {isWatchTv && videoSource !== null && (
+
         <Modal setIsOpen={setIsWatchTv}>
-          <div className="z-50 w-5/6">
+          <div className="z-10 w-5/6">
             <iframe
               src={videoSource}
               width="100%"

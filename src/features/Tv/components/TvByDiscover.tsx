@@ -51,7 +51,7 @@ const TvByDiscoverComponent = () => {
   }
   return (
     <div className="px-8 py-12">
-      <h1 className="pb-10 text-2xl font-medium">{title}</h1>
+      <h1 className="pb-10 text-2xl font-medium">{title} TV Shows</h1>
       {data.pages.map((tvPage, i) => (
         <TvList key={i} tvs={tvPage.results} />
       ))}

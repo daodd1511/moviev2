@@ -18,13 +18,11 @@ const TVLinks = {
 
 const NavbarComponent = () => (
   <nav className="navbar bg-[#023246] text-white flex">
-    <div className="m-auto w-full flex max-w-screen-2xl ">
+    <div className="m-auto w-full flex max-w-screen-2xl justify-between">
       <div>
         <Link to="/" className="px-6 text-xl normal-case hover:bg-transparent">
           Movies
         </Link>
-      </div>
-      <div>
         <ul className="menu menu-horizontal p-0">
           <li tabIndex={0}>
             <a>
@@ -78,8 +76,10 @@ const NavbarComponent = () => (
           </li>
         </ul>
       </div>
+      <div>
+        <Search />
+      </div>
     </div>
-    <Search />
   </nav>
 );
 

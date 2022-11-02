@@ -37,7 +37,7 @@ const SearchComponent = () => {
     setIsSearching(true);
   };
   return (
-    <>
+    <div className="flex">
       <div
         className={`relative transition-all ${
           isSearchBarOpen ? 'w-[700px]' : 'w-0'
@@ -73,7 +73,7 @@ const SearchComponent = () => {
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           )}
       </button>
-    </>
+    </div>
   );
 };
 
