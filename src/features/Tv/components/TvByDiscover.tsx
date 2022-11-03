@@ -22,7 +22,7 @@ const TvByDiscoverComponent = () => {
     isError,
     error,
   } = useInfiniteQuery<Pagination<Tv>, AxiosError>(
-    ['tvsByDiscover', discover],
+    [`${title} tvs`, discover],
     ({ pageParam = 1 }) => TvService.getTvs(pageParam, discover),
     {
       getNextPageParam(lastPage) {

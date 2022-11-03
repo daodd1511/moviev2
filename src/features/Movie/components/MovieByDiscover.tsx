@@ -23,7 +23,7 @@ const MovieByDiscoverComponent = () => {
     isError,
     error,
   } = useInfiniteQuery<Pagination<Movie>, AxiosError>(
-    ['moviesByDiscover', discover],
+    [`${title} movies`, discover],
     ({ pageParam = 1 }) => MovieService.getMovies(pageParam, discover),
     {
       getNextPageParam(lastPage) {

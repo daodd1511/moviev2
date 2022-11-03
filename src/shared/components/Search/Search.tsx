@@ -20,7 +20,7 @@ const SearchComponent = () => {
     Array<MovieSearch | TvSearch>,
     AxiosError
   >(
-    ['searchTest', debounceSearchQuery],
+    ['search', debounceSearchQuery],
     () => SearchService.multi(debounceSearchQuery),
     {
       enabled: debounceSearchQuery !== '',
