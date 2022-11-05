@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, memo, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -15,12 +15,13 @@ const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceSearchQuery = useDebounce<string>(searchQuery);
   const { data, isLoading, isError, error } = useQuery<
     Array<MovieSearch | TvSearch>,
     AxiosError
   >(
-    ['searchTest', debounceSearchQuery],
+    ['search', debounceSearchQuery],
     () => SearchService.multi(debounceSearchQuery),
     {
       enabled: debounceSearchQuery !== '',
@@ -30,6 +31,9 @@ const SearchComponent = () => {
   const onSearchButtonClick = () => {
     setIsSearchBarOpen(!isSearchBarOpen);
     setSearchQuery('');
+    if (searchInputRef.current != null) {
+      searchInputRef.current.focus();
+    }
   };
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,8 +48,12 @@ const SearchComponent = () => {
         }`}
       >
         <input
+          ref={searchInputRef}
           type="search"
-          className={`block h-10 w-full rounded-lg bg-gray-50 text-gray-900 outline-none ${isSearchBarOpen ? 'px-3' : 'px-0'}`}
+          value={searchQuery}
+          className={`block h-10 w-full rounded-lg bg-gray-50 text-gray-900 outline-none ${
+            isSearchBarOpen ? 'px-3' : 'px-0'
+          }`}
           placeholder="Search Movies, TVs"
           required
           onChange={onSearchChange}
@@ -55,14 +63,18 @@ const SearchComponent = () => {
             {isLoading && <Spinner />}
             {isError && <div>Error: {error.message}</div>}
             {data?.map(result => (
-              <SearchResult key={result.id} searchResult={result} setIsSearching={setIsSearching} />
+              <SearchResult
+                key={result.id}
+                searchResult={result}
+                setIsSearching={setIsSearching}
+              />
             ))}
           </div>
         )}
       </div>
       <button
         type="button"
-        className="text-xl px-3"
+        className="px-3 text-xl"
         onClick={onSearchButtonClick}
       >
         {isSearchBarOpen ?

@@ -1,7 +1,9 @@
 import { memo, useEffect, useState } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
+
+import { MovieByDiscover } from '../components';
 
 import { goToTop } from '@/shared/utils';
 
@@ -24,7 +26,7 @@ const MoviesComponent = () => {
   }, [params]);
   return (
     <div className="relative">
-      <Outlet />
+      <MovieByDiscover />
       {showTopBtn && (
         <button
           type="button"

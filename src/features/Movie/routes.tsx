@@ -24,24 +24,24 @@ export const DetailPage = lazy(() =>
 export const movieRoutes: RouteObject[] = [
   {
     path: 'movie',
-    element: <Movies />,
     children: [
-      {
-        path: 'genre/:genreId',
-        element: <MovieByGenre />,
-      },
+      // {
+      //   path: 'genre/:genreId',
+      //   element: <MovieByGenre />,
+      // },
       {
         path: 'discover/:discover',
-        element: <MovieByDiscover />,
+        element: <Movies />,
+      },
+      {
+        path: 'detail/:id',
+        element: <DetailPage />,
       },
       {
         path: '',
-        element: <Navigate to="discover/popular" />,
+        element: <Navigate to="/popular" />,
       },
     ],
   },
-  {
-    path: 'movie/detail/:id',
-    element: <DetailPage />,
-  },
+
 ];
