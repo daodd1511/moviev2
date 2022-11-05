@@ -27,21 +27,22 @@ export const tvRoutes: RouteObject[] = [
     element: <TVs />,
     children: [
       {
-        path: 'genre/:genreId',
-        element: <TvByGenre />,
-      },
-      {
         path: 'discover/:discover',
         element: <TvByDiscover />,
       },
       {
         path: '',
-        element: <Navigate to="discover/popular" />,
+        element: <Navigate to="/popular" />,
+      },
+      {
+        path: 'detail/:id',
+        element: <DetailPage />,
       },
     ],
   },
-  {
-    path: 'tv/detail/:id',
-    element: <DetailPage />,
-  },
+
+  // {
+  //   path: 'genre/:genreId',
+  //   element: <TvByGenre />,
+  // },
 ];
