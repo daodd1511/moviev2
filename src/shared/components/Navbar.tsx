@@ -21,7 +21,7 @@ const NavbarComponent = () => (
     <div className="m-auto w-full flex max-w-screen-2xl justify-between">
       <div>
         <Link to="/" className="px-6 text-xl normal-case hover:bg-transparent">
-          Movies
+          Flix
         </Link>
         <ul className="menu menu-horizontal p-0">
           <li tabIndex={0}>
