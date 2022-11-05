@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 
 import { MovieService } from '@/api/services/movieService';
 import { Pagination, Movie } from '@/models';
-import { MovieList, Spinner } from '@/shared/components';
+import { MovieList, Loader } from '@/shared/components';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 
 const MovieByGenreComponent = () => {
@@ -44,7 +44,7 @@ const MovieByGenreComponent = () => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (isError) {
@@ -57,7 +57,7 @@ const MovieByGenreComponent = () => {
         <MovieList key={i} movies={moviePage.results} />
       ))}
       <div className="loader" ref={observerElement}>
-        {hasNextPage !== undefined && isFetchingNextPage && <Spinner />}
+        {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
       </div>
     </div>
   );

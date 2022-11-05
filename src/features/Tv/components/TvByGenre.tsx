@@ -4,7 +4,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { Pagination, Tv } from '@/models';
-import { Spinner, TvList } from '@/shared/components';
+import { Loader, TvList } from '@/shared/components';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { TvService } from '@/api/services/tvService';
 
@@ -44,7 +44,7 @@ const TvByGenreComponent = () => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (isError) {
@@ -57,7 +57,7 @@ const TvByGenreComponent = () => {
         <TvList key={i} tvs={tvPage.results} />
       ))}
       <div className="loader" ref={observerElement}>
-        {hasNextPage !== undefined && isFetchingNextPage && <Spinner />}
+        {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
       </div>
     </div>
   );

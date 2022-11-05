@@ -11,7 +11,7 @@ import { Content, Recommend, Select } from './components';
 import { assertNonNull, goToTop } from '@/shared/utils';
 import { TvService } from '@/api/services/tvService';
 import { Modal } from '@/shared/components/Modal';
-import { Footer, Spinner } from '@/shared/components';
+import { Footer, Loader } from '@/shared/components';
 import { API_CONFIG } from '@/api/config';
 import { PosterSizes } from '@/shared/enums';
 import { TvDetail } from '@/models';
@@ -69,7 +69,7 @@ const TvDetailComponent = () => {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
 }
 
   if (isError) {

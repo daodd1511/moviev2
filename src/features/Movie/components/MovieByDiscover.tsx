@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { MovieService } from '@/api/services/movieService';
-import { Spinner } from '@/shared/components';
+import { Loader } from '@/shared/components';
 import { Pagination, Movie } from '@/models';
 import { MovieList } from '@/shared/components/Movie/MovieList';
 import { MOVIE_DISCOVER } from '@/shared/constants';
@@ -44,7 +44,7 @@ const MovieByDiscoverComponent = () => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader className="h-withoutNavbar" />;
   }
 
   if (isError) {
@@ -57,7 +57,7 @@ const MovieByDiscoverComponent = () => {
         <MovieList key={i} movies={moviePage.results} />
       ))}
       <div className="loader" ref={observerElement}>
-        {hasNextPage !== undefined && isFetchingNextPage && <Spinner />}
+        {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ module.exports = {
         'sans': ['Be Vietnam Pro', ...defaultTheme.fontFamily.sans],
       },
       height: {
-        'carousel': 'calc(100vh - 4rem)',
+        'withoutNavbar': 'calc(100vh - 4rem)',
       }
     },
   },

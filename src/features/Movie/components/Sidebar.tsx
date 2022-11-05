@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { MovieService } from '@/api/services/movieService';
-import { Spinner } from '@/shared/components';
+import { Loader } from '@/shared/components';
 import { Type } from '@/shared/enums';
 import { Genre } from '@/models';
 
@@ -30,7 +30,7 @@ const SidebarComponent = ({ type }: Props) => {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (isError) {

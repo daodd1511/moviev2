@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { TvService } from '@/api/services/tvService';
-import { Spinner, TvList } from '@/shared/components';
+import { Loader, TvList } from '@/shared/components';
 import { Pagination, Tv } from '@/models';
 import { TV_DISCOVER } from '@/shared/constants';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
@@ -43,7 +43,7 @@ const TvByDiscoverComponent = () => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader className="h-withoutNavbar"/>;
   }
 
   if (isError) {
@@ -56,7 +56,7 @@ const TvByDiscoverComponent = () => {
         <TvList key={i} tvs={tvPage.results} />
       ))}
       <div className="loader" ref={observerElement}>
-        {hasNextPage !== undefined && isFetchingNextPage && <Spinner />}
+        {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
       </div>
     </div>
   );

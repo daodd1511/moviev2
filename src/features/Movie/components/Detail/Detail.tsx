@@ -11,7 +11,7 @@ import { Recommend } from './components/Recommend';
 import { Modal } from '@/shared/components/Modal';
 import { MovieDetail } from '@/models';
 import { MovieService } from '@/api/services/movieService';
-import { Footer, Spinner } from '@/shared/components';
+import { Footer, Loader } from '@/shared/components';
 import { PosterSizes } from '@/shared/enums';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { goToTop, assertNonNull } from '@/shared/utils';
@@ -38,7 +38,7 @@ const MovieDetailComponent = () => {
     navigate(-1);
   };
   if (isLoading) {
-    return <Spinner />;
+    return <div className="h-withoutNavbar"><Loader /></div>;
   }
 
   if (isError) {

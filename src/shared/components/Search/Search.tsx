@@ -6,7 +6,7 @@ import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import { SearchResult } from './components/SearchResult';
 
-import { Spinner } from '@/shared/components';
+import { Loader } from '@/shared/components';
 import { useDebounce } from '@/shared/hooks';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { SearchService } from '@/api/services/searchService';
@@ -60,7 +60,7 @@ const SearchComponent = () => {
         />
         {isSearching && searchQuery !== '' && (
           <div className="absolute top-16 z-20 h-80 w-full overflow-auto overflow-x-hidden rounded-lg bg-white shadow-xl">
-            {isLoading && <Spinner />}
+            {isLoading && <Loader />}
             {isError && <div>Error: {error.message}</div>}
             {data?.map(result => (
               <SearchResult
