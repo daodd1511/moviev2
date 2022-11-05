@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { memo } from 'react';
 
 import { MovieService } from '@/api/services/movieService';
-import { MovieList, Spinner } from '@/shared/components';
+import { MovieList, Loader } from '@/shared/components';
 import { Movie, Pagination } from '@/models';
 
 interface Props {
@@ -20,7 +20,7 @@ const RecommendComponent = ({ movieId }: Props) => {
     MovieService.getMovieRecommendation(movieId));
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (isError) {

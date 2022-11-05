@@ -24,19 +24,18 @@ export const DetailPage = lazy(() =>
 export const tvRoutes: RouteObject[] = [
   {
     path: 'tv',
-    element: <TVs />,
     children: [
       {
         path: 'discover/:discover',
-        element: <TvByDiscover />,
-      },
-      {
-        path: '',
-        element: <Navigate to="/popular" />,
+        element: <TVs />,
       },
       {
         path: 'detail/:id',
         element: <DetailPage />,
+      },
+      {
+        path: '',
+        element: <Navigate to="/popular" />,
       },
     ],
   },

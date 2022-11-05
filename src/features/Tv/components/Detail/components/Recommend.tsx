@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { memo } from 'react';
 
 import { TvService } from '@/api/services/tvService';
-import { Spinner, TvList } from '@/shared/components';
+import { Loader, TvList } from '@/shared/components';
 import { Pagination, Tv } from '@/models';
 
 interface Props {
@@ -19,7 +19,7 @@ const RecommendComponent = ({ tvId }: Props) => {
   >(['tvRecommend', tvId], () => TvService.getTvRecommendation(tvId));
 
   if (isLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (isError) {

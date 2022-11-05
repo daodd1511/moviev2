@@ -69,7 +69,7 @@ const TvDetailComponent = () => {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader className="h-withoutNavbar"/>;
 }
 
   if (isError) {

@@ -44,7 +44,7 @@ const SearchComponent = () => {
     <div className="flex">
       <div
         className={`relative transition-all ${
-          isSearchBarOpen ? 'w-[700px]' : 'w-0'
+          isSearchBarOpen ? 'w-[500px]' : 'w-0'
         }`}
       >
         <input
