@@ -5,6 +5,8 @@ import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import { movieRoutes } from '../features/Movie/routes';
 import { tvRoutes } from '../features/Tv/routes';
 
+import { authRoutes } from '@/features/Auth/routes';
+
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
     default: module.NotFound,
@@ -17,6 +19,7 @@ const routes: RouteObject[] = [
   },
   ...tvRoutes,
   ...movieRoutes,
+  ...authRoutes,
   {
     path: '*',
     element: <NotFound />,

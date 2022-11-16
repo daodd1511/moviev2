@@ -9,6 +9,10 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
+export const backendApi: AxiosInstance = axios.create({
+  baseURL: API_CONFIG.backendUrl,
+});
+
 export const videoApi: AxiosInstance = axios.create({
   baseURL: API_CONFIG.videoApiUrl,
 });

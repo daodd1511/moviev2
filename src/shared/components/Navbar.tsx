@@ -79,6 +79,7 @@ const NavbarComponent = () => (
       <div>
         <Search />
       </div>
+      <Link to="/auth/login" className="px-6 text-xl normal-case hover:bg-transparent">Login</Link>
     </div>
   </nav>
 );
