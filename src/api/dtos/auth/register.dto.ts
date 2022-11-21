@@ -13,11 +13,11 @@ export interface RegisterDto {
   /** User's last name. */
   readonly last_name: string | null;
 
-  /** User's phone number. */
-  readonly phone: string | null;
+  // /** User's phone number. */
+  // readonly phone: string | null;
 
-  /** User's gender. */
-  readonly gender: string | null;
+  // /** User's gender. */
+  // readonly gender: string | null;
 
   /** User's username. */
   readonly username: string | null;

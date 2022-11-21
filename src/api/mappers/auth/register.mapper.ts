@@ -14,9 +14,10 @@ export namespace RegisterMapper {
       first_name: credential.firstName,
       last_name: credential.lastName,
       password: credential.password,
-      phone: credential.phone,
-      gender: credential.gender,
       username: credential.username,
+
+      // phone: credential.phone,
+      // gender: credential.gender,
     };
   }
 }

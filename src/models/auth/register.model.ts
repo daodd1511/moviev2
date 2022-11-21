@@ -13,12 +13,12 @@ export interface Register {
   /** User's last name. */
   readonly lastName: string | null;
 
-  /** User's phone number. */
-  readonly phone: string | null;
-
   /** User username. */
   readonly username: string | null;
 
-  /** User gender. */
-  readonly gender: string | null;
+  // /** User's phone number. */
+  // readonly phone: string | null;
+
+  // /** User gender. */
+  // readonly gender: string | null;
 }
