@@ -1,6 +1,6 @@
-import { LoginDto } from '../../dtos/auth/login.dto';
+import { LoginDto, LoginResponseDto } from '../../dtos/auth/login.dto';
 
-import { Login } from '@/models/auth/login.model';
+import { Login, LoginResponse } from '@/models/auth/login.model';
 
 export namespace LoginMapper {
 
@@ -13,5 +13,17 @@ export namespace LoginMapper {
       username: credential.username,
       password: credential.password,
     };
+  }
+
+  /**
+   * Maps dto to model.
+   * @param response Login response.
+   */
+  export function fromDto(response: LoginResponseDto): LoginResponse {
+    const result: LoginResponse = {
+      accessToken: response.accessToken,
+      userId: response.id,
+    };
+    return result;
   }
 }

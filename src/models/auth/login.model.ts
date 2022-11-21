@@ -7,3 +7,13 @@ export interface Login {
   /** Password. */
   readonly password: string;
 }
+
+/** Login response model. */
+export interface LoginResponse {
+
+  /** Token. */
+  readonly accessToken: string;
+
+  /** User id. */
+  readonly userId: string;
+}

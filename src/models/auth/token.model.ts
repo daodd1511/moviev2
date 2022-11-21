@@ -2,5 +2,5 @@
 export interface Token {
 
   /** Token. */
-  readonly accessToken: string;
+  readonly access: string;
 }
