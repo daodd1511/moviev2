@@ -81,7 +81,7 @@ const MovieDetailComponent = () => {
       </div>
       <Recommend movieId={movie.id} />
       <Footer />
-      {isFullSizeImage && fullSizeImageUrl !== null && (
+      {isFullSizeImage && (
         <Modal setIsOpen={setIsFullSizeImage}>
           <img
             src={fullSizeImageUrl}
