@@ -14,7 +14,6 @@ import { SearchService } from '@/api/services/searchService';
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceSearchQuery = useDebounce<string>(searchQuery);
   const { data, isLoading, isError, error } = useQuery<
@@ -38,7 +37,10 @@ const SearchComponent = () => {
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setIsSearching(true);
+  };
+
+  const resetSearchState = () => {
+    setSearchQuery('');
   };
   return (
     <div className="flex">
@@ -58,7 +60,7 @@ const SearchComponent = () => {
           required
           onChange={onSearchChange}
         />
-        {isSearching && searchQuery !== '' && (
+        {searchQuery !== '' && (
           <div className="absolute top-16 z-20 h-80 w-full overflow-auto overflow-x-hidden rounded-lg bg-white shadow-xl">
             {isLoading && <Loader />}
             {isError && <div>Error: {error.message}</div>}
@@ -66,7 +68,7 @@ const SearchComponent = () => {
               <SearchResult
                 key={result.id}
                 searchResult={result}
-                setIsSearching={setIsSearching}
+                resetSearchState={resetSearchState}
               />
             ))}
           </div>

@@ -88,7 +88,7 @@ const TvDetailComponent = () => {
     <div className="p-10 relative">
       <button
         type="button"
-        className="absolute top-2 left-10"
+        className="absolute top-8 left-10"
         onClick={onBackButtonClick}
       >
         <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
