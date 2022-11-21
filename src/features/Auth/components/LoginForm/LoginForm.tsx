@@ -61,7 +61,6 @@ const LoginFormComponent = () => {
             className=" w-full rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
             type="text"
             placeholder="Enter your username"
-            autoComplete="username"
             {...register('username', { required: true })}
           />
           {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
@@ -73,7 +72,6 @@ const LoginFormComponent = () => {
           <input
             className="w-full content-center rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
             type="password"
-            autoComplete="current-password"
             placeholder="Enter your password."
             {...register('password', { required: true })}
           />

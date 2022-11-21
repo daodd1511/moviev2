@@ -1,0 +1,62 @@
+import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+
+import { useState } from 'react';
+
+import { Modal } from '../Modal';
+
+import { AuthService } from '@/api/services/authService';
+import { isAuthAtom } from '@/stores/authStore';
+
+export const ProfileDropdown = () => {
+  const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const [, setIsAuth] = useAtom(isAuthAtom);
+  const onLogoutButtonClick = () => {
+    setIsConfirmLogoutModalOpen(true);
+  };
+  const onConfirmButtonClick = async() => {
+    await AuthService.logout();
+    setIsAuth(false);
+    navigate('/auth/login');
+  };
+  return (
+    <>
+      <div className="dropdown dropdown-end text-black">
+        <label tabIndex={0} className="avatar btn btn-ghost btn-circle">
+          <div className="w-10 rounded-full">
+            <img src="https://placeimg.com/80/80/people" />
+          </div>
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu rounded-box menu-compact mt-3 w-32 bg-base-100 p-2 shadow-2xl"
+        >
+          <li>
+            <a className="justify-between">
+            Profile
+            </a>
+          </li>
+          <li>
+            <button type="button" onClick={onLogoutButtonClick}>
+            Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+      {isConfirmLogoutModalOpen && (
+        <Modal setIsOpen={setIsConfirmLogoutModalOpen}>
+          <div className="card w-96 bg-base-100 text-neutral-content">
+            <div className="card-body items-center text-center text-black">
+              <h2 className="card-title p-6">Do you want to log out?</h2>
+              <div className="card-actions">
+                <button type="button" className="btn btn-primary">No</button>
+                <button type="button" className="btn btn-error" onClick={onConfirmButtonClick}>Yes</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </>
+  );
+};

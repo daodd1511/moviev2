@@ -5,8 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Search } from '../Search/Search';
 
+import { ProfileDropdown } from './ProfileDropdown';
+
 import { isAuthAtom } from '@/stores/authStore';
-import { AuthService } from '@/api/services/authService';
 
 const MovieLinks = {
   popular: '/movie/discover/popular',
@@ -21,16 +22,12 @@ const TVLinks = {
 };
 
 const NavbarComponent = () => {
-  const [isAuth, setIsAuth] = useAtom(isAuthAtom);
+  const [isAuth] = useAtom(isAuthAtom);
   const navigate = useNavigate();
   const onLoginButtonClick = () => {
     navigate('/auth/login');
   };
-  const onLogoutButtonClick = async() => {
-    await AuthService.logout();
-    setIsAuth(false);
-    navigate('/auth/login');
-  };
+
   return (
     <nav className="navbar flex bg-[#023246] text-white">
       <div className="m-auto flex w-full max-w-screen-2xl justify-between px-6">
@@ -98,9 +95,7 @@ const NavbarComponent = () => {
           <Search />
           {isAuth ?
             (
-              <button type="button" onClick={onLogoutButtonClick}>
-              Logout
-              </button>
+              <ProfileDropdown />
             ) :
             (
               <button type="button" onClick={onLoginButtonClick}>

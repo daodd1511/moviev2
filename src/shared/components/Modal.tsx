@@ -16,7 +16,7 @@ export const Modal = ({ children, setIsOpen }: Props) => (
     className="h-modal fixed top-0 right-0 left-0 z-30 h-full w-full overflow-y-auto overflow-x-hidden bg-black/60 md:inset-0"
     onClick={() => setIsOpen(false)}
   >
-    <div className="z-50 flex h-screen w-full items-center justify-center p-4 md:h-auto">
+    <div className="z-50 flex h-screen w-full items-center justify-center p-4">
       {/* Modal content */}
       {children}
     </div>
