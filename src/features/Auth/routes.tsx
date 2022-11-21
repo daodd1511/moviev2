@@ -8,17 +8,12 @@ export const Login = lazy(() =>
 
 export const authRoutes: RouteObject[] = [
   {
-    path: 'auth',
-    children: [
-      {
-        path: 'login',
-        element: <Login />,
-      },
+    path: 'login',
+    element: <Login />,
 
     //   {
     //     path: 'register',
     //     element: <TvByDiscover />,
     //   },
-    ],
   },
 ];

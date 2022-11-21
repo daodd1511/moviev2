@@ -2,7 +2,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Search } from './Search/Search';
+import { Search } from '../Search/Search';
 
 const MovieLinks = {
   popular: '/movie/discover/popular',
