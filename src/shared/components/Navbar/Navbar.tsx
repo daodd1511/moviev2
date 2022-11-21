@@ -33,11 +33,11 @@ const NavbarComponent = () => {
   };
   return (
     <nav className="navbar flex bg-[#023246] text-white">
-      <div className="m-auto flex w-full max-w-screen-2xl justify-between">
+      <div className="m-auto flex w-full max-w-screen-2xl justify-between px-6">
         <div>
           <Link
             to="/"
-            className="px-6 text-xl normal-case hover:bg-transparent"
+            className="pr-6 text-xl normal-case hover:bg-transparent"
           >
             Flix
           </Link>
@@ -80,7 +80,7 @@ const NavbarComponent = () => {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </a>
-              <ul className="z-30 border border-gray-300 bg-white p-2 text-black">
+              <ul className="z-30 border border-gray-300 bg-white p-2 text-black ">
                 <li>
                   <Link to={TVLinks.popular}>Popular</Link>
                 </li>
@@ -98,10 +98,14 @@ const NavbarComponent = () => {
           <Search />
           {isAuth ?
             (
-              <button type="button" onClick={onLogoutButtonClick}>Logout</button>
+              <button type="button" onClick={onLogoutButtonClick}>
+              Logout
+              </button>
             ) :
             (
-              <button type="button" onClick={onLoginButtonClick}>Login</button>
+              <button type="button" onClick={onLoginButtonClick}>
+              Login
+              </button>
             )}
         </div>
       </div>

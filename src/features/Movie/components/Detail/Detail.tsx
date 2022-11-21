@@ -38,7 +38,11 @@ const MovieDetailComponent = () => {
     navigate(-1);
   };
   if (isLoading) {
-    return <div className="h-withoutNavbar"><Loader /></div>;
+    return (
+      <div className="h-withoutNavbar">
+        <Loader />
+      </div>
+    );
   }
 
   if (isError) {
@@ -61,10 +65,11 @@ const MovieDetailComponent = () => {
     <div className="relative p-10">
       <button
         type="button"
-        className="absolute top-2 left-10"
+        className="absolute top-8 left-10"
+        name="back"
         onClick={onBackButtonClick}
       >
-        <FontAwesomeIcon icon={faArrowLeft} className="text-xl"/>
+        <FontAwesomeIcon icon={faArrowLeft} className="text-xl" />
       </button>
       <div className="m-auto flex max-w-screen-xl pb-10 pt-4">
         <div className="max-w-[38%] p-10">

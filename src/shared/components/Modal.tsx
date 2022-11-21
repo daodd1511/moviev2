@@ -11,8 +11,12 @@ interface Props {
 }
 
 export const Modal = ({ children, setIsOpen }: Props) => (
-  <div aria-hidden="true" className="overflow-y-auto bg-black/60 overflow-x-hidden fixed top-0 right-0 left-0 z-30 w-full md:inset-0 h-modal h-full" onClick={() => setIsOpen(false)}>
-    <div className="p-4 w-full md:h-auto flex justify-center items-center z-50 h-screen">
+  <div
+    aria-hidden="true"
+    className="h-modal fixed top-0 right-0 left-0 z-30 h-full w-full overflow-y-auto overflow-x-hidden bg-black/60 md:inset-0"
+    onClick={() => setIsOpen(false)}
+  >
+    <div className="z-50 flex h-screen w-full items-center justify-center p-4 md:h-auto">
       {/* Modal content */}
       {children}
     </div>
