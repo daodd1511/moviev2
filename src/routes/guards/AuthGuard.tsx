@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import { To, Navigate, Outlet } from 'react-router-dom';
 
-import { isAuthAtom } from '@/stores/authStore';
+import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
 export const AuthGuard = () => {
     const [isAuth] = useAtom(isAuthAtom);

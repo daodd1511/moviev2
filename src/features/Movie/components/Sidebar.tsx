@@ -1,12 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { MovieService } from '@/api/services/movieService';
 import { Loader } from '@/shared/components';
 import { Type } from '@/shared/enums';
 import { Genre } from '@/models';
+import { MovieQueries } from '@/stores/queries/movieQueries';
 
 interface Props {
 
@@ -22,8 +20,7 @@ const SidebarComponent = ({ type }: Props) => {
     isLoading,
     isError,
     error,
-  } = useQuery<readonly Genre[], AxiosError>(['genres', type], () =>
-    MovieService.getGenres());
+  } = MovieQueries.useGenres();
 
   const onGenreClick = (genre: Genre) => {
     navigate(`/${type}/genre/${genre.id}`);

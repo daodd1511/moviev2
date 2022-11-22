@@ -1,10 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { memo } from 'react';
 
-import { MovieService } from '@/api/services/movieService';
 import { MovieList, Loader } from '@/shared/components';
-import { Movie, Pagination } from '@/models';
+import { MovieQueries } from '@/stores/queries/movieQueries';
 
 interface Props {
 
@@ -13,11 +10,7 @@ interface Props {
 }
 
 const RecommendComponent = ({ movieId }: Props) => {
-  const { data, isLoading, isError, error } = useQuery<
-    Pagination<Movie>,
-    AxiosError
-  >(['movieRecommend', movieId], () =>
-    MovieService.getMovieRecommendation(movieId));
+  const { data, isLoading, isError, error } = MovieQueries.useRecommendations(movieId);
 
   if (isLoading) {
     return <Loader />;

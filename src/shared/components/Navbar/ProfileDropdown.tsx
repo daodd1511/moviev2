@@ -8,7 +8,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from '../Modal';
 
 import { AuthService } from '@/api/services/authService';
-import { isAuthAtom } from '@/stores/authStore';
+import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
 export const ProfileDropdown = () => {
   const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] = useState(false);

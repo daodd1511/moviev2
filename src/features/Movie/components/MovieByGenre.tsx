@@ -1,18 +1,14 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
-import { MovieService } from '@/api/services/movieService';
-import { Pagination, Movie } from '@/models';
 import { MovieList, Loader } from '@/shared/components';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
+import { MovieQueries } from '@/stores/queries/movieQueries';
 
 const MovieByGenreComponent = () => {
   const params = useParams();
   const genreId = parseInt(params.genreId ?? '', 10);
-  const { data: genres } = useQuery(['moviesByGenre'], () =>
-    MovieService.getGenres());
+  const { data: genres } = MovieQueries.useGenres();
   const title = genres?.find(genre => genre.id === genreId)?.name ?? 'Genre';
   const {
     data,
@@ -22,16 +18,7 @@ const MovieByGenreComponent = () => {
     isLoading,
     isError,
     error,
-  } = useInfiniteQuery<Pagination<Movie>, AxiosError>(
-    ['moviesByGenre', genreId],
-    ({ pageParam = 1 }) => MovieService.getMoviesByGenre(genreId, pageParam),
-    {
-      getNextPageParam(lastPage) {
-        const nextPage = lastPage.page + 1;
-        return nextPage < lastPage.totalPages ? nextPage : undefined;
-      },
-    },
-  );
+  } = MovieQueries.useInfiniteListByGenre(genreId);
 
   const { observerElement } = useInfiniteScroll(
     {

@@ -13,8 +13,8 @@ import { loginSchema } from './formSetting';
 import { AuthService } from '@/api/services/authService';
 import { TokenService } from '@/api/services/tokenService';
 import { Login } from '@/models/auth/login.model';
-import { isAuthAtom } from '@/stores/authStore';
-import { userIdAtom } from '@/stores/userStore';
+import { isAuthAtom } from '@/stores/atoms/authAtoms';
+import { userIdAtom } from '@/stores/atoms/userAtoms';
 
 const LoginFormComponent = () => {
   const navigate = useNavigate();

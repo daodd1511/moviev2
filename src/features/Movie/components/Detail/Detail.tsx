@@ -1,7 +1,5 @@
 import { memo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,13 +7,12 @@ import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
 
 import { Modal } from '@/shared/components/Modal';
-import { MovieDetail } from '@/models';
-import { MovieService } from '@/api/services/movieService';
 import { Footer, Loader } from '@/shared/components';
 import { PosterSizes } from '@/shared/enums';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { goToTop, assertNonNull } from '@/shared/utils';
 import { NotFound } from '@/shared/components/NotFound';
+import { MovieQueries } from '@/stores/queries/movieQueries';
 
 const MovieDetailComponent = () => {
   const { id } = useParams();
@@ -28,8 +25,7 @@ const MovieDetailComponent = () => {
     isLoading,
     isError,
     error,
-  } = useQuery<MovieDetail, AxiosError>(['movieDetail', movieId], () =>
-    MovieService.getMovieDetail(movieId));
+  } = MovieQueries.useDetail(movieId);
   useEffect(() => {
     goToTop();
   }, [id]);

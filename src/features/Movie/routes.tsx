@@ -25,10 +25,10 @@ export const movieRoutes: RouteObject[] = [
   {
     path: 'movie',
     children: [
-      // {
-      //   path: 'genre/:genreId',
-      //   element: <MovieByGenre />,
-      // },
+      {
+        path: 'genre/:genreId',
+        element: <MovieByGenre />,
+      },
       {
         path: 'discover/:discover',
         element: <Movies />,

@@ -1,19 +1,8 @@
-import { useAtom } from 'jotai';
-
-import { useQuery } from '@tanstack/react-query';
-
-import { userIdAtom } from '@/stores/userStore';
-import { API_CONFIG } from '@/api/config';
 import { Loader } from '@/shared/components';
-import { isAuthAtom } from '@/stores/authStore';
-import { TokenService } from '@/api/services/tokenService';
+import { UserQueries } from '@/stores/queries/userQueries';
 
 export const ProfilePage = () => {
-  const [userId] = useAtom(userIdAtom);
-  const token = TokenService.get();
-  const { data, isLoading } = useQuery(['user', userId], () => fetch(`${API_CONFIG.backendUrl}user/${userId ?? ''}?token=${token}`).then(res => res.json()), {
-    enabled: !(userId === null),
-  });
+  const { data, isLoading } = UserQueries.useProfile();
 
 // const { user, logout } = useAuth();
 // const { data, isLoading, isError, error } = useGetUserDetailsQuery(user?.id);

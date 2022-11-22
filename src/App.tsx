@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Router } from './routes/Router';
 import { TokenService } from './api/services/tokenService';
-import { isAuthAtom } from './stores/authStore';
+import { isAuthAtom } from './stores/atoms/authAtoms';
 
 const queryClient = new QueryClient();
 

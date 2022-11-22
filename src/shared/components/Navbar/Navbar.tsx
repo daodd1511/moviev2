@@ -7,7 +7,7 @@ import { Search } from '../Search/Search';
 
 import { ProfileDropdown } from './ProfileDropdown';
 
-import { isAuthAtom } from '@/stores/authStore';
+import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
 const MovieLinks = {
   popular: '/movie/discover/popular',

@@ -38,5 +38,5 @@ export namespace MovieService {
     return movies;
   };
 
-  export const getMovieRecommendation = (movieId: number): Promise<Pagination<Movie>> => getMovies(1, `${movieId}/recommendations`);
+  export const getMovieRecommendations = (movieId: number): Promise<Pagination<Movie>> => getMovies(1, `${movieId}/recommendations`);
 }

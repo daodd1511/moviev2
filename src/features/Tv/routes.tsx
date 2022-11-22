@@ -30,6 +30,10 @@ export const tvRoutes: RouteObject[] = [
         element: <TVs />,
       },
       {
+        path: 'genre/:genreId',
+        element: <TvByGenre />,
+      },
+      {
         path: 'detail/:id',
         element: <DetailPage />,
       },
@@ -40,8 +44,4 @@ export const tvRoutes: RouteObject[] = [
     ],
   },
 
-  // {
-  //   path: 'genre/:genreId',
-  //   element: <TvByGenre />,
-  // },
 ];

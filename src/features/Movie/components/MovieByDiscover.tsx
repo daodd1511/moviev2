@@ -1,14 +1,11 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
-import { MovieService } from '@/api/services/movieService';
 import { Loader } from '@/shared/components';
-import { Pagination, Movie } from '@/models';
 import { MovieList } from '@/shared/components/Movie/MovieList';
 import { MOVIE_DISCOVER } from '@/shared/constants';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
+import { MovieQueries } from '@/stores/queries/movieQueries';
 
 const MovieByDiscoverComponent = () => {
   const { discover } = useParams();
@@ -22,16 +19,7 @@ const MovieByDiscoverComponent = () => {
     isLoading,
     isError,
     error,
-  } = useInfiniteQuery<Pagination<Movie>, AxiosError>(
-    [`${title} movies`, discover],
-    ({ pageParam = 1 }) => MovieService.getMovies(pageParam, discover),
-    {
-      getNextPageParam(lastPage) {
-        const nextPage = lastPage.page + 1;
-        return nextPage < lastPage.totalPages ? nextPage : undefined;
-      },
-    },
-  );
+  } = MovieQueries.useInfiniteListByDiscover(discover);
 
   const { observerElement } = useInfiniteScroll(
     {
