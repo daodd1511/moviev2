@@ -50,7 +50,7 @@ export const ProfileDropdown = () => {
             <div className="card-body items-center text-center text-black">
               <h2 className="card-title p-6">Do you want to log out?</h2>
               <div className="card-actions">
-                <button type="button" className="btn btn-primary">No</button>
+                <button type="button" className="btn btn-primary" onClick={() => setIsConfirmLogoutModalOpen(false)}>No</button>
                 <button type="button" className="btn btn-error" onClick={onConfirmButtonClick}>Yes</button>
               </div>
             </div>
