@@ -29,7 +29,7 @@ const SearchComponent = () => {
 
   const onSearchButtonClick = () => {
     setIsSearchBarOpen(!isSearchBarOpen);
-    setSearchQuery('');
+    resetSearchState();
     if (searchInputRef.current != null) {
       searchInputRef.current.focus();
     }

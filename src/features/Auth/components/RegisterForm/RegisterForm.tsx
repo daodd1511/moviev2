@@ -108,7 +108,7 @@ const RegisterFormComponent = () => {
         </div>
         <div className="flex items-center justify-start">
           <div className="text-sm">
-            <Link to="/auth/login" className="text-green-400 hover:text-green-500"> Already have an account? </Link>
+          Already have an account? <Link to="/auth/login" className="text-green-400 hover:text-green-500">Sign In</Link>
           </div>
         </div>
       </div>

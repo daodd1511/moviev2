@@ -61,7 +61,7 @@ const LoginFormComponent = () => {
             className=" w-full rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
             type="text"
             placeholder="Enter your username"
-            {...register('username', { required: true })}
+            {...register('username')}
           />
           {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
         </div>
@@ -73,7 +73,7 @@ const LoginFormComponent = () => {
             className="w-full content-center rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
             type="password"
             placeholder="Enter your password."
-            {...register('password', { required: true })}
+            {...register('password')}
           />
           {errors.password?.message !== undefined && <ErrorField error={errors.password?.message}/>}
         </div>
@@ -88,11 +88,11 @@ const LoginFormComponent = () => {
         </div>
         <div className="flex flex-col gap-2">
           <div className="text-sm">
-            <Link to="/auth/register" className="text-green-400 hover:text-green-500"> Does not have an account? </Link>
+          Don&apos;t have an account yet? <Link to="/auth/register" className="text-green-400 hover:text-green-500">Sign Up</Link>
           </div>
           <div className="text-sm">
             <a href="#" className="text-green-400 hover:text-green-500">
-              Forgot your password?
+              Forgot password?
             </a>
           </div>
 
