@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 
 import { useState } from 'react';
@@ -35,9 +35,7 @@ export const ProfileDropdown = () => {
           className="dropdown-content menu rounded-box menu-compact mt-3 w-32 bg-base-100 p-2 shadow-2xl"
         >
           <li>
-            <a className="justify-between">
-            Profile
-            </a>
+            <Link to="/profile">Profile</Link>
           </li>
           <li>
             <button type="button" onClick={onLogoutButtonClick}>

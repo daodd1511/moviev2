@@ -14,10 +14,12 @@ import { AuthService } from '@/api/services/authService';
 import { TokenService } from '@/api/services/tokenService';
 import { Login } from '@/models/auth/login.model';
 import { isAuthAtom } from '@/stores/authStore';
+import { userIdAtom } from '@/stores/userStore';
 
 const LoginFormComponent = () => {
   const navigate = useNavigate();
   const [, setAuth] = useAtom(isAuthAtom);
+  const [, setUserId] = useAtom(userIdAtom);
   const {
     register,
     handleSubmit,
@@ -30,6 +32,7 @@ const LoginFormComponent = () => {
       AuthService.login({ username, password }),
     onSuccess(data) {
       TokenService.save(data.accessToken);
+      setUserId(data.userId);
       setAuth(true);
       navigate('/');
     },

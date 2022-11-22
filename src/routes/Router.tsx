@@ -2,11 +2,11 @@
 import { FC, lazy } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
-import { movieRoutes } from '../features/Movie/routes';
-import { tvRoutes } from '../features/Tv/routes';
-
 import { NoAuthGuard } from './guards/NoAuthGuard';
 
+import { movieRoutes } from '@/features/Movie/routes';
+import { tvRoutes } from '@/features/Tv/routes';
+import { userRoutes } from '@/features/User/routes';
 import { authRoutes } from '@/features/Auth/routes';
 import { WithoutNavbar, WithNavbar } from '@/shared/components/Navbar/';
 
@@ -22,7 +22,7 @@ const routes: RouteObject[] = [
   },
   {
     element: <WithNavbar />,
-    children: [...movieRoutes, ...tvRoutes],
+    children: [...movieRoutes, ...tvRoutes, ...userRoutes],
   },
   {
     path: 'auth',
