@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { Movie, MovieDetail, Pagination } from '@/models';
+import { Genre, Movie, MovieDetail, Pagination } from '@/models';
 import { MovieService } from '@/api/services/movieService';
 
 export namespace MovieQueries {
@@ -39,6 +39,6 @@ export namespace MovieQueries {
       MovieService.getMovieRecommendations(id));
 
   export const useGenres = () =>
-    useQuery(['movieGenres'], () => MovieService.getGenres());
+    useQuery<readonly Genre[], AxiosError>(['movieGenres'], () => MovieService.getGenres());
 
 }
