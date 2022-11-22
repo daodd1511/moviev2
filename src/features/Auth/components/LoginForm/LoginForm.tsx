@@ -13,7 +13,6 @@ import { loginSchema } from './formSetting';
 import { AuthService } from '@/api/services/authService';
 import { TokenService } from '@/api/services/tokenService';
 import { Login } from '@/models/auth/login.model';
-import { ThreeDots } from '@/shared/components/styles';
 import { isAuthAtom } from '@/stores/authStore';
 
 const LoginFormComponent = () => {
@@ -79,11 +78,10 @@ const LoginFormComponent = () => {
         </div>
         <div>
           <button
-            disabled={mutation.isLoading}
             type="submit"
-            className="flex w-full cursor-pointer justify-center  rounded-full bg-green-400 p-3  font-semibold tracking-wide text-gray-100  shadow-lg transition duration-500 ease-in hover:bg-green-500"
+            className={`btn flex w-full cursor-pointer justify-center  rounded-full bg-green-400 p-3  font-semibold tracking-wide text-gray-100  shadow-lg border-none hover:bg-green-500 ${mutation.isLoading ? 'loading' : ''}`}
           >
-            {mutation.isLoading ? <ThreeDots /> : 'Sign In'}
+            {mutation.isLoading ? 'Signing In' : 'Sign In'}
           </button>
         </div>
         <div className="flex flex-col gap-2">

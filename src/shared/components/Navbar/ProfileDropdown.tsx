@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 import { Modal } from '../Modal';
 
@@ -23,9 +25,9 @@ export const ProfileDropdown = () => {
   return (
     <>
       <div className="dropdown dropdown-end text-black">
-        <label tabIndex={0} className="avatar btn btn-ghost btn-circle">
-          <div className="w-10 rounded-full">
-            <img src="https://placeimg.com/80/80/people" />
+        <label tabIndex={0} className="btn btn-ghost btn-circle">
+          <div className="w-10 text-white text-xl">
+            <FontAwesomeIcon icon={faUser} />
           </div>
         </label>
         <ul
