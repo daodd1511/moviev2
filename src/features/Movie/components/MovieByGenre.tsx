@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { MovieList, Loader } from '@/shared/components';
+import { FilmList, Loader } from '@/shared/components';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { MovieQueries } from '@/stores/queries/movieQueries';
 
@@ -41,7 +41,7 @@ const MovieByGenreComponent = () => {
     <div className="px-8 py-12">
       <h1 className="pb-10 text-2xl font-medium">{title}</h1>
       {data.pages.map((moviePage, i) => (
-        <MovieList key={i} movies={moviePage.results} />
+        <FilmList key={i} data={moviePage.results} />
       ))}
       <div className="loader" ref={observerElement}>
         {hasNextPage !== undefined && isFetchingNextPage && <Loader />}

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { Loader, TvList } from '@/shared/components';
+import { Loader, FilmList } from '@/shared/components';
 import { TvQueries } from '@/stores/queries/tvQueries';
 
 interface Props {
@@ -23,7 +23,7 @@ const RecommendComponent = ({ tvId }: Props) => {
   return (
     <div>
       <h3 className="mb-6 text-3xl font-extralight text-slate-700 ">Recommendations</h3>
-      <TvList tvs={data.results} />
+      <FilmList data={data.results} />
     </div>
   );
 };

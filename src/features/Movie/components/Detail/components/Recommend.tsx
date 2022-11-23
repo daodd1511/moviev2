@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { MovieList, Loader } from '@/shared/components';
+import { FilmList, Loader } from '@/shared/components';
 import { MovieQueries } from '@/stores/queries/movieQueries';
 
 interface Props {
@@ -25,7 +25,7 @@ const RecommendComponent = ({ movieId }: Props) => {
       <h3 className="mb-6 text-3xl font-extralight text-slate-700 ">Recommendations</h3>
       {data?.results.length !== 0 ?
         (
-          <MovieList movies={data.results} />
+          <FilmList data={data.results} />
         ) :
         (
           <div className="text-center text-2xl font-medium">

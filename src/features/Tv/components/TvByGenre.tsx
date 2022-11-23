@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
-import { Loader, TvList } from '@/shared/components';
+import { Loader, FilmList } from '@/shared/components';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { TvService } from '@/api/services/tvService';
 import { TvQueries } from '@/stores/queries/tvQueries';
@@ -44,7 +44,7 @@ const TvByGenreComponent = () => {
     <div className="px-8 py-12">
       <h1 className="pb-10 text-2xl font-medium">{title}</h1>
       {data.pages.map((tvPage, i) => (
-        <TvList key={i} tvs={tvPage.results} />
+        <FilmList key={i} data={tvPage.results} />
       ))}
       <div className="loader" ref={observerElement}>
         {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
