@@ -17,8 +17,7 @@ export namespace AuthService {
 
   export const register = async(registerCredential: Register): Promise<void> => {
     const userRegisterDto = RegisterMapper.toDto(registerCredential);
-    const { data } = await backendApi.post('auth/register', userRegisterDto);
-    console.log(data);
+    await backendApi.post('auth/register', userRegisterDto);
   };
 
   // eslint-disable-next-line require-await

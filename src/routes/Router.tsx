@@ -9,6 +9,7 @@ import { tvRoutes } from '@/features/Tv/routes';
 import { userRoutes } from '@/features/User/routes';
 import { authRoutes } from '@/features/Auth/routes';
 import { WithoutNavbar, WithNavbar } from '@/shared/components/Navbar/';
+import { Test } from '@/features/Test';
 
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
@@ -33,6 +34,10 @@ const routes: RouteObject[] = [
         children: [...authRoutes],
       },
     ],
+  },
+  {
+    path: 'test',
+    element: <Test />,
   },
   {
     path: '*',

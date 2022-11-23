@@ -8,3 +8,4 @@ export * from './tv/tvDetail.model';
 export * from './video.model';
 export * from './tv/season.model';
 export * from './tv/episode.model';
+export * from './list.model';
