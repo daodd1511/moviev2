@@ -31,7 +31,7 @@ const MovieByGenreComponent = () => {
   );
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader className="h-withoutNavbar"/>;
   }
 
   if (isError) {

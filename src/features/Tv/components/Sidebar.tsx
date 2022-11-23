@@ -1,12 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { TvService } from '@/api/services/tvService';
 import { Loader } from '@/shared/components';
 import { Type } from '@/shared/enums';
 import { Genre } from '@/models';
+import { TvQueries } from '@/stores/queries/tvQueries';
 
 interface Props {
 
@@ -22,8 +20,7 @@ const SidebarComponent = ({ type }: Props) => {
     isLoading,
     isError,
     error,
-  } = useQuery<readonly Genre[], AxiosError>(['tvGenres', type], () =>
-    TvService.getGenres());
+  } = TvQueries.useGenres();
 
   const onGenreClick = (genre: Genre) => {
     navigate(`/${type}/genre/${genre.id}`);

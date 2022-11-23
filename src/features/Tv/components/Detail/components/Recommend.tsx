@@ -1,10 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { memo } from 'react';
 
-import { TvService } from '@/api/services/tvService';
 import { Loader, TvList } from '@/shared/components';
-import { Pagination, Tv } from '@/models';
+import { TvQueries } from '@/stores/queries/tvQueries';
 
 interface Props {
 
@@ -13,10 +10,7 @@ interface Props {
 }
 
 const RecommendComponent = ({ tvId }: Props) => {
-  const { data, isLoading, isError, error } = useQuery<
-    Pagination<Tv>,
-    AxiosError
-  >(['tvRecommend', tvId], () => TvService.getTvRecommendation(tvId));
+  const { data, isLoading, isError, error } = TvQueries.useRecommendations(tvId);
 
   if (isLoading) {
     return <Loader />;

@@ -1,13 +1,10 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
-import { TvService } from '@/api/services/tvService';
 import { Loader, TvList } from '@/shared/components';
-import { Pagination, Tv } from '@/models';
 import { TV_DISCOVER } from '@/shared/constants';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
+import { TvQueries } from '@/stores/queries/tvQueries';
 
 const TvByDiscoverComponent = () => {
   const { discover } = useParams();
@@ -21,16 +18,7 @@ const TvByDiscoverComponent = () => {
     isLoading,
     isError,
     error,
-  } = useInfiniteQuery<Pagination<Tv>, AxiosError>(
-    [`${title} tvs`, discover],
-    ({ pageParam = 1 }) => TvService.getTvs(pageParam, discover),
-    {
-      getNextPageParam(lastPage) {
-        const nextPage = lastPage.page + 1;
-        return nextPage < lastPage.totalPages ? nextPage : undefined;
-      },
-    },
-  );
+  } = TvQueries.useInfiniteListByDiscover(discover);
 
   const { observerElement } = useInfiniteScroll(
     {

@@ -1,12 +1,11 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
-import { Pagination, Tv } from '@/models';
 import { Loader, TvList } from '@/shared/components';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { TvService } from '@/api/services/tvService';
+import { TvQueries } from '@/stores/queries/tvQueries';
 
 const TvByGenreComponent = () => {
   const params = useParams();
@@ -22,16 +21,7 @@ const TvByGenreComponent = () => {
     isLoading,
     isError,
     error,
-  } = useInfiniteQuery<Pagination<Tv>, AxiosError>(
-    ['tvsByGenre', genreId],
-    ({ pageParam = 1 }) => TvService.getTvsByGenre(genreId, pageParam),
-    {
-      getNextPageParam(lastPage) {
-        const nextPage = lastPage.page + 1;
-        return nextPage < lastPage.totalPages ? nextPage : undefined;
-      },
-    },
-  );
+  } = TvQueries.useInfiniteListByGenre(genreId);
 
   const { observerElement } = useInfiniteScroll(
     {
@@ -44,7 +34,7 @@ const TvByGenreComponent = () => {
   );
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader className="h-withoutNavbar"/>;
   }
 
   if (isError) {

@@ -1,21 +1,18 @@
 /* eslint-disable max-lines-per-function */
 import { memo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { Content, Recommend, Select } from './components';
 
 import { assertNonNull, goToTop } from '@/shared/utils';
-import { TvService } from '@/api/services/tvService';
 import { Modal } from '@/shared/components/Modal';
 import { Footer, Loader } from '@/shared/components';
 import { API_CONFIG } from '@/api/config';
 import { PosterSizes } from '@/shared/enums';
-import { TvDetail } from '@/models';
 import { IMAGE_BASE_URL, LOCAL_STORAGE_KEY } from '@/shared/constants';
+import { TvQueries } from '@/stores/queries/tvQueries';
 
 const TvDetailComponent = () => {
   const navigate = useNavigate();
@@ -31,8 +28,7 @@ const TvDetailComponent = () => {
     isLoading,
     isError,
     error,
-  } = useQuery<TvDetail, AxiosError>(['tv', tvId], () =>
-    TvService.getTvDetail(tvId));
+  } = TvQueries.useDetail(tvId);
 
   const videoSource =
     id !== undefined && season !== undefined && episode !== undefined ?

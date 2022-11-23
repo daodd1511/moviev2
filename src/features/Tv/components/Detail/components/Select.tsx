@@ -1,9 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { ChangeEvent, memo } from 'react';
 
-import { TvService } from '@/api/services/tvService';
-import { TvDetail, Episode } from '@/models';
+import { TvDetail } from '@/models';
+import { TvQueries } from '@/stores/queries/tvQueries';
 
 interface Props {
 
@@ -20,7 +18,7 @@ interface Props {
   readonly setEpisode: (episode: number) => void;
 
   /** Tv id. */
-  readonly tvId: number | undefined;
+  readonly tvId: number;
 
   /** Tv data. */
   readonly tv: TvDetail;
@@ -34,11 +32,7 @@ const SelectComponent = ({
   tvId,
   tv,
 }: Props) => {
-  const { data: episodes } = useQuery<readonly Episode[], AxiosError>(
-    ['seasonEpisode', tvId, season],
-    () => TvService.getSeasonDetail(tvId, season),
-    { enabled: season !== -1 },
-  );
+  const { data: episodes } = TvQueries.useSeasonDetail(tvId, season);
   const onSeasonChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value !== undefined) {
       setSeason(parseInt(event.target.value, 10));
