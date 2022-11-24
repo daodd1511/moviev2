@@ -6,9 +6,23 @@ export const ProfilePage = lazy(() =>
     default: module.ProfilePage,
   })));
 
+export const ListPage = lazy(() =>
+  import('./pages/ListPage').then(module => ({
+    default: module.ListPage,
+  })));
+
 export const userRoutes: RouteObject[] = [
   {
-    path: 'profile',
-    element: <ProfilePage />,
+    path: 'u',
+    children: [
+      {
+        path: 'profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: 'lists',
+        element: <ListPage />,
+      },
+    ],
   },
 ];

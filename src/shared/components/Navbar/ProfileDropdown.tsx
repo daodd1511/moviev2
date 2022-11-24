@@ -35,7 +35,10 @@ export const ProfileDropdown = () => {
           className="dropdown-content menu rounded-box menu-compact mt-3 w-32 bg-base-100 p-2 shadow-2xl"
         >
           <li>
-            <Link to="/profile">Profile</Link>
+            <Link to="u/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="u/lists">Lists</Link>
           </li>
           <li>
             <button type="button" onClick={onLogoutButtonClick}>

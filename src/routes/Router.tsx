@@ -10,6 +10,7 @@ import { userRoutes } from '@/features/User/routes';
 import { authRoutes } from '@/features/Auth/routes';
 import { WithoutNavbar, WithNavbar } from '@/shared/components/Navbar/';
 import { Test } from '@/features/Test';
+import { listRoutes } from '@/features/List/routes';
 
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
@@ -23,7 +24,7 @@ const routes: RouteObject[] = [
   },
   {
     element: <WithNavbar />,
-    children: [...movieRoutes, ...tvRoutes, ...userRoutes],
+    children: [...movieRoutes, ...tvRoutes, ...userRoutes, ...listRoutes],
   },
   {
     path: 'auth',
