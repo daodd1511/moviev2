@@ -1,8 +1,12 @@
 import { memo } from 'react';
 
-const NewComponent = () => {
-    const a = 1;
-    return <div>add</div>;
-    };
+import { CreateNew } from '../components/CreateNew/CreateNew';
+
+const NewComponent = () => (
+  <div className="px-8 py-12">
+    <h1 className="text-2xl">Create new list</h1>
+    <CreateNew />
+  </div>
+);
 
 export const NewPage = memo(NewComponent);

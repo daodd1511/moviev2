@@ -7,7 +7,7 @@ export const ListPage = () => {
     const { data, isLoading } = ListQueries.useAll();
 
     if (isLoading) {
-        return <Loader />;
+        return <Loader className="h-withoutNavbar"/>;
     }
     return (
       <div>

@@ -1,5 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { ChangeEvent, memo, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -8,24 +6,14 @@ import { SearchResult } from './components/SearchResult';
 
 import { Loader } from '@/shared/components';
 import { useDebounce } from '@/shared/hooks';
-import { MovieSearch, TvSearch } from '@/models/search.model';
-import { SearchService } from '@/api/services/searchService';
+import { SearchQueries } from '@/stores/queries/searchQueries';
 
 const SearchComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceSearchQuery = useDebounce<string>(searchQuery);
-  const { data, isLoading, isError, error } = useQuery<
-    Array<MovieSearch | TvSearch>,
-    AxiosError
-  >(
-    ['search', debounceSearchQuery],
-    () => SearchService.multi(debounceSearchQuery),
-    {
-      enabled: debounceSearchQuery !== '',
-    },
-  );
+  const { data, isLoading, isError, error } = SearchQueries.useMulti(debounceSearchQuery);
 
   const onSearchButtonClick = () => {
     setIsSearchBarOpen(!isSearchBarOpen);
