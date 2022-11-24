@@ -16,7 +16,20 @@ export namespace ListService {
     return ListMapper.fromDto(data);
   };
 
+  export const getById = async(id: string) => {
+    const { data } = await backendApi.get<ListDto>(`/list/${id}`);
+    return ListMapper.fromDto(data);
+  };
+
   export const remove = async(id: string) => {
     await backendApi.delete(`/list/${id}`);
+  };
+
+  export const addMovie = async(listId: string, movieId: number) => {
+    await backendApi.post(`/list/${listId}/movie/`, { mediaId: movieId });
+  };
+
+  export const addTv = async(listId: string, tvId: number) => {
+    await backendApi.post(`/list/${listId}/tv/`, { mediaId: tvId });
   };
 }
