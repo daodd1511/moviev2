@@ -8,4 +8,6 @@ export namespace ListQueries {
     ['lists'],
     ListService.getAll,
   );
+
+  export const create = (list: List) => ListService.create(list);
 }

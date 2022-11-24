@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { AxiosError } from 'axios';
 
@@ -15,8 +15,10 @@ import { SearchService } from '@/api/services/searchService';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { useDebounce } from '@/shared/hooks';
 import { ErrorField } from '@/features/Auth/components/ErrorField';
+import { ListService } from '@/api/services/listService';
 
 const CreateNewComponent = () => {
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -27,9 +29,11 @@ const CreateNewComponent = () => {
     resolver: zodResolver(listSchema),
   });
 
+  const [movieList, setMovieList] = useState<readonly MovieSearch[]>([]);
+  const [tvList, setTvList] = useState<readonly TvSearch[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-
   const debounceSearchQuery = useDebounce<string>(searchQuery);
+
   const {
     data: searchResults,
     isLoading,
@@ -43,12 +47,33 @@ const CreateNewComponent = () => {
     },
   );
 
+  const addMutation = useMutation((list: List) => ListService.create(list), {
+    async onSuccess() {
+      await queryClient.invalidateQueries(['lists']);
+    },
+  });
+
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const onSubmit = handleSubmit((listData: List) => {
-    console.log(listData);
+  const handleResultClick = (media: MovieSearch | TvSearch) => {
+    if (media instanceof MovieSearch) {
+      setMovieList([...movieList, media]);
+    } else {
+      setTvList([...tvList, media]);
+    }
+    setSearchQuery('');
+  };
+
+  const onSubmit = handleSubmit(() => {
+    const movies = movieList.map(movie => movie.id);
+    const tvShows = tvList.map(tv => tv.id);
+    setValue('movies', movies);
+    setValue('tvShows', tvShows);
+    const list = getValues();
+    console.log(list);
+    addMutation.mutate(list);
   });
   return (
     <div>
@@ -61,7 +86,9 @@ const CreateNewComponent = () => {
             className="input input-bordered w-full "
             {...register('name')}
           />
-          {(errors.name?.message !== undefined) && <ErrorField error={errors.name.message} />}
+          {errors.name?.message !== undefined && (
+            <ErrorField error={errors.name.message} />
+          )}
         </div>
         <div className="mt-4">
           <label className="label">Description</label>
@@ -80,30 +107,31 @@ const CreateNewComponent = () => {
             value={searchQuery}
             onChange={onSearchChange}
           />
-          {searchQuery !== '' &&
-            searchResults != null &&
-            <SearchResults searchResults={searchResults} getValues={getValues} setValue={setValue}/>}
-          <div {...register('movies')}>
-            <h2>Movies</h2>
-            {getValues('movies')?.map((movie, index) => (
-              <div key={movie}>
-                <span>{index}</span>
-                <span>{movie}</span>
-              </div>
-            ))}
+          {searchQuery !== '' && searchResults != null && (
+            <SearchResults
+              searchResults={searchResults}
+              handleResultClick={handleResultClick}
+            />
+          )}
+          <div>
+            <h2 className="text-xl">Movies</h2>
+            {movieList.map((movie, index) => (
+              <div key={movie.id}>{index}. {
+                  movie.title
+              }</div>))}
           </div>
-          <div {...register('tvShows')}>
-            <h2>Tv Shows</h2>
-            {getValues('tvShows')?.map((tv, index) => (
-              <div key={tv}>
-                <span>{index}</span>
-                <span>{tv}</span>
-              </div>
-            ))}
+          <div>
+            <h2 className="text-xl">Tv Shows</h2>
+            {tvList.map((tv, index) => (
+              <div key={tv.id}>{index}. {
+                  tv.name
+              }</div>))}
           </div>
         </div>
         <div className="mt-4 flex justify-end">
-          <button type="submit" className="btn btn-sm">Create</button>
+          <button type="submit" className="btn btn-sm">
+            Create
+          </button>
         </div>
       </form>
     </div>
