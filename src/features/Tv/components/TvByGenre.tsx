@@ -42,7 +42,7 @@ const TvByGenreComponent = () => {
   }
   return (
     <div className="px-8 py-12">
-      <h1 className="pb-10 text-2xl font-medium">{title}</h1>
+      <h1 className="pb-10">{title}</h1>
       {data.pages.map((tvPage, i) => (
         <FilmList key={i} data={tvPage.results} />
       ))}

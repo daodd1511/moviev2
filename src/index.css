@@ -16,4 +16,7 @@ pre {
   html {
     font-family: Be Vietnam Pro, sans-serif;
   }
+  h1 {
+    @apply text-2xl font-medium;
+  }
 }

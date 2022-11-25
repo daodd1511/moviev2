@@ -19,4 +19,20 @@ export namespace ListMapper {
       updateAt: new Date(dto.updateAt),
     });
   }
+
+  /**
+   * Maps List model to ListDto.
+   * @param list List model.
+   */
+  export function toDto(list: List): ListDto {
+    return {
+      _id: list.id,
+      name: list.name,
+      description: list.description,
+      movies: list.movies,
+      tvShows: list.tvShows,
+      createAt: list.createAt.toISOString(),
+      updateAt: list.updateAt.toISOString(),
+    };
+  }
 }

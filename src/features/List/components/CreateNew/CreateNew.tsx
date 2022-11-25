@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -5,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { AxiosError } from 'axios';
+
+import { toast } from 'react-toastify';
 
 import { listSchema } from './formSetting';
 
@@ -24,6 +27,7 @@ const CreateNewComponent = () => {
     handleSubmit,
     setValue,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<List>({
     resolver: zodResolver(listSchema),
@@ -50,6 +54,8 @@ const CreateNewComponent = () => {
   const addMutation = useMutation((list: List) => ListService.create(list), {
     async onSuccess() {
       await queryClient.invalidateQueries(['lists']);
+      toast.success('List created successfully');
+      reset();
     },
   });
 
@@ -72,12 +78,11 @@ const CreateNewComponent = () => {
     setValue('movies', movies);
     setValue('tvShows', tvShows);
     const list = getValues();
-    console.log(list);
     addMutation.mutate(list);
   });
   return (
     <div>
-      <form onSubmit={onSubmit} className="max-w-lg">
+      <form onSubmit={onSubmit} className="max-w-lg mx-auto">
         <div>
           <label className="label">Name</label>
           <input

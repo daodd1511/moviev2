@@ -6,6 +6,11 @@ export const NewPage = lazy(() =>
     default: module.NewPage,
   })));
 
+export const DetailPage = lazy(() =>
+  import('./pages/Detail').then(module => ({
+    default: module.Detail,
+  })));
+
 export const listRoutes: RouteObject[] = [
   {
     path: 'list',
@@ -13,6 +18,10 @@ export const listRoutes: RouteObject[] = [
       {
         path: 'new',
         element: <NewPage />,
+      },
+      {
+        path: ':id',
+        element: <DetailPage />,
       },
     ],
   },

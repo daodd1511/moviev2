@@ -10,10 +10,18 @@ export const ListPage = () => {
         return <Loader className="h-withoutNavbar"/>;
     }
     return (
-      <div>
-        <h1>List page</h1>
-        <Link to="/list/new">Create new list</Link>
-        <div><pre>{JSON.stringify(data, null, 2)}</pre></div>
+      <div className="px-8 py-12">
+        <div className="flex justify-between items-center">
+          <h1>My list</h1>
+          <Link to="/list/new" className="btn btn-sm btn-outline btn-primary">Create</Link>
+        </div>
+        <div>
+          {data?.map(list => (
+            <div key={list.id}>
+              <Link to={`/list/${list.id}`}>{list.name}</Link>
+            </div>
+          ))}
+        </div>
       </div>
     );
 };

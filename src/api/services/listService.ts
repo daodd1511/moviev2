@@ -14,7 +14,8 @@ export namespace ListService {
   };
 
   export const create = async(list: List) => {
-    const { data } = await backendApi.post<ListDto>('/list', list);
+    const listDto = ListMapper.toDto(list);
+    const { data } = await backendApi.post<ListDto>('/list', listDto);
     return ListMapper.fromDto(data);
   };
 
