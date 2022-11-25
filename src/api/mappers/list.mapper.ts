@@ -1,5 +1,9 @@
 import { ListDto } from '../dtos/list.dto';
 
+import { MovieMapper } from './movie/movie.mapper';
+
+import { TvMapper } from './tv/tv.mapper';
+
 import { List } from '@/models';
 
 export namespace ListMapper {
@@ -13,8 +17,8 @@ export namespace ListMapper {
       id: dto._id,
       name: dto.name,
       description: dto.description,
-      movies: dto.movies,
-      tvShows: dto.tvShows,
+      movies: dto.movies.length > 0 ? dto.movies.map(movie => MovieMapper.fromDto(movie)) : [],
+      tvShows: dto.tvShows.length > 0 ? dto.tvShows.map(tv => TvMapper.fromDto(tv)) : [],
       createAt: new Date(dto.createAt),
       updateAt: new Date(dto.updateAt),
     });
@@ -26,13 +30,10 @@ export namespace ListMapper {
    */
   export function toDto(list: List): ListDto {
     return {
-      _id: list.id,
       name: list.name,
       description: list.description,
-      movies: list.movies,
-      tvShows: list.tvShows,
-      createAt: list.createAt.toISOString(),
-      updateAt: list.updateAt.toISOString(),
-    };
+      movies: list.movies.map(movie => MovieMapper.toDto(movie)),
+      tvShows: list.tvShows.map(tv => TvMapper.toDto(tv)),
+    } as unknown as ListDto;
   }
 }

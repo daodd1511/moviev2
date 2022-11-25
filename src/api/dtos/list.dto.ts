@@ -1,3 +1,6 @@
+import { MovieDto } from './movie/movie.dto';
+import { TvDto } from './tv/tv.dto';
+
 /** List dto. */
 export interface ListDto {
 
@@ -11,10 +14,10 @@ export interface ListDto {
   readonly description: string;
 
   /** Movie items. */
-  readonly movies: number[];
+  readonly movies: MovieDto[];
 
   /** Tv items. */
-  readonly tvShows: number[];
+  readonly tvShows: TvDto[];
 
   /** Create at. */
   readonly createAt: string;

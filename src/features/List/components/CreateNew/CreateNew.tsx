@@ -13,7 +13,7 @@ import { listSchema } from './formSetting';
 
 import { SearchResults } from './components/SearchResults';
 
-import { List } from '@/models';
+import { List, Movie, Tv } from '@/models';
 import { SearchService } from '@/api/services/searchService';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { useDebounce } from '@/shared/hooks';
@@ -33,8 +33,8 @@ const CreateNewComponent = () => {
     resolver: zodResolver(listSchema),
   });
 
-  const [movieList, setMovieList] = useState<readonly MovieSearch[]>([]);
-  const [tvList, setTvList] = useState<readonly TvSearch[]>([]);
+  const [movieList, setMovieList] = useState<Movie[]>([]);
+  const [tvList, setTvList] = useState<Tv[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const debounceSearchQuery = useDebounce<string>(searchQuery);
 
@@ -64,19 +64,25 @@ const CreateNewComponent = () => {
   };
 
   const handleResultClick = (media: MovieSearch | TvSearch) => {
-    if (media instanceof MovieSearch) {
+    if (media instanceof Movie) {
+      if (movieList.some(m => m.id === media.id)) {
+        toast.error('Movie already added');
+        return;
+      }
       setMovieList([...movieList, media]);
     } else {
+      if (tvList.some(t => t.id === media.id)) {
+        toast.error('Tv already added');
+        return;
+      }
       setTvList([...tvList, media]);
     }
     setSearchQuery('');
   };
 
   const onSubmit = handleSubmit(() => {
-    const movies = movieList.map(movie => movie.id);
-    const tvShows = tvList.map(tv => tv.id);
-    setValue('movies', movies);
-    setValue('tvShows', tvShows);
+    setValue('movies', movieList);
+    setValue('tvShows', tvList);
     const list = getValues();
     addMutation.mutate(list);
   });

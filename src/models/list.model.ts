@@ -1,4 +1,6 @@
 import { Immerable, OmitImmerable } from './immerable';
+import { Movie } from './movie/movie.model';
+import { Tv } from './tv/tv.model';
 
 /** List model. */
 export class List extends Immerable {
@@ -12,10 +14,10 @@ export class List extends Immerable {
   public readonly description: string;
 
   /** Movie items. */
-  public readonly movies: number[];
+  public readonly movies: Movie[];
 
   /** Tv items. */
-  public readonly tvShows: number[];
+  public readonly tvShows: Tv[];
 
   /** Create at. */
   public readonly createAt: Date;

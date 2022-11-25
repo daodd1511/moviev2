@@ -25,4 +25,26 @@ export namespace MovieMapper {
       genreIds: dto.genre_ids,
     });
   }
+
+  /**
+   * Maps Movie model to MovieDto.
+   * @param movie Movie model.
+   */
+  export function toDto(movie: Movie): MovieDto {
+    return {
+      id: movie.id,
+      title: movie.title,
+      overview: movie.overview,
+      release_date: movie.releaseDate,
+      poster_path: movie.posterPath,
+      backdrop_path: movie.backdropPath,
+      popularity: movie.popularity,
+      vote_average: movie.voteAverage,
+      vote_count: movie.voteCount,
+      adult: movie.adult,
+      original_language: movie.originalLanguage,
+      original_title: movie.originalTitle,
+      genre_ids: movie.genreIds,
+    };
+  }
 }

@@ -1,16 +1,16 @@
 import { memo } from 'react';
 
-import { MovieSearch, TvSearch } from '@/models/search.model';
+import { Movie, Tv } from '@/models/';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { PosterSizes, Type } from '@/shared/enums';
 
 interface Props {
 
   /** Search result. */
-  readonly searchResults: Array<MovieSearch | TvSearch>;
+  readonly searchResults: Array<Movie | Tv>;
 
   /** Search result click handle. */
-  readonly handleResultClick: (media: MovieSearch | TvSearch) => void;
+  readonly handleResultClick: (media: Movie | Tv) => void;
 }
 
 const SearchResultsComponent = ({
@@ -38,17 +38,17 @@ const SearchResultsComponent = ({
         />
         <div className="ml-4 mr-2">
           <h3 className="text-lg font-medium text-gray-900">
-            {result instanceof MovieSearch ? result.title : result.name}
+            {result instanceof Movie ? result.title : result.name}
           </h3>
         </div>
         <span
           className={`badge ${
-              result.mediaType === Type.Movie ?
+              result instanceof Movie ?
                 'badge-primary' :
                 'badge-secondary'
           }`}
         >
-          {result.mediaType}
+          {result instanceof Movie ? Type.Movie : Type.Tv}
         </span>
       </button>
     ))}

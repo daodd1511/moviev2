@@ -25,4 +25,26 @@ export namespace TvMapper {
       originCountry: dto.origin_country,
     });
   }
+
+  /**
+   * Maps Tv model to TvDto.
+   * @param tv Tv model.
+   */
+  export function toDto(tv: Tv): TvDto {
+    return {
+      id: tv.id,
+      overview: tv.overview,
+      poster_path: tv.posterPath,
+      backdrop_path: tv.backdropPath,
+      popularity: tv.popularity,
+      vote_average: tv.voteAverage,
+      vote_count: tv.voteCount,
+      original_language: tv.originalLanguage,
+      genre_ids: tv.genreIds,
+      first_air_date: tv.firstAirDate,
+      name: tv.name,
+      original_name: tv.originalName,
+      origin_country: tv.originCountry,
+    };
+  }
 }
