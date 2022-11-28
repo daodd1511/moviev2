@@ -9,7 +9,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { assertNonNull } from '@/shared/utils';
 import { ListQueries } from '@/stores/queries/listQueries';
 import {
-  FilmList,
   Footer,
   Loader,
   MovieListItem,
@@ -24,7 +23,7 @@ const ListDetailComponent = () => {
   const { id } = useParams<{ id: string; }>();
   const [activeTab, setActiveTab] = useState<Type>(Type.Movie);
   assertNonNull(id);
-  const { data, isError, error, isLoading } = ListQueries.useById(id);
+  const { data, isLoading } = ListQueries.useById(id);
 
   const removeMutation = useMutation(
     (item: Movie | Tv) =>
@@ -40,7 +39,6 @@ const ListDetailComponent = () => {
   );
 
   const onRemoveButtonClick = (item: Movie | Tv) => {
-    console.log('remove', item);
     removeMutation.mutate(item);
   };
 
@@ -48,14 +46,10 @@ const ListDetailComponent = () => {
     return <Loader className="h-withoutNavbar" />;
   }
 
-  if (isError) {
-    return toast.error(error.response?.data.message);
-  }
-
   return (
     <div className="px-8 py-12">
-      <h1>{data.name}</h1>
-      <p>{data.description}</p>
+      <h1>{data?.name}</h1>
+      <p>{data?.description}</p>
       <div className="tabs pb-10">
         <a
           className={`tab ${activeTab === Type.Movie ? 'tab-active' : ''}`}
