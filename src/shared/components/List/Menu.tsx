@@ -5,10 +5,14 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { useAtom } from 'jotai';
+
 import { Loader } from '../styles';
 
 import { ListQueries } from '@/stores/queries/listQueries';
 import { List, Movie, Tv } from '@/models';
+import { isAuthAtom } from '@/stores/atoms/authAtoms';
+import { ListService } from '@/api/services/listService';
 
 interface Props {
 
@@ -19,10 +23,12 @@ interface Props {
 export const Menu = ({ media }: Props) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isListMenuOpen, setIsListMenuOpen] = useState<boolean>(false);
-  const { data: lists, isLoading: isListLoading } = ListQueries.useAll();
+  const [isAuth] = useAtom(isAuthAtom);
+  const { data: lists, isLoading: isListLoading } =
+    ListQueries.useAll(isListMenuOpen);
 
   const addItemToListMutation = useMutation(
-    (list: List) => ListQueries.update(list),
+    (list: List) => ListService.update(list),
     {
       onSuccess() {
         setIsListMenuOpen(false);
@@ -80,39 +86,48 @@ export const Menu = ({ media }: Props) => {
         <FontAwesomeIcon icon={faEllipsis} className="text-white" />
       </button>
       {isMenuOpen && (
-        <div className="z-20 h-40 w-20 bg-white relative">
-          <ul>
-            <li className="relative">
-              <button type="button" onClick={addToListClick}>
-                Add to list
-              </button>
-              {isListMenuOpen && (
-                <div className="absolute top-0 -right-40 w-40 bg-red-400 flex flex-col items-center">
-                  <Link to="/list/new">Create new list</Link>
-                  <ul>
-                    {isListLoading ?
-                      (
-                        <Loader />
-                      ) :
-                      (
-                      lists?.map(list => (
-                        <li key={list.id}>
-                          <button
-                            type="button"
-                            className="w-full"
-                            onClick={() => onListClick(list)}
-                          >
-                            {list.name}
-                          </button>
-                        </li>
-                      ))
-                      )}
-                  </ul>
-                </div>
-              )}
-            </li>
-          </ul>
-          <button type="button" onClick={onCloseButtonClick} className="absolute bottom-0 w-full">Close</button>
+        <div className={`relative z-20 h-40 w-20 bg-white ${!isAuth ? 'flex' : ''}`}>
+          {!isAuth && <Link to="/auth/login">Login</Link>}
+          {isAuth && (
+            <ul>
+              <li className="relative">
+                <button type="button" onClick={addToListClick}>
+                  Add to list
+                </button>
+                {isListMenuOpen && (
+                  <div className="absolute top-0 -right-40 flex w-40 flex-col items-center bg-red-400">
+                    <Link to="/list/new">Create new list</Link>
+                    <ul>
+                      {isListLoading ?
+                        (
+                          <Loader />
+                        ) :
+                        (
+                        lists?.map(list => (
+                          <li key={list.id}>
+                            <button
+                              type="button"
+                              className="w-full"
+                              onClick={() => onListClick(list)}
+                            >
+                              {list.name}
+                            </button>
+                          </li>
+                        ))
+                        )}
+                    </ul>
+                  </div>
+                )}
+              </li>
+            </ul>
+          )}
+          <button
+            type="button"
+            onClick={onCloseButtonClick}
+            className="absolute bottom-0 w-full"
+          >
+            Close
+          </button>
         </div>
       )}
     </div>

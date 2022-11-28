@@ -4,6 +4,8 @@ import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
 import { NoAuthGuard } from './guards/NoAuthGuard';
 
+import { AuthGuard } from './guards/AuthGuard';
+
 import { movieRoutes } from '@/features/Movie/routes';
 import { tvRoutes } from '@/features/Tv/routes';
 import { userRoutes } from '@/features/User/routes';
@@ -23,7 +25,13 @@ const routes: RouteObject[] = [
   },
   {
     element: <WithNavbar />,
-    children: [...movieRoutes, ...tvRoutes, ...userRoutes, ...listRoutes],
+    children: [
+      ...movieRoutes, ...tvRoutes, {
+        path: '',
+        element: <AuthGuard />,
+        children: [...userRoutes, ...listRoutes],
+      },
+    ],
   },
   {
     path: 'auth',

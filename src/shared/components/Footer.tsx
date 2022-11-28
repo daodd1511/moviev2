@@ -1,6 +1,4 @@
-import { memo } from 'react';
-
-const FooterComponent = () => (
+export const Footer = () => (
   <footer className="text-slate-800 text-center text-sm">
     <p>
             Made with{' '}
@@ -11,5 +9,3 @@ const FooterComponent = () => (
     </p>
   </footer>
 );
-
-export const Footer = memo(FooterComponent);

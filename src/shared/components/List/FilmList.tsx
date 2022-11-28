@@ -11,14 +11,14 @@ interface Props {
 }
 
 const FilmListComponent = ({ data }: Props) => (
-  <div className="grid grid-cols-autoFit gap-x-6 gap-y-10 place-content-evenly pb-10">
+  <div className="grid grid-cols-autoFit place-content-evenly gap-x-6 gap-y-10 pb-10">
+    {data.length === 0 && <p className="text-center">No results found!</p>}
     {data.map(item => {
-        if (item instanceof Movie) {
-            return <MovieListItem movie={item} key={item.id}/>;
-        }
-            return <TvListItem tv={item} key={item.id}/>;
-        })
-    }
+      if (item instanceof Movie) {
+        return <MovieListItem movie={item} key={item.id} />;
+      }
+      return <TvListItem tv={item} key={item.id} />;
+    })}
   </div>
 );
 

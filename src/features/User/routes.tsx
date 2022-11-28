@@ -13,7 +13,7 @@ export const ListPage = lazy(() =>
 
 export const userRoutes: RouteObject[] = [
   {
-    path: 'u',
+    path: 'user',
     children: [
       {
         path: 'profile',

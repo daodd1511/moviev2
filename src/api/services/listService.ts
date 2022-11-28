@@ -4,7 +4,7 @@ import { ListMapper } from '../mappers/list.mapper';
 
 import { ListDto } from '../dtos/list.dto';
 
-import { List } from '@/models';
+import { List, Movie, Tv } from '@/models';
 
 export namespace ListService {
   export const getAll = async() => {
@@ -34,6 +34,14 @@ export namespace ListService {
 
   export const addTv = async(listId: string, tvId: number) => {
     await backendApi.post(`/list/${listId}/tv/`, { mediaId: tvId });
+  };
+
+  export const removeMovie = async(listId: string, movie: Movie) => {
+    await backendApi.delete(`/list/${listId}/movie/`, { data: { ...movie } });
+  };
+
+  export const removeTv = async(listId: string, tv: Tv) => {
+    await backendApi.delete(`/list/${listId}/tv/`, { data: { ...tv } });
   };
 
   export const update = async(list: List) => {

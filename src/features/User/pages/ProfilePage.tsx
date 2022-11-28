@@ -20,7 +20,7 @@ export const ProfilePage = () => {
   return (
     <div>
       <h1>Profile page</h1>
-      <div>{JSON.stringify(data, null, 2)}</div>
+      Hello <span>{data?.username}</span>
     </div>
   );
 };
