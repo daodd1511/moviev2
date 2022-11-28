@@ -25,14 +25,14 @@ const TvListItemComponent = ({ tv }: Props) => {
     <div className="relative">
       <Link
         to={`/tv/detail/${tv.id}`}
-        className="group block h-fit transition-all hover:rounded-lg hover:text-white"
+        className="group block h-fit pb-4 transition-all hover:rounded-lg hover:text-white"
       >
         <img
           src={imageURL}
           alt={`${tv.name} image`}
           className="rounded-lg shadow-2xl group-hover:rounded-bl-none group-hover:rounded-br-none"
         />
-        <div className="group-hover:bg-slate-700 group-hover:rounded-b-lg  pb-4">
+        <div className="pb-4 group-hover:rounded-b-lg  group-hover:bg-slate-700">
           <p className="text-md p-2 pb-4 text-center">{tv.name}</p>
           <div className="flex justify-evenly">
             <div className="flex items-center rounded-lg border border-gray-300 px-2 py-1 text-center text-sm">
@@ -44,7 +44,7 @@ const TvListItemComponent = ({ tv }: Props) => {
           </div>
         </div>
       </Link>
-      <Menu media={tv}/>
+      <Menu media={tv} />
     </div>
   );
 };
