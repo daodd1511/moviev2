@@ -109,7 +109,7 @@ const TvDetailComponent = () => {
           </div>
         </div>
         <div className="max-w-[60%] p-10">
-          <Content tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={false}/>
+          <Content tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={season === -1 && episode === -1}/>
         </div>
       </div>
       <Recommend tvId={tv.id} />
