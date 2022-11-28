@@ -17,6 +17,9 @@ module.exports = {
       },
       height: {
         'withoutNavbar': 'calc(100vh - 4rem)',
+      },
+      colors: {
+        'cPrimary': '#023246',
       }
     },
   },

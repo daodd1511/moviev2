@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation } from '@tanstack/react-query';
@@ -86,34 +87,51 @@ export const Menu = ({ media }: Props) => {
         <FontAwesomeIcon icon={faEllipsis} className="text-white" />
       </button>
       {isMenuOpen && (
-        <div className={`relative z-20 h-40 w-20 bg-white ${!isAuth ? 'flex' : ''}`}>
+        <div
+          className={`relative z-20 rounded-lg bg-white p-2 ${
+            !isAuth ? 'flex' : ''
+          }`}
+        >
           {!isAuth && <Link to="/auth/login">Login</Link>}
           {isAuth && (
             <ul>
               <li className="relative">
-                <button type="button" onClick={addToListClick}>
+                <button
+                  type="button"
+                  onClick={addToListClick}
+                  className="p-2 hover:rounded-lg hover:bg-gray-300"
+                >
                   Add to list
                 </button>
                 {isListMenuOpen && (
-                  <div className="absolute top-0 -right-40 flex w-40 flex-col items-center bg-red-400">
-                    <Link to="/list/new">Create new list</Link>
+                  <div className="absolute -top-2 -right-48 flex flex-col items-center rounded-lg bg-base-300 p-2">
+                    <Link
+                      to="/list/new"
+                      className="rounded-lg p-2 text-lg hover:bg-white"
+                    >
+                      Create new list
+                    </Link>
                     <ul>
                       {isListLoading ?
                         (
                           <Loader />
                         ) :
                         (
-                        lists?.map(list => (
-                          <li key={list.id}>
-                            <button
-                              type="button"
-                              className="w-full"
-                              onClick={() => onListClick(list)}
-                            >
-                              {list.name}
-                            </button>
-                          </li>
-                        ))
+                          <div className="p-2">
+                            <p>Add to existing lists</p>
+
+                            {lists?.map(list => (
+                              <li key={list.id}>
+                                <button
+                                  type="button"
+                                  className="w-full hover:bg-white rounded-lg py-2"
+                                  onClick={() => onListClick(list)}
+                                >
+                                  {list.name}
+                                </button>
+                              </li>
+                            ))}
+                          </div>
                         )}
                     </ul>
                   </div>
@@ -124,7 +142,7 @@ export const Menu = ({ media }: Props) => {
           <button
             type="button"
             onClick={onCloseButtonClick}
-            className="absolute bottom-0 w-full"
+            className="w-full rounded-lg p-2 hover:bg-error hover:text-white"
           >
             Close
           </button>

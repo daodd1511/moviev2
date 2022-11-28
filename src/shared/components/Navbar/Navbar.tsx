@@ -29,7 +29,7 @@ const NavbarComponent = () => {
   };
 
   return (
-    <nav className="navbar flex bg-[#023246] text-white">
+    <nav className="navbar flex bg-cPrimary text-white">
       <div className="m-auto flex w-full max-w-screen-2xl justify-between px-6">
         <div>
           <Link
