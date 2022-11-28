@@ -63,7 +63,7 @@ const CreateNewComponent = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleResultClick = (media: MovieSearch | TvSearch) => {
+  const handleResultClick = (media: Movie | Tv) => {
     if (media instanceof Movie) {
       if (movieList.some(m => m.id === media.id)) {
         toast.error('Movie already added');
