@@ -4,7 +4,7 @@ import { ListService } from '@/api/services/listService';
 import { List } from '@/models';
 
 export namespace ListQueries {
-  export const useAll = () => useQuery<readonly List[]>(
+  export const useAll = () => useQuery<List[]>(
     ['lists'],
     ListService.getAll,
   );
@@ -15,4 +15,6 @@ export namespace ListQueries {
     ['listDetail', id],
     () => ListService.getById(id),
   );
+
+  export const update = (list: List) => ListService.update(list);
 }

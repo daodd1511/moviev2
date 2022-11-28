@@ -35,4 +35,10 @@ export namespace ListService {
   export const addTv = async(listId: string, tvId: number) => {
     await backendApi.post(`/list/${listId}/tv/`, { mediaId: tvId });
   };
+
+  export const update = async(list: List) => {
+    const dto = ListMapper.toDto(list);
+    const { data } = await backendApi.put<ListDto>(`/list/${list.id}`, dto);
+    return ListMapper.fromDto(data);
+  };
 }

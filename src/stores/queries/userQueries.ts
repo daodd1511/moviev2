@@ -1,11 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { API_CONFIG } from '@/api/config';
-import { TokenService } from '@/api/services/tokenService';
+import { backendApi } from '@/api';
 
 export namespace UserQueries {
-  export const useProfile = () => {
-    const token = TokenService.get();
-    return useQuery(['user', token], () => fetch(`${API_CONFIG.backendUrl}user/profile?token=${token}`).then(res => res.json()));
-  };
+  export const useProfile = () => useQuery(['user'], () => backendApi.get('/user/profile').then(res => res.data));
 }
