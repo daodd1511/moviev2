@@ -18,6 +18,11 @@ export const NotFound = lazy(() =>
     default: module.NotFound,
   })));
 
+export const PublicList = lazy(() =>
+  import('../features/List/pages/PublicList').then(module => ({
+    default: module.PublicList,
+  })));
+
 const routes: RouteObject[] = [
   {
     path: '',
@@ -26,19 +31,25 @@ const routes: RouteObject[] = [
   {
     element: <WithNavbar />,
     children: [
-      ...movieRoutes, ...tvRoutes, {
+      ...movieRoutes,
+      ...tvRoutes,
+      {
         path: '',
         element: <AuthGuard />,
         children: [...userRoutes, ...listRoutes],
+      },
+      {
+        path: 'u/:username/lists/:listId',
+        element: <PublicList />,
       },
     ],
   },
   {
     path: 'auth',
-    element: <NoAuthGuard />,
+    element: <WithoutNavbar />,
     children: [
       {
-        element: <WithoutNavbar />,
+        element: <NoAuthGuard />,
         children: [...authRoutes],
       },
     ],

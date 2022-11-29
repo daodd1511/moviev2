@@ -16,4 +16,9 @@ export namespace ListQueries {
     () => ListService.getById(id),
   );
 
+  export const usePublicList = (username: string, listId: string) => useQuery<List>(
+    ['publicList', [username, listId]],
+    () => ListService.getPublicList(username, listId),
+  );
+
 }

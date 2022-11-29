@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { useState } from 'react';
 
@@ -17,10 +17,12 @@ import {
 import { Type } from '@/shared/enums';
 import { Movie, Tv } from '@/models';
 import { ListService } from '@/api/services/listService';
+import { UserQueries } from '@/stores/queries/userQueries';
 
 const ListDetailComponent = () => {
   const queryClient = useQueryClient();
   const { id } = useParams<{ id: string; }>();
+  const { data: user, isLoading: isUserLoading } = UserQueries.useProfile();
   const [activeTab, setActiveTab] = useState<Type>(Type.Movie);
   assertNonNull(id);
   const { data, isLoading } = ListQueries.useById(id);
@@ -42,14 +44,20 @@ const ListDetailComponent = () => {
     removeMutation.mutate(item);
   };
 
-  if (isLoading) {
+  if (isLoading || isUserLoading) {
     return <Loader className="h-withoutNavbar" />;
   }
 
   return (
     <div className="px-8 py-12">
-      <h1>{data?.name}</h1>
-      <p>{data?.description}</p>
+      <div className="flex justify-between">
+        <div>
+          <h1>{data?.name}</h1>
+          <p>{data?.description}</p>
+        </div>
+        {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
+        <Link to={`/u/${user.username}/lists/${data?.id ?? ''}`} target="_blank">Go to public link</Link>
+      </div>
       <div className="tabs pb-10">
         <a
           className={`tab ${activeTab === Type.Movie ? 'tab-active' : ''}`}

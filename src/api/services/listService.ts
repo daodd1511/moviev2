@@ -49,4 +49,10 @@ export namespace ListService {
     const { data } = await backendApi.put<ListDto>(`/list/${list.id}`, dto);
     return ListMapper.fromDto(data);
   };
+
+  export const getPublicList = async(username: string, listId: string) => {
+    // Change Api endpoint in future
+    const { data } = await backendApi.get<ListDto>(`/user/list/${username}/${listId}`);
+    return ListMapper.fromDto(data);
+  };
 }
