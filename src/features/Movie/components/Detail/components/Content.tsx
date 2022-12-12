@@ -1,10 +1,13 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList } from '@fortawesome/free-solid-svg-icons';
 
 import { Buttons } from './Buttons';
 
 import { Genre, MovieDetail } from '@/models';
 import { formatToYear } from '@/shared/utils';
+import { Menu } from '@/shared/components/List/Menu';
 
 interface Props {
 
@@ -14,6 +17,10 @@ interface Props {
 
 const ContentComponent = ({ movie }: Props) => {
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const onListMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   const onGenreClick = (genre: Genre) => {
     navigate(`/movie/genre/${genre.id}`);
   };
@@ -26,7 +33,24 @@ const ContentComponent = ({ movie }: Props) => {
         <h2 className="mb-2 text-lg font-bold text-slate-700">
           {movie.tagline.toUpperCase()}
         </h2>
-        <h3 className="text-slate-400">{movie.voteAverage.toFixed(1)} / {movie.runtime} min / {formatToYear(movie.releaseDate)}</h3>
+        <h3 className="text-slate-400">
+          {movie.voteAverage.toFixed(1)} / {movie.runtime} min /{' '}
+          {formatToYear(movie.releaseDate)}
+        </h3>
+        <div className="relative pt-4">
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-sm text-white"
+            onClick={onListMenuClick}
+          >
+            <FontAwesomeIcon icon={faList} />
+          </button>
+          <Menu
+            media={movie}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            className="shadow-xl"
+          />
+        </div>
       </div>
       <div className="pb-8">
         <h3 className="mb-2 text-lg font-medium">Genres</h3>
@@ -46,7 +70,7 @@ const ContentComponent = ({ movie }: Props) => {
         <h3 className="mb-2 text-lg font-medium">Overview</h3>
         <p className="font-light">{movie.overview}</p>
       </div>
-      <Buttons movie={movie}/>
+      <Buttons movie={movie} />
     </>
   );
 };

@@ -1,6 +1,4 @@
 /* eslint-disable max-lines-per-function */
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -19,10 +17,18 @@ interface Props {
 
   /** Media id. */
   readonly media: Movie | Tv;
+
+  /** Menu open state. */
+  readonly isMenuOpen: boolean;
+
+  /** Menu open state setter. */
+  readonly setIsMenuOpen: (value: boolean) => void;
+
+  /** Custom class. */
+  readonly className?: string;
 }
 
-export const Menu = ({ media }: Props) => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+export const Menu = ({ media, isMenuOpen, setIsMenuOpen, className }: Props) => {
   const [isListMenuOpen, setIsListMenuOpen] = useState<boolean>(false);
   const [isAuth] = useAtom(isAuthAtom);
   const { data: lists, isLoading: isListLoading } =
@@ -38,12 +44,6 @@ export const Menu = ({ media }: Props) => {
       },
     },
   );
-  const onItemMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-    if (!isMenuOpen) {
-      setIsListMenuOpen(false);
-    }
-  };
 
   const addToListClick = () => {
     setIsListMenuOpen(!isListMenuOpen);
@@ -78,14 +78,7 @@ export const Menu = ({ media }: Props) => {
     setIsListMenuOpen(false);
   };
   return (
-    <div className="absolute top-2 right-2 flex flex-col items-end">
-      <button
-        type="button"
-        className="  flex h-5 w-5 items-center justify-center rounded-full bg-slate-500"
-        onClick={onItemMenuClick}
-      >
-        <FontAwesomeIcon icon={faEllipsis} className="text-white" />
-      </button>
+    <div className={`absolute flex flex-col items-end ${className ?? ''}`}>
       {isMenuOpen && (
         <div
           className={`relative z-20 rounded-lg bg-white p-2 ${

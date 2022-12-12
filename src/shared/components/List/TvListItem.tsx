@@ -1,6 +1,10 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 import { Link } from 'react-router-dom';
+
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IMAGE_BASE_URL } from '../../constants';
 import { PosterSizes } from '../../enums';
@@ -16,6 +20,10 @@ interface Props {
 }
 
 const TvListItemComponent = ({ tv }: Props) => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const onItemMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   const imageURL =
     tv.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.large}${tv.posterPath}` :
@@ -44,7 +52,14 @@ const TvListItemComponent = ({ tv }: Props) => {
           </div>
         </div>
       </Link>
-      <Menu media={tv} />
+      <button
+        type="button"
+        className="absolute top-2 right-2  flex h-5 w-5 items-center justify-center rounded-full bg-slate-500"
+        onClick={onItemMenuClick}
+      >
+        <FontAwesomeIcon icon={faEllipsis} className="text-white" />
+      </button>
+      <Menu media={tv} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} className="top-2 right-2"/>
     </div>
   );
 };

@@ -41,7 +41,7 @@ const MovieByDiscoverComponent = () => {
     isLoading,
     isError,
     error,
-  } = MovieQueries.useInfiniteListByDiscover(movieQueryParams);
+  } = MovieQueries.useTestInfiniteListByDiscover(movieQueryParams);
 
   const { observerElement } = useInfiniteScroll(
     {

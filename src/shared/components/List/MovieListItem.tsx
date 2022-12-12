@@ -1,5 +1,9 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IMAGE_BASE_URL } from '../../constants';
 import { PosterSizes } from '../../enums';
@@ -16,6 +20,10 @@ interface Props {
 }
 
 const MovieListItemComponent = ({ movie }: Props) => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const onItemMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   const imageURL =
     movie.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.large}${movie.posterPath}` :
@@ -44,7 +52,14 @@ const MovieListItemComponent = ({ movie }: Props) => {
           </div>
         </div>
       </Link>
-      <Menu media={movie}/>
+      <button
+        type="button"
+        className="absolute top-2 right-2  flex h-5 w-5 items-center justify-center rounded-full bg-slate-500"
+        onClick={onItemMenuClick}
+      >
+        <FontAwesomeIcon icon={faEllipsis} className="text-white" />
+      </button>
+      <Menu media={movie} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} className="top-2 right-2"/>
     </div>
   );
 };
