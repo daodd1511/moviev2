@@ -7,16 +7,30 @@ import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 
 export namespace MovieQueries {
   export const useInfiniteListByDiscover = (
-    params: MovieQueryParams,
+    discoverValue: string,
   ) =>
     useInfiniteQuery<Pagination<Movie>, AxiosError>(
-      ['movies', params],
-      ({ pageParam = 1 }) => MovieService.getMovies(pageParam, params),
+      ['movies', discoverValue],
+      ({ pageParam = 1 }) => MovieService.getMovies(pageParam, discoverValue),
       {
         getNextPageParam(lastPage) {
           const nextPage = lastPage.page + 1;
           return nextPage < lastPage.totalPages ? nextPage : undefined;
         },
+      },
+    );
+
+  export const useTestInfiniteListByDiscover = (
+      params: MovieQueryParams,
+  ) =>
+      useInfiniteQuery<Pagination<Movie>, AxiosError>(
+      ['movies', params],
+      ({ pageParam = 1 }) => MovieService.getTestMovies(pageParam, params),
+      {
+          getNextPageParam(lastPage) {
+            const nextPage = lastPage.page + 1;
+            return nextPage < lastPage.totalPages ? nextPage : undefined;
+          },
       },
     );
 

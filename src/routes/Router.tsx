@@ -26,7 +26,7 @@ export const PublicList = lazy(() =>
 const routes: RouteObject[] = [
   {
     path: '',
-    element: <Navigate to="/movie/discover" />,
+    element: <Navigate to="/movie/discover/popular" />,
   },
   {
     element: <WithNavbar />,
