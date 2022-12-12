@@ -13,4 +13,5 @@ export enum SortBy {
   OriginalTitle = 'original_title',
   VoteAverage = 'vote_average',
   VoteCount = 'vote_count',
+  Rating = 'rating',
 }

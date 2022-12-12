@@ -39,7 +39,7 @@ export const movieRoutes: RouteObject[] = [
       },
       {
         path: '',
-        element: <Navigate to="/popular" />,
+        element: <Navigate to="/" />,
       },
     ],
   },

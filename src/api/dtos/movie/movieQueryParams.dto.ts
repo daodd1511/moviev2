@@ -18,4 +18,7 @@ export interface MovieQueryParamsDto {
 
   /** Less than release date. */
   readonly 'release_date.lte'?: string;
+
+  /** Greater than vote count. */
+  readonly 'vote_count.gte'?: number;
 }
