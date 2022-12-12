@@ -30,7 +30,7 @@ export const movieRoutes: RouteObject[] = [
         element: <MovieByGenre />,
       },
       {
-        path: 'discover/:discover',
+        path: 'discover',
         element: <Movies />,
       },
       {

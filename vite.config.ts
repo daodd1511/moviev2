@@ -7,9 +7,6 @@ import checker from 'vite-plugin-checker'
 export default defineConfig({
   plugins: [react(), checker({
     typescript: true,
-    eslint: {
-      lintCommand: 'eslint src/**/*.{ts,tsx}',
-    }
   })],
   resolve: {
     alias: { '@' : path.resolve(__dirname, './src') },

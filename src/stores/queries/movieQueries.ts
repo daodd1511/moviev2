@@ -3,14 +3,15 @@ import { AxiosError } from 'axios';
 
 import { Genre, Movie, MovieDetail, Pagination } from '@/models';
 import { MovieService } from '@/api/services/movieService';
+import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 
 export namespace MovieQueries {
   export const useInfiniteListByDiscover = (
-    discover: string | undefined,
+    params: MovieQueryParams,
   ) =>
     useInfiniteQuery<Pagination<Movie>, AxiosError>(
-      [`${discover ?? ''}movies`, discover],
-      ({ pageParam = 1 }) => MovieService.getMovies(pageParam, discover),
+      ['movies', params],
+      ({ pageParam = 1 }) => MovieService.getMovies(pageParam, params),
       {
         getNextPageParam(lastPage) {
           const nextPage = lastPage.page + 1;

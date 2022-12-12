@@ -21,6 +21,7 @@ const MoviesComponent = () => {
       }
     });
   }, []);
+
   useEffect(() => {
     goToTop();
   }, [params]);
@@ -30,11 +31,10 @@ const MoviesComponent = () => {
       {showTopBtn && (
         <button
           type="button"
-          className="fixed bottom-5 right-5 z-10 h-10 w-10 rounded-full flex justify-center items-center"
+          className="fixed bottom-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full"
           onClick={goToTop}
         >
           <FontAwesomeIcon icon={faAngleUp} className="text-3xl" />
-
         </button>
       )}
     </div>
