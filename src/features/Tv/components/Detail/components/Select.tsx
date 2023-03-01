@@ -74,7 +74,7 @@ const SelectComponent = ({
               episode === ep.episodeNumber ?
                 'bg-blue-700 text-white' :
                 'bg-gray-100 text-gray-900 hover:text-blue-700  '
-            } mr-2 mb-2 rounded-lg border border-gray-200  bg-gray-100 py-2.5 px-5 text-sm focus:outline-none  `}
+            } mr-2 mb-2 rounded-lg border border-gray-200 py-2.5 px-5 text-sm focus:outline-none  `}
             onClick={() => onEpisodeButtonClick(ep.episodeNumber)}
           >
             <b>Eps {ep.episodeNumber}</b>: {ep.name}
