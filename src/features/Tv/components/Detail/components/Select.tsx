@@ -1,6 +1,6 @@
 import { ChangeEvent, memo } from 'react';
 
-import { TvDetail } from '@/models';
+import { Season } from '@/models';
 import { TvQueries } from '@/stores/queries/tvQueries';
 
 interface Props {
@@ -20,8 +20,8 @@ interface Props {
   /** Tv id. */
   readonly tvId: number;
 
-  /** Tv data. */
-  readonly tv: TvDetail;
+  /** Total seasons of tv show. */
+  readonly seasons: readonly Season[];
 }
 
 const SelectComponent = ({
@@ -30,7 +30,7 @@ const SelectComponent = ({
   setEpisode,
   setSeason,
   tvId,
-  tv,
+  seasons,
 }: Props) => {
   const { data: episodes } = TvQueries.useSeasonDetail(tvId, season);
   const onSeasonChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -45,40 +45,42 @@ const SelectComponent = ({
     }
   };
 
-  const onEpisodeChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    if (event.target.value !== undefined) {
-      setEpisode(parseInt(event.target.value, 10));
-    }
+  const onEpisodeButtonClick = (episodeNumber: number) => {
+    setEpisode(episodeNumber);
   };
   return (
-    <div className="my-5 flex h-12 w-full overflow-clip">
+    <div className="mt-6 w-full rounded-lg px-6 py-10 shadow-2xl">
       <select
         value={season}
         onChange={onSeasonChange}
-        className="w-40 rounded-lg bg-transparent p-2 focus:outline-none"
+        className="select select-bordered"
       >
         <option value={-1}>Select season</option>
-        {tv.seasons.map(item =>
+        {seasons.map(
+          item =>
             item.seasonNumber !== 0 && (
-            <option key={item.id} value={item.seasonNumber}>
-                  Season {item.seasonNumber}
-            </option>
-          ))}
+              <option key={item.id} value={item.seasonNumber}>
+                Season {item.seasonNumber}
+              </option>
+            ),
+        )}
       </select>
-      <select
-        value={episode}
-        onChange={onEpisodeChange}
-        className="flex-1 rounded-lg bg-transparent p-2 focus:outline-none"
-      >
-        <option value={-1}>Select episodes</option>
-        {season !== -1 &&
-          episodes !== undefined &&
-          episodes.map(ep => (
-            <option key={ep.id} value={ep.episodeNumber}>
-              Episode {ep.episodeNumber}: {ep.name}
-            </option>
-          ))}
-      </select>
+      <div className="grid grid-cols-autoFit py-5">
+        {episodes?.map(ep => (
+          <button
+            type="button"
+            key={ep.id}
+            className={`${
+              episode === ep.episodeNumber ?
+                'bg-blue-700 text-white' :
+                'bg-gray-100 text-gray-900 hover:text-blue-700  '
+            } mr-2 mb-2 rounded-lg border border-gray-200  bg-gray-100 py-2.5 px-5 text-sm focus:outline-none  `}
+            onClick={() => onEpisodeButtonClick(ep.episodeNumber)}
+          >
+            <b>Eps {ep.episodeNumber}</b>: {ep.name}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

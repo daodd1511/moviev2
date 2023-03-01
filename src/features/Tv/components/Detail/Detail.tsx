@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-import { Content, Recommend, Select } from './components';
+import { Content, Recommend } from './components';
 
 import { assertNonNull, goToTop } from '@/shared/utils';
 import { Modal } from '@/shared/components/Modal';
@@ -97,16 +97,6 @@ const TvDetailComponent = () => {
             className="max-w-full cursor-zoom-in rounded-xl shadow-2xl"
             onClick={() => setIsFullSizeImage(true)}
           />
-          <div>
-            <Select
-              season={season}
-              episode={episode}
-              setEpisode={setEpisode}
-              setSeason={setSeason}
-              tv={tv}
-              tvId={tvId}
-            />
-          </div>
         </div>
         <div className="max-w-[60%] p-10">
           <Content tv={tv}/>

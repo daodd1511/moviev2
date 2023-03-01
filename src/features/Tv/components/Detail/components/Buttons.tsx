@@ -37,7 +37,7 @@ const ButtonsComponent = ({ tv }: Props) => {
         <button
           type="button"
           className="h-10 w-28 rounded-full border border-gray-800 bg-gray-800 text-xs text-white transition-all hover:-translate-y-0.5 hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:hover:bg-transparent"
-          onClick={() => navigate(`/watch/${tv.id}`)}
+          onClick={() => navigate('watch')}
         >
           Watch <FontAwesomeIcon icon={faPlay} className="ml-1" />
         </button>
