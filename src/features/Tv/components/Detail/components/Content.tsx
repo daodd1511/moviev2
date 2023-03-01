@@ -9,15 +9,9 @@ interface Props {
 
   /** Tv detail. */
   readonly tv: TvDetail;
-
-  /** Set is watch tv state. */
-  readonly setIsWatchTv: (isWatchTv: boolean) => void;
-
-  /** Watch button disable state. */
-  readonly isWatchButtonDisabled: boolean;
 }
 
-const ContentComponent = ({ tv, setIsWatchTv, isWatchButtonDisabled }: Props) => {
+const ContentComponent = ({ tv }: Props) => {
   const navigate = useNavigate();
   const onGenreClick = (genre: Genre) => {
     navigate(`/tv/genre/${genre.id}`);
@@ -50,7 +44,7 @@ const ContentComponent = ({ tv, setIsWatchTv, isWatchButtonDisabled }: Props) =>
         <h3 className="mb-2 text-lg font-medium">Overview</h3>
         <p className="font-light">{tv.overview}</p>
       </div>
-      <Buttons tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={isWatchButtonDisabled}/>
+      <Buttons tv={tv}/>
     </>
   );
 };

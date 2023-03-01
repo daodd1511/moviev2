@@ -6,6 +6,7 @@ import { NoAuthGuard } from './guards/NoAuthGuard';
 
 import { AuthGuard } from './guards/AuthGuard';
 
+import { watchRoutes } from '@/features/Watch/routes';
 import { movieRoutes } from '@/features/Movie/routes';
 import { tvRoutes } from '@/features/Tv/routes';
 import { userRoutes } from '@/features/User/routes';
@@ -33,6 +34,7 @@ const routes: RouteObject[] = [
     children: [
       ...movieRoutes,
       ...tvRoutes,
+      ...watchRoutes,
       {
         path: '',
         element: <AuthGuard />,

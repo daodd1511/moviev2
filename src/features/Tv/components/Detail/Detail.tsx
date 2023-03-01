@@ -109,7 +109,7 @@ const TvDetailComponent = () => {
           </div>
         </div>
         <div className="max-w-[60%] p-10">
-          <Content tv={tv} setIsWatchTv={setIsWatchTv} isWatchButtonDisabled={season === -1 && episode === -1}/>
+          <Content tv={tv}/>
         </div>
       </div>
       <Recommend tvId={tv.id} />
@@ -123,7 +123,6 @@ const TvDetailComponent = () => {
               src={videoSource}
               width="100%"
               height="100%"
-              frameBorder="0"
               allowFullScreen={true}
               className="aspect-video"
             />
