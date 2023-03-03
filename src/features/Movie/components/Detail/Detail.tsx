@@ -1,7 +1,5 @@
 import { memo, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { Link, useParams } from 'react-router-dom';
 
 import { Content } from './components/Content';
 import { Recommend } from './components/Recommend';
@@ -13,10 +11,10 @@ import { IMAGE_BASE_URL } from '@/shared/constants';
 import { goToTop, assertNonNull } from '@/shared/utils';
 import { NotFound } from '@/shared/components/NotFound';
 import { MovieQueries } from '@/stores/queries/movieQueries';
+import { Watch } from '@/shared/components/Watch';
 
 const MovieDetailComponent = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   assertNonNull(id, 'Movie id is null');
   const movieId = parseInt(id, 10);
   const [isFullSizeImage, setIsFullSizeImage] = useState(false);
@@ -30,9 +28,6 @@ const MovieDetailComponent = () => {
     goToTop();
   }, [id]);
 
-  const onBackButtonClick = () => {
-    navigate(-1);
-  };
   if (isLoading) {
     return (
       <div className="h-withoutNavbar">
@@ -59,16 +54,16 @@ const MovieDetailComponent = () => {
 
   return (
     <div className="relative p-10">
-      <button
-        type="button"
-        className="absolute top-8 left-10"
-        name="back"
-        onClick={onBackButtonClick}
-      >
-        <FontAwesomeIcon icon={faArrowLeft} className="text-xl" />
-      </button>
-      <div className="m-auto flex max-w-screen-xl pb-10 pt-4">
-        <div className="max-w-[38%] p-10">
+      <div className="text-sm breadcrumbs">
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/tv">Tv shows</Link></li>
+          <li>{movie.title}</li>
+        </ul>
+      </div>
+      <Watch media={movie}/>
+      <div className="flex justify-between pt-10">
+        <div className="max-w-[30%] p-10">
           <img
             src={imageUrl}
             alt={`${movie.title} image`}
