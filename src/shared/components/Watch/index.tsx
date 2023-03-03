@@ -73,6 +73,12 @@ const WatchComponent = ({ media }: Props) => {
     goToTop();
   }, [media.id]);
 
+  useEffect(() => {
+    if (player.current !== null) {
+      player.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [episode]);
+
   return (
     <div className="pt-10">
       {playerSrc !== null && (
