@@ -21,7 +21,7 @@ const RecommendComponent = ({ tvId }: Props) => {
   }
 
   return (
-    <div>
+    <div className="pt-10">
       <h3 className="mb-6 text-3xl font-extralight text-slate-700 ">Recommendations</h3>
       <FilmList data={data.results} />
     </div>

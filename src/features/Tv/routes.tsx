@@ -21,11 +21,6 @@ export const DetailPage = lazy(() =>
     default: module.DetailPage,
   })));
 
-export const WatchPage = lazy(() =>
-  import('./pages/Watch').then(module => ({
-    default: module.WatchPage,
-  })));
-
 export const tvRoutes: RouteObject[] = [
   {
     path: 'tv',
@@ -43,12 +38,8 @@ export const tvRoutes: RouteObject[] = [
         element: <DetailPage />,
       },
       {
-        path: 'detail/:id/watch',
-        element: <WatchPage />,
-      },
-      {
         path: '',
-        element: <Navigate to="/popular" />,
+        element: <Navigate to="discover/popular" />,
       },
     ],
   },

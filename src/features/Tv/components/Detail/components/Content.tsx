@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Buttons } from './Buttons';
 
 import { Genre, TvDetail } from '@/models';
+import { formatToYear } from '@/shared/utils';
 
 interface Props {
 
@@ -25,6 +26,9 @@ const ContentComponent = ({ tv }: Props) => {
         <h2 className="text-lg font-bold text-slate-700">
           {tv.tagline.toUpperCase()}
         </h2>
+        <h3 className="text-slate-400">
+          {tv.voteAverage.toFixed(1)} / {formatToYear(tv.firstAirDate)}
+        </h3>
       </div>
       <div className="pb-8">
         <h3 className="mb-2 text-lg font-medium">Genres</h3>

@@ -2,6 +2,7 @@ import { ChangeEvent, memo } from 'react';
 
 import { Season } from '@/models';
 import { TvQueries } from '@/stores/queries/tvQueries';
+import { StorageService } from '@/api/services/storageService';
 
 interface Props {
 
@@ -9,7 +10,7 @@ interface Props {
   readonly season: number;
 
   /** Episode data. */
-  readonly episode: number;
+  readonly episode: number | null;
 
   /** Set season number. */
   readonly setSeason: (season: number) => void;
@@ -22,7 +23,12 @@ interface Props {
 
   /** Total seasons of tv show. */
   readonly seasons: readonly Season[];
+
+  /** Storage key. */
+  readonly storageKey: string;
 }
+
+const FIRST_EPISODE = 1;
 
 const SelectComponent = ({
   season,
@@ -31,22 +37,29 @@ const SelectComponent = ({
   setSeason,
   tvId,
   seasons,
+  storageKey,
 }: Props) => {
   const { data: episodes } = TvQueries.useSeasonDetail(tvId, season);
   const onSeasonChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (event.target.value !== undefined) {
-      setSeason(parseInt(event.target.value, 10));
-    }
-    if (
-      event.target.value !== undefined &&
-      parseInt(event.target.value, 10) === -1
-    ) {
-      setEpisode(-1);
+      const seasonNumber = parseInt(event.target.value, 10);
+      setSeason(seasonNumber);
+      setEpisode(FIRST_EPISODE);
+      StorageService.set(storageKey, {
+        id: tvId,
+        season: seasonNumber,
+        episode: FIRST_EPISODE,
+      });
     }
   };
 
   const onEpisodeButtonClick = (episodeNumber: number) => {
     setEpisode(episodeNumber);
+    StorageService.set(storageKey, {
+      id: tvId,
+      season,
+      episode: episodeNumber,
+    });
   };
   return (
     <div className="mt-6 w-full rounded-lg px-6 py-10 shadow-2xl">
@@ -55,7 +68,6 @@ const SelectComponent = ({
         onChange={onSeasonChange}
         className="select select-bordered"
       >
-        <option value={-1}>Select season</option>
         {seasons.map(
           item =>
             item.seasonNumber !== 0 && (
