@@ -19,12 +19,14 @@ export const Modal = ({ children, setIsOpen }: Props) => (
   >
     <div className="z-50  h-screen w-full  p-4">
       {/* Modal content */}
-      <div className="flex items-center justify-center relative">
-        {children}
-        {/* Close button */}
-        <button type="button" className="bg-white absolute top-0 right-12 h-10 w-10 rounded-full" onClick={() => setIsOpen(false)}>
-          <FontAwesomeIcon icon={faXmark} />
-        </button>
+      <div className="h-full flex items-center justify-center">
+        <div className="relative">
+          {children}
+          {/* Close button */}
+          <button type="button" className="bg-white absolute -top-6 -right-6 h-10 w-10 rounded-full text-2xl" onClick={() => setIsOpen(false)}>
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
+        </div>
       </div>
     </div>
   </div>
