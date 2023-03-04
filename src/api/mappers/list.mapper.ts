@@ -6,7 +6,7 @@ import { TvMapper } from './tv/tv.mapper';
 
 import { MediaMapper } from './media.mapper';
 
-import { List, Movie, Tv } from '@/models';
+import { List, Media, Movie, Tv } from '@/models';
 
 export namespace ListMapper {
 
@@ -35,7 +35,7 @@ export namespace ListMapper {
       name: list.name,
       description: list.description,
       movies: list.movies.map(movie => MovieMapper.toDto(movie as Movie)),
-      tvShows: list.tvShows.map(tv => TvMapper.toDto(tv as Tv)),
+      tvShows: list.tvShows.map(tv => TvMapper.toDto(tv as any)),
     } as unknown as ListDto;
   }
 }

@@ -2,7 +2,8 @@ import { memo, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { Content } from './components/Content';
-import { Recommend } from './components/Recommend';
+
+import { Recommend } from '@/shared/components/Recommend';
 
 import { Modal } from '@/shared/components/Modal';
 import { Footer, Loader } from '@/shared/components';
@@ -12,6 +13,7 @@ import { goToTop, assertNonNull } from '@/shared/utils';
 import { NotFound } from '@/shared/components/NotFound';
 import { MovieQueries } from '@/stores/queries/movieQueries';
 import { Watch } from '@/shared/components/Watch';
+import { MediaType } from '@/shared/enums/mediaType';
 
 const MovieDetailComponent = () => {
   const { id } = useParams();
@@ -75,7 +77,7 @@ const MovieDetailComponent = () => {
           <Content movie={movie} />
         </div>
       </div>
-      <Recommend movieId={movie.id} />
+      <Recommend mediaId={movie.id} mediaType={MediaType.Movie} />
       <Footer />
       {isFullSizeImage && (
         <Modal setIsOpen={setIsFullSizeImage}>

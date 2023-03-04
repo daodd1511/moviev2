@@ -82,7 +82,8 @@ const CreateNewComponent = () => {
 
   const onSubmit = handleSubmit(() => {
     setValue('movies', movieList);
-    setValue('tvShows', tvList);
+
+    // setValue('tvShows', tvList);
     const list = getValues();
     addMutation.mutate(list);
   });

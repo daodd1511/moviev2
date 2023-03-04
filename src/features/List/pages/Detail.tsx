@@ -79,7 +79,8 @@ const ListDetailComponent = () => {
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"
-                onClick={() => onRemoveButtonClick(movie)}
+
+                // onClick={() => onRemoveButtonClick(movie)}
               >
                   Remove
               </button>
@@ -91,7 +92,8 @@ const ListDetailComponent = () => {
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"
-                onClick={() => onRemoveButtonClick(tv)}
+
+                // onClick={() => onRemoveButtonClick(tv)}
               >
                   Remove
               </button>

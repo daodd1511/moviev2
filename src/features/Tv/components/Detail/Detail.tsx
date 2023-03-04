@@ -2,7 +2,7 @@
 import { memo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { Content, Recommend } from './components';
+import { Content } from './components';
 
 import { Watch } from '@/shared/components/Watch';
 import { assertNonNull } from '@/shared/utils';
@@ -11,6 +11,8 @@ import { Footer, Loader } from '@/shared/components';
 import { PosterSizes } from '@/shared/enums';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { TvQueries } from '@/stores/queries/tvQueries';
+import { MediaType } from '@/shared/enums/mediaType';
+import { Recommend } from '@/shared/components/Recommend';
 
 const TvDetailComponent = () => {
   const { id } = useParams();
@@ -63,7 +65,7 @@ const TvDetailComponent = () => {
           <Content tv={tv}/>
         </div>
       </div>
-      <Recommend tvId={tv.id} />
+      <Recommend mediaId={tv.id} mediaType={MediaType.Tv}/>
       <Footer />
 
       {isFullSizeImage && fullSizeImageUrl !== null && (
