@@ -4,14 +4,16 @@ import { PaginationMapper, MovieMapper, GenreMapper, MovieDetailMapper } from '.
 
 import { MovieQueryParamsMapper } from '../mappers/movie/movieQueryParams.mapper';
 
-import { Movie, Genre, Pagination, MovieDetail } from '@/models';
+import { MediaMapper } from '../mappers/media.mapper';
+
+import { Movie, Genre, Pagination, MovieDetail, Media } from '@/models';
 import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 
 export namespace MovieService {
 
-  export const getMovies = async(page: number, discoverValue?: string): Promise<Pagination<Movie>> => {
+  export const getMovies = async(page: number, discoverValue?: string): Promise<Pagination<Media>> => {
     const response = await api.get<PaginationDto<MovieDto>>(`/movie/${discoverValue ?? 'popular'}?page=${page}`);
-    const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
+    const movies = PaginationMapper.fromDto(response.data, movieDto => MediaMapper.fromMovieDto(movieDto));
     return movies;
   };
 
@@ -21,16 +23,11 @@ export namespace MovieService {
     const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
     return movies;
   };
+
   export const getGenres = async(): Promise<readonly Genre[]> => {
     const response = await api.get<GenreResponseDto>('/genre/movie/list');
     const genres = response.data.genres.map(genreDto => GenreMapper.fromDto(genreDto));
     return genres;
-  };
-
-  export const getMoviesByGenre = async(genreId: number, page: number): Promise<Pagination<Movie>> => {
-    const response = await api.get<PaginationDto<MovieDto>>(`/discover/movie?with_genres=${genreId}&page=${page}`);
-    const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
-    return movies;
   };
 
   export const getMovieDetail = async(movieId: number | undefined): Promise<MovieDetail> => {
@@ -48,5 +45,5 @@ export namespace MovieService {
     return movies;
   };
 
-  export const getMovieRecommendations = (movieId: number): Promise<Pagination<Movie>> => getMovies(1, `${movieId}/recommendations`);
+  export const getMovieRecommendations = (movieId: number): Promise<Pagination<Media>> => getMovies(1, `${movieId}/recommendations`);
 }

@@ -1,12 +1,12 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { Episode, Genre, Pagination, Tv, TvDetail } from '@/models';
+import { Episode, Genre, Media, Pagination, Tv, TvDetail } from '@/models';
 import { TvService } from '@/api/services/tvService';
 
 export namespace TvQueries {
   export const useInfiniteListByDiscover = (discover: string | undefined) =>
-    useInfiniteQuery<Pagination<Tv>, AxiosError>(
+    useInfiniteQuery<Pagination<Media>, AxiosError>(
       [`${discover ?? ''}tv`, discover],
       ({ pageParam = 1 }) => TvService.getTvs(pageParam, discover),
       {
@@ -34,7 +34,7 @@ export namespace TvQueries {
       TvService.getTvDetail(id));
 
   export const useRecommendations = (id: number) =>
-    useQuery<Pagination<Tv>, AxiosError>(['movieRecommendations', id], () =>
+    useQuery<Pagination<Media>, AxiosError>(['movieRecommendations', id], () =>
       TvService.getTvRecommendation(id));
 
   export const useGenres = () =>

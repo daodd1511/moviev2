@@ -11,11 +11,10 @@ import { ListQueries } from '@/stores/queries/listQueries';
 import {
   Footer,
   Loader,
-  MovieListItem,
-  TvListItem,
+  MediaListItem,
 } from '@/shared/components';
 import { Type } from '@/shared/enums';
-import { Movie, Tv } from '@/models';
+import { Media, Movie, Tv } from '@/models';
 import { ListService } from '@/api/services/listService';
 import { UserQueries } from '@/stores/queries/userQueries';
 
@@ -74,9 +73,9 @@ const ListDetailComponent = () => {
       </div>
       <div className="grid grid-cols-autoFit place-content-evenly gap-x-6 gap-y-10 pb-10">
         {activeTab === Type.Movie ?
-          data?.movies.map((movie: Movie) => (
+          data?.movies.map((movie: Media) => (
             <div key={movie.id}>
-              <MovieListItem movie={movie} />
+              <MediaListItem media={movie} />
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"
@@ -86,9 +85,9 @@ const ListDetailComponent = () => {
               </button>
             </div>
           )) :
-          data?.tvShows.map((tv: Tv) => (
+          data?.tvShows.map((tv: Media) => (
             <div key={tv.id}>
-              <TvListItem tv={tv} />
+              <MediaListItem media={tv} />
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"

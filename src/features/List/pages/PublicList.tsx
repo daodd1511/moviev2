@@ -2,8 +2,8 @@
 import { memo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Movie, Tv } from '@/models';
-import { Loader, MovieListItem, TvListItem, Footer } from '@/shared/components';
+import { Media } from '@/models';
+import { Loader, MediaListItem, Footer } from '@/shared/components';
 import { Type } from '@/shared/enums';
 import { assertNonNull } from '@/shared/utils';
 import { ListQueries } from '@/stores/queries/listQueries';
@@ -39,14 +39,14 @@ const PublicListComponent = () => {
       </div>
       <div className="grid grid-cols-autoFit place-content-evenly gap-x-6 gap-y-10 pb-10">
         {activeTab === Type.Movie ?
-          data?.movies.map((movie: Movie) => (
+          data?.movies.map((movie: Media) => (
             <div key={movie.id}>
-              <MovieListItem movie={movie} />
+              <MediaListItem media={movie} />
             </div>
           )) :
-          data?.tvShows.map((tv: Tv) => (
+          data?.tvShows.map((tv: Media) => (
             <div key={tv.id}>
-              <TvListItem tv={tv} />
+              <MediaListItem media={tv} />
             </div>
           ))}
       </div>

@@ -2,12 +2,14 @@ import { api } from '..';
 import { PaginationDto, GenreResponseDto, EpisodeDto, TvDetailDto, TvDto } from '../dtos';
 import { PaginationMapper, GenreMapper, EpisodeMapper, TvDetailMapper, TvMapper } from '../mappers';
 
-import { Episode, Genre, Pagination, TvDetail, Tv } from '@/models';
+import { MediaMapper } from '../mappers/media.mapper';
+
+import { Episode, Genre, Pagination, TvDetail, Tv, Media } from '@/models';
 
 export namespace TvService {
-  export const getTvs = async(page: number, discoverValue?: string): Promise<Pagination<Tv>> => {
+  export const getTvs = async(page: number, discoverValue?: string): Promise<Pagination<Media>> => {
     const response = await api.get<PaginationDto<TvDto>>(`/tv/${discoverValue ?? 'popular'}?page=${page}`);
-    const tvs = PaginationMapper.fromDto(response.data, tvDto => TvMapper.fromDto(tvDto));
+    const tvs = PaginationMapper.fromDto(response.data, tvDto => MediaMapper.fromTvDto(tvDto));
     return tvs;
   };
 
@@ -38,7 +40,7 @@ export namespace TvService {
     return tvs;
   };
 
-  export const getTvRecommendation = (tvId: number): Promise<Pagination<Tv>> => getTvs(1, `${tvId}/recommendations`);
+  export const getTvRecommendation = (tvId: number): Promise<Pagination<Media>> => getTvs(1, `${tvId}/recommendations`);
 
   export const getSeasonDetail = async(tvId: number | undefined, seasonNumber: number | undefined): Promise<readonly Episode[]> => {
     if (tvId === undefined || seasonNumber === undefined) {

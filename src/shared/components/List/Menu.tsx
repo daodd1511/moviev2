@@ -9,14 +9,14 @@ import { useAtom } from 'jotai';
 import { Loader } from '../styles';
 
 import { ListQueries } from '@/stores/queries/listQueries';
-import { List, Movie, Tv } from '@/models';
+import { List, Media, Movie, Tv } from '@/models';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 import { ListService } from '@/api/services/listService';
 
 interface Props {
 
   /** Media id. */
-  readonly media: Movie | Tv;
+  readonly media: Movie | Tv | Media;
 
   /** Menu open state. */
   readonly isMenuOpen: boolean;

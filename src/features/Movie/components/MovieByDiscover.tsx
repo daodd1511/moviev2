@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Loader } from '@/shared/components';
-import { FilmList } from '@/shared/components/';
+import { MediaList } from '@/shared/components/';
 import { MOVIE_DISCOVER } from '@/shared/constants';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { MovieQueries } from '@/stores/queries/movieQueries';
@@ -42,7 +42,7 @@ const MovieByDiscoverComponent = () => {
     <div className="px-8 py-12">
       <h1 className="pb-10">{title} Movies</h1>
       {data.pages.map((moviePage, i) => (
-        <FilmList key={i} data={moviePage.results} />
+        <MediaList key={i} data={moviePage.results} />
       ))}
       <div className="loader" ref={observerElement}>
         {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
