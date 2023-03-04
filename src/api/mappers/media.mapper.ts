@@ -22,8 +22,7 @@ export namespace MediaMapper {
 
   /**
    * Maps Movie to Media model.
-   * @param mlovie Movie.
-   * @param movie
+   * @param movie Movie.
    */
   export function fromMovie(movie: Movie): Media {
     return new Media({
