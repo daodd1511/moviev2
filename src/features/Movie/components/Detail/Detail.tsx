@@ -57,7 +57,7 @@ const MovieDetailComponent = () => {
       <div className="text-sm breadcrumbs">
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/tv">Tv shows</Link></li>
+          <li><Link to="/movie">Movies</Link></li>
           <li>{movie.title}</li>
         </ul>
       </div>

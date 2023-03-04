@@ -32,7 +32,7 @@ const TvListItemComponent = ({ tv }: Props) => {
   return (
     <div className="relative">
       <Link
-        to={`/tv/detail/${tv.id}`}
+        to={`/tv/${tv.id}`}
         className="group block h-fit pb-4 transition-all hover:rounded-lg hover:text-white"
       >
         <img
