@@ -17,6 +17,9 @@ export class Media extends Immerable {
   /** Vote average. */
   public readonly voteAverage: number;
 
+  /** Type. */
+  public readonly type: string;
+
   public constructor(data: InitArgsMedia) {
     super();
     this.id = data.id;
@@ -24,6 +27,7 @@ export class Media extends Immerable {
     this.releaseDate = data.releaseDate;
     this.title = data.title;
     this.voteAverage = data.voteAverage;
+    this.type = data.type;
   }
 }
 

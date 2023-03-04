@@ -32,7 +32,7 @@ const MediaListItemComponent = ({ media }: Props) => {
   return (
     <div className="relative">
       <Link
-        to={`/movie/${media.id}`}
+        to={`/${media.type}/${media.id}`}
         className="group block h-fit pb-4 transition-all hover:text-white"
       >
         <img
@@ -52,15 +52,14 @@ const MediaListItemComponent = ({ media }: Props) => {
           </div>
         </div>
       </Link>
-      {/* Menu button */}
-      {/* <button
+      <button
         type="button"
         className="absolute top-2 right-2  flex h-5 w-5 items-center justify-center rounded-full bg-slate-500"
         onClick={onItemMenuClick}
       >
         <FontAwesomeIcon icon={faEllipsis} className="text-white" />
       </button>
-      <Menu media={media} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} className="top-2 right-2"/> */}
+      <Menu media={media} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} className="top-2 right-2"/>
     </div>
   );
 };

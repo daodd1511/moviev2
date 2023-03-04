@@ -9,14 +9,15 @@ import { useAtom } from 'jotai';
 import { Loader } from '../styles';
 
 import { ListQueries } from '@/stores/queries/listQueries';
-import { List, Media, Movie, Tv } from '@/models';
+import { List, Media } from '@/models';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 import { ListService } from '@/api/services/listService';
+import { MediaType } from '@/shared/enums/mediaType';
 
 interface Props {
 
   /** Media id. */
-  readonly media: Movie | Tv | Media;
+  readonly media: Media;
 
   /** Menu open state. */
   readonly isMenuOpen: boolean;
@@ -28,7 +29,12 @@ interface Props {
   readonly className?: string;
 }
 
-export const Menu = ({ media, isMenuOpen, setIsMenuOpen, className }: Props) => {
+export const Menu = ({
+  media,
+  isMenuOpen,
+  setIsMenuOpen,
+  className,
+}: Props) => {
   const [isListMenuOpen, setIsListMenuOpen] = useState<boolean>(false);
   const [isAuth] = useAtom(isAuthAtom);
   const { data: lists, isLoading: isListLoading } =
@@ -50,27 +56,21 @@ export const Menu = ({ media, isMenuOpen, setIsMenuOpen, className }: Props) => 
   };
 
   const onListClick = (list: List) => {
-    if (media instanceof Movie) {
-      if (list.movies.find(m => m.id === media.id) != null) {
-        toast.error('Movie already in list');
-        return;
-      }
-      const newList = {
-        ...list,
-        movies: [...list.movies, media],
-      };
-      addItemToListMutation.mutate(newList as List);
-    } else {
-      if (list.tvShows.find(t => t.id === media.id) != null) {
-        toast.error('Tv already in list');
-        return;
-      }
-      const newList = {
-        ...list,
-        tvShows: [...list.tvShows, media],
-      };
-      addItemToListMutation.mutate(newList as List);
+    const isMovie = media.type === MediaType.Movie;
+    const existingItem = isMovie ?
+      list.movies.find(m => m.id === media.id) :
+      list.tvShows.find(t => t.id === media.id);
+
+    if (existingItem !== undefined) {
+      toast.error(`${isMovie ? 'Movie' : 'Show'} already in list`);
+      return;
     }
+
+    const newList = isMovie ?
+      { ...list, movies: [...list.movies, media] } :
+      { ...list, tvShows: [...list.tvShows, media] };
+
+    addItemToListMutation.mutate(newList as List);
   };
 
   const onCloseButtonClick = () => {
@@ -117,7 +117,7 @@ export const Menu = ({ media, isMenuOpen, setIsMenuOpen, className }: Props) => 
                               <li key={list.id}>
                                 <button
                                   type="button"
-                                  className="w-full hover:bg-white rounded-lg py-2"
+                                  className="w-full rounded-lg py-2 hover:bg-white"
                                   onClick={() => onListClick(list)}
                                 >
                                   {list.name}

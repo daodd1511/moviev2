@@ -1,10 +1,13 @@
-import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { memo, useState } from 'react';
+import { faList } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Buttons } from './Buttons';
 
-import { Genre, TvDetail } from '@/models';
+import { TvDetail } from '@/models';
 import { formatToYear } from '@/shared/utils';
+import { MediaMapper } from '@/api/mappers/media.mapper';
+import { Menu } from '@/shared/components/List/Menu';
 
 interface Props {
 
@@ -13,9 +16,9 @@ interface Props {
 }
 
 const ContentComponent = ({ tv }: Props) => {
-  const navigate = useNavigate();
-  const onGenreClick = (genre: Genre) => {
-    navigate(`/tv/genre/${genre.id}`);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const onListMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
   return (
     <>
@@ -29,6 +32,20 @@ const ContentComponent = ({ tv }: Props) => {
         <h3 className="text-slate-400">
           {tv.voteAverage.toFixed(1)} / {formatToYear(tv.firstAirDate)}
         </h3>
+        <div className="relative pt-4">
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-sm text-white"
+            onClick={onListMenuClick}
+          >
+            <FontAwesomeIcon icon={faList} />
+          </button>
+          <Menu
+            media={MediaMapper.fromTv(tv)}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            className="shadow-xl"
+          />
+        </div>
       </div>
       <div className="pb-8">
         <h3 className="mb-2 text-lg font-medium">Genres</h3>
@@ -37,7 +54,6 @@ const ContentComponent = ({ tv }: Props) => {
             <li
               key={genre.id}
               className="align-center ease flex w-max cursor-pointer rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500 transition duration-300 active:bg-gray-300"
-              onClick={() => onGenreClick(genre)}
             >
               {genre.name}
             </li>

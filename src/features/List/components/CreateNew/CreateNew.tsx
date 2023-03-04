@@ -81,7 +81,7 @@ const CreateNewComponent = () => {
   };
 
   const onSubmit = handleSubmit(() => {
-    setValue('movies', movieList);
+    // setValue('movies', movieList);
 
     // setValue('tvShows', tvList);
     const list = getValues();

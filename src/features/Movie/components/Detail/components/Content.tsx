@@ -1,13 +1,13 @@
 import { memo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 
 import { Buttons } from './Buttons';
 
-import { Genre, MovieDetail } from '@/models';
+import { MovieDetail } from '@/models';
 import { formatToYear } from '@/shared/utils';
 import { Menu } from '@/shared/components/List/Menu';
+import { MediaMapper } from '@/api/mappers/media.mapper';
 
 interface Props {
 
@@ -16,13 +16,9 @@ interface Props {
 }
 
 const ContentComponent = ({ movie }: Props) => {
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const onListMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-  const onGenreClick = (genre: Genre) => {
-    navigate(`/movie/genre/${genre.id}`);
   };
   return (
     <>
@@ -45,7 +41,7 @@ const ContentComponent = ({ movie }: Props) => {
             <FontAwesomeIcon icon={faList} />
           </button>
           <Menu
-            media={movie}
+            media={MediaMapper.fromMovie(movie)}
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
             className="shadow-xl"
@@ -59,7 +55,6 @@ const ContentComponent = ({ movie }: Props) => {
             <li
               key={genre.id}
               className="align-center ease flex w-max cursor-pointer rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500 transition duration-300 active:bg-gray-300"
-              onClick={() => onGenreClick(genre)}
             >
               {genre.name}
             </li>

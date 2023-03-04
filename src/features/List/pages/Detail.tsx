@@ -14,9 +14,10 @@ import {
   MediaListItem,
 } from '@/shared/components';
 import { Type } from '@/shared/enums';
-import { Media, Movie, Tv } from '@/models';
+import { Media } from '@/models';
 import { ListService } from '@/api/services/listService';
 import { UserQueries } from '@/stores/queries/userQueries';
+import { MediaType } from '@/shared/enums/mediaType';
 
 const ListDetailComponent = () => {
   const queryClient = useQueryClient();
@@ -27,8 +28,8 @@ const ListDetailComponent = () => {
   const { data, isLoading } = ListQueries.useById(id);
 
   const removeMutation = useMutation(
-    (item: Movie | Tv) =>
-      item instanceof Movie ?
+    (item: Media) =>
+      item.type === MediaType.Movie ?
         ListService.removeMovie(id, item) :
         ListService.removeTv(id, item),
     {
@@ -39,7 +40,7 @@ const ListDetailComponent = () => {
     },
   );
 
-  const onRemoveButtonClick = (item: Movie | Tv) => {
+  const onRemoveButtonClick = (item: Media) => {
     removeMutation.mutate(item);
   };
 
@@ -79,8 +80,7 @@ const ListDetailComponent = () => {
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"
-
-                // onClick={() => onRemoveButtonClick(movie)}
+                onClick={() => onRemoveButtonClick(movie)}
               >
                   Remove
               </button>
@@ -92,8 +92,7 @@ const ListDetailComponent = () => {
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"
-
-                // onClick={() => onRemoveButtonClick(tv)}
+                onClick={() => onRemoveButtonClick(tv)}
               >
                   Remove
               </button>
