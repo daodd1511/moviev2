@@ -21,7 +21,7 @@ const SearchResultComponent = ({ searchResult, resetSearchState }: Props) => {
   };
   return (
     <Link
-      to={`/${searchResult.mediaType}/detail/${searchResult.id}`}
+      to={`/${searchResult.mediaType}/${searchResult.id}`}
       key={searchResult.id}
       className="flex items-center border-b border-gray-200 p-4"
       onClick={onSearchResultClick}
