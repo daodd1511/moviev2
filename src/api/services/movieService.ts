@@ -46,4 +46,9 @@ export namespace MovieService {
   };
 
   export const getMovieRecommendations = (movieId: number): Promise<Pagination<Media>> => getMovies(1, `${movieId}/recommendations`);
+
+  export const getCredits = async(movieId: number): Promise<any> => {
+    const response = await api.get(`/movie/${movieId}/credits`);
+    return response.data;
+  };
 }

@@ -45,4 +45,5 @@ export namespace MovieQueries {
   export const useGenres = () =>
     useQuery<readonly Genre[], AxiosError>(['movieGenres'], () => MovieService.getGenres());
 
+  export const useCredits = (id: number) => useQuery<any, AxiosError>(['movieCredits', id], () => MovieService.getCredits(id));
 }
