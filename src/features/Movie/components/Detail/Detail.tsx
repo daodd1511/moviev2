@@ -49,7 +49,7 @@ const MovieDetailComponent = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const directors = credits?.crew.filter((crew: { job: string; }) => crew.job === 'Director');
+  // const directors = credits?.crew.filter((crew: { job: string; }) => crew.job === 'Director');
 
   const imageUrl =
     movie.posterPath != null ?
@@ -60,7 +60,7 @@ const MovieDetailComponent = () => {
       `${IMAGE_BASE_URL}${PosterSizes.original}${movie.posterPath}` :
       '/images/no-image.png';
   return (
-    <div className="relative p-10">
+    <div className="relative p-5 md:p-10">
       <div className="text-sm breadcrumbs">
         <ul>
           <li><Link to="/">Home</Link></li>
@@ -68,9 +68,9 @@ const MovieDetailComponent = () => {
           <li>{movie.title}</li>
         </ul>
       </div>
-      {/* <Watch media={movie}/> */}
-      <div className="flex justify-between pt-10">
-        <div className="max-w-[30%] p-10">
+      <Watch media={movie}/>
+      <div className="flex flex-col md:flex-row md:justify-between pt-5 md:pt-10">
+        <div className="max-w-[100%] md:max-w-[30%] p-5 md:p-10">
           <img
             src={imageUrl}
             alt={`${movie.title} image`}
@@ -78,11 +78,10 @@ const MovieDetailComponent = () => {
             onClick={() => setIsFullSizeImage(true)}
           />
         </div>
-        <div className="max-w-[60%] p-10">
+        <div className="max-w-[100%] md:max-w-[60%] p-5 md:p-10">
           <Content movie={movie} />
         </div>
       </div>
-      <Link to={`/person/${directors[0].id}`}><pre>{JSON.stringify(directors)}</pre>{directors[0].id}</Link>
       <Recommend mediaId={movie.id} mediaType={MediaType.Movie} />
       <Footer />
       {isFullSizeImage && (

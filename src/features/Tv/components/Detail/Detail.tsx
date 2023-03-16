@@ -43,7 +43,7 @@ const TvDetailComponent = () => {
       `${IMAGE_BASE_URL}${PosterSizes.original}${tv.posterPath}` :
       '/images/no-image.png';
   return (
-    <div className="p-10 relative">
+    <div className="p-5 md:p-10 relative">
       <div className="text-sm breadcrumbs">
         <ul>
           <li><Link to="/">Home</Link></li>
@@ -52,8 +52,8 @@ const TvDetailComponent = () => {
         </ul>
       </div>
       <Watch media={tv}/>
-      <div className="flex justify-between pt-10">
-        <div className="max-w-[30%] p-10">
+      <div className="flex flex-col md:flex-row md:justify-between pt-5 md:pt-10">
+        <div className="max-w-[100%] md:max-w-[30%] p-5 md:p-10">
           <img
             src={imageURL}
             alt={`${tv.name} image`}
@@ -61,7 +61,7 @@ const TvDetailComponent = () => {
             onClick={() => setIsFullSizeImage(true)}
           />
         </div>
-        <div className="max-w-[60%] p-10">
+        <div className="max-w-[100%] md:max-w-[60%] p-5 md:p-10">
           <Content tv={tv}/>
         </div>
       </div>
