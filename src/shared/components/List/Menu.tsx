@@ -97,10 +97,10 @@ export const Menu = ({
                   Add to list
                 </button>
                 {isListMenuOpen && (
-                  <div className="absolute -top-2 -right-48 flex flex-col items-center rounded-lg bg-base-300 p-2">
+                  <div className="absolute -top-2 -right-48 flex flex-col items-center rounded-lg bg-white p-2">
                     <Link
                       to="/list/new"
-                      className="rounded-lg p-2 text-lg hover:bg-white"
+                      className="rounded-lg p-2 text-md hover:bg-base-300"
                     >
                       Create new list
                     </Link>
@@ -111,13 +111,13 @@ export const Menu = ({
                         ) :
                         (
                           <div className="p-2">
-                            <p>Add to existing lists</p>
+                            <p className="font-bold">Add to existing lists</p>
 
                             {lists?.map(list => (
                               <li key={list.id}>
                                 <button
                                   type="button"
-                                  className="w-full rounded-lg py-2 hover:bg-white"
+                                  className="w-full rounded-lg py-2 hover:bg-base-300"
                                   onClick={() => onListClick(list)}
                                 >
                                   {list.name}
