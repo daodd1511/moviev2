@@ -4,6 +4,7 @@ import { MediaType } from '../enums/mediaType';
 
 import { Loader, MediaList } from '@/shared/components';
 import { TvQueries } from '@/stores/queries/tvQueries';
+import { MovieQueries } from '@/stores/queries/movieQueries';
 
 interface Props {
 
@@ -15,7 +16,7 @@ interface Props {
 }
 
 const RecommendComponent = ({ mediaId, mediaType }: Props) => {
-  const { data, isLoading, isError, error } = mediaType === MediaType.Tv ? TvQueries.useRecommendations(mediaId) : TvQueries.useRecommendations(mediaId);
+  const { data, isLoading, isError, error } = mediaType === MediaType.Tv ? TvQueries.useRecommendations(mediaId) : MovieQueries.useRecommendations(mediaId);
 
   if (isLoading) {
     return <Loader />;
