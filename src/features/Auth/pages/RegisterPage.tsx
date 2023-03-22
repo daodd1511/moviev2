@@ -3,7 +3,7 @@ import { RegisterForm } from '../components/RegisterForm/RegisterForm';
 export const RegisterPage = () => (
   <div>
     <div className="relative bg-cover bg-center bg-no-repeat">
-      <div className="mx-0 min-h-screen justify-center sm:flex sm:flex-row">
+      <div className="mx-0 sm:min-h-screen justify-center sm:flex sm:flex-row">
         <div className="z-10 flex  flex-col self-center p-10 sm:max-w-5xl  xl:max-w-2xl">
           <div className="hidden flex-col self-start text-black  xl:flex">
             <img src="" className="mb-3" />
