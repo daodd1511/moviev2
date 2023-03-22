@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Router } from './routes/Router';
 import { TokenService } from './api/services/tokenService';
 import { isAuthAtom } from './stores/atoms/authAtoms';
+import { Loader } from './shared/components';
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,7 @@ export const App = () => {
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer />
       <HashRouter>
-        <Suspense>
+        <Suspense fallback={<Loader />}>
           <Router />
         </Suspense>
       </HashRouter>
