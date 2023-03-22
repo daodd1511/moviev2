@@ -40,8 +40,8 @@ const TvByDiscoverComponent = () => {
   return (
     <div className="px-8 py-12">
       <h1 className="pb-10">{title} TV Shows</h1>
-      {data.pages.map((tvPage, i) => (
-        <MediaList key={i} data={tvPage.results} />
+      {data.pages.map(tvPage => (
+        <MediaList key={tvPage.page} data={tvPage.results} />
       ))}
       <div className="loader" ref={observerElement}>
         {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
