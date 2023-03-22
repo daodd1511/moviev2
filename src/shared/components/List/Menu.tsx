@@ -81,11 +81,11 @@ export const Menu = ({
     <div className={`absolute flex flex-col items-end ${className ?? ''}`}>
       {isMenuOpen && (
         <div
-          className={`relative z-20 rounded-lg bg-white p-2 ${
-            !isAuth ? 'flex' : ''
+          className={`relative z-20 rounded-lg bg-white p-2 text-sm ${
+            !isAuth ? 'flex flex-col items-center' : ''
           }`}
         >
-          {!isAuth && <Link to="/auth/login">Login</Link>}
+          {!isAuth && <Link to="/auth/login" className="p-2">Login</Link>}
           {isAuth && (
             <ul>
               <li className="relative">
