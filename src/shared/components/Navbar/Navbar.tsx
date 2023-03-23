@@ -30,9 +30,6 @@ const NavbarComponent = () => {
   const [isMovieLinksOpen, setIsMovieLinksOpen] = useState<boolean>(false);
   const [isTvLinksOpen, setIsTvLinksOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const onLoginButtonClick = () => {
-    navigate('/auth/login');
-  };
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -55,50 +52,51 @@ const NavbarComponent = () => {
     <nav className="border-gray-200 bg-cPrimary py-2.5 dark:bg-gray-900">
       <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between px-8">
         <Link to="/" className="flex items-center">
-          <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
+          <span className="self-center whitespace-nowrap text-2xl font-semibold text-white">
             Flix
           </span>
         </Link>
-        {isAuth ?
-          (
-            <div className="md:order-2">
-              <ProfileDropdown />
-            </div>
-          ) :
-          (
-            <div className="flex items-center md:order-2">
-              <Link
-                to="/auth/login"
-                className=" mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:text-blue-500 md:mr-2 md:px-5 md:py-2.5 "
-              >
-              Login
-              </Link>
-              <Link
-                to="/auth/register"
-                className="mr-1 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 md:mr-2 md:px-5 md:py-2.5"
-              >
-              Sign up
-              </Link>
-              <button
-                type="button"
-                className="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden"
-                onClick={toggleMenu}
-              >
-                <FontAwesomeIcon icon={faBars} />
-              </button>
-            </div>
-          )}
+        <button
+          type="button"
+          className="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-white hover:bg-gray-100 md:hidden"
+          onClick={toggleMenu}
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </button>
         <div
           id="mega-menu"
           className={`${
             isMenuOpen ? '' : 'hidden'
-          } w-full items-center justify-between text-sm md:order-1 md:flex md:w-auto`}
+          } w-full items-center justify-between text-sm md:order-1 md:flex md:flex-grow md:w-auto md:pl-32`}
         >
+          {isAuth ?
+            (
+              <div className="md:order-2 flex text-white">
+                <Search />
+                <ProfileDropdown />
+              </div>
+            ) :
+            (
+              <div className="flex items-center md:order-2">
+                <Link
+                  to="/auth/login"
+                  className=" mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:text-blue-500 md:mr-2 md:px-5 md:py-2.5 "
+                >
+              Login
+                </Link>
+                <Link
+                  to="/auth/register"
+                  className="mr-1 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 md:mr-2 md:px-5 md:py-2.5"
+                >
+              Sign up
+                </Link>
+              </div>
+            )}
           <ul className="mt-4 flex flex-col font-medium md:mt-0 md:flex-row md:space-x-8">
             <li>
               <button
                 id="mega-menu-dropdown-button"
-                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:hover:bg-transparent "
+                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:text-lg md:border-0 md:p-0 md:hover:bg-transparent "
                 onClick={() => onMenuButtonClick(MediaType.Movie)}
               >
                 Movie{' '}
@@ -156,7 +154,7 @@ const NavbarComponent = () => {
             <li>
               <button
                 id="mega-menu-dropdown-button"
-                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:hover:bg-transparent "
+                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:hover:bg-transparent md:text-lg"
                 onClick={() => onMenuButtonClick(MediaType.Tv)}
               >
                 Tv{' '}
