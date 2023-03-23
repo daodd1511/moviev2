@@ -97,7 +97,7 @@ export const Menu = ({
                   Add to list
                 </button>
                 {isListMenuOpen && (
-                  <div className="absolute -top-2 -right-48 flex flex-col items-center rounded-lg bg-white p-2">
+                  <div className="absolute top-24 -right-2 w-60 flex flex-col items-center rounded-lg bg-white p-2 shadow-2xl">
                     <Link
                       to="/list/new"
                       className="rounded-lg p-2 text-md hover:bg-base-300"
