@@ -56,6 +56,22 @@ const NavbarComponent = () => {
             Flix
           </span>
         </Link>
+        {!isAuth && (
+          <div className="flex items-center md:order-2">
+            <Link
+              to="/auth/login"
+              className=" mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:text-blue-500 md:mr-2 md:px-5 md:py-2.5 "
+            >
+              Login
+            </Link>
+            <Link
+              to="/auth/register"
+              className="mr-1 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 md:mr-2 md:px-5 md:py-2.5"
+            >
+              Sign up
+            </Link>
+          </div>
+        )}
         <button
           type="button"
           className="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-white hover:bg-gray-100 md:hidden"
@@ -67,36 +83,13 @@ const NavbarComponent = () => {
           id="mega-menu"
           className={`${
             isMenuOpen ? '' : 'hidden'
-          } w-full items-center justify-between text-sm md:order-1 md:flex md:flex-grow md:w-auto md:pl-32`}
+          } w-full items-center justify-between text-sm md:order-1 md:flex md:w-auto md:flex-grow md:pl-32`}
         >
-          {isAuth ?
-            (
-              <div className="md:order-2 flex text-white">
-                <Search />
-                <ProfileDropdown />
-              </div>
-            ) :
-            (
-              <div className="flex items-center md:order-2">
-                <Link
-                  to="/auth/login"
-                  className=" mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:text-blue-500 md:mr-2 md:px-5 md:py-2.5 "
-                >
-              Login
-                </Link>
-                <Link
-                  to="/auth/register"
-                  className="mr-1 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 md:mr-2 md:px-5 md:py-2.5"
-                >
-              Sign up
-                </Link>
-              </div>
-            )}
           <ul className="mt-4 flex flex-col font-medium md:mt-0 md:flex-row md:space-x-8">
             <li>
               <button
                 id="mega-menu-dropdown-button"
-                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:text-lg md:border-0 md:p-0 md:hover:bg-transparent "
+                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:text-lg md:hover:bg-transparent "
                 onClick={() => onMenuButtonClick(MediaType.Movie)}
               >
                 Movie{' '}
@@ -118,7 +111,7 @@ const NavbarComponent = () => {
                 id="mega-menu-dropdown"
                 className={`${
                   isMovieLinksOpen ? '' : 'hidden'
-                } z-10 w-full grid-cols-2 rounded-lg p-4 text-sm text-white md:shadow-md md:absolute md:w-fit md:bg-white md:pb-4`}
+                } z-10 w-full grid-cols-2 rounded-lg p-4 text-sm text-white md:absolute md:w-fit md:bg-white md:pb-4 md:shadow-md`}
               >
                 <ul
                   className="w-full space-y-4"
@@ -127,7 +120,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       to={MovieLinks.popular}
-                      className="text-gray-300 md:text-gray-500 hover:text-blue-600 "
+                      className="text-gray-300 hover:text-blue-600 md:text-gray-500 "
                     >
                       Popular
                     </Link>
@@ -135,7 +128,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       to={MovieLinks.topRated}
-                      className="text-gray-300 md:text-gray-500 hover:text-blue-600 "
+                      className="text-gray-300 hover:text-blue-600 md:text-gray-500 "
                     >
                       Top Rated
                     </Link>
@@ -143,7 +136,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       to={MovieLinks.upcoming}
-                      className="text-gray-300 md:text-gray-500 hover:text-blue-600 "
+                      className="text-gray-300 hover:text-blue-600 md:text-gray-500 "
                     >
                       Upcoming
                     </Link>
@@ -154,7 +147,7 @@ const NavbarComponent = () => {
             <li>
               <button
                 id="mega-menu-dropdown-button"
-                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:hover:bg-transparent md:text-lg"
+                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:text-lg md:hover:bg-transparent"
                 onClick={() => onMenuButtonClick(MediaType.Tv)}
               >
                 Tv{' '}
@@ -176,7 +169,7 @@ const NavbarComponent = () => {
                 id="mega-menu-dropdown"
                 className={`${
                   isTvLinksOpen ? '' : 'hidden'
-                } z-10 w-full grid-cols-2 rounded-lg text-sm md:shadow-md md:absolute md:w-fit md:bg-white`}
+                } z-10 w-full grid-cols-2 rounded-lg text-sm md:absolute md:w-fit md:bg-white md:shadow-md`}
               >
                 <div className="p-4 text-white md:pb-4">
                   <ul
@@ -186,7 +179,7 @@ const NavbarComponent = () => {
                     <li>
                       <Link
                         to={TVLinks.popular}
-                        className="text-gray-300 md:text-gray-500 hover:text-blue-600"
+                        className="text-gray-300 hover:text-blue-600 md:text-gray-500"
                       >
                         Popular
                       </Link>
@@ -194,7 +187,7 @@ const NavbarComponent = () => {
                     <li>
                       <Link
                         to={TVLinks.topRated}
-                        className="text-gray-300 md:text-gray-500 hover:text-blue-600"
+                        className="text-gray-300 hover:text-blue-600 md:text-gray-500"
                       >
                         Top Rated
                       </Link>
@@ -202,7 +195,7 @@ const NavbarComponent = () => {
                     <li>
                       <Link
                         to={TVLinks.onTheAir}
-                        className="text-gray-300 md:text-gray-500 hover:text-blue-600"
+                        className="text-gray-300 hover:text-blue-600 md:text-gray-500"
                       >
                         On The Air
                       </Link>
@@ -212,6 +205,13 @@ const NavbarComponent = () => {
               </div>
             </li>
           </ul>
+          {isAuth &&
+            (
+              <div className="flex text-white justify-between">
+                <Search />
+                <ProfileDropdown />
+              </div>
+            )}
         </div>
       </div>
     </nav>
