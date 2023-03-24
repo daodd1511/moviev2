@@ -89,7 +89,7 @@ const MovieDetailComponent = () => {
           <img
             src={fullSizeImageUrl}
             alt="full size image"
-            className="h-[90vh]"
+            className="h-2/3 md:h-[90vh]"
           />
         </Modal>
       )}

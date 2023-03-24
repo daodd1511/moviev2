@@ -19,7 +19,7 @@ export const Modal = ({ children, setIsOpen }: Props) => (
   >
     <div className="z-50  h-screen w-full p-4">
       {/* Modal content */}
-      <div className="flex items-center justify-center relative">
+      <div className="flex items-center justify-center relative h-full">
         {children}
         {/* Close button */}
         <button type="button" className="bg-white absolute top-0 right-12 h-10 w-10 rounded-full text-2xl" onClick={() => setIsOpen(false)}>
