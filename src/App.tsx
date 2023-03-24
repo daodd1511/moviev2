@@ -23,7 +23,7 @@ export const App = () => {
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer />
       <HashRouter>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<Loader className="h-screen"/>}>
           <Router />
         </Suspense>
       </HashRouter>
