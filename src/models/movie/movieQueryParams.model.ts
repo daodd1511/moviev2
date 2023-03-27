@@ -4,7 +4,7 @@ import { SortBy, SortOrder } from '@/shared/enums/sort';
 export interface MovieQueryParams {
 
   /** Page. */
-  readonly page?: number;
+  readonly page: number;
 
   /** Sort by. */
   readonly sortBy: SortBy;

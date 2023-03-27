@@ -89,7 +89,7 @@ const NavbarComponent = () => {
             <li>
               <button
                 id="mega-menu-dropdown-button"
-                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:text-lg md:hover:bg-transparent "
+                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white  md:w-auto md:border-0 md:p-0 md:text-lg md:hover:bg-transparent "
                 onClick={() => onMenuButtonClick(MediaType.Movie)}
               >
                 Movie{' '}
@@ -147,7 +147,7 @@ const NavbarComponent = () => {
             <li>
               <button
                 id="mega-menu-dropdown-button"
-                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white hover:bg-gray-50 md:w-auto md:border-0 md:p-0 md:text-lg md:hover:bg-transparent"
+                className="flex w-full items-center justify-between py-2 pl-3 pr-4 font-medium text-white  md:w-auto md:border-0 md:p-0 md:text-lg md:hover:bg-transparent"
                 onClick={() => onMenuButtonClick(MediaType.Tv)}
               >
                 Tv{' '}

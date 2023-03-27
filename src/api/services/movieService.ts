@@ -17,10 +17,10 @@ export namespace MovieService {
     return movies;
   };
 
-  export const getTestMovies = async(page: number, params: MovieQueryParams): Promise<Pagination<Movie>> => {
+  export const getTestMovies = async(page: number, params: MovieQueryParams): Promise<Pagination<Media>> => {
     const paramsDto = MovieQueryParamsMapper.toDto({ ...params, page });
     const response = await api.get<PaginationDto<MovieDto>>('/discover/movie', { params: paramsDto });
-    const movies = PaginationMapper.fromDto(response.data, movieDto => MovieMapper.fromDto(movieDto));
+    const movies = PaginationMapper.fromDto(response.data, movieDto => MediaMapper.fromMovieDto(movieDto));
     return movies;
   };
 

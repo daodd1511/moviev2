@@ -20,10 +20,21 @@ export namespace MovieQueries {
       },
     );
 
+  export const useInfiniteListTest = (params: MovieQueryParams) => useInfiniteQuery<Pagination<Media>, AxiosError>(
+    ['movies', params],
+    ({ pageParam = 1 }) => MovieService.getTestMovies(pageParam, params),
+    {
+      getNextPageParam(lastPage) {
+        const nextPage = lastPage.page + 1;
+        return nextPage < lastPage.totalPages ? nextPage : undefined;
+      },
+    },
+  );
+
   export const useTestInfiniteListByDiscover = (
       params: MovieQueryParams,
   ) =>
-      useInfiniteQuery<Pagination<Movie>, AxiosError>(
+      useInfiniteQuery<Pagination<Media>, AxiosError>(
       ['movies', params],
       ({ pageParam = 1 }) => MovieService.getTestMovies(pageParam, params),
       {

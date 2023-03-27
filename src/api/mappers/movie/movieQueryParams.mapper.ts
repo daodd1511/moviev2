@@ -8,13 +8,13 @@ export namespace MovieQueryParamsMapper {
    * @param params Query params.
    */
   export function toDto(params: MovieQueryParams): MovieQueryParamsDto {
-    const pageValue = (params.page != null) ? params.page : 1;
+    const pageValue = (params.page !== null) ? params.page : 1;
     const sortValue = `${params.sortBy}.${params.sortOrder}`;
-    const genresValue = (params.withGenres != null) ? params.withGenres.join(',') : '';
-    const yearValue = (params.year != null) ? params.year : '';
-    const releaseDateGteValue = (params.releaseDateGte != null) ? params.releaseDateGte.toISOString() : '';
-    const releaseDateLteValue = (params.releaseDateLte != null) ? params.releaseDateLte.toISOString() : '';
-    const voteCountGteValue = (params.voteCountGte != null) ? params.voteCountGte : 0;
+    const genresValue = (params.withGenres !== undefined) ? params.withGenres.join(',') : '';
+    const yearValue = (params.year !== undefined) ? params.year : '';
+    const releaseDateGteValue = (params.releaseDateGte !== undefined) ? params.releaseDateGte.toISOString() : '';
+    const releaseDateLteValue = (params.releaseDateLte !== undefined) ? params.releaseDateLte.toISOString() : '';
+    const voteCountGteValue = (params.voteCountGte !== undefined) ? params.voteCountGte : 0;
     return {
       'page': pageValue,
       'sort_by': sortValue,
