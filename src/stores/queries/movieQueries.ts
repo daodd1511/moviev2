@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { Genre, Media, Movie, MovieDetail, Pagination } from '@/models';
+import { Genre, Media, MovieDetail, Pagination } from '@/models';
 import { MovieService } from '@/api/services/movieService';
 import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 

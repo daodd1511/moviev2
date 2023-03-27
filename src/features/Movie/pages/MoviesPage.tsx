@@ -6,6 +6,8 @@ import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { MovieByDiscover } from '../components';
 
 import { goToTop } from '@/shared/utils';
+import { MediaType } from '@/shared/enums/mediaType';
+import { Filter } from '@/shared/components/Filter';
 
 const SCROLL_THRESHOLD = 800;
 
@@ -27,6 +29,7 @@ const MoviesComponent = () => {
   }, [params]);
   return (
     <div className="relative">
+      <Filter type={MediaType.Movie}/>
       <MovieByDiscover />
       {showTopBtn && (
         <button
