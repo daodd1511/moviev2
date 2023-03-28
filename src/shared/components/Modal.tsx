@@ -22,7 +22,7 @@ export const Modal = ({ children, setIsOpen }: Props) => (
       <div className="flex items-center justify-center relative h-full">
         {children}
         {/* Close button */}
-        <button type="button" className="bg-white absolute top-0 right-12 h-10 w-10 rounded-full text-2xl" onClick={() => setIsOpen(false)}>
+        <button type="button" className="text-white absolute top-0 right-12 h-10 w-10 rounded-full text-2xl" onClick={() => setIsOpen(false)}>
           <FontAwesomeIcon icon={faXmark} />
         </button>
       </div>

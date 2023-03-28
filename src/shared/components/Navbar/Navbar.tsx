@@ -56,25 +56,31 @@ const NavbarComponent = () => {
             Flix
           </span>
         </Link>
+
         {!isAuth && (
-          <div className="flex items-center md:order-2">
-            <Link
-              to="/auth/login"
-              className=" mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:text-blue-500 md:mr-2 md:px-5 md:py-2.5 "
-            >
-              Login
-            </Link>
-            <Link
-              to="/auth/register"
-              className="mr-1 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 md:mr-2 md:px-5 md:py-2.5"
-            >
-              Sign up
-            </Link>
+          <div>
+            <div className="order-2 text-white hidden md:block">
+              <Search />
+            </div>
+            <div className="flex text-white items-center md:order-2">
+              <Link
+                to="/auth/login"
+                className=" mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:text-blue-500 md:mr-2 md:px-5 md:py-2.5 "
+              >
+                                  Login
+              </Link>
+              <Link
+                to="/auth/register"
+                className="mr-1 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 md:mr-2 md:px-5 md:py-2.5"
+              >
+                                  Sign up
+              </Link>
+            </div>
           </div>
         )}
         <button
           type="button"
-          className="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-white hover:bg-gray-100 md:hidden"
+          className="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-white md:hidden"
           onClick={toggleMenu}
         >
           <FontAwesomeIcon icon={faBars} />
@@ -205,6 +211,11 @@ const NavbarComponent = () => {
               </div>
             </li>
           </ul>
+          {!isAuth && (
+            <div className="order-2 text-white md:hidden">
+              <Search />
+            </div>
+          )}
           {isAuth &&
             (
               <div className="flex text-white justify-between">

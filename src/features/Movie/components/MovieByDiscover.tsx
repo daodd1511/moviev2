@@ -1,20 +1,16 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useAtom } from 'jotai';
-
 import { Loader } from '@/shared/components';
 import { MediaList } from '@/shared/components/';
 import { MOVIE_DISCOVER } from '@/shared/constants';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { MovieQueries } from '@/stores/queries/movieQueries';
-import { queryParamsAtom } from '@/stores/atoms/queryParamsAtom';
 
 const MovieByDiscoverComponent = () => {
   const { discover } = useParams();
   const title =
     MOVIE_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
-  const [queryParams] = useAtom(queryParamsAtom);
 
   const {
     data,
@@ -24,7 +20,7 @@ const MovieByDiscoverComponent = () => {
     isLoading,
     isError,
     error,
-  } = MovieQueries.useInfiniteListTest(queryParams);
+  } = MovieQueries.useInfiniteListByDiscover(discover ?? '');
 
   const { observerElement } = useInfiniteScroll(
     {
