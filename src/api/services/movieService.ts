@@ -10,7 +10,6 @@ import { Movie, Genre, Pagination, MovieDetail, Media } from '@/models';
 import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 
 export namespace MovieService {
-
   export const getMovies = async(page: number, discoverValue?: string): Promise<Pagination<Media>> => {
     const response = await api.get<PaginationDto<MovieDto>>(`/movie/${discoverValue ?? 'popular'}?page=${page}`);
     const movies = PaginationMapper.fromDto(response.data, movieDto => MediaMapper.fromMovieDto(movieDto));
