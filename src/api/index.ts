@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 import { API_CONFIG } from './config';
-import { tokenInterceptor } from './interceptors/token.interceptor';
+import { tokenErrorInterceptor, tokenInterceptor } from './interceptors/token.interceptor';
 
 export const api: AxiosInstance = axios.create({
   baseURL: API_CONFIG.apiUrl,
@@ -16,6 +16,10 @@ export const backendApi: AxiosInstance = axios.create({
 
 backendApi.interceptors.request.use(
   config => tokenInterceptor(config), error => Promise.reject(error),
+);
+
+backendApi.interceptors.response.use(
+  response => response, error => tokenErrorInterceptor(error),
 );
 
 export const videoApi: AxiosInstance = axios.create({

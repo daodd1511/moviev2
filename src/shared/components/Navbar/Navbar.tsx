@@ -58,22 +58,22 @@ const NavbarComponent = () => {
         </Link>
 
         {!isAuth && (
-          <div>
-            <div className="order-2 text-white hidden md:block">
+          <div className="md:order-2 flex">
+            <div className="order-2 hidden text-white md:block">
               <Search />
             </div>
-            <div className="flex text-white items-center md:order-2">
+            <div className="flex items-center text-white md:order-2">
               <Link
                 to="/auth/login"
                 className=" mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:text-blue-500 md:mr-2 md:px-5 md:py-2.5 "
               >
-                                  Login
+                Login
               </Link>
               <Link
                 to="/auth/register"
                 className="mr-1 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 md:mr-2 md:px-5 md:py-2.5"
               >
-                                  Sign up
+                Sign up
               </Link>
             </div>
           </div>
@@ -216,13 +216,12 @@ const NavbarComponent = () => {
               <Search />
             </div>
           )}
-          {isAuth &&
-            (
-              <div className="flex text-white justify-between">
-                <Search />
-                <ProfileDropdown />
-              </div>
-            )}
+          {isAuth && (
+            <div className="flex justify-between text-white">
+              <Search />
+              <ProfileDropdown />
+            </div>
+          )}
         </div>
       </div>
     </nav>
