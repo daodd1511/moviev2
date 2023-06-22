@@ -22,14 +22,14 @@ interface TvStorage {
 
 // TODO: Make player a service
 const getMoviePlayerSrc = (id: MovieDetail['id']) =>
-  `${API_CONFIG.videoApiUrl}movie?id=${id}`;
+  `${API_CONFIG.videoApiUrl}/${id}/color-023246`;
 const getTvPlayerSrc = (
   id: TvDetail['id'],
   season: number,
   episode: number | null,
 ) =>
   episode !== null ?
-    `${API_CONFIG.videoApiUrl}tv?id=${id}&s=${season}&e=${episode}` :
+    `${API_CONFIG.videoApiUrl}/${id}/${season}-${episode}/color-023246` :
     null;
 const getStorageKey = (id: TvDetail['id']) =>
   `${LOCAL_STORAGE_KEY.watchTV}_${id}`;
