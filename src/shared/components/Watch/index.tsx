@@ -20,17 +20,37 @@ interface TvStorage {
   episode: number;
 }
 
+const PLAYER_PROVIDER = [
+  {
+    name: 'vidsrc',
+    url: API_CONFIG.videoApiUrl,
+  },
+  {
+    name: 'superembed',
+    url: API_CONFIG.alternateVideoApiUrl,
+  },
+];
+
 // TODO: Make player a service
-const getMoviePlayerSrc = (id: MovieDetail['id']) =>
-  `${API_CONFIG.videoApiUrl}/${id}/color-023246`;
+const getMoviePlayerSrc = (url: string, id: MovieDetail['id']) => {
+  if (url === API_CONFIG.alternateVideoApiUrl) {
+    return `${url}&video_id=${id}`;
+  }
+  return `${url}/${id}/color-023246`;
+};
 const getTvPlayerSrc = (
+  url: string,
   id: TvDetail['id'],
   season: number,
   episode: number | null,
-) =>
-  episode !== null ?
-    `${API_CONFIG.videoApiUrl}/${id}/${season}-${episode}/color-023246` :
-    null;
+) => {
+  if (episode === null) {
+    return null;
+  } else if (url === API_CONFIG.alternateVideoApiUrl) {
+    return `${url}&video_id=${id}&s=${season}&e=${episode}`;
+  }
+  return `${url}/${id}/${season}-${episode}/color-023246`;
+};
 const getStorageKey = (id: TvDetail['id']) =>
   `${LOCAL_STORAGE_KEY.watchTV}_${id}`;
 
@@ -46,14 +66,21 @@ const WatchComponent = ({ media }: Props) => {
   const isTvShow = media instanceof TvDetail;
   const [season, setSeason] = useState<number>(1);
   const [episode, setEpisode] = useState<number | null>(null);
+  const [playerSrc, setPlayerSrc] = useState<string | null>(null);
+  const [activeProvider, setActiveProvider] = useState<string>(PLAYER_PROVIDER[0].url);
   if (isTvShow && episode === null && select.current !== null) {
     if (media.seasons.length > 0) {
       select.current.scrollIntoView({ behavior: 'smooth' });
     }
   }
-  const playerSrc = isTvShow ?
-    getTvPlayerSrc(media.id, season, episode) :
-    getMoviePlayerSrc(media.id);
+  const onChangeProvider = (url: string) => {
+    setActiveProvider(url);
+    const source = isTvShow ?
+      getTvPlayerSrc(url, media.id, season, episode) :
+      getMoviePlayerSrc(url, media.id);
+    setPlayerSrc(source);
+  };
+
   useEffect(() => {
     if (isTvShow) {
       const storageKey = getStorageKey(media.id);
@@ -71,11 +98,18 @@ const WatchComponent = ({ media }: Props) => {
       }
     }
     goToTop();
+    const src = isTvShow ? getTvPlayerSrc(activeProvider, media.id, season, episode) : getMoviePlayerSrc(activeProvider, media.id);
+    setPlayerSrc(src);
   }, [media.id]);
 
   useEffect(() => {
     if (player.current !== null) {
       player.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (isTvShow) {
+      const src = getTvPlayerSrc(activeProvider, media.id, season, episode);
+      setPlayerSrc(src);
     }
   }, [episode]);
 
@@ -105,6 +139,13 @@ const WatchComponent = ({ media }: Props) => {
           />
         </div>
       )}
+      <div className="pt-10 flex justify-center gap-6">
+        {PLAYER_PROVIDER.map(({ name, url }, index) => (
+          <button key={name} onClick={() => onChangeProvider(url)} className={`btn ${activeProvider === url ? 'btn-primary text-white' : 'btn-outline'}`}>
+            Provider {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
