@@ -78,21 +78,19 @@ export const Menu = ({
     setIsListMenuOpen(false);
   };
   return (
-    <div className={`absolute flex flex-col items-end ${className ?? ''}`}>
+    <div className={`absolute flex flex-col items-end ${className ?? ''} min-w-[200px]`}>
       {isMenuOpen && (
         <div
-          className={`relative z-20 rounded-lg bg-white p-2 text-sm ${
-            !isAuth ? 'flex flex-col items-center' : ''
-          }`}
+          className={'relative z-20 rounded-lg bg-white p-2 text-sm w-full flex flex-col items-center gap-2'}
         >
-          {!isAuth && <Link to="/auth/login" className="p-2">Login</Link>}
+          {!isAuth && <Link to="/auth/login" className="rounded-lg p-2 text-md hover:bg-base-300 w-full text-center">Login</Link>}
           {isAuth && (
-            <ul>
+            <ul className="w-full">
               <li className="relative">
                 <button
                   type="button"
                   onClick={addToListClick}
-                  className="p-2 hover:rounded-lg hover:bg-gray-300"
+                  className="p-2 hover:rounded-lg hover:bg-gray-300 w-full"
                 >
                   Add to list
                 </button>
@@ -100,18 +98,18 @@ export const Menu = ({
                   <div className="absolute top-24 -right-2 w-60 flex flex-col items-center rounded-lg bg-white p-2 shadow-2xl">
                     <Link
                       to="/list/new"
-                      className="rounded-lg p-2 text-md hover:bg-base-300"
+                      className="rounded-lg p-2 text-md hover:bg-base-300 w-full text-center"
                     >
                       Create new list
                     </Link>
-                    <ul>
+                    <ul className='w-full'>
                       {isListLoading ?
                         (
                           <Loader />
                         ) :
                         (
-                          <div className="p-2">
-                            <p className="font-bold">Add to existing lists</p>
+                          <div className="p-2 flex flex-col gap-2 w-full">
+                            <p className="font-bold text-center">Add to existing lists</p>
 
                             {lists?.map(list => (
                               <li key={list.id}>

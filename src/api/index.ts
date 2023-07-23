@@ -21,7 +21,3 @@ backendApi.interceptors.request.use(
 backendApi.interceptors.response.use(
   response => response, error => tokenErrorInterceptor(error),
 );
-
-export const videoApi: AxiosInstance = axios.create({
-  baseURL: API_CONFIG.videoApiUrl,
-});

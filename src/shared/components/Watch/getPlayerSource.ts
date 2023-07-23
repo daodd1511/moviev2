@@ -26,10 +26,16 @@ const movieApiProvider: PlayerProvider = {
   url: API_CONFIG.videoApiProvider3,
 };
 
+const smashyStreamProvider: PlayerProvider = {
+  name: 'smashystream',
+  url: API_CONFIG.videoApiProvider4,
+};
+
 export const PLAYER_PROVIDERS: PlayerProvider[] = [
   vidSrcProvider,
   superEmbedProvider,
   movieApiProvider,
+  smashyStreamProvider,
 ];
 
 export const getMoviePlayerSrc = (provider: PlayerProvider, id: MovieDetail['id']) => {
@@ -40,6 +46,8 @@ export const getMoviePlayerSrc = (provider: PlayerProvider, id: MovieDetail['id'
       return `${provider.url}&video_id=${id}`;
     case movieApiProvider.name:
       return `${provider.url}/movie/${id}`;
+    case smashyStreamProvider.name:
+      return `${provider.url}?tmdb=${id}`;
     default:
       return '';
   }
@@ -61,6 +69,8 @@ export const getTvPlayerSrc = (
       return `${provider.url}&video_id=${id}&s=${season}&e=${episode}`;
     case movieApiProvider.name:
       return `${provider.url}/tv/${id}-${season}-${episode}`;
+    case smashyStreamProvider.name:
+      return `${provider.url}?tmdb=${id}&season=${season}&episode=${episode}`;
     default:
       return '';
   }
