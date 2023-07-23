@@ -4,4 +4,7 @@ export const API_CONFIG = {
   videoApiUrl: import.meta.env.VITE_APP_VIDEO_API,
   alternateVideoApiUrl: import.meta.env.VITE_APP_ALTERNATE_VIDEO_API,
   backendUrl: import.meta.env.VITE_APP_BACKEND_API_URL,
+  videoApiProvider1: import.meta.env.VITE_APP_VIDEO_API_PROVIDER_1,
+  videoApiProvider2: import.meta.env.VITE_APP_VIDEO_API_PROVIDER_2,
+  videoApiProvider3: import.meta.env.VITE_APP_VIDEO_API_PROVIDER_3,
 };
