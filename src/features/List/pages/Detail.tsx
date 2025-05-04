@@ -52,7 +52,7 @@ const ListDetailComponent = () => {
     <div className="px-8 py-12">
       <div className="flex justify-between">
         <div>
-          <h1>{data?.name}</h1>
+          <h1>{data?.name} (Total: {(data?.movies.length ?? 0) + (data?.tvShows.length ?? 0)})</h1>
           <p>{data?.description}</p>
         </div>
         {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
