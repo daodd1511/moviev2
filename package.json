@@ -53,6 +53,6 @@
     "vite-plugin-checker": "^0.5.1"
   },
   "volta": {
-    "node": "16.18.0"
+    "node": "22.20.0"
   }
 }
