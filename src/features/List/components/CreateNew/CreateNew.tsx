@@ -13,12 +13,13 @@ import { listSchema } from './formSetting';
 
 import { SearchResults } from './components/SearchResults';
 
-import { List, Movie, Tv } from '@/models';
+import { List, Media, Movie, Tv } from '@/models';
 import { SearchService } from '@/api/services/searchService';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { useDebounce } from '@/shared/hooks';
 import { ErrorField } from '@/features/Auth/components/ErrorField';
 import { ListService } from '@/api/services/listService';
+import { MediaMapper } from '@/api/mappers/media.mapper';
 
 const CreateNewComponent = () => {
   const queryClient = useQueryClient();
@@ -38,12 +39,10 @@ const CreateNewComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const debounceSearchQuery = useDebounce<string>(searchQuery);
 
-  const {
-    data: searchResults,
-    isLoading,
-    isError,
-    error,
-  } = useQuery<Array<MovieSearch | TvSearch>, AxiosError>(
+  const { data: searchResults } = useQuery<
+    Array<MovieSearch | TvSearch>,
+    AxiosError
+  >(
     ['listSearch', debounceSearchQuery],
     () => SearchService.multi(debounceSearchQuery),
     {
@@ -81,15 +80,17 @@ const CreateNewComponent = () => {
   };
 
   const onSubmit = handleSubmit(() => {
-    // setValue('movies', movieList);
-
-    // setValue('tvShows', tvList);
+    const movies: Media[] = movieList.map((movie: Movie) =>
+      MediaMapper.fromMovie(movie));
+    const tvShows: Media[] = tvList.map((tv: Tv) => MediaMapper.fromTv(tv));
+    setValue('movies', movies);
+    setValue('tvShows', tvShows);
     const list = getValues();
     addMutation.mutate(list);
   });
   return (
     <div>
-      <form onSubmit={onSubmit} className="max-w-lg mx-auto">
+      <form onSubmit={onSubmit} className="mx-auto max-w-lg" onKeyDown={e => e.key === 'Enter' && e.preventDefault()}>
         <div>
           <label className="label">Name</label>
           <input
@@ -125,19 +126,21 @@ const CreateNewComponent = () => {
               handleResultClick={handleResultClick}
             />
           )}
-          <div>
+          <div className="my-4">
             <h2 className="text-xl">Movies</h2>
             {movieList.map((movie, index) => (
-              <div key={movie.id}>{index}. {
-                  movie.title
-              }</div>))}
+              <div key={movie.id}>
+                {index + 1}. {movie.title}
+              </div>
+            ))}
           </div>
           <div>
             <h2 className="text-xl">Tv Shows</h2>
             {tvList.map((tv, index) => (
-              <div key={tv.id}>{index}. {
-                  tv.name
-              }</div>))}
+              <div key={tv.id}>
+                {index + 1}. {tv.name}
+              </div>
+            ))}
           </div>
         </div>
         <div className="mt-4 flex justify-end">
