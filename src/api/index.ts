@@ -6,7 +6,7 @@ import { tokenErrorInterceptor, tokenInterceptor } from './interceptors/token.in
 export const api: AxiosInstance = axios.create({
   baseURL: API_CONFIG.apiUrl,
   params: {
-    api_key: API_CONFIG.apiKey,
+    api_key: API_CONFIG.tmdbApiKey,
   },
 });
 
