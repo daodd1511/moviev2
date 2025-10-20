@@ -15,11 +15,11 @@ export const ListPage = () => {
           <h1>My list</h1>
           <Link to="/list/new" className="btn btn-sm btn-outline btn-primary">Create</Link>
         </div>
-        <div className="flex gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {data?.map(list => (
-            <div key={list.id}>
+            <div key={list.id} >
               <Link to={`/list/${list.id}`}>
-                <div className="card w-96 bg-base-100 shadow-xl">
+                <div className="card w-full h-full bg-base-100 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200">
                   <div className="card-body">
                     <h2 className="card-title">{list.name}</h2>
                     <p>{list.description}</p>
