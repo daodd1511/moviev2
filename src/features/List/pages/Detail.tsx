@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
+/* eslint-disable max-lines-per-function */
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import { useState } from 'react';
 
@@ -8,26 +9,27 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { assertNonNull } from '@/shared/utils';
 import { ListQueries } from '@/stores/queries/listQueries';
-import {
-  Footer,
-  Loader,
-  MediaListItem,
-} from '@/shared/components';
+import { Footer, Loader, MediaListItem } from '@/shared/components';
 import { Type } from '@/shared/enums';
 import { Media } from '@/models';
 import { ListService } from '@/api/services/listService';
 import { UserQueries } from '@/stores/queries/userQueries';
 import { MediaType } from '@/shared/enums/mediaType';
+import { Modal } from '@/shared/components/Modal';
 
 const ListDetailComponent = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const { id } = useParams<{ id: string; }>();
+  const [isConfirmRemoveListModalOpen, setIsConfirmRemoveListModalOpen] =
+    useState(false);
   const { data: user, isLoading: isUserLoading } = UserQueries.useProfile();
   const [activeTab, setActiveTab] = useState<Type>(Type.Movie);
   assertNonNull(id);
   const { data, isLoading } = ListQueries.useById(id);
 
-  const removeMutation = useMutation(
+  const removeMediaMutation = useMutation(
     (item: Media) =>
       item.type === MediaType.Movie ?
         ListService.removeMovie(id, item) :
@@ -40,8 +42,24 @@ const ListDetailComponent = () => {
     },
   );
 
-  const onRemoveButtonClick = (item: Media) => {
-    removeMutation.mutate(item);
+  const removeListMutation = useMutation(() => ListService.remove(id), {
+    onSuccess() {
+      toast.success('List removed');
+      navigate('/user/lists');
+    },
+  });
+
+  const onRemoveMediaButtonClick = (item: Media) => {
+    removeMediaMutation.mutate(item);
+  };
+
+  const onRemoveListButtonClick = () => {
+    setIsConfirmRemoveListModalOpen(true);
+  };
+
+  const onConfirmRemoveListButtonClick = () => {
+    removeListMutation.mutate();
+    setIsConfirmRemoveListModalOpen(false);
   };
 
   if (isLoading || isUserLoading) {
@@ -52,11 +70,56 @@ const ListDetailComponent = () => {
     <div className="px-8 py-12">
       <div className="flex justify-between">
         <div>
-          <h1>{data?.name} (Total: {(data?.movies.length ?? 0) + (data?.tvShows.length ?? 0)})</h1>
+          <h1>
+            {data?.name} (Total:{' '}
+            {(data?.movies.length ?? 0) + (data?.tvShows.length ?? 0)})
+          </h1>
           <p>{data?.description}</p>
         </div>
-        {/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
-        <Link to={`/u/${user.username}/lists/${data?.id ?? ''}`} target="_blank">Go to public link</Link>
+        <div className="flex items-center gap-4">
+          <Link
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            to={`/u/${user.username}/lists/${data?.id ?? ''}`}
+            target="_blank"
+          >
+            Go to public link
+          </Link>
+          <button
+            type="button"
+            className="btn btn-outline btn-error btn-sm"
+            onClick={onRemoveListButtonClick}
+          >
+            Remove
+          </button>
+
+          {isConfirmRemoveListModalOpen && (
+            <Modal setIsOpen={setIsConfirmRemoveListModalOpen}>
+              <div className="card w-96 bg-base-100 text-neutral-content">
+                <div className="card-body items-center text-center text-black">
+                  <h2 className="card-title p-6">
+                    Do you want to remove this list?
+                  </h2>
+                  <div className="card-actions">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => setIsConfirmRemoveListModalOpen(false)}
+                    >
+                      No
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-error"
+                      onClick={onConfirmRemoveListButtonClick}
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+          )}
+        </div>
       </div>
       <div className="tabs pb-10">
         <a
@@ -80,7 +143,7 @@ const ListDetailComponent = () => {
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"
-                onClick={() => onRemoveButtonClick(movie)}
+                onClick={() => onRemoveMediaButtonClick(movie)}
               >
                   Remove
               </button>
@@ -92,7 +155,7 @@ const ListDetailComponent = () => {
               <button
                 type="button"
                 className="btn btn-outline btn-error btn-sm w-full"
-                onClick={() => onRemoveButtonClick(tv)}
+                onClick={() => onRemoveMediaButtonClick(tv)}
               >
                   Remove
               </button>
