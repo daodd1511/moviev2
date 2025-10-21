@@ -4,7 +4,6 @@ import { Link, useParams } from 'react-router-dom';
 
 import { Content } from './components';
 
-import { Watch } from '@/shared/components/Watch';
 import { assertNonNull } from '@/shared/utils';
 import { Modal } from '@/shared/components/Modal';
 import { Footer, Loader } from '@/shared/components';
@@ -51,7 +50,6 @@ const TvDetailComponent = () => {
           <li>{tv.name}</li>
         </ul>
       </div>
-      <Watch media={tv}/>
       <div className="flex flex-col md:flex-row md:justify-between pt-5 md:pt-10">
         <div className="max-w-[100%] md:max-w-[30%] p-5 md:p-10">
           <img

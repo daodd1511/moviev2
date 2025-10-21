@@ -12,7 +12,6 @@ import { IMAGE_BASE_URL } from '@/shared/constants';
 import { goToTop, assertNonNull } from '@/shared/utils';
 import { NotFound } from '@/shared/components/NotFound';
 import { MovieQueries } from '@/stores/queries/movieQueries';
-import { Watch } from '@/shared/components/Watch';
 import { MediaType } from '@/shared/enums/mediaType';
 
 const MovieDetailComponent = () => {
@@ -68,7 +67,6 @@ const MovieDetailComponent = () => {
           <li>{movie.title}</li>
         </ul>
       </div>
-      <Watch media={movie}/>
       <div className="flex flex-col md:flex-row md:justify-between pt-5 md:pt-10">
         <div className="max-w-[100%] md:max-w-[30%] p-5 md:p-10">
           <img
