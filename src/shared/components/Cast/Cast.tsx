@@ -20,7 +20,7 @@ const CastComponent = ({ cast, title = 'Cast' }: Props) => {
   return (
     <div className="pb-8">
       <h3 className="mb-4 text-lg font-medium">{title}</h3>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
         {displayedCast.map(person => {
           const imageUrl =
             person.profilePath != null ?
@@ -34,15 +34,15 @@ const CastComponent = ({ cast, title = 'Cast' }: Props) => {
               <img
                 src={imageUrl}
                 alt={person.name}
-                className="h-12 w-12 rounded-full border border-gray-200 object-cover"
+                className="h-24 w-24 rounded-full border border-gray-200 object-cover"
                 onError={e => {
                   const target = e.target as HTMLImageElement;
                   target.src = '/images/no-profile.png';
                 }}
               />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{person.name}</p>
-                <p className="truncate text-xs text-gray-500">
+                <p className="truncate text-md font-medium">{person.name}</p>
+                <p className="truncate text-sm text-gray-500">
                   {person.character}
                 </p>
               </div>
