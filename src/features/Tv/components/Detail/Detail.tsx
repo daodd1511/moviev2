@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { memo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 

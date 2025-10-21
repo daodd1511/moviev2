@@ -23,7 +23,7 @@ const CastComponent = ({
   credits,
   castTitle = 'Cast',
   showCast = true,
-  limit = 12,
+  limit = 14,
 }: Props) => (
   <div>
     {showCast && credits.cast.length > 0 && (

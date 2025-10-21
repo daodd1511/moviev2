@@ -49,15 +49,16 @@ const ButtonsComponent = ({ movie }: Props) => {
       </div>
       {isWatchTrailer && trailerKey !== '' && (
         <Modal setIsOpen={setIsWatchTrailer}>
-          <div className="z-50 w-5/6">
-            <iframe
-              src={`https://www.youtube.com/embed/${trailerKey}`}
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              allowFullScreen={true}
-              className="aspect-video"
-            />
+          <div className="relative z-50 w-[80vw] max-w-7xl mx-auto">
+            <div className="aspect-video">
+              <iframe
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                title="Trailer"
+                className="w-full h-full rounded-lg"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
         </Modal>
       )}
