@@ -81,9 +81,9 @@ const MovieDetailComponent = () => {
           <Content movie={movie} />
         </div>
       </div>
-      {((credits?.cast) != null) && credits.cast.length > 0 && (
+      {credits != null && (
         <div className="p-5 md:p-10">
-          <Cast cast={credits.cast} title="Cast" />
+          <Cast credits={credits} showCrew={true} />
         </div>
       )}
       <Recommend mediaId={movie.id} mediaType={MediaType.Movie} />

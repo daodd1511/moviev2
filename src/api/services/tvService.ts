@@ -1,7 +1,6 @@
 import { api } from '..';
 import { PaginationDto, GenreResponseDto, EpisodeDto, TvDetailDto, TvDto, CreditsDto } from '../dtos';
-import { PaginationMapper, GenreMapper, EpisodeMapper, TvDetailMapper, TvMapper } from '../mappers';
-import { CastMapper } from '../mappers/cast.mapper';
+import { PaginationMapper, GenreMapper, EpisodeMapper, TvDetailMapper, TvMapper, CastMapper, CrewMapper } from '../mappers';
 
 import { MediaMapper } from '../mappers/media.mapper';
 
@@ -53,9 +52,11 @@ export namespace TvService {
 
   export const getCredits = async(tvId: number): Promise<Credits> => {
     const response = await api.get<CreditsDto>(`/tv/${tvId}/credits`);
+    const creditsData = response.data;
+
     return {
-      cast: response.data.cast.map(cast => CastMapper.fromDto(cast)),
-      crew: response.data.crew.map(cast => CastMapper.fromDto(cast)),
+      cast: creditsData.cast.map(cast => CastMapper.fromDto(cast)),
+      crew: creditsData.crew.map(crew => CrewMapper.fromDto(crew)),
     };
   };
 }

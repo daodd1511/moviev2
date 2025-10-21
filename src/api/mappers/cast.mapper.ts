@@ -14,6 +14,7 @@ export namespace CastMapper {
       name: dto.name,
       character: dto.character,
       profilePath: dto.profile_path,
+      order: dto.order,
     };
   }
 }

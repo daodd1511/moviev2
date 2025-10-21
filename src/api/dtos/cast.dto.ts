@@ -12,6 +12,28 @@ export interface CastDto {
 
   /** Profile path. */
   readonly profile_path: string | null;
+
+  /** Order. */
+  readonly order: number;
+}
+
+/** Crew dto. */
+export interface CrewDto {
+
+  /** Id. */
+  readonly id: number;
+
+  /** Name. */
+  readonly name: string;
+
+  /** Job. */
+  readonly job: string;
+
+  /** Department. */
+  readonly department: string;
+
+  /** Profile path. */
+  readonly profile_path: string | null;
 }
 
 /** Credits dto. */
@@ -21,5 +43,5 @@ export interface CreditsDto {
   readonly cast: readonly CastDto[];
 
   /** Crew. */
-  readonly crew: readonly CastDto[];
+  readonly crew: readonly CrewDto[];
 }

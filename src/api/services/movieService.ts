@@ -1,6 +1,6 @@
 import { api } from '..';
 import { PaginationDto, MovieDto, GenreResponseDto, MovieDetailDto, CreditsDto } from '../dtos';
-import { PaginationMapper, MovieMapper, GenreMapper, MovieDetailMapper } from '../mappers';
+import { PaginationMapper, MovieMapper, GenreMapper, MovieDetailMapper, CrewMapper } from '../mappers';
 
 import { MovieQueryParamsMapper } from '../mappers/movie/movieQueryParams.mapper';
 
@@ -51,9 +51,11 @@ export namespace MovieService {
 
   export const getCredits = async(movieId: number): Promise<Credits> => {
     const response = await api.get<CreditsDto>(`/movie/${movieId}/credits`);
+    const creditsData = response.data;
+
     return {
-      cast: response.data.cast.map(cast => CastMapper.fromDto(cast)),
-      crew: response.data.crew.map(cast => CastMapper.fromDto(cast)),
+      cast: creditsData.cast.map(cast => CastMapper.fromDto(cast)),
+      crew: creditsData.crew.map(crew => CrewMapper.fromDto(crew)),
     };
   };
 }
