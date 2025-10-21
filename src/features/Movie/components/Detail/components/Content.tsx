@@ -1,13 +1,13 @@
+/* eslint-disable max-lines-per-function */
 import { memo, useMemo, useState, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList } from '@fortawesome/free-solid-svg-icons';
+import { faList, faVideo } from '@fortawesome/free-solid-svg-icons';
 
-import { Buttons } from './Buttons';
-
-import { MovieDetail, Credits } from '@/models';
+import { MovieDetail, Credits, Video } from '@/models';
 import { formatToYear } from '@/shared/utils';
 import { Menu } from '@/shared/components/List/Menu';
 import { MediaMapper } from '@/api/mappers/media.mapper';
+import { Modal } from '@/shared/components/Modal';
 
 // Utility for formatting runtime
 const toHoursAndMinutes = (minutes: number | null): string => {
@@ -17,6 +17,11 @@ const toHoursAndMinutes = (minutes: number | null): string => {
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
   return `${hours}h ${remainingMinutes}m`;
+};
+
+const getTrailerKey = (videos: readonly Video[]) => {
+  const trailer = videos.find(video => video.type === 'Trailer');
+  return trailer != null ? trailer.key : '';
 };
 
 interface Props {
@@ -31,9 +36,12 @@ interface Props {
 const ContentComponent = ({ movie, credits }: Props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [isWatchTrailer, setIsWatchTrailer] = useState(false);
+
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
   }, []);
+  const trailerKey = getTrailerKey(movie.videos);
 
   // Memoize derived data
   const directors = useMemo(
@@ -61,21 +69,47 @@ const ContentComponent = ({ movie, credits }: Props) => {
         <p className="text-slate-400">{movieInfoText}</p>
 
         {/* Menu button */}
-        <div className="relative pt-4">
-          <button
-            type="button"
-            aria-label="Toggle movie menu"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-white transition hover:bg-cPrimary/90"
-            onClick={toggleMenu}
-          >
-            <FontAwesomeIcon icon={faList} />
-          </button>
-          <Menu
-            media={MediaMapper.fromMovie(movie)}
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-            className="shadow-xl"
-          />
+        <div className="flex gap-4 items-center pt-4">
+          <div className="relative">
+            <button
+              type="button"
+              aria-label="Toggle movie menu"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-white transition hover:bg-cPrimary/90"
+              onClick={toggleMenu}
+            >
+              <FontAwesomeIcon icon={faList} />
+            </button>
+            <Menu
+              media={MediaMapper.fromMovie(movie)}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              className="shadow-xl"
+            />
+          </div>
+          <div>
+            <button
+              type="button"
+              className="h-10 w-28 rounded-full border border-gray-800 text-xs transition-all hover:-translate-y-0.5 hover:bg-gray-800 hover:text-white"
+              onClick={() => setIsWatchTrailer(true)}
+            >
+              Trailer <FontAwesomeIcon icon={faVideo} className="ml-1" />
+            </button>
+            {isWatchTrailer && trailerKey !== '' && (
+              <Modal setIsOpen={setIsWatchTrailer}>
+                <div className="relative z-50 mx-auto w-[80vw] max-w-7xl">
+                  <div className="aspect-video">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${trailerKey}`}
+                      title="Trailer"
+                      className="h-full w-full rounded-lg"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              </Modal>
+            )}
+          </div>
         </div>
       </header>
 
@@ -131,9 +165,6 @@ const ContentComponent = ({ movie, credits }: Props) => {
           </ul>
         </section>
       )}
-
-      {/* Buttons */}
-      <Buttons movie={movie} />
     </div>
   );
 };

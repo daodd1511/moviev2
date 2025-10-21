@@ -29,7 +29,7 @@ const CastComponent = ({
     {showCast && credits.cast.length > 0 && (
       <div className="pb-8">
         <h3 className="mb-4 text-lg font-medium">{castTitle}</h3>
-        <div className="grid grid-cols-autoFit-sm space-y-2 justify-center">
+        <div className="grid grid-cols-autoFit-sm space-y-2 justify-start">
           {credits.cast.slice(0, limit).map(person => {
               const imageUrl =
                 person.profilePath != null ?
