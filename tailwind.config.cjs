@@ -11,6 +11,7 @@ module.exports = {
       gridTemplateColumns: {
         // Simple 16 column grid
         'autoFit': 'repeat(auto-fit, minmax(0, 16rem))',
+        'autoFit-sm': 'repeat(auto-fit, minmax(0, 12rem))',
       },
       fontFamily: {
         'sans': ['Be Vietnam Pro', ...defaultTheme.fontFamily.sans],

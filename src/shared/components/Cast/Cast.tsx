@@ -12,109 +12,62 @@ interface Props {
   /** Title for the cast section. */
   readonly castTitle?: string;
 
-  /** Title for the crew section. */
-  readonly crewTitle?: string;
-
   /** Whether to show cast section. */
   readonly showCast?: boolean;
 
-  /** Whether to show crew section. */
-  readonly showCrew?: boolean;
-
-  /** Number of casts/crews to show. */
+  /** Number of casts to show. */
   readonly limit?: number;
 }
-
-// Define important crew departments and jobs
-const IMPORTANT_DEPARTMENTS = ['Directing', 'Writing', 'Production'];
-const IMPORTANT_JOBS = ['Director', 'Writer', 'Producer', 'Executive Producer', 'Creator'];
 
 const CastComponent = ({
   credits,
   castTitle = 'Cast',
-  crewTitle = 'Crew',
   showCast = true,
-  showCrew = true,
-  limit = 8,
-}: Props) => {
-  // Filter important crew members
-  const importantCrew = credits.crew.filter(crew =>
-    IMPORTANT_DEPARTMENTS.includes(crew.department) ||
-    IMPORTANT_JOBS.includes(crew.job));
-
-  return (
-    <div>
-      {/* Cast Section */}
-      {showCast && credits.cast.length > 0 && (
-        <div className="pb-8">
-          <h3 className="mb-4 text-lg font-medium">{castTitle}</h3>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {credits.cast.slice(0, limit).map(person => {
-              const imageUrl = person.profilePath != null ?
-                `${IMAGE_BASE_URL}${ProfileSizes.medium}${person.profilePath}` :
-                '/images/no-profile.png';
+  limit = 12,
+}: Props) => (
+  <div>
+    {showCast && credits.cast.length > 0 && (
+      <div className="pb-8">
+        <h3 className="mb-4 text-lg font-medium">{castTitle}</h3>
+        <div className="grid grid-cols-autoFit-sm space-y-2 justify-center">
+          {credits.cast.slice(0, limit).map(person => {
+              const imageUrl =
+                person.profilePath != null ?
+                  `${IMAGE_BASE_URL}${ProfileSizes.medium}${person.profilePath}` :
+                  '/images/no-profile.png';
 
               return (
-                <div key={person.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                  <img
-                    src={imageUrl}
-                    alt={person.name}
-                    className="w-24 h-24 rounded-full object-cover border border-gray-200"
-                    onError={e => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = '/images/no-profile.png';
-                    }}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-md font-medium truncate">{person.name}</p>
-                    <p className="text-sm text-gray-500 truncate">{person.character}</p>
+                <div
+                  key={person.id}
+                  className="flex flex-col items-center gap-3 rounded-md p-2 transition-colors hover:bg-gray-100"
+                >
+                  <div className="avatar w-32">
+                    <img
+                      src={imageUrl}
+                      alt={person.name}
+                      className="rounded-3xl object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1 text-center">
+                    <p className="text-md truncate font-medium">
+                      {person.name}
+                    </p>
+                    <p className="truncate text-sm text-gray-500">
+                      {person.character}
+                    </p>
                   </div>
                 </div>
               );
             })}
-          </div>
-          {credits.cast.length > limit && (
-            <p className="text-sm text-gray-500 mt-2">And {credits.cast.length - limit} more...</p>
-          )}
         </div>
-      )}
-
-      {/* Crew Section */}
-      {showCrew && importantCrew.length > 0 && (
-        <div className="pb-8">
-          <h3 className="mb-4 text-lg font-medium">{crewTitle}</h3>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {importantCrew.slice(0, limit).map(person => {
-              const imageUrl = person.profilePath != null ?
-                `${IMAGE_BASE_URL}${ProfileSizes.medium}${person.profilePath}` :
-                '/images/no-profile.png';
-
-              return (
-                <div key={person.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                  <img
-                    src={imageUrl}
-                    alt={person.name}
-                    className="w-24 h-24 rounded-full object-cover border border-gray-200"
-                    onError={e => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = '/images/no-profile.png';
-                    }}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-md font-medium truncate">{person.name}</p>
-                    <p className="text-sm text-gray-500 truncate">{person.job}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          {importantCrew.length > limit && (
-            <p className="text-sm text-gray-500 mt-2">And {importantCrew.length - limit} more...</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
+        {credits.cast.length > limit && (
+          <p className="mt-2 text-sm text-gray-500">
+              And {credits.cast.length - limit} more...
+          </p>
+        )}
+      </div>
+    )}
+  </div>
+);
 
 export const Cast = memo(CastComponent);

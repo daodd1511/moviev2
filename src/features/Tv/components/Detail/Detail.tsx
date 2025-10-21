@@ -71,7 +71,7 @@ const TvDetailComponent = () => {
       </div>
       {(credits != null) && (
         <div className="p-5 md:p-10">
-          <Cast credits={credits} showCrew={true} />
+          <Cast credits={credits} />
         </div>
       )}
       <Recommend mediaId={tv.id} mediaType={MediaType.Tv}/>

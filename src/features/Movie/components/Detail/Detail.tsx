@@ -78,12 +78,12 @@ const MovieDetailComponent = () => {
           />
         </div>
         <div className="max-w-[100%] md:max-w-[60%] p-5 md:p-10">
-          <Content movie={movie} />
+          <Content movie={movie} credits={credits} />
         </div>
       </div>
       {credits != null && (
         <div className="p-5 md:p-10">
-          <Cast credits={credits} showCrew={true} />
+          <Cast credits={credits} />
         </div>
       )}
       <Recommend mediaId={movie.id} mediaType={MediaType.Movie} />
