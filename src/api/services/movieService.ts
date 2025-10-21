@@ -1,12 +1,14 @@
 import { api } from '..';
-import { PaginationDto, MovieDto, GenreResponseDto, MovieDetailDto } from '../dtos';
+import { PaginationDto, MovieDto, GenreResponseDto, MovieDetailDto, CreditsDto } from '../dtos';
 import { PaginationMapper, MovieMapper, GenreMapper, MovieDetailMapper } from '../mappers';
 
 import { MovieQueryParamsMapper } from '../mappers/movie/movieQueryParams.mapper';
 
 import { MediaMapper } from '../mappers/media.mapper';
 
-import { Movie, Genre, Pagination, MovieDetail, Media } from '@/models';
+import { CastMapper } from '../mappers/cast.mapper';
+
+import { Movie, Genre, Pagination, MovieDetail, Media, Credits } from '@/models';
 import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 
 export namespace MovieService {
@@ -47,8 +49,11 @@ export namespace MovieService {
 
   export const getMovieRecommendations = (movieId: number): Promise<Pagination<Media>> => getMovies(1, `${movieId}/recommendations`);
 
-  export const getCredits = async(movieId: number): Promise<any> => {
-    const response = await api.get(`/movie/${movieId}/credits`);
-    return response.data;
+  export const getCredits = async(movieId: number): Promise<Credits> => {
+    const response = await api.get<CreditsDto>(`/movie/${movieId}/credits`);
+    return {
+      cast: response.data.cast.map(cast => CastMapper.fromDto(cast)),
+      crew: response.data.crew.map(cast => CastMapper.fromDto(cast)),
+    };
   };
 }

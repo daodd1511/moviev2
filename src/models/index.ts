@@ -1,3 +1,4 @@
+export * from './cast.model';
 export * from './genre.model';
 export * from './movie/movie.model';
 export * from './pagination.model';
@@ -10,3 +11,4 @@ export * from './tv/season.model';
 export * from './tv/episode.model';
 export * from './list.model';
 export * from './media.model';
+export * from './cast.model';

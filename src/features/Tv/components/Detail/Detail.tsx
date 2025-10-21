@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 
 import { Content } from './components';
 
+import { Cast } from '@/shared/components/Cast';
+
 import { assertNonNull } from '@/shared/utils';
 import { Modal } from '@/shared/components/Modal';
 import { Footer, Loader } from '@/shared/components';
@@ -24,6 +26,10 @@ const TvDetailComponent = () => {
     isError,
     error,
   } = TvQueries.useDetail(tvId);
+
+  const {
+    data: credits,
+  } = TvQueries.useCredits(tvId);
 
   if (isLoading) {
     return <Loader className="h-withoutNavbar"/>;
@@ -63,6 +69,11 @@ const TvDetailComponent = () => {
           <Content tv={tv}/>
         </div>
       </div>
+      {((credits?.cast) != null) && credits.cast.length > 0 && (
+        <div className="p-5 md:p-10">
+          <Cast cast={credits.cast} title="Cast" />
+        </div>
+      )}
       <Recommend mediaId={tv.id} mediaType={MediaType.Tv}/>
       <Footer />
 

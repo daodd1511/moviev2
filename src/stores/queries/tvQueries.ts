@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { Episode, Genre, Media, Pagination, Tv, TvDetail } from '@/models';
+import { Credits, Episode, Genre, Media, Pagination, Tv, TvDetail } from '@/models';
 import { TvService } from '@/api/services/tvService';
 
 export namespace TvQueries {
@@ -46,4 +46,6 @@ export namespace TvQueries {
     () => TvService.getSeasonDetail(id, seasonNumber),
     { enabled: seasonNumber !== -1 },
   );
+
+  export const useCredits = (id: number) => useQuery<Credits, AxiosError>(['tvCredits', id], () => TvService.getCredits(id));
 }

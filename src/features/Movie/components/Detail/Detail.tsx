@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Content } from './components/Content';
 
 import { Recommend } from '@/shared/components/Recommend';
+import { Cast } from '@/shared/components/Cast';
 
 import { Modal } from '@/shared/components/Modal';
 import { Footer, Loader } from '@/shared/components';
@@ -80,6 +81,11 @@ const MovieDetailComponent = () => {
           <Content movie={movie} />
         </div>
       </div>
+      {((credits?.cast) != null) && credits.cast.length > 0 && (
+        <div className="p-5 md:p-10">
+          <Cast cast={credits.cast} title="Cast" />
+        </div>
+      )}
       <Recommend mediaId={movie.id} mediaType={MediaType.Movie} />
       <Footer />
       {isFullSizeImage && (
