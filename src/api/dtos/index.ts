@@ -9,3 +9,5 @@ export * from './tv/tvDetail.dto';
 export * from './tv/season.dto';
 export * from './tv/episode.dto';
 export * from './cast.dto';
+export * from './person/person.dto';
+export * from './person/personCombinedCredits.dto';

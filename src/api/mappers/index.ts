@@ -12,4 +12,6 @@ export * from './tv/season.mapper';
 export * from './tv/episode.mapper';
 export * from './list.mapper';
 export * from './media.mapper';
+export * from './person/person.mapper';
+export * from './person/personCombinedCredits.mapper';
 export * from './search.mapper';

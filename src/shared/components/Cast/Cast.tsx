@@ -60,8 +60,9 @@ const CastComponent = ({
                     '/images/no-profile.png';
 
                 return (
-                  <div
+                  <Link
                     key={person.id}
+                    to={`/person/${person.id}`}
                     className="flex flex-col items-center gap-3 rounded-md p-2 transition-colors hover:bg-gray-100"
                   >
                     <div className="avatar w-32">
@@ -79,7 +80,7 @@ const CastComponent = ({
                         {person.character}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
           </div>

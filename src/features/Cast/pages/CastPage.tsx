@@ -9,7 +9,7 @@ import { MediaType } from '@/shared/enums/mediaType';
 import { assertNonNull, goToTop } from '@/shared/utils';
 import { Loader } from '@/shared/components';
 import { MovieDetail, TvDetail } from '@/models';
-import { PosterSizes } from '@/shared/enums';
+import { PosterSizes, ProfileSizes } from '@/shared/enums';
 
 const CastPageComponent = () => {
   const { mediaType, id } = useParams();
@@ -58,10 +58,11 @@ const CastPageComponent = () => {
   const title = isMovie ? (media as MovieDetail).title : (media as TvDetail).name;
   const posterPath = isMovie ? (media as MovieDetail).posterPath : (media as TvDetail).posterPath;
   const releaseDate = isMovie ? (media as MovieDetail).releaseDate : (media as TvDetail).firstAirDate;
+  const formattedReleaseDate = new Date(releaseDate);
 
   // Format release date
-  const formattedDate = new Date(releaseDate) instanceof Date ?
-    new Date(releaseDate).toLocaleDateString('en-US', {
+  const formattedDate = releaseDate !== '' ?
+    formattedReleaseDate.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -103,10 +104,14 @@ const CastPageComponent = () => {
           <h2 className="text-2xl font-bold mb-6 border-b pb-3">Cast</h2>
           <div className="space-y-4">
             {credits.cast.map((person, idx) => (
-              <div key={`${person.id}-${idx}`} className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <Link
+                key={`${person.id}-${idx}`}
+                to={`/person/${person.id}`}
+                className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors block"
+              >
                 <div className="w-16 h-16 flex-shrink-0">
                   <img
-                    src={person.profilePath !== null ? `https://image.tmdb.org/t/p/w92${person.profilePath}` : '/images/no-profile.png'}
+                    src={person.profilePath !== null ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}` : '/images/no-profile.png'}
                     alt={person.name}
                     className="w-full h-full object-cover rounded-full"
                   />
@@ -115,7 +120,7 @@ const CastPageComponent = () => {
                   <p className="font-semibold truncate">{person.name}</p>
                   <p className="text-gray-600 truncate">{person.character}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -125,10 +130,14 @@ const CastPageComponent = () => {
           <h2 className="text-2xl font-bold mb-6 border-b pb-3">Crew</h2>
           <div className="space-y-4">
             {credits.crew.map((person, idx) => (
-              <div key={`${person.id}-${idx}`} className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <Link
+                key={`${person.id}-${idx}`}
+                to={`/person/${person.id}`}
+                className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors block"
+              >
                 <div className="w-16 h-16 flex-shrink-0">
                   <img
-                    src={person.profilePath !== null ? `https://image.tmdb.org/t/p/w92${person.profilePath}` : '/images/no-profile.png'}
+                    src={person.profilePath !== null ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}` : '/images/no-profile.png'}
                     alt={person.name}
                     className="w-full h-full object-cover rounded-full"
                   />
@@ -137,7 +146,7 @@ const CastPageComponent = () => {
                   <p className="font-semibold truncate">{person.name}</p>
                   <p className="text-gray-600 truncate">{person.job}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
