@@ -94,7 +94,7 @@ const ListDetailComponent = () => {
 
           {isConfirmRemoveListModalOpen && (
             <Modal setIsOpen={setIsConfirmRemoveListModalOpen}>
-              <div className="card w-96 bg-base-100 text-neutral-content">
+              <div className="card w-100 bg-base-100 text-neutral-content">
                 <div className="card-body items-center text-center text-black">
                   <h2 className="card-title p-6">
                     Do you want to remove this list?
@@ -102,14 +102,14 @@ const ListDetailComponent = () => {
                   <div className="card-actions">
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-outline btn-primary"
                       onClick={() => setIsConfirmRemoveListModalOpen(false)}
                     >
                       No
                     </button>
                     <button
                       type="button"
-                      className="btn btn-error"
+                      className="btn btn-outline btn-error "
                       onClick={onConfirmRemoveListButtonClick}
                     >
                       Yes
