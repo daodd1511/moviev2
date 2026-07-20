@@ -1,0 +1,12 @@
+{
+  "name": "moviev2",
+  "private": true,
+  "description": "Movie browser: React SPA (apps/web) + express API (apps/api), deployed as one stack.",
+  "scripts": {
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev:api": "npm --prefix apps/api run dev",
+    "build:web": "npm --prefix apps/web run build",
+    "install:all": "npm --prefix apps/web ci && npm --prefix apps/api ci",
+    "lint": "npm --prefix apps/web run lint"
+  }
+}

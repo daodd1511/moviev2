@@ -11,6 +11,13 @@ connectDatabase()
 const app = express()
 app.use(helmet()).use(morgan('dev')).use(cors()).use(express.json())
 
+// Unauthenticated and DB-independent on purpose: this answers "is the process up",
+// which is what the deploy gate and the container HEALTHCHECK ask. It stays green if
+// Mongo is down, so monitor a real data route separately.
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' })
+})
+
 app.use('/api', router)
 app.get('/', verifyToken, (req, res) => {
   res.send('Hello from movie backend')
