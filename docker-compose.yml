@@ -1,8 +1,10 @@
-# moviev2 — React SPA + express API behind ONE public hostname.
-# Cloudflare public hostname → http://movie-web:80
+# moviev2 — React SPA + express API, built locally. LOCAL USE ONLY.
 #
-# The API is deliberately not on `edge` and has no tunnel route: its only reachable
-# path is through nginx in the web container, over the private `internal` network.
+# Production does not use this file: CI builds the images and the private deploy repo
+# runs them on the server, tunnel included. Nothing here is externally reachable.
+#
+# The API has no published port — its only path is through nginx in the web container,
+# over the private `internal` network, exactly as in production.
 name: moviev2
 
 services:
@@ -39,11 +41,12 @@ services:
     pull_policy: build
     depends_on: [api]
     restart: unless-stopped
-    networks: [internal, edge]
+    # Nothing reaches this stack otherwise now that the tunnel lives with the
+    # production compose in the deploy repo. http://localhost:8080
+    ports:
+      - "8080:80"
+    networks: [internal]
 
 networks:
   # Private: api is reachable from web, and from nothing else on the box.
   internal:
-  edge:
-    name: edge
-    external: true
