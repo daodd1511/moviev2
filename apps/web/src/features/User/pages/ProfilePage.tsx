@@ -8,9 +8,11 @@ export const ProfilePage = () => {
     return <Loader className="h-withoutNavbar"/>;
   }
   return (
-    <div>
+    <div className="px-8 py-12">
       <h1>Profile page</h1>
-      Hello <span>{data?.username}</span>
+      <p className="mt-2 text-muted-foreground">
+        Hello <span className="text-foreground">{data?.username}</span>
+      </p>
     </div>
   );
 };

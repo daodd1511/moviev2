@@ -16,6 +16,7 @@ import { ListService } from '@/api/services/listService';
 import { UserQueries } from '@/stores/queries/userQueries';
 import { MediaType } from '@/shared/enums/mediaType';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 const ListDetailComponent = () => {
   const queryClient = useQueryClient();
@@ -74,23 +75,20 @@ const ListDetailComponent = () => {
             {data?.name} (Total:{' '}
             {(data?.movies.length ?? 0) + (data?.tvShows.length ?? 0)})
           </h1>
-          <p>{data?.description}</p>
+          <p className="text-muted-foreground">{data?.description}</p>
         </div>
         <div className="flex items-center gap-4">
           <Link
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             to={`/u/${user.username}/lists/${data?.id ?? ''}`}
             target="_blank"
+            className="text-sm text-primary hover:underline"
           >
             Go to public link
           </Link>
-          <button
-            type="button"
-            className="rounded-lg border border-red-500 px-3 py-1.5 text-sm text-red-500 hover:bg-red-500 hover:text-white"
-            onClick={onRemoveListButtonClick}
-          >
+          <Button variant="destructive" size="sm" onClick={onRemoveListButtonClick}>
             Remove
-          </button>
+          </Button>
 
           <Dialog open={isConfirmRemoveListModalOpen} onOpenChange={setIsConfirmRemoveListModalOpen}>
             <DialogContent className="sm:max-w-sm">
@@ -98,34 +96,26 @@ const ListDetailComponent = () => {
                 Do you want to remove this list?
               </DialogTitle>
               <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  className="rounded-lg border border-cPrimary px-4 py-2 text-cPrimary hover:bg-cPrimary hover:text-white"
-                  onClick={() => setIsConfirmRemoveListModalOpen(false)}
-                >
+                <Button variant="outline" onClick={() => setIsConfirmRemoveListModalOpen(false)}>
                   No
-                </button>
-                <button
-                  type="button"
-                  className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white"
-                  onClick={onConfirmRemoveListButtonClick}
-                >
+                </Button>
+                <Button variant="destructive" onClick={onConfirmRemoveListButtonClick}>
                   Yes
-                </button>
+                </Button>
               </div>
             </DialogContent>
           </Dialog>
         </div>
       </div>
-      <div className="flex gap-4 border-b border-gray-300 pb-10">
+      <div className="flex gap-4 border-b border-border pb-10">
         <a
-          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Movie ? 'border-b-2 border-cPrimary font-semibold' : ''}`}
+          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Movie ? 'border-b-2 border-primary font-semibold text-foreground' : 'text-muted-foreground'}`}
           onClick={() => setActiveTab(Type.Movie)}
         >
           Movies
         </a>
         <a
-          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Tv ? 'border-b-2 border-cPrimary font-semibold' : ''}`}
+          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Tv ? 'border-b-2 border-primary font-semibold text-foreground' : 'text-muted-foreground'}`}
           onClick={() => setActiveTab(Type.Tv)}
         >
           Tv Shows
@@ -136,25 +126,27 @@ const ListDetailComponent = () => {
           data?.movies.map((movie: Media) => (
             <div key={movie.id}>
               <MediaListItem media={movie} />
-              <button
-                type="button"
-                className="w-full rounded-lg border border-red-500 px-3 py-1.5 text-sm text-red-500 hover:bg-red-500 hover:text-white"
+              <Button
+                variant="destructive"
+                size="sm"
+                className="w-full"
                 onClick={() => onRemoveMediaButtonClick(movie)}
               >
-                  Remove
-              </button>
+                Remove
+              </Button>
             </div>
           )) :
           data?.tvShows.map((tv: Media) => (
             <div key={tv.id}>
               <MediaListItem media={tv} />
-              <button
-                type="button"
-                className="w-full rounded-lg border border-red-500 px-3 py-1.5 text-sm text-red-500 hover:bg-red-500 hover:text-white"
+              <Button
+                variant="destructive"
+                size="sm"
+                className="w-full"
                 onClick={() => onRemoveMediaButtonClick(tv)}
               >
-                  Remove
-              </button>
+                Remove
+              </Button>
             </div>
           ))}
       </div>

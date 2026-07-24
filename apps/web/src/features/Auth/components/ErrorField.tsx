@@ -4,4 +4,6 @@ interface Props {
   readonly error: string;
 }
 
-export const ErrorField = ({ error }: Props) => <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{error}</span>;
+export const ErrorField = ({ error }: Props) => (
+  <span className="mt-1 ml-1 flex items-center text-xs font-medium tracking-wide text-destructive">{error}</span>
+);

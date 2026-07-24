@@ -13,6 +13,8 @@ import { FormValues, registerSchema } from './formSetting';
 import { AuthService } from '@/api/services/authService';
 import { ThreeDots } from '@/shared/components/styles';
 import { Register } from '@/models/auth';
+import { TextField } from '@/shared/components/ui/TextField';
+import { Button } from '@/components/ui/button';
 
 const RegisterFormComponent = () => {
   const navigate = useNavigate();
@@ -41,56 +43,44 @@ const RegisterFormComponent = () => {
   });
   return (
     <form
-      className="w-96 mx-auto rounded-2xl bg-white p-12 "
+      className="mx-auto w-96 rounded-2xl bg-card p-12"
       onSubmit={onSubmit}
     >
-      <div className="mb-4">
-        <h3 className="text-2xl font-semibold text-gray-800">Sign Up</h3>
-        <p className="text-gray-500">Create your account.</p>
+      <div className="mb-6">
+        <h3 className="text-2xl font-semibold text-foreground">Sign Up</h3>
+        <p className="text-muted-foreground">Create your account.</p>
       </div>
       <div className="space-y-5">
-        <div className="space-y-2 break-words">
-          <label className="mb-5 text-sm font-medium tracking-wide text-gray-700">
-            Email
-          </label>
-          <input
-            className="w-full content-center rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
+        <div>
+          <TextField
+            label="Email"
             type="email"
             placeholder="johndoe@gmail.com"
             {...register('email')}
           />
           {errors.email?.message !== undefined && <ErrorField error={errors.email?.message}/>}
         </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium tracking-wide text-gray-700">
-            Username
-          </label>
-          <input
-            className=" w-full rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
+        <div>
+          <TextField
+            label="Username"
             type="text"
             placeholder="Enter your username"
             {...register('username')}
           />
           {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
         </div>
-        <div className="space-y-2 break-words">
-          <label className="mb-5 text-sm font-medium tracking-wide text-gray-700">
-            Password
-          </label>
-          <input
-            className="w-full content-center rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
+        <div>
+          <TextField
+            label="Password"
             type="password"
             placeholder="Enter your password."
             {...register('password')}
           />
           {errors.password?.message !== undefined && <ErrorField error={errors.password?.message}/>}
         </div>
-        <div className="space-y-2 break-words">
-          <label className="mb-5 text-sm font-medium tracking-wide text-gray-700">
-            Confirm Password
-          </label>
-          <input
-            className="w-full content-center rounded-lg border border-gray-300 px-4  py-2 text-base focus:border-green-400 focus:outline-none"
+        <div>
+          <TextField
+            label="Confirm Password"
             type="password"
             placeholder="Confirm your password."
             {...register('confirmPassword')}
@@ -98,17 +88,13 @@ const RegisterFormComponent = () => {
           {errors.confirmPassword?.message !== undefined && <ErrorField error={errors.confirmPassword?.message}/>}
         </div>
         <div>
-          <button
-            disabled={mutation.isLoading}
-            type="submit"
-            className="flex w-full cursor-pointer justify-center  rounded-full bg-green-400 p-3  font-semibold tracking-wide text-gray-100  shadow-lg transition duration-500 ease-in hover:bg-green-500"
-          >
+          <Button disabled={mutation.isLoading} type="submit" className="w-full">
             {mutation.isLoading ? <ThreeDots /> : 'Sign Up'}
-          </button>
+          </Button>
         </div>
         <div className="flex items-center justify-start">
-          <div className="text-sm">
-          Already have an account? <Link to="/auth/login" className="text-green-400 hover:text-green-500">Sign In</Link>
+          <div className="text-sm text-muted-foreground">
+            Already have an account? <Link to="/auth/login" className="text-primary hover:underline">Sign In</Link>
           </div>
         </div>
       </div>

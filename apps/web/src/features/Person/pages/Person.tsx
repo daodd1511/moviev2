@@ -162,8 +162,9 @@ const PersonComponent: FC = () => {
             </p>
             {isLongBiography && (
               <button
+                type="button"
                 onClick={() => setShowFullBiography(!showFullBiography)}
-                className="mt-2 text-blue-600 hover:underline"
+                className="mt-2 text-primary hover:underline"
               >
                 {showFullBiography ? 'Show less' : 'Show more'}
               </button>

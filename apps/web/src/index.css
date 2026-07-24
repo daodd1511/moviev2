@@ -97,3 +97,12 @@ pre {
     outline-offset: 3px;
   }
 }
+
+/* react-toastify theme="dark" retoned to Projection Room tokens. */
+:root {
+  --toastify-color-dark: var(--color-surface-raised);
+  --toastify-text-color-dark: var(--color-foreground);
+  --toastify-color-progress-dark: var(--color-primary);
+  --toastify-color-success: var(--color-primary);
+  --toastify-color-error: var(--color-destructive);
+}

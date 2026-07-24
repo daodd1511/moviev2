@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, memo, useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -20,9 +20,12 @@ import { useDebounce } from '@/shared/hooks';
 import { ErrorField } from '@/features/Auth/components/ErrorField';
 import { ListService } from '@/api/services/listService';
 import { MediaMapper } from '@/api/mappers/media.mapper';
+import { TextField } from '@/shared/components/ui/TextField';
+import { Button } from '@/components/ui/button';
 
 const CreateNewComponent = () => {
   const queryClient = useQueryClient();
+  const descriptionId = useId();
   const {
     register,
     handleSubmit,
@@ -92,31 +95,27 @@ const CreateNewComponent = () => {
     <div>
       <form onSubmit={onSubmit} className="mx-auto max-w-lg" onKeyDown={e => e.key === 'Enter' && e.preventDefault()}>
         <div>
-          <label className="mb-1 block text-sm font-medium">Name</label>
-          <input
-            type="text"
-            placeholder="Type here"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2"
-            {...register('name')}
-          />
+          <TextField label="Name" type="text" placeholder="Type here" {...register('name')} />
           {errors.name?.message !== undefined && (
             <ErrorField error={errors.name.message} />
           )}
         </div>
         <div className="mt-4">
-          <label className="mb-1 block text-sm font-medium">Description</label>
+          <label htmlFor={descriptionId} className="mb-1.5 block text-sm font-medium text-muted-foreground">
+            Description
+          </label>
           <textarea
+            id={descriptionId}
             placeholder="Type here"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2"
+            className="w-full rounded-md border border-input bg-white/[0.08] px-4 py-2 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
             {...register('description')}
           />
         </div>
         <div className="mt-4">
-          <label className="mb-1 block text-sm font-medium">Add movies/tv shows</label>
-          <input
+          <TextField
+            label="Add movies/tv shows"
             type="text"
             placeholder="Search here"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2"
             value={searchQuery}
             onChange={onSearchChange}
           />
@@ -127,26 +126,26 @@ const CreateNewComponent = () => {
             />
           )}
           <div className="my-4">
-            <h2 className="text-xl">Movies</h2>
+            <h2 className="text-xl text-foreground">Movies</h2>
             {movieList.map((movie, index) => (
-              <div key={movie.id}>
+              <div key={movie.id} className="text-muted-foreground">
                 {index + 1}. {movie.title}
               </div>
             ))}
           </div>
           <div>
-            <h2 className="text-xl">Tv Shows</h2>
+            <h2 className="text-xl text-foreground">Tv Shows</h2>
             {tvList.map((tv, index) => (
-              <div key={tv.id}>
+              <div key={tv.id} className="text-muted-foreground">
                 {index + 1}. {tv.name}
               </div>
             ))}
           </div>
         </div>
         <div className="mt-4 flex justify-end">
-          <button type="submit" className="rounded-lg bg-cPrimary px-3 py-1.5 text-sm text-white">
+          <Button type="submit" size="sm">
             Create
-          </button>
+          </Button>
         </div>
       </form>
     </div>

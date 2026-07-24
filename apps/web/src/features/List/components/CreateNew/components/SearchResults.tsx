@@ -17,14 +17,15 @@ const SearchResultsComponent = ({
   searchResults,
   handleResultClick,
 }: Props) => (
-  <div className="h-80 overflow-auto rounded-md border border-gray-300 pt-2">
+  <div className="h-80 overflow-auto rounded-md border border-border bg-popover pt-2">
     {searchResults.length === 0 && (
-      <p className="text-center">No data found</p>
+      <p className="text-center text-muted-foreground">No data found</p>
     )}
     {searchResults.map(result => (
       <button
         key={result.id}
-        className="flex w-full items-center border-b border-gray-200 p-4"
+        type="button"
+        className="flex w-full items-center border-b border-border p-4 hover:bg-accent"
         onClick={() => handleResultClick(result)}
       >
         <img
@@ -34,18 +35,19 @@ const SearchResultsComponent = ({
                 '/images/no-image.png'
           }
           alt="item poster"
-          className="h-20 rounded-lg"
+          loading="lazy"
+          className="h-20 rounded-md"
         />
         <div className="ml-4 mr-2">
-          <h3 className="text-lg font-medium text-gray-900">
+          <h3 className="text-lg font-medium text-foreground">
             {result instanceof Movie ? result.title : result.name}
           </h3>
         </div>
         <span
-          className={`inline-block rounded-full px-2 py-0.5 text-xs ${
+          className={`ml-auto inline-block shrink-0 rounded-full px-2 py-0.5 text-xs ${
               result instanceof Movie ?
-                'bg-cPrimary text-white' :
-                'bg-gray-200 text-gray-700'
+                'bg-primary text-primary-foreground' :
+                'bg-secondary text-secondary-foreground'
           }`}
         >
           {result instanceof Movie ? Type.Movie : Type.Tv}

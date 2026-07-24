@@ -1,24 +1,24 @@
 import { LoginForm } from '../components/LoginForm/LoginForm';
 
+const BACKDROP_URL = 'https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg';
+
 export const LoginPage = () => (
-  <div>
-    <div className="relative bg-cover bg-center bg-no-repeat">
-      <div className="mx-0 sm:min-h-screen justify-center sm:flex sm:flex-row">
-        <div className="z-10 flex  flex-col self-center p-10 sm:max-w-5xl  xl:max-w-2xl">
-          <div className="hidden flex-col self-start text-black  xl:flex">
-            <img src="" className="mb-3" />
-            <h1 className="mb-3 text-5xl font-bold">Hi! Welcome Back </h1>
-            <p className="pr-3">
-                Lorem ipsum is placeholder text commonly used in the graphic,
-                print, and publishing industries for previewing layouts and
-                visual mockups
-            </p>
-          </div>
-        </div>
-        <div className="z-10 flex justify-center self-center rounded-xl border border-green-400">
-          <LoginForm />
-        </div>
+  <div className="flex min-h-screen flex-col sm:flex-row">
+    <div className="relative hidden flex-1 overflow-hidden xl:block">
+      <img src={BACKDROP_URL} alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/20" />
+      <div className="relative z-2 flex h-full flex-col justify-end p-12">
+        <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-primary">Welcome back</p>
+        <h1 className="mb-3 max-w-md text-4xl font-extralight uppercase leading-tight text-foreground">
+          Track everything you watch
+        </h1>
+        <p className="max-w-sm text-muted-foreground">
+          Sign in to build lists, rate what you&apos;ve seen, and pick up where you left off.
+        </p>
       </div>
+    </div>
+    <div className="flex flex-1 items-center justify-center p-6 sm:p-10">
+      <LoginForm />
     </div>
   </div>
 );

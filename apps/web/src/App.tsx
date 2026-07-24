@@ -21,7 +21,7 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <ToastContainer />
+      <ToastContainer theme="dark" />
       <HashRouter>
         <Suspense fallback={<Loader className="h-screen"/>}>
           <Router />

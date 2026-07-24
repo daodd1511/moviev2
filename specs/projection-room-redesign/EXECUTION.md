@@ -13,13 +13,14 @@ Impeccable detector. Do not add a test framework as a side quest.
 
 ## STATUS
 
-- Current phase: 5 — done (local gate green; CI n/a per single-branch directive)
+- Current phase: 6 — done (local gate green; CI n/a per single-branch directive)
 - Phase 0 — deps-and-font: done
 - Phase 1 — tokens: done (superseded by Phase 2's Tailwind v4 retheme — index.css/tailwind.config.cjs from Phase 1 no longer exist as such; see Phase 2 for current token source of truth)
 - Phase 2 — ui-primitives: done
 - Phase 3 — app-shell: done
 - Phase 4 — detail-pages: done
 - Phase 5 — browse-grids: done
+- Phase 6 — auth-user: done
 - Phase 5 — browse-grids: pending
 - Phase 6 — auth-user: pending
 - Phase 7 — cleanup-gates: pending
@@ -184,19 +185,22 @@ Branch: `projection-room-redesign/phase-6-auth` (off `…/phase-5-browse`)
 
 Kills the green/blue accent families and the remaining P1s (PLAN.md → "Phase 6").
 
-- [ ] `LoginForm`/`RegisterForm` → dark surface card, `TextField`s, amber primary CTA (audit #3)
-- [ ] `LoginPage`/`RegisterPage`: delete lorem-ipsum + broken `<img src="">`; replace side panel per the world
-- [ ] User list pages, `List/` feature, `CreateNew` — sweep banned classes, restyle with primitives; theme `react-toastify` dark
+- [x] `LoginForm`/`RegisterForm` → dark surface card (`bg-card`), `TextField`s, amber primary `Button` (audit #3) — kills the green CTA + `text-gray-100` AA-contrast failure by construction, since `Button`'s default variant is `bg-primary text-primary-foreground`. Also fixed `ThreeDots` (register's loading spinner): hardcoded `fill="#fff"` → `fill="currentColor"`, since DESIGN.md bans white text/fills on the amber button — it now correctly inherits `accent-ink`.
+- [x] `LoginPage`/`RegisterPage`: delete lorem-ipsum + broken `<img src="">`; replace side panel per the world — both had identical copy (a pre-existing bug: RegisterPage said "Hi! Welcome Back" too) and an `<img src="">`. Replaced with real, honest, page-specific copy and a real TMDB backdrop image (`alt=""`, decorative) — no fabricated claims, no lorem ipsum.
+- [x] User list pages, `List/` feature, `CreateNew` — sweep banned classes, restyle with primitives; theme `react-toastify` dark — `ListPage.tsx` had a real bug beyond styling: white cards (`bg-white`) with no explicit dark text color meant text inherited the light `text-foreground` on a white background, nearly invisible. Fixed to `bg-card`. `List/pages/Detail.tsx` and `PublicList.tsx` tabs/buttons moved off `cPrimary`/`gray-300` onto `primary`/`border` tokens and shadcn `Button`. `react-toastify`: `theme="dark"` plus its CSS custom properties (`--toastify-color-dark` etc.) retoned to `var(--color-surface-raised)` / `var(--color-primary)` instead of its generic dark defaults.
+- [x] **(amended)** The phase 6 gate's `rg "green-|blue-"` check is repo-wide, and caught one `text-blue-600` in `Person.tsx` (a file otherwise out of this phase's scope, deferred to Phase 7's gray/slate sweep). Fixed only that one line (→ `text-primary`, plus a missing `type="button"` on the same element) rather than pulling all of `Person.tsx`'s styling into this phase.
 
 **Agent gate (hard):**
-- [ ] `npm run build:web`
-- [ ] `npm run lint`
-- [ ] `npx -y impeccable detect apps/web/src` → zero findings
-- [ ] `rg "green-|blue-" apps/web/src` → empty (excluding third-party)
-- [ ] CI green on the phase PR
+- [x] `npm run build:web` — passes
+- [x] `npm run lint` — passes
+- [x] `npx -y impeccable detect apps/web/src` → zero findings (exit 0)
+- [x] `rg "green-|blue-" apps/web/src` → empty
+- [x] Dev-server smoke check: `/auth/login`, `/auth/register`, `/list/new` all HTTP 200
+- [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
 - [ ] Login/register usable and on-world; toasts themed; list CRUD flows styled
+- [ ] Real visual/interaction check in a browser — not done this phase (no browser tool invoked)
 
 **On completion:** as Phase 0.
 
