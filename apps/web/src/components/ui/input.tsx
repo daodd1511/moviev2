@@ -2,9 +2,14 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
-  return (
+// React 18 (project pin) doesn't auto-forward `ref` through function
+// components the way React 19 does; shadcn's upstream templates assume 19.
+// forwardRef here so react-hook-form's register() and manual refs attach to
+// the real input node.
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+  ({ className, type, ...props }, ref) => (
     <input
+      ref={ref}
       type={type}
       data-slot="input"
       className={cn(
@@ -14,6 +19,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       {...props}
     />
   )
-}
+)
+Input.displayName = "Input"
 
 export { Input }

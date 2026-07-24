@@ -7,7 +7,9 @@ import { MovieSearch, TvSearch } from '@/models/search.model';
 
 export namespace SearchService {
   export const multi = async(query: string): Promise<Array<MovieSearch | TvSearch>> => {
-    const response = await api.get<SearchResponseDto>(`/search/multi?query=${query}`);
+    const response = await api.get<SearchResponseDto>('/search/multi', {
+      params: { query },
+    });
     return SearchMapper.fromDto(response.data);
   };
 }

@@ -43,12 +43,17 @@ const RegisterFormComponent = () => {
   });
   return (
     <form
-      className="mx-auto w-96 rounded-2xl bg-card p-12"
+      className="w-full rounded-lg border border-foreground/10 bg-surface/65 p-6 shadow-[0_28px_70px_-32px_rgba(0,0,0,0.9)] backdrop-blur-sm sm:p-9"
       onSubmit={onSubmit}
     >
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-foreground">Sign Up</h3>
-        <p className="text-muted-foreground">Create your account.</p>
+      <div className="mb-8">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+          Start your library
+        </p>
+        <h2 className="text-3xl font-light text-foreground sm:text-4xl">Create account</h2>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          One account for every movie and show you want to remember.
+        </p>
       </div>
       <div className="space-y-5">
         <div>
@@ -56,6 +61,7 @@ const RegisterFormComponent = () => {
             label="Email"
             type="email"
             placeholder="johndoe@gmail.com"
+            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('email')}
           />
           {errors.email?.message !== undefined && <ErrorField error={errors.email?.message}/>}
@@ -65,6 +71,7 @@ const RegisterFormComponent = () => {
             label="Username"
             type="text"
             placeholder="Enter your username"
+            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('username')}
           />
           {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
@@ -73,7 +80,8 @@ const RegisterFormComponent = () => {
           <TextField
             label="Password"
             type="password"
-            placeholder="Enter your password."
+            placeholder="Enter your password"
+            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('password')}
           />
           {errors.password?.message !== undefined && <ErrorField error={errors.password?.message}/>}
@@ -82,20 +90,26 @@ const RegisterFormComponent = () => {
           <TextField
             label="Confirm Password"
             type="password"
-            placeholder="Confirm your password."
+            placeholder="Confirm your password"
+            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('confirmPassword')}
           />
           {errors.confirmPassword?.message !== undefined && <ErrorField error={errors.confirmPassword?.message}/>}
         </div>
         <div>
-          <Button disabled={mutation.isLoading} type="submit" className="w-full">
+          <Button
+            disabled={mutation.isLoading}
+            type="submit"
+            className="h-14 w-full rounded-full text-base font-semibold shadow-[0_12px_30px_-10px_rgba(245,165,36,0.55)]"
+          >
             {mutation.isLoading ? <ThreeDots /> : 'Sign Up'}
           </Button>
         </div>
-        <div className="flex items-center justify-start">
-          <div className="text-sm text-muted-foreground">
-            Already have an account? <Link to="/auth/login" className="text-primary hover:underline">Sign In</Link>
-          </div>
+        <div className="border-t border-foreground/10 pt-5 text-center text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <Link to="/auth/login" className="font-medium text-foreground hover:text-primary">
+            Sign in
+          </Link>
         </div>
       </div>
     </form>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useAtom } from 'jotai';
+import { Bookmark, ListPlus, Plus } from 'lucide-react';
 
 import { Loader } from '../styles';
 
@@ -11,6 +12,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -82,16 +85,30 @@ export const Menu = ({ media, trigger, triggerLabel, className }: Props) => {
           </DropdownMenuItem>
         )}
         {isAuth && (
-          <DropdownMenuSub onOpenChange={setIsListMenuOpen}>
-            <DropdownMenuSubTrigger>Add to list</DropdownMenuSubTrigger>
+          <DropdownMenuSub
+            open={isListMenuOpen}
+            onOpenChange={setIsListMenuOpen}
+          >
+            <DropdownMenuSubTrigger
+              onPointerEnter={() => setIsListMenuOpen(true)}
+            >
+              <ListPlus aria-hidden="true" />
+              Add to list
+            </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <DropdownMenuItem asChild>
-                <Link to="/list/new">Create new list</Link>
+                <Link to="/list/new">
+                  <Plus aria-hidden="true" />
+                  Create new list
+                </Link>
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Your lists</DropdownMenuLabel>
               {isListLoading ?
                 <Loader /> :
                 lists?.map(list => (
                   <DropdownMenuItem key={list.id} onClick={() => onListClick(list)}>
+                    <Bookmark aria-hidden="true" />
                     {list.name}
                   </DropdownMenuItem>
                 ))}

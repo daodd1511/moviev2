@@ -7,16 +7,66 @@ import { toast } from 'react-toastify';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { assertNonNull } from '@/shared/utils';
+import { AlertTriangle, ExternalLink, Star, X } from 'lucide-react';
+
+import { assertNonNull, formatToYear } from '@/shared/utils';
 import { ListQueries } from '@/stores/queries/listQueries';
-import { Footer, Loader, MediaListItem } from '@/shared/components';
-import { Type } from '@/shared/enums';
+import { Footer, Loader } from '@/shared/components';
+import { Type, PosterSizes } from '@/shared/enums';
 import { Media } from '@/models';
 import { ListService } from '@/api/services/listService';
 import { UserQueries } from '@/stores/queries/userQueries';
 import { MediaType } from '@/shared/enums/mediaType';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { PosterPlate } from '@/shared/components/ui/PosterPlate';
+import { IMAGE_BASE_URL } from '@/shared/constants';
+import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
+
+interface RemovableItemProps {
+
+  /** Media item. */
+  readonly media: Media;
+
+  /** Remove handler. */
+  readonly onRemove: (media: Media) => void;
+}
+
+const RemovableItem = ({ media, onRemove }: RemovableItemProps) => {
+  const imageUrl =
+    media.posterPath != null ?
+      `${IMAGE_BASE_URL}${PosterSizes.large}${media.posterPath}` :
+      '/images/no-image.png';
+
+  return (
+    <div className="group relative">
+      <Link to={`/${media.type}/${media.id}`} className="block">
+        <PosterPlate src={imageUrl} alt={`${media.title} poster`} loading="lazy" />
+      </Link>
+      <button
+        type="button"
+        aria-label={`Remove ${media.title} from this list`}
+        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/70 text-foreground opacity-0 backdrop-blur-sm transition-opacity hover:bg-destructive hover:text-destructive-foreground group-hover:opacity-100 focus-visible:opacity-100"
+        onClick={() => onRemove(media)}
+      >
+        <X className="h-4 w-4" />
+      </button>
+      <div className="mt-2">
+        <p className="truncate text-sm font-medium text-foreground">{media.title}</p>
+        <p className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+          <span>{formatToYear(media.releaseDate)}</span>
+          <span className="inline-flex items-center gap-0.5 text-primary">
+            <Star className="h-3 w-3 fill-current" />
+            {media.voteAverage.toFixed(1)}
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const EmptyState = ({ label }: { label: string }) => (
+  <p className="py-16 text-center text-muted-foreground">{label}</p>
+);
 
 const ListDetailComponent = () => {
   const queryClient = useQueryClient();
@@ -45,6 +95,7 @@ const ListDetailComponent = () => {
 
   const removeListMutation = useMutation(() => ListService.remove(id), {
     onSuccess() {
+      setIsConfirmRemoveListModalOpen(false);
       toast.success('List removed');
       navigate('/user/lists');
     },
@@ -60,94 +111,94 @@ const ListDetailComponent = () => {
 
   const onConfirmRemoveListButtonClick = () => {
     removeListMutation.mutate();
-    setIsConfirmRemoveListModalOpen(false);
   };
 
   if (isLoading || isUserLoading) {
     return <Loader className="min-h-[60vh]" />;
   }
 
+  const movieCount = data?.movies.length ?? 0;
+  const tvCount = data?.tvShows.length ?? 0;
+
   return (
     <div className="px-8 py-12">
-      <div className="flex justify-between">
+      <div className="flex flex-col justify-between gap-6 border-b border-border pb-8 md:flex-row md:items-start">
         <div>
-          <h1>
-            {data?.name} (Total:{' '}
-            {(data?.movies.length ?? 0) + (data?.tvShows.length ?? 0)})
-          </h1>
-          <p className="text-muted-foreground">{data?.description}</p>
+          <h1 className="text-3xl font-semibold text-foreground">{data?.name}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {movieCount + tvCount} title{movieCount + tvCount === 1 ? '' : 's'}
+          </p>
+          {data?.description !== undefined && data.description !== '' && (
+            <p className="mt-3 max-w-xl text-muted-foreground">{data.description}</p>
+          )}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 items-center gap-3">
           <Link
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             to={`/u/${user.username}/lists/${data?.id ?? ''}`}
             target="_blank"
-            className="text-sm text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
           >
-            Go to public link
+            <ExternalLink className="h-3.5 w-3.5" />
+            Public link
           </Link>
-          <Button variant="destructive" size="sm" onClick={onRemoveListButtonClick}>
-            Remove
+          <Button variant="outline" size="sm" onClick={onRemoveListButtonClick}>
+            Delete list
           </Button>
-
-          <Dialog open={isConfirmRemoveListModalOpen} onOpenChange={setIsConfirmRemoveListModalOpen}>
-            <DialogContent className="sm:max-w-sm">
-              <DialogTitle className="text-center">
-                Do you want to remove this list?
-              </DialogTitle>
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setIsConfirmRemoveListModalOpen(false)}>
-                  No
-                </Button>
-                <Button variant="destructive" onClick={onConfirmRemoveListButtonClick}>
-                  Yes
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
-      <div className="flex gap-4 border-b border-border pb-10">
-        <a
-          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Movie ? 'border-b-2 border-primary font-semibold text-foreground' : 'text-muted-foreground'}`}
+
+      <ConfirmDialog
+        open={isConfirmRemoveListModalOpen}
+        onOpenChange={setIsConfirmRemoveListModalOpen}
+        icon={<AlertTriangle aria-hidden="true" className="size-5" />}
+        title={`Delete “${data?.name ?? 'this list'}”?`}
+        description="Every title in this list will be removed. This action cannot be undone."
+        confirmLabel="Delete list"
+        destructive
+        isLoading={removeListMutation.isLoading}
+        onConfirm={onConfirmRemoveListButtonClick}
+      />
+
+      <div className="flex gap-2 pb-10 pt-6">
+        <button
+          type="button"
+          className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+            activeTab === Type.Movie ?
+              'bg-primary text-primary-foreground' :
+              'text-muted-foreground hover:bg-accent hover:text-foreground'
+          }`}
           onClick={() => setActiveTab(Type.Movie)}
         >
-          Movies
-        </a>
-        <a
-          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Tv ? 'border-b-2 border-primary font-semibold text-foreground' : 'text-muted-foreground'}`}
+          Movies · {movieCount}
+        </button>
+        <button
+          type="button"
+          className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+            activeTab === Type.Tv ?
+              'bg-primary text-primary-foreground' :
+              'text-muted-foreground hover:bg-accent hover:text-foreground'
+          }`}
           onClick={() => setActiveTab(Type.Tv)}
         >
-          Tv Shows
-        </a>
+          TV Shows · {tvCount}
+        </button>
       </div>
+
+      {activeTab === Type.Movie && movieCount === 0 && (
+        <EmptyState label="No movies in this list yet." />
+      )}
+      {activeTab === Type.Tv && tvCount === 0 && (
+        <EmptyState label="No TV shows in this list yet." />
+      )}
+
       <div className="grid grid-cols-autoFit place-content-evenly gap-x-6 gap-y-10 pb-10">
         {activeTab === Type.Movie ?
           data?.movies.map((movie: Media) => (
-            <div key={movie.id}>
-              <MediaListItem media={movie} />
-              <Button
-                variant="destructive"
-                size="sm"
-                className="w-full"
-                onClick={() => onRemoveMediaButtonClick(movie)}
-              >
-                Remove
-              </Button>
-            </div>
+            <RemovableItem key={movie.id} media={movie} onRemove={onRemoveMediaButtonClick} />
           )) :
           data?.tvShows.map((tv: Media) => (
-            <div key={tv.id}>
-              <MediaListItem media={tv} />
-              <Button
-                variant="destructive"
-                size="sm"
-                className="w-full"
-                onClick={() => onRemoveMediaButtonClick(tv)}
-              >
-                Remove
-              </Button>
-            </div>
+            <RemovableItem key={tv.id} media={tv} onRemove={onRemoveMediaButtonClick} />
           ))}
       </div>
       <Footer />

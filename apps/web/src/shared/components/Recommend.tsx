@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
+import { Star } from 'lucide-react';
 
 import { MediaType } from '../enums/mediaType';
 
@@ -9,6 +10,7 @@ import { MovieQueries } from '@/stores/queries/movieQueries';
 import { Rail } from '@/shared/components/ui/Rail';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { PosterSizes } from '@/shared/enums';
+import { formatToYear } from '@/shared/utils';
 
 interface Props {
 
@@ -51,9 +53,18 @@ const RecommendComponent = ({ mediaId, mediaType }: Props) => {
                 loading="lazy"
                 className="aspect-2/3 w-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent px-3.5 pb-3 pt-9 text-sm font-medium text-foreground">
-                {media.title}
-              </span>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent px-3.5 pb-3 pt-9">
+                <p className="truncate text-sm font-medium text-foreground">
+                  {media.title}
+                </p>
+                <p className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+                  <span>{formatToYear(media.releaseDate)}</span>
+                  <span className="inline-flex items-center gap-1 text-primary">
+                    <Star aria-hidden="true" className="h-3 w-3 fill-current" />
+                    {media.voteAverage.toFixed(1)}
+                  </span>
+                </p>
+              </div>
             </Link>
           );
         })}

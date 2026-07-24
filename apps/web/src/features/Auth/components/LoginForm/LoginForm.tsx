@@ -51,19 +51,25 @@ const LoginFormComponent = () => {
   });
   return (
     <form
-      className="mx-auto w-96 rounded-2xl bg-card p-12"
+      className="w-full rounded-lg border border-foreground/10 bg-surface/65 p-6 shadow-[0_28px_70px_-32px_rgba(0,0,0,0.9)] backdrop-blur-sm sm:p-9"
       onSubmit={onSubmit}
     >
-      <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-foreground">Sign In</h3>
-        <p className="text-muted-foreground">Please sign in to your account.</p>
+      <div className="mb-8">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+          Your account
+        </p>
+        <h2 className="text-3xl font-light text-foreground sm:text-4xl">Sign in</h2>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          Welcome back. Your next watch is waiting.
+        </p>
       </div>
-      <div className="space-y-5">
+      <div className="space-y-6">
         <div>
           <TextField
             label="Username"
             type="text"
             placeholder="Enter your username"
+            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('username')}
           />
           {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
@@ -72,25 +78,26 @@ const LoginFormComponent = () => {
           <TextField
             label="Password"
             type="password"
-            placeholder="Enter your password."
+            placeholder="Enter your password"
+            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('password')}
           />
           {errors.password?.message !== undefined && <ErrorField error={errors.password?.message}/>}
         </div>
         <div>
-          <Button type="submit" className="w-full" disabled={mutation.isLoading}>
+          <Button
+            type="submit"
+            className="h-14 w-full rounded-full text-base font-semibold shadow-[0_12px_30px_-10px_rgba(245,165,36,0.55)]"
+            disabled={mutation.isLoading}
+          >
             {mutation.isLoading ? 'Signing In' : 'Sign In'}
           </Button>
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="text-sm text-muted-foreground">
-            Don&apos;t have an account yet? <Link to="/auth/register" className="text-primary hover:underline">Sign Up</Link>
-          </div>
-          <div className="text-sm">
-            <a href="#" className="text-primary hover:underline">
-              Forgot password?
-            </a>
-          </div>
+        <div className="border-t border-foreground/10 pt-5 text-center text-sm text-muted-foreground">
+          Don&apos;t have an account?{' '}
+          <Link to="/auth/register" className="font-medium text-foreground hover:text-primary">
+            Create one
+          </Link>
         </div>
       </div>
     </form>

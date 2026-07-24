@@ -58,7 +58,10 @@ const TvDetailComponent = () => {
 
   return (
     <div className="relative">
-      <section className="relative flex min-h-[92vh] items-end overflow-hidden" aria-labelledby="tv-title">
+      <section
+        className="relative left-1/2 flex min-h-[92svh] w-screen -translate-x-1/2 items-end overflow-hidden"
+        aria-labelledby="tv-title"
+      >
         {backdropUrl != null ?
           (
             <div
@@ -71,11 +74,11 @@ const TvDetailComponent = () => {
           <div className="absolute inset-0 bg-surface" />}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/25" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/35 to-transparent" />
-        <div className="relative z-2 mx-auto flex w-full max-w-[82rem] flex-col items-start gap-8 px-4 pb-14 pt-32 md:flex-row md:items-end md:px-12">
+        <div className="relative z-2 mx-auto flex w-full max-w-[90rem] flex-col items-start gap-10 px-5 pb-16 pt-32 md:flex-row md:items-end md:px-12 lg:gap-14 lg:px-16 xl:px-20">
           <button
             type="button"
             aria-label={`View full size poster for ${tv.name}`}
-            className="w-40 shrink-0 cursor-zoom-in md:w-60"
+            className="w-44 shrink-0 cursor-zoom-in transition-transform duration-300 hover:-translate-y-1 sm:w-52 md:w-64 lg:w-72 xl:w-80"
             onClick={() => setIsFullSizeImage(true)}
           >
             <PosterPlate src={posterUrl} alt={`${tv.name} poster`} />
@@ -84,7 +87,7 @@ const TvDetailComponent = () => {
         </div>
       </section>
 
-      <main className="mx-auto max-w-[82rem] px-4 md:px-12">
+      <main className="mx-auto max-w-[90rem] px-5 md:px-12 lg:px-16 xl:px-20">
         <Overview tv={tv} />
         <Seasons seasons={tv.seasons} />
         {credits != null && (
@@ -95,12 +98,12 @@ const TvDetailComponent = () => {
       <Footer />
 
       <Dialog open={isFullSizeImage} onOpenChange={setIsFullSizeImage}>
-        <DialogContent className="w-fit max-w-[95vw] border-0 bg-transparent p-0 shadow-none ring-0">
+        <DialogContent className="w-auto max-w-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-none">
           <DialogTitle className="sr-only">{tv.name} full size poster</DialogTitle>
           <img
             src={fullSizeImageUrl}
             alt={`${tv.name} full size poster`}
-            className="h-[95vh]"
+            className="block h-auto max-h-[90vh] w-auto max-w-[92vw] rounded-lg object-contain shadow-[0_28px_80px_-20px_rgba(0,0,0,0.9)]"
           />
         </DialogContent>
       </Dialog>

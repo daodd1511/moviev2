@@ -42,11 +42,7 @@ const CastPageComponent = () => {
   }, []);
 
   if (isMediaLoading || isCreditsLoading) {
-    return (
-      <div className="min-h-[60vh]">
-        <Loader />
-      </div>
-    );
+    return <Loader className="min-h-[60vh]" />;
   }
 
   if (isMediaError || isCreditsError || media == null || credits == null) {

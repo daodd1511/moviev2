@@ -5,9 +5,9 @@ import { MovieDetail, Credits, Video } from '@/models';
 import { formatToYear } from '@/shared/utils';
 import { Menu } from '@/shared/components/List/Menu';
 import { MediaMapper } from '@/api/mappers/media.mapper';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/shared/components/ui/Chip';
+import { TrailerDialog } from '@/shared/components/ui/TrailerDialog';
 
 const toHoursAndMinutes = (minutes: number | null): string => {
   if (minutes === null) {
@@ -46,11 +46,11 @@ const ContentComponent = ({ movie, credits }: Props) => {
   const year = formatToYear(movie.releaseDate);
 
   return (
-    <div className="relative z-2 pb-3.5">
+    <div className="relative z-2 max-w-4xl flex-1 pb-3.5">
       <p className="mb-4 text-[0.82rem] font-medium uppercase tracking-[0.2em] text-primary">
         Now Showing
       </p>
-      <h1 className="mb-2.5 text-[clamp(2.6rem,6vw,5rem)] font-extralight uppercase leading-[1.02] tracking-[0.015em] text-foreground">
+      <h1 id="movie-title" className="mb-2.5 text-[clamp(2.6rem,6vw,5rem)] font-extralight uppercase leading-[1.02] tracking-[0.015em] text-foreground">
         {movie.title}
       </h1>
       {movie.tagline !== '' && (
@@ -89,7 +89,11 @@ const ContentComponent = ({ movie, credits }: Props) => {
 
       <div className="flex items-center gap-4">
         {trailerKey !== '' && (
-          <Button onClick={() => setIsWatchTrailer(true)}>
+          <Button
+            size="lg"
+            className="h-12 rounded-full px-6 shadow-[0_10px_26px_-8px_rgba(245,165,36,0.55)]"
+            onClick={() => setIsWatchTrailer(true)}
+          >
             <Play className="h-4 w-4" /> Watch Trailer
           </Button>
         )}
@@ -102,20 +106,12 @@ const ContentComponent = ({ movie, credits }: Props) => {
       </div>
 
       {trailerKey !== '' && (
-        <Dialog open={isWatchTrailer} onOpenChange={setIsWatchTrailer}>
-          <DialogContent className="w-[80vw] max-w-7xl border-0 bg-transparent p-0 shadow-none ring-0">
-            <DialogTitle className="sr-only">{movie.title} trailer</DialogTitle>
-            <div className="aspect-video">
-              <iframe
-                src={`https://www.youtube.com/embed/${trailerKey}`}
-                title="Trailer"
-                className="h-full w-full rounded-md"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          </DialogContent>
-        </Dialog>
+        <TrailerDialog
+          open={isWatchTrailer}
+          onOpenChange={setIsWatchTrailer}
+          title={movie.title}
+          trailerKey={trailerKey}
+        />
       )}
     </div>
   );

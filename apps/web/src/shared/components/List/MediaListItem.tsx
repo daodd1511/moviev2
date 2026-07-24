@@ -48,7 +48,7 @@ const MediaListItemComponent = ({ media }: Props) => {
       <Menu
         media={media}
         triggerLabel="Open item menu"
-        className="absolute top-2 right-2 flex h-11 w-11 items-center justify-center rounded-full bg-background/60 text-foreground backdrop-blur-sm transition-colors hover:bg-background/80"
+        className="absolute top-2 right-2 flex h-11 w-11 items-center justify-center rounded-full border border-foreground/15 bg-background/60 text-foreground shadow-[0_8px_20px_-10px_rgba(0,0,0,0.9)] backdrop-blur-sm transition-[background-color,border-color] hover:border-foreground/25 hover:bg-background/80 data-[state=open]:border-foreground/30 data-[state=open]:bg-surface-raised"
         trigger={<MoreHorizontal className="h-4 w-4" />}
       />
     </div>

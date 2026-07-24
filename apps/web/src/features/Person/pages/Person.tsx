@@ -61,11 +61,7 @@ const PersonComponent: FC = () => {
       [];
 
   if (isDetailLoading || isCreditsLoading) {
-    return (
-      <div className="min-h-[60vh]">
-        <Loader />
-      </div>
-    );
+    return <Loader className="min-h-[60vh]" />;
   }
 
   if (isDetailError || isCreditsError || !personDetail) {

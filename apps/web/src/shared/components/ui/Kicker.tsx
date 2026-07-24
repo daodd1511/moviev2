@@ -15,7 +15,7 @@ interface Props {
 export const Kicker = ({ children, className, id }: Props) => (
   <h2
     id={id}
-    className={`mb-[1.2rem] text-[0.82rem] font-medium uppercase tracking-[0.2em] text-muted-foreground ${className ?? ''}`}
+    className={`mb-6 inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-foreground before:block before:h-px before:w-8 before:bg-primary before:content-[''] ${className ?? ''}`}
   >
     {children}
   </h2>

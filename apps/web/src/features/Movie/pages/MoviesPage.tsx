@@ -18,7 +18,6 @@ const MoviesComponent = () => {
   }, [params]);
   return (
     <div className="relative">
-      {/* <Filter type={MediaType.Movie}/> */}
       <MovieByDiscover />
       {showTopBtn && (
         <button
