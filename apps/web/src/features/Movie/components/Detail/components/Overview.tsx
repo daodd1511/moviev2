@@ -28,10 +28,10 @@ const OverviewComponent = ({ movie, credits }: Props) => {
   ];
 
   return (
-    <div className="grid gap-10 pt-14 md:grid-cols-[1.8fr_1fr] md:gap-16">
+    <div className="grid gap-10 pt-10 md:grid-cols-[1.8fr_1fr] md:gap-16 md:pt-14">
       <section aria-labelledby="overview-heading">
         <Kicker id="overview-heading">Overview</Kicker>
-        <p className="max-w-[65ch] text-[1.08rem] leading-[1.8] text-foreground">
+        <p className="max-w-[65ch] text-base leading-[1.75] text-foreground md:text-[1.08rem] md:leading-[1.8]">
           {movie.overview}
         </p>
       </section>

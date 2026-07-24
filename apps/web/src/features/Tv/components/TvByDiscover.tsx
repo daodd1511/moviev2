@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Loader, MediaList } from '@/shared/components';
+import { DiscoverTabs, Loader, MediaList } from '@/shared/components';
 import { TV_DISCOVER } from '@/shared/constants';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
 import { TvQueries } from '@/stores/queries/tvQueries';
@@ -38,8 +38,14 @@ const TvByDiscoverComponent = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <div className="px-8 py-12">
-      <h1 className="pb-10">{title} TV Shows</h1>
+    <div className="px-4 py-8 md:px-8 md:py-12">
+      <h1 className="pb-6 text-2xl font-semibold md:pb-10">{title} TV Shows</h1>
+      <DiscoverTabs
+        label="TV categories"
+        basePath="/tv/discover"
+        activeValue={discover ?? 'popular'}
+        options={TV_DISCOVER}
+      />
       {data.pages.map(tvPage => (
         <MediaList key={tvPage.page} data={tvPage.results} />
       ))}

@@ -38,7 +38,7 @@ const RecommendComponent = ({ mediaId, mediaType }: Props) => {
 
   return (
     <Rail title="More Like This">
-      <div className="grid grid-cols-2 gap-5 md:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-5">
         {data.results.map(media => {
           const imageUrl =
             media.posterPath != null ?

@@ -18,7 +18,7 @@ const SeasonsComponent = ({ seasons }: Props) => {
 
   return (
     <Rail title="Seasons">
-      <div className="grid auto-cols-[9.5rem] grid-flow-col gap-5 overflow-x-auto pb-4">
+      <div className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-4 md:mx-0 md:grid md:grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] md:gap-5 md:overflow-visible md:px-0">
         {seasons.map(season => {
           const imageUrl =
             season.posterPath != null ?
@@ -26,7 +26,7 @@ const SeasonsComponent = ({ seasons }: Props) => {
               '/images/no-image.png';
 
           return (
-            <div key={season.id}>
+            <div key={season.id} className="w-32 shrink-0 snap-start md:w-auto">
               <img
                 src={imageUrl}
                 alt={`${season.name} poster`}

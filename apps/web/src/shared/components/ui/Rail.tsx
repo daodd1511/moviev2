@@ -21,8 +21,8 @@ interface Props {
 export const Rail = ({ title, viewAllTo, children, className }: Props) => {
   const headingId = useId();
   return (
-    <section aria-labelledby={headingId} className={`pt-[4.5rem] ${className ?? ''}`}>
-      <div className="mb-[1.4rem] flex items-baseline justify-between">
+    <section aria-labelledby={headingId} className={`pt-12 md:pt-[4.5rem] ${className ?? ''}`}>
+      <div className="mb-4 flex items-baseline justify-between md:mb-[1.4rem]">
         <Kicker id={headingId} className="mb-0">{title}</Kicker>
         {viewAllTo !== undefined && (
           <Link to={viewAllTo} className="text-sm text-primary no-underline hover:underline">

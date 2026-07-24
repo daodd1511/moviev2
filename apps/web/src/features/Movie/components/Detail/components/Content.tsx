@@ -18,10 +18,13 @@ const toHoursAndMinutes = (minutes: number | null): string => {
   return `${hours}h ${remainingMinutes}m`;
 };
 
-const getTrailerKey = (videos: readonly Video[]) => {
-  const trailer = videos.find(video => video.type === 'Trailer');
-  return trailer != null ? trailer.key : '';
-};
+const getTrailers = (videos: readonly Video[]): readonly Video[] =>
+  videos
+    .filter(video => video.type === 'Trailer' && video.site === 'YouTube')
+    .sort((a, b) =>
+      Number(b.official) - Number(a.official) ||
+      b.publishedAt.localeCompare(a.publishedAt),
+    );
 
 interface Props {
 
@@ -35,7 +38,7 @@ interface Props {
 const ContentComponent = ({ movie, credits }: Props) => {
   const [isWatchTrailer, setIsWatchTrailer] = useState(false);
 
-  const trailerKey = getTrailerKey(movie.videos);
+  const trailers = getTrailers(movie.videos);
 
   const director = useMemo(
     () => credits?.crew?.find(({ job }) => job === 'Director'),
@@ -46,17 +49,17 @@ const ContentComponent = ({ movie, credits }: Props) => {
   const year = formatToYear(movie.releaseDate);
 
   return (
-    <div className="relative z-2 max-w-4xl flex-1 pb-3.5">
-      <p className="mb-4 text-[0.82rem] font-medium uppercase tracking-[0.2em] text-primary">
+    <div className="relative z-2 w-full max-w-4xl flex-1 pb-3.5 text-center md:text-left">
+      <p className="mb-3 text-[0.72rem] font-medium uppercase tracking-[0.2em] text-primary md:mb-4 md:text-[0.82rem]">
         Now Showing
       </p>
-      <h1 id="movie-title" className="mb-2.5 text-[clamp(2.6rem,6vw,5rem)] font-extralight uppercase leading-[1.02] tracking-[0.015em] text-foreground">
+      <h1 id="movie-title" className="mb-2.5 text-[clamp(2.15rem,11vw,5rem)] font-extralight leading-[1.02] tracking-[0.015em] text-foreground md:uppercase">
         {movie.title}
       </h1>
       {movie.tagline !== '' && (
         <p className="mb-5 italic text-muted-foreground">{movie.tagline}</p>
       )}
-      <p className="mb-7 flex flex-wrap items-center gap-4 text-muted-foreground">
+      <p className="mb-5 flex flex-wrap items-center justify-center gap-2.5 text-sm text-muted-foreground md:mb-7 md:justify-start md:gap-4 md:text-base">
         <span className="inline-flex items-center gap-1.5 font-medium text-primary">
           <Star className="h-4 w-4 fill-current" />
           {movie.voteAverage.toFixed(1)}
@@ -78,7 +81,7 @@ const ContentComponent = ({ movie, credits }: Props) => {
       </p>
 
       {movie.genres.length > 0 && (
-        <ul className="mb-8 flex flex-wrap gap-3">
+        <ul className="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:justify-start md:gap-3">
           {movie.genres.map(({ id, name }) => (
             <li key={id}>
               <Chip>{name}</Chip>
@@ -87,14 +90,15 @@ const ContentComponent = ({ movie, credits }: Props) => {
         </ul>
       )}
 
-      <div className="flex items-center gap-4">
-        {trailerKey !== '' && (
+      <div className="mx-auto flex w-full max-w-md items-center justify-center gap-3 sm:w-auto sm:gap-4 md:mx-0 md:justify-start">
+        {trailers.length > 0 && (
           <Button
             size="lg"
-            className="h-12 rounded-full px-6 shadow-[0_10px_26px_-8px_rgba(245,165,36,0.55)]"
+            className="h-12 flex-1 rounded-full px-6 shadow-[0_10px_26px_-8px_rgba(245,165,36,0.55)] sm:flex-none"
             onClick={() => setIsWatchTrailer(true)}
           >
-            <Play className="h-4 w-4" /> Watch Trailer
+            <Play className="h-4 w-4" />
+            {trailers.length > 1 ? `Trailers · ${trailers.length}` : 'Watch Trailer'}
           </Button>
         )}
         <Menu
@@ -105,12 +109,12 @@ const ContentComponent = ({ movie, credits }: Props) => {
         />
       </div>
 
-      {trailerKey !== '' && (
+      {trailers.length > 0 && (
         <TrailerDialog
           open={isWatchTrailer}
           onOpenChange={setIsWatchTrailer}
           title={movie.title}
-          trailerKey={trailerKey}
+          trailers={trailers}
         />
       )}
     </div>

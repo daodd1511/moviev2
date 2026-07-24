@@ -12,11 +12,18 @@ import {
   DialogContent,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 
 const MINIMUM_QUERY_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 300;
 
-const SearchComponent = () => {
+interface Props {
+
+  /** Render as an item in the mobile bottom navigation. */
+  readonly mobileTab?: boolean;
+}
+
+const SearchComponent = ({ mobileTab = false }: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const normalizedQuery = searchQuery.trim();
@@ -60,19 +67,30 @@ const SearchComponent = () => {
       <button
         type="button"
         aria-label="Search movies and TV shows"
-        className="group flex h-10 items-center gap-2 rounded-full px-2.5 text-muted-foreground transition-colors hover:bg-foreground/[0.08] hover:text-foreground md:px-3"
+        className={cn(
+          'group text-muted-foreground transition-colors hover:text-foreground',
+          mobileTab ?
+            'flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-[0.65rem] font-medium' :
+            'flex h-10 items-center gap-2 rounded-full px-2.5 hover:bg-foreground/[0.08] md:px-3',
+        )}
         onClick={() => setIsOpen(true)}
       >
         <SearchIcon aria-hidden="true" className="size-5" />
-        <span className="hidden text-sm lg:inline">Search</span>
-        <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.06] px-1.5 py-0.5 text-[0.65rem] font-medium text-muted-foreground xl:inline">
-          ⌘K
-        </kbd>
+        {mobileTab ?
+          <span>Search</span> :
+          (
+            <>
+              <span className="hidden text-sm lg:inline">Search</span>
+              <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.06] px-1.5 py-0.5 text-[0.65rem] font-medium text-muted-foreground xl:inline">
+                ⌘K
+              </kbd>
+            </>
+          )}
       </button>
 
       <DialogContent
         showCloseButton={false}
-        className="top-[10svh] w-[min(94vw,48rem)] max-w-none -translate-y-0 gap-0 overflow-hidden border border-foreground/10 bg-popover/98 p-0 shadow-[0_32px_90px_-24px_rgba(0,0,0,0.9)] sm:max-w-none"
+        className="top-4 w-[calc(100vw-2rem)] max-w-none -translate-y-0 gap-0 overflow-hidden border border-foreground/10 bg-popover/98 p-0 shadow-[0_32px_90px_-24px_rgba(0,0,0,0.9)] sm:top-[10svh] sm:w-[min(94vw,48rem)] sm:max-w-none"
       >
         <DialogTitle className="sr-only">Search movies and TV shows</DialogTitle>
 

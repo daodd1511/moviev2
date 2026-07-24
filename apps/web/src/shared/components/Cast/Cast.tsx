@@ -41,7 +41,7 @@ const CastComponent = ({
       title={castTitle}
       viewAllTo={credits.cast.length > limit ? `/${mediaType}/${mediaId}/cast` : undefined}
     >
-      <div className="grid auto-cols-[9.5rem] grid-flow-col gap-5 overflow-x-auto pb-4">
+      <div className="grid auto-cols-[8rem] grid-flow-col gap-3 overflow-x-auto pb-4 sm:auto-cols-[9.5rem] sm:gap-5">
         {credits.cast.slice(0, limit).map(person => {
           const imageUrl =
             person.profilePath != null ?

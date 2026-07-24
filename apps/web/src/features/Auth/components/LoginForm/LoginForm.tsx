@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { memo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
@@ -18,8 +18,16 @@ import { userIdAtom } from '@/stores/atoms/userAtoms';
 import { TextField } from '@/shared/components/ui/TextField';
 import { Button } from '@/components/ui/button';
 
+const getSafeRedirectPath = (redirectPath: string | null): string =>
+  redirectPath?.startsWith('/') === true &&
+  !redirectPath.startsWith('//') ?
+    redirectPath :
+    '/';
+
 const LoginFormComponent = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectPath = getSafeRedirectPath(searchParams.get('redirect'));
   const [, setAuth] = useAtom(isAuthAtom);
   const [, setToken] = useAtom(tokenAtom);
   const [, setUserId] = useAtom(userIdAtom);
@@ -38,7 +46,7 @@ const LoginFormComponent = () => {
       setToken(data.accessToken);
       setUserId(data.userId);
       setAuth(true);
-      navigate('/');
+      navigate(redirectPath, { replace: true });
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError(error: any) {

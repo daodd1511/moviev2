@@ -78,6 +78,9 @@ export interface CombinedCredit {
   /** Character. */
   readonly character: string;
 
+  /** Cast billing order. */
+  readonly order: number | null;
+
   /** Gender. */
   readonly gender: number;
 

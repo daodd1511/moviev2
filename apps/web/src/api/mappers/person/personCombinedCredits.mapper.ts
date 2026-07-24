@@ -44,6 +44,7 @@ export namespace PersonCombinedCreditsMapper {
       adult: dto.adult,
       releaseDate: dto.release_date,
       character: dto.character,
+      order: dto.order ?? null,
       gender: dto.gender,
       job: dto.job,
     };

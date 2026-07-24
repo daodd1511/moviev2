@@ -80,6 +80,9 @@ export interface CombinedCreditDto {
   /** Character. */
   readonly character: string;
 
+  /** Cast billing order. */
+  readonly order?: number;
+
   /** Gender. */
   readonly gender: number;
 

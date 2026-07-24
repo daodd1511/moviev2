@@ -1,7 +1,13 @@
 import { useAtom } from 'jotai';
 import { memo, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, Menu as MenuIcon } from 'lucide-react';
+import {
+  ChevronDown,
+  Film,
+  ListVideo,
+  Tv,
+  UserRound,
+} from 'lucide-react';
 
 import { Search } from '../Search/Search';
 
@@ -14,13 +20,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
 interface NavLink {
@@ -72,70 +71,75 @@ const NavDropdown = ({ label, links }: NavDropdownProps) => (
   </DropdownMenu>
 );
 
-const MobileLinkGroup = ({ title, links }: { title: string; links: readonly NavLink[] }) => (
-  <div>
-    <p className="px-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">{title}</p>
-    <div className="mt-1 flex flex-col">
-      {links.map(link => (
-        <SheetClose asChild key={link.to}>
-          <Link to={link.to} className="rounded-md px-2 py-2 text-sm hover:bg-accent">
-            {link.label}
-          </Link>
-        </SheetClose>
-      ))}
-    </div>
-  </div>
+interface MobileTabLinkProps {
+
+  /** Tab icon. */
+  readonly icon: ReactNode;
+
+  /** Tab label. */
+  readonly label: string;
+
+  /** Link target. */
+  readonly to: string;
+
+  /** Whether the tab matches the current route. */
+  readonly active: boolean;
+}
+
+const MobileTabLink = ({
+  icon,
+  label,
+  to,
+  active,
+}: MobileTabLinkProps) => (
+  <Link
+    to={to}
+    aria-current={active ? 'page' : undefined}
+    className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-[0.65rem] font-medium text-muted-foreground transition-colors aria-[current=page]:text-primary"
+  >
+    {icon}
+    <span>{label}</span>
+  </Link>
 );
 
-const MobileMenu = ({ isAuth }: { isAuth: boolean }) => (
-  <Sheet>
-    <SheetTrigger
-      aria-label="Open menu"
-      className="flex h-12 w-12 items-center justify-center text-foreground md:hidden"
-    >
-      <MenuIcon className="h-5 w-5" />
-    </SheetTrigger>
-    <SheetContent side="right" className="w-72">
-      <SheetTitle>Menu</SheetTitle>
-      <nav className="mt-6 flex flex-col gap-4">
-        <MobileLinkGroup title="Movies" links={MovieLinks} />
-        <MobileLinkGroup title="TV Shows" links={TvLinks} />
-        <div className="flex flex-col gap-2 border-t border-border pt-4">
-          {!isAuth && (
-            <>
-              <SheetClose asChild>
-                <Link to="/auth/login" className="rounded-md px-2 py-2 text-sm hover:bg-accent">
-                  Login
-                </Link>
-              </SheetClose>
-              <SheetClose asChild>
-                <Link
-                  to="/auth/register"
-                  className="rounded-full bg-primary px-2 py-2 text-center text-sm font-medium text-primary-foreground"
-                >
-                  Sign up
-                </Link>
-              </SheetClose>
-            </>
-          )}
-          {isAuth && (
-            <>
-              <SheetClose asChild>
-                <Link to="user/profile" className="rounded-md px-2 py-2 text-sm hover:bg-accent">
-                  Profile
-                </Link>
-              </SheetClose>
-              <SheetClose asChild>
-                <Link to="user/lists" className="rounded-md px-2 py-2 text-sm hover:bg-accent">
-                  Lists
-                </Link>
-              </SheetClose>
-            </>
-          )}
-        </div>
-      </nav>
-    </SheetContent>
-  </Sheet>
+const MobileTabBar = ({
+  isAuth,
+  pathname,
+}: {
+  readonly isAuth: boolean;
+  readonly pathname: string;
+}) => (
+  <div
+    role="group"
+    aria-label="Mobile navigation"
+    className="fixed inset-x-0 bottom-0 z-40 flex border-t border-foreground/10 bg-background/92 px-3 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
+  >
+    <MobileTabLink
+      icon={<Film className="size-5" aria-hidden="true" />}
+      label="Movies"
+      to="/movie/discover/popular"
+      active={pathname.startsWith('/movie')}
+    />
+    <MobileTabLink
+      icon={<Tv className="size-5" aria-hidden="true" />}
+      label="TV"
+      to="/tv/discover/popular"
+      active={pathname.startsWith('/tv')}
+    />
+    <MobileTabLink
+      icon={<ListVideo className="size-5" aria-hidden="true" />}
+      label="Lists"
+      to={isAuth ? '/user/lists' : '/auth/login'}
+      active={pathname.startsWith('/user/lists') || pathname.startsWith('/list')}
+    />
+    <Search mobileTab />
+    <MobileTabLink
+      icon={<UserRound className="size-5" aria-hidden="true" />}
+      label="Profile"
+      to={isAuth ? '/user/profile' : '/auth/login'}
+      active={pathname.startsWith('/user/profile')}
+    />
+  </div>
 );
 
 const NavShell = ({ isOverlay, children }: { isOverlay: boolean; children: ReactNode }) => (
@@ -146,7 +150,7 @@ const NavShell = ({ isOverlay, children }: { isOverlay: boolean; children: React
         'relative z-20 border-b border-border bg-background'
     }
   >
-    <div className="mx-auto flex max-w-screen-2xl items-center gap-8 px-4 py-4 md:px-8">
+    <div className="mx-auto flex h-14 max-w-screen-2xl items-center gap-8 px-4 md:h-auto md:px-8 md:py-4">
       {children}
     </div>
   </nav>
@@ -169,7 +173,9 @@ const NavbarComponent = () => {
       </div>
 
       <div className="ml-auto flex items-center gap-3">
-        <Search />
+        <div className="hidden md:block">
+          <Search />
+        </div>
         {!isAuth && (
           <div className="hidden items-center gap-3 md:flex">
             <Link to="/auth/login" className="text-sm text-muted-foreground hover:text-foreground">
@@ -185,8 +191,8 @@ const NavbarComponent = () => {
             <ProfileDropdown />
           </div>
         )}
-        <MobileMenu isAuth={isAuth} />
       </div>
+      <MobileTabBar isAuth={isAuth} pathname={location.pathname} />
     </NavShell>
   );
 };

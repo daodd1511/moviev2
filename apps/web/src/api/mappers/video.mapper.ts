@@ -13,6 +13,10 @@ export namespace VideoMapper {
       id: dto.id,
       type: dto.type,
       key: dto.key,
+      name: dto.name,
+      site: dto.site,
+      official: dto.official,
+      publishedAt: dto.published_at,
     });
   }
 }

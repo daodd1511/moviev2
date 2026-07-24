@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Loader } from '@/shared/components';
+import { DiscoverTabs, Loader } from '@/shared/components';
 import { MediaList } from '@/shared/components/';
 import { MOVIE_DISCOVER } from '@/shared/constants';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
@@ -40,8 +40,14 @@ const MovieByDiscoverComponent = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <div className="px-8 py-12">
-      <h1 className="pb-10">{title} Movies</h1>
+    <div className="px-4 py-8 md:px-8 md:py-12">
+      <h1 className="pb-6 text-2xl font-semibold md:pb-10">{title} Movies</h1>
+      <DiscoverTabs
+        label="Movie categories"
+        basePath="/movie/discover"
+        activeValue={discover ?? 'popular'}
+        options={MOVIE_DISCOVER}
+      />
       {data.pages.map(moviePage => (
         <MediaList key={moviePage.page} data={moviePage.results} />
       ))}

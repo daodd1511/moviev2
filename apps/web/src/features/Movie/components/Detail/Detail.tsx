@@ -62,7 +62,7 @@ const MovieDetailComponent = () => {
   return (
     <div className="relative">
       <section
-        className="relative left-1/2 flex min-h-[92svh] w-screen -translate-x-1/2 items-end overflow-hidden"
+        className="relative left-1/2 flex w-screen -translate-x-1/2 items-end overflow-hidden bg-background md:min-h-[92svh]"
         aria-labelledby="movie-title"
       >
         {backdropUrl != null ?
@@ -70,18 +70,18 @@ const MovieDetailComponent = () => {
             <div
               role="img"
               aria-label={`${movie.title} backdrop`}
-              className="animate-hero-drift absolute inset-0 bg-cover"
-              style={{ backgroundImage: `url(${backdropUrl})`, backgroundPosition: 'center 20%' }}
+              className="animate-hero-drift absolute inset-0 hidden bg-cover md:block md:[background-position:center_20%]"
+              style={{ backgroundImage: `url(${backdropUrl})` }}
             />
           ) :
-          <div className="absolute inset-0 bg-surface" />}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/25" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/35 to-transparent" />
-        <div className="relative z-2 mx-auto flex w-full max-w-[90rem] flex-col items-start gap-10 px-5 pb-16 pt-32 md:flex-row md:items-end md:px-12 lg:gap-14 lg:px-16 xl:px-20">
+          <div className="absolute inset-0 hidden bg-surface md:block" />}
+        <div className="absolute inset-0 hidden bg-gradient-to-t from-background via-background/55 to-background/25 md:block" />
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-background/85 via-background/35 to-transparent md:block" />
+        <div className="relative z-2 mx-auto flex w-full max-w-[90rem] flex-col items-center gap-7 px-4 pb-10 pt-20 md:flex-row md:items-end md:gap-10 md:px-12 md:pb-16 md:pt-32 lg:gap-14 lg:px-16 xl:px-20">
           <button
             type="button"
             aria-label={`View full size poster for ${movie.title}`}
-            className="w-44 shrink-0 cursor-zoom-in transition-transform duration-300 hover:-translate-y-1 sm:w-52 md:w-64 lg:w-72 xl:w-80"
+            className="w-[min(68vw,18rem)] shrink-0 cursor-zoom-in transition-transform duration-300 hover:-translate-y-1 md:w-64 lg:w-72 xl:w-80"
             onClick={() => setIsFullSizeImage(true)}
           >
             <PosterPlate src={posterUrl} alt={`${movie.title} poster`} />
@@ -90,7 +90,7 @@ const MovieDetailComponent = () => {
         </div>
       </section>
 
-      <main className="mx-auto max-w-[90rem] px-5 md:px-12 lg:px-16 xl:px-20">
+      <main className="mx-auto max-w-[90rem] px-4 md:px-12 lg:px-16 xl:px-20">
         <Overview movie={movie} credits={credits} />
         {credits != null && (
           <Cast credits={credits} mediaType={MediaType.Movie} mediaId={movie.id} />

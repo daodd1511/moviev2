@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 
 import { TokenService } from '../services/tokenService';
 
+const LOGIN_ROUTE = '/auth/login';
+
 /**
  * Intercept and add bearer authorization.
  * @param config Axios Request Config.
@@ -32,20 +34,31 @@ export function tokenInterceptor(
  * @param config Axios Request Config.
  */
 export function shouldInterceptWithToken(config: AxiosRequestConfig): boolean {
-  return config.url?.startsWith('/auth') === false;
+  const requestPath = config.url?.replace(/^\/+/, '');
+  return requestPath?.startsWith('auth/') === false;
 }
 
 /**
- * Clear token and redirect to login if get 4** error.
+ * Clear token and redirect to login if a request is unauthorized.
  * @param error Axios Error.
- * @param router Router.
  */
 export function tokenErrorInterceptor(
   error: AxiosError,
 ): Promise<never> {
   if (error.response?.status === 401) {
     TokenService.destroy();
-    window.location.replace('/login');
+
+    const currentRoute = window.location.hash.slice(1) || '/';
+    const isLoginRoute = currentRoute.startsWith(LOGIN_ROUTE);
+
+    if (!isLoginRoute) {
+      const searchParams = new URLSearchParams({
+        redirect: currentRoute,
+      });
+      const loginUrl = new URL(window.location.href);
+      loginUrl.hash = `${LOGIN_ROUTE}?${searchParams.toString()}`;
+      window.location.replace(loginUrl);
+    }
   }
   return Promise.reject(error);
 }

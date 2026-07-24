@@ -87,7 +87,12 @@ export const ConfirmDialog = ({
           variant={destructive ? 'destructive' : 'default'}
           className={cn(
             'h-11 flex-1 rounded-full font-semibold',
-            destructive && 'bg-destructive text-background hover:bg-destructive/90',
+            destructive && [
+              'border border-destructive/50',
+              'bg-[color-mix(in_oklch,var(--color-destructive)_62%,var(--color-background))]',
+              'text-foreground',
+              'hover:bg-[color-mix(in_oklch,var(--color-destructive)_74%,var(--color-background))]',
+            ],
           )}
           disabled={isLoading}
           onClick={onConfirm}

@@ -1,5 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAtom } from 'jotai';
+import { Link } from 'react-router-dom';
 
 import { useState } from 'react';
 import { ListIcon, LogOut, User } from 'lucide-react';
@@ -10,27 +9,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { AuthService } from '@/api/services/authService';
-import { isAuthAtom } from '@/stores/atoms/authAtoms';
 import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
+import { useLogout } from '@/shared/hooks';
 
 export const ProfileDropdown = () => {
   const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const navigate = useNavigate();
-  const [, setIsAuth] = useAtom(isAuthAtom);
+  const { isLoggingOut, logout } = useLogout();
   const onLogoutButtonClick = () => {
     setIsConfirmLogoutModalOpen(true);
   };
   const onConfirmButtonClick = async() => {
-    setIsLoggingOut(true);
-    try {
-      await AuthService.logout();
-      setIsAuth(false);
-      navigate('/auth/login');
-    } finally {
-      setIsLoggingOut(false);
-    }
+    await logout();
   };
   return (
     <>
@@ -56,7 +45,7 @@ export const ProfileDropdown = () => {
           </DropdownMenuItem>
           <DropdownMenuItem variant="destructive" onClick={onLogoutButtonClick}>
             <LogOut aria-hidden="true" />
-            Logout
+            Sign out
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -64,9 +53,9 @@ export const ProfileDropdown = () => {
         open={isConfirmLogoutModalOpen}
         onOpenChange={setIsConfirmLogoutModalOpen}
         icon={<LogOut aria-hidden="true" className="size-5" />}
-        title="Log out of Flix?"
+        title="Sign out of Flix?"
         description="You will need to sign in again to manage your lists and account."
-        confirmLabel="Log out"
+        confirmLabel="Sign out"
         isLoading={isLoggingOut}
         onConfirm={onConfirmButtonClick}
       />

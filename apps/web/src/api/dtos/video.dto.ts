@@ -9,6 +9,18 @@ export interface VideoDto {
 
   /** Type. */
   readonly type: string;
+
+  /** Display name. */
+  readonly name: string;
+
+  /** Video provider. */
+  readonly site: string;
+
+  /** Whether the video is official. */
+  readonly official: boolean;
+
+  /** Publication timestamp. */
+  readonly published_at: string;
 }
 
 /** Video response dto. */

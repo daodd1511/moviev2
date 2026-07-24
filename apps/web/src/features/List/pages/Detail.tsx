@@ -45,7 +45,7 @@ const RemovableItem = ({ media, onRemove }: RemovableItemProps) => {
       <button
         type="button"
         aria-label={`Remove ${media.title} from this list`}
-        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/70 text-foreground opacity-0 backdrop-blur-sm transition-opacity hover:bg-destructive hover:text-destructive-foreground group-hover:opacity-100 focus-visible:opacity-100"
+        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/70 text-foreground opacity-0 backdrop-blur-sm transition-opacity hover:bg-destructive hover:text-destructive-foreground group-hover:opacity-100 focus-visible:opacity-100 [@media(hover:none)]:opacity-100"
         onClick={() => onRemove(media)}
       >
         <X className="h-4 w-4" />
@@ -121,10 +121,10 @@ const ListDetailComponent = () => {
   const tvCount = data?.tvShows.length ?? 0;
 
   return (
-    <div className="px-8 py-12">
+    <div className="px-4 py-8 md:px-8 md:py-12">
       <div className="flex flex-col justify-between gap-6 border-b border-border pb-8 md:flex-row md:items-start">
         <div>
-          <h1 className="text-3xl font-semibold text-foreground">{data?.name}</h1>
+          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">{data?.name}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {movieCount + tvCount} title{movieCount + tvCount === 1 ? '' : 's'}
           </p>
@@ -132,7 +132,7 @@ const ListDetailComponent = () => {
             <p className="mt-3 max-w-xl text-muted-foreground">{data.description}</p>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex w-full shrink-0 items-center justify-between gap-3 md:w-auto md:justify-start">
           <Link
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             to={`/u/${user.username}/lists/${data?.id ?? ''}`}
@@ -160,7 +160,7 @@ const ListDetailComponent = () => {
         onConfirm={onConfirmRemoveListButtonClick}
       />
 
-      <div className="flex gap-2 pb-10 pt-6">
+      <div className="flex gap-2 overflow-x-auto pb-7 pt-6 md:pb-10">
         <button
           type="button"
           className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
@@ -192,7 +192,7 @@ const ListDetailComponent = () => {
         <EmptyState label="No TV shows in this list yet." />
       )}
 
-      <div className="grid grid-cols-autoFit place-content-evenly gap-x-6 gap-y-10 pb-10">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-7 pb-10 sm:grid-cols-autoFit sm:place-content-evenly sm:gap-x-6 sm:gap-y-10">
         {activeTab === Type.Movie ?
           data?.movies.map((movie: Media) => (
             <RemovableItem key={movie.id} media={movie} onRemove={onRemoveMediaButtonClick} />
