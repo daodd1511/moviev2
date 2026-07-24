@@ -12,7 +12,7 @@ export namespace PersonQueries {
     ['personDetail', id],
     () => PersonService.fetchPerson(id),
   );
-  
+
   export const useCombinedCredits = (id: number) => useQuery<
     PersonCombinedCredits,
     AxiosError

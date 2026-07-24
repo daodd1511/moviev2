@@ -48,7 +48,7 @@ export const ListPage = () => {
               className="group flex min-h-32 items-center rounded-lg border border-border bg-card/70 p-5 transition-colors hover:border-foreground/20 hover:bg-card"
             >
               <div className="min-w-0 flex-1">
-              <h2 className="text-lg font-semibold text-foreground">{list.name}</h2>
+                <h2 className="text-lg font-semibold text-foreground">{list.name}</h2>
                 {list.description !== '' && (
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
                     {list.description}

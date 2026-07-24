@@ -8,7 +8,7 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   /** Alt text — required, no empty default. */
   readonly alt: string;
 
-  /** Optional overlay content (e.g. a gradient caption), absolutely positioned over the image. */
+  /** Optional overlay content (e.g. A gradient caption), absolutely positioned over the image. */
   readonly children?: ReactNode;
 }
 

@@ -64,7 +64,7 @@ const RemovableItem = ({ media, onRemove }: RemovableItemProps) => {
   );
 };
 
-const EmptyState = ({ label }: { label: string }) => (
+const EmptyState = ({ label }: { label: string; }) => (
   <p className="py-16 text-center text-muted-foreground">{label}</p>
 );
 

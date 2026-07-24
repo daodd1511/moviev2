@@ -1,0 +1,93 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'standard-with-typescript',
+    '@chernodub/eslint-config',
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json'],
+    tsconfigRootDir: __dirname,
+  },
+  plugins: ['react'],
+  rules: {
+    'max-lines-per-function': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/member-ordering': 'off',
+    '@typescript-eslint/naming-convention': 'off',
+    '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/space-before-function-paren': 'off',
+    '@typescript-eslint/promise-function-async': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@eslint/no-return-await': 'off',
+    'import/prefer-default-export': 'off',
+    'class-methods-use-this': 'off',
+    'max-classes-per-file': 'off',
+    'react/prop-types': 'off',
+    'max-len': 'off',
+    'linebreak-style': 'off',
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state'],
+      },
+    ],
+    'arrow-parens': ['error', 'as-needed'],
+    'react/function-component-definition': [
+      'warn',
+      {
+        namedComponents: 'arrow-function',
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+      },
+    ],
+    'jsdoc/require-param': [
+      'error',
+      {
+        checkDestructuredRoots: false,
+      },
+    ],
+  },
+  overrides: [
+    {
+      files: ['**/*.tsx'],
+      rules: {
+        'no-restricted-syntax': [
+          'error',
+          {
+            selector:
+              'TSInterfaceDeclaration[id.name=/Props$/] TSPropertySignature[readonly=undefined]',
+            message: 'Missing readonly modifier.',
+          },
+          {
+            selector:
+              'TSInterfaceDeclaration[id.name=/Props$/] TSPropertySignature TSTypeAnnotation[typeAnnotation.type=TSArrayType]',
+            message: 'Missing readonly type modifier for array.',
+          },
+          {
+            selector:
+              "TSTypeReference[typeName.name='FC'] TSTypeReference[typeName.name!=/Props$/]",
+            message:
+              'Prefer name with `Props` ending for the component\'s props interface',
+          },
+        ],
+      },
+    },
+  ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+};

@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-/** Whether the window has scrolled past `threshold` pixels, updated via rAF-throttled scroll listener. */
+/**
+ * Whether the window has scrolled past `threshold` pixels, updated via rAF-throttled scroll listener.
+ * @param threshold Scroll distance in pixels.
+ */
 export const useScrollThreshold = (threshold: number): boolean => {
   const [isPastThreshold, setIsPastThreshold] = useState(false);
   const ticking = useRef(false);

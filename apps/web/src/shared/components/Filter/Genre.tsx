@@ -27,7 +27,7 @@ export const Genre = ({ type }: Pick<FilterProps, 'type'>) => {
       <MultiSelect
         options={options}
         selected={selected}
-        onChange={setSelected}
+        onChange={values => setSelected([...values])}
         placeholder="All genres"
         labelledBy={labelId}
       />

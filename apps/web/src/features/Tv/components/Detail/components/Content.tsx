@@ -18,10 +18,12 @@ interface Props {
 const getTrailers = (videos: readonly Video[]): readonly Video[] =>
   videos
     .filter(video => video.type === 'Trailer' && video.site === 'YouTube')
-    .sort((a, b) =>
-      Number(b.official) - Number(a.official) ||
-      b.publishedAt.localeCompare(a.publishedAt),
-    );
+    .sort((a, b) => {
+      const officialComparison = Number(b.official) - Number(a.official);
+      return officialComparison !== 0 ?
+        officialComparison :
+        b.publishedAt.localeCompare(a.publishedAt);
+    });
 
 const ContentComponent = ({ tv }: Props) => {
   const [isWatchTrailer, setIsWatchTrailer] = useState(false);

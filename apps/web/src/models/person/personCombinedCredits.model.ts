@@ -1,5 +1,6 @@
 /** Person combined credits model. */
 export interface PersonCombinedCredits {
+
   /** Id. */
   readonly id: number;
 
@@ -12,6 +13,7 @@ export interface PersonCombinedCredits {
 
 /** Combined credit model. */
 export interface CombinedCredit {
+
   /** Id. */
   readonly id: number;
 

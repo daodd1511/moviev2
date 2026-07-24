@@ -30,7 +30,7 @@ interface Props {
   readonly selected: readonly string[];
 
   /** Selection change handler. */
-  readonly onChange: (values: string[]) => void;
+  readonly onChange: (values: readonly string[]) => void;
 
   /** Placeholder shown when nothing is selected. */
   readonly placeholder?: string;
@@ -72,18 +72,20 @@ export const MultiSelect = ({
         className="group flex h-11 w-full min-w-0 items-center justify-between gap-3 rounded-lg border border-foreground/15 bg-foreground/[0.06] px-4 text-left text-sm text-foreground shadow-[inset_0_1px_0_rgba(217,231,238,0.04)] outline-none transition-[border-color,background-color,box-shadow] duration-200 hover:border-foreground/25 hover:bg-foreground/[0.09] focus-visible:border-ring data-[state=open]:border-foreground/30 data-[state=open]:bg-surface-raised"
       >
         <span className="flex min-w-0 flex-1 items-center gap-2">
-          {firstSelectedOption === undefined ? (
-            <span className="text-muted-foreground">{placeholder}</span>
-          ) : (
-            <>
-              <span className="truncate">{firstSelectedOption.label}</span>
-              {remainingSelectionCount > 0 && (
-                <span className="shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.08] px-2 py-0.5 text-xs text-muted-foreground">
+          {firstSelectedOption === undefined ?
+            (
+              <span className="text-muted-foreground">{placeholder}</span>
+            ) :
+            (
+              <>
+                <span className="truncate">{firstSelectedOption.label}</span>
+                {remainingSelectionCount > 0 && (
+                  <span className="shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.08] px-2 py-0.5 text-xs text-muted-foreground">
                   +{remainingSelectionCount}
-                </span>
-              )}
-            </>
-          )}
+                  </span>
+                )}
+              </>
+            )}
         </span>
         <ChevronDown
           aria-hidden="true"

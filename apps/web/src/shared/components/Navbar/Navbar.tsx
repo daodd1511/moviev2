@@ -142,7 +142,7 @@ const MobileTabBar = ({
   </div>
 );
 
-const NavShell = ({ isOverlay, children }: { isOverlay: boolean; children: ReactNode }) => (
+const NavShell = ({ isOverlay, children }: { isOverlay: boolean; children: ReactNode; }) => (
   <nav
     className={
       isOverlay ?

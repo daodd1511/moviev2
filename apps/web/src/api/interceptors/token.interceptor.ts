@@ -1,6 +1,5 @@
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import { toast } from 'react-toastify';
 
 import { TokenService } from '../services/tokenService';
 
@@ -48,7 +47,8 @@ export function tokenErrorInterceptor(
   if (error.response?.status === 401) {
     TokenService.destroy();
 
-    const currentRoute = window.location.hash.slice(1) || '/';
+    const hashRoute = window.location.hash.slice(1);
+    const currentRoute = hashRoute !== '' ? hashRoute : '/';
     const isLoginRoute = currentRoute.startsWith(LOGIN_ROUTE);
 
     if (!isLoginRoute) {

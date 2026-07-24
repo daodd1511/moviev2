@@ -74,8 +74,7 @@ const sortKnownFor = (
 ): readonly CombinedCredit[] =>
   [...credits].sort((a, b) =>
     getKnownForScore(b) - getKnownForScore(a) ||
-    b.voteCount - a.voteCount,
-  );
+    b.voteCount - a.voteCount);
 
 const getKnownFor = (
   credits: PersonCombinedCredits,
