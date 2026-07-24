@@ -276,7 +276,7 @@
           <div class="job">
             <div class="job-name">build-web</div>
             <ul>
-              <li><b>npm ci</b> + <b>vite build</b> in-image</li>
+              <li><b>pnpm install</b> + <b>vite build</b> in-image</li>
               <li>VITE_* args baked into the JS bundle (public values only)</li>
               <li>result: <b>nginx</b> + compiled <code>dist/</code></li>
             </ul>
@@ -284,9 +284,9 @@
           <div class="job">
             <div class="job-name">build-api</div>
             <ul>
-              <li><b>npm ci --omit=dev</b></li>
+              <li><b>pnpm deploy --prod</b></li>
               <li>no secrets in the image — <code>MONGO_URI</code> etc. injected at runtime</li>
-              <li>result: <b>node:20</b> + <code>src/</code></li>
+              <li>result: <b>node:22</b> + <code>src/</code></li>
             </ul>
           </div>
         </div>
@@ -420,7 +420,7 @@
       <div class="truth">
         <div class="k">Factory ≠ Host</div>
         <p>GitHub builds, the server runs. The server never checks out code, never runs
-        <strong>npm</strong>, never builds an image.</p>
+        <strong>pnpm</strong>, never builds an image.</p>
       </div>
       <div class="truth">
         <div class="k">Pin the sha</div>

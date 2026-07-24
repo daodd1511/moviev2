@@ -1,24 +1,25 @@
 # syntax=docker/dockerfile:1
-# Plain node/express, no build step. Deps are not bundled, so the runtime stage
-# installs production node_modules rather than copying a single file.
-#
-# node:20, not 22: volta pinned 16.18.0 and mongoose is v6. 20 is a modest, supported
-# jump; 22 would be two majors past anything this has run on.
+# Plain node/express, no build step. pnpm deploy creates a portable production
+# directory whose dependency links stay inside the runtime image.
 
-FROM node:20-slim AS deps
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+FROM node:22-slim AS deploy
+WORKDIR /workspace
+RUN corepack enable
 
-FROM node:20-slim AS runtime
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY apps/web/package.json apps/web/package.json
+COPY apps/api/package.json apps/api/package.json
+RUN pnpm install --frozen-lockfile --filter @movie/api...
+
+COPY apps/api apps/api
+RUN pnpm deploy --filter @movie/api --prod /prod/api
+
+FROM node:22-slim AS runtime
 WORKDIR /app
 ENV NODE_ENV=production \
     PORT=4000
 
-COPY --from=deps /app/node_modules ./node_modules
-COPY package.json ./
-COPY index.js ./
-COPY src ./src
+COPY --from=deploy --chown=node:node /prod/api ./
 
 # Drop root. node:* images ship an unprivileged `node` user.
 USER node

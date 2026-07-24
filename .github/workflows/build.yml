@@ -31,7 +31,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v6
         with:
-          context: apps/web
+          context: .
+          file: apps/web/Dockerfile
           push: true
           platforms: linux/amd64
           tags: |
@@ -62,7 +63,8 @@ jobs:
       # compose from the server's .env. They must never reach the image.
       - uses: docker/build-push-action@v6
         with:
-          context: apps/api
+          context: .
+          file: apps/api/Dockerfile
           push: true
           platforms: linux/amd64
           tags: |

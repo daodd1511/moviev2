@@ -1,10 +1,9 @@
 # syntax=docker/dockerfile:1
-# vite 3 + React 18 SPA → nginx.
-# node:22-slim matches the volta pin (22.20.0). glibc, not alpine, to avoid musl
-# native-module issues in the build.
+# React SPA → nginx. node:22-slim matches the workspace runtime baseline.
 
 FROM node:22-slim AS build
 WORKDIR /app
+RUN corepack enable
 
 # Compiled into the browser bundle — PUBLIC values only. Anything passed here is
 # readable in the shipped JS and in the image.
@@ -19,14 +18,15 @@ ENV VITE_APP_BACKEND_API_URL=$VITE_APP_BACKEND_API_URL \
     VITE_APP_IS_PRODUCTION=$VITE_APP_IS_PRODUCTION \
     APP_COMMIT=$APP_COMMIT
 
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY apps/web/package.json apps/web/package.json
+COPY apps/api/package.json apps/api/package.json
+RUN pnpm install --frozen-lockfile --filter @movie/web...
 
-COPY . .
-# `npm run build` is `tsc && vite build`; vite-plugin-checker typechecks too.
-RUN npm run build
+COPY apps/web apps/web
+RUN pnpm --filter @movie/web build
 
 FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/apps/web/dist /usr/share/nginx/html
 EXPOSE 80

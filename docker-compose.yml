@@ -10,7 +10,8 @@ name: moviev2
 services:
   api:
     build:
-      context: ./apps/api
+      context: .
+      dockerfile: apps/api/Dockerfile
     image: movie-api:local
     container_name: movie-api
     pull_policy: build # build-only image, never in a registry
@@ -27,7 +28,8 @@ services:
 
   web:
     build:
-      context: ./apps/web
+      context: .
+      dockerfile: apps/web/Dockerfile
       args:
         # Build args land in the shipped bundle — PUBLIC values only. The TMDB key is
         # client-side by design here; it already ships in the current Vercel bundle.
