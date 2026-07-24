@@ -1,6 +1,5 @@
 /** Register dto. */
 export interface RegisterDto {
-
   /** User's email. */
   readonly email: string;
 

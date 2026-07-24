@@ -4,14 +4,14 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 
 ## Audit Health Score
 
-| # | Dimension | Score | Key Finding |
-|---|-----------|-------|-------------|
-| 1 | Accessibility | 1 | Unassociated form labels, no focus rings, `aria-hidden` modal traps interactive content |
-| 2 | Performance | 2 | Un-throttled, never-removed global scroll listener; zero image lazy-loading across poster grids |
-| 3 | Responsive Design | 2 | Sub-44px touch targets on menu/scroll buttons; fixed-width login card |
-| 4 | Theming | 1 | daisyUI semantic color classes used while `themes: false`; three competing accent families |
-| 5 | Implementation Integrity | 2 | Lorem-ipsum placeholder + broken `<img src="">`, dead/commented filter feature, accent drift |
-| **Total** | | **8/20** | **Poor (major overhaul)** |
+| #         | Dimension                | Score    | Key Finding                                                                                     |
+| --------- | ------------------------ | -------- | ----------------------------------------------------------------------------------------------- |
+| 1         | Accessibility            | 1        | Unassociated form labels, no focus rings, `aria-hidden` modal traps interactive content         |
+| 2         | Performance              | 2        | Un-throttled, never-removed global scroll listener; zero image lazy-loading across poster grids |
+| 3         | Responsive Design        | 2        | Sub-44px touch targets on menu/scroll buttons; fixed-width login card                           |
+| 4         | Theming                  | 1        | daisyUI semantic color classes used while `themes: false`; three competing accent families      |
+| 5         | Implementation Integrity | 2        | Lorem-ipsum placeholder + broken `<img src="">`, dead/commented filter feature, accent drift    |
+| **Total** |                          | **8/20** | **Poor (major overhaul)**                                                                       |
 
 ## Implementation Integrity Verdict
 
@@ -32,6 +32,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 ## Detailed Findings by Severity
 
 ### [P1] Form labels not associated with inputs
+
 - **Location:** `apps/web/src/features/Auth/components/LoginForm/LoginForm.tsx:61-69, 73-81`; `apps/web/src/features/Auth/components/RegisterForm/RegisterForm.tsx` (all fields); `apps/web/src/shared/components/Filter/Sort.tsx:15-16`
 - **Category:** Accessibility
 - **Impact:** `<label>` elements carry no `htmlFor` and inputs have no matching `id`, so assistive tech announces the fields as unlabeled. Clicking the label does not focus the input.
@@ -40,6 +41,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable harden`
 
 ### [P1] Modal hides its own interactive content and lacks dialog semantics
+
 - **Location:** `apps/web/src/shared/components/Modal.tsx:15-39`
 - **Category:** Accessibility
 - **Impact:** `aria-hidden="true"` on the outer container removes the modal (and its close button, trailer iframe, full-size image) from the accessibility tree. No `role="dialog"`/`aria-modal`, no focus trap, no Esc handler, no focus return. Close button has no accessible name.
@@ -48,6 +50,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable harden`
 
 ### [P1] Failing contrast on primary auth CTA (gray text on green)
+
 - **Location:** `apps/web/src/features/Auth/components/LoginForm/LoginForm.tsx:87`; `apps/web/src/features/Auth/components/RegisterForm/RegisterForm.tsx:104`
 - **Category:** Accessibility / Theming
 - **Impact:** `text-gray-100` (#f3f4f6) on `bg-green-400` (#4ade80) is roughly 1.5:1 — the main call-to-action label is barely legible. Detector rule `gray-on-color`.
@@ -56,6 +59,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable clarify` (or a token/color pass)
 
 ### [P1] No visible focus indicators; outlines removed without replacement
+
 - **Location:** `LoginForm.tsx:65,77` and `RegisterForm.tsx` (`focus:outline-none` with only a border-color shift); `apps/web/src/shared/components/Search/Search.tsx:44` (`outline-none`); most custom `<button>`s app-wide (only 7 `focus:` usages across the codebase)
 - **Category:** Accessibility
 - **Impact:** Keyboard users cannot see which control is focused. The border-color-only substitute is a weak signal and search has none.
@@ -64,6 +68,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable harden`
 
 ### [P1] Un-throttled, non-removable global scroll listener
+
 - **Location:** `apps/web/src/features/Movie/pages/MoviesPage.tsx:15-23`
 - **Category:** Performance
 - **Impact:** `window.addEventListener('scroll', ...)` runs an anonymous handler on every scroll frame, calling `setState` repeatedly; the effect has no cleanup, so the handler leaks and (on remount) can stack.
@@ -71,6 +76,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable optimize`
 
 ### [P1] No image lazy-loading on poster/cast grids
+
 - **Location:** `apps/web/src/shared/components/List/MediaListItem.tsx:38-42`; `apps/web/src/shared/components/Cast/Cast.tsx:69-73`; detail hero `apps/web/src/features/Movie/components/Detail/Detail.tsx:73-78`
 - **Category:** Performance
 - **Impact:** None of the 14 `<img>` tags use `loading="lazy"` or intrinsic `width`/`height`. Infinite-scroll grids fetch every off-screen poster immediately and shift layout as images arrive (CLS).
@@ -78,6 +84,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable optimize`
 
 ### [P1] daisyUI semantic color classes used with `themes: false`
+
 - **Location:** `apps/web/tailwind.config.cjs:23` (`daisyui: { themes: false }`); consumers: `ProfileDropdown.tsx:35,52,53,56,57` (`bg-base-100`, `btn-primary`, `btn-error`, `text-neutral-content`), `List/Menu.tsx:86,101,118,136` (`hover:bg-base-300`, `bg-error`), `styles/Loader.tsx:11` (`text-primary`)
 - **Category:** Theming
 - **Impact:** With all daisyUI themes disabled, the CSS custom properties these classes reference (`--b1`, `--p`, `--er`, `--bc`) are undefined, so `bg-base-100`, `btn-primary`, `text-primary`, etc. can render with no/unintended color. 15+ usages depend on a theme that is switched off. (Verify against the running app.)
@@ -85,6 +92,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable document` follow-up → tokenize; interim `/impeccable colorize`
 
 ### [P1] Three competing accent color families, no governing rule
+
 - **Location:** brand teal `#023246` (`tailwind.config.cjs`, `Navbar.tsx:52`, `Content.tsx:77`); auth green (`LoginForm.tsx`, `RegisterForm.tsx`, `LoginPage.tsx:18`); nav blue `bg-blue-700` (`Navbar.tsx:74`) + link blue (`Cast.tsx:49`)
 - **Category:** Theming / Implementation Integrity
 - **Impact:** The primary action color changes by surface (green in auth, teal on detail, blue in nav), so users get no consistent "commit" signal and the brand reads as three products.
@@ -92,6 +100,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable colorize`
 
 ### [P2] Sub-44px touch targets
+
 - **Location:** `MediaListItem.tsx:55-61` (menu button `h-5 w-5` = 20px); `MoviesPage.tsx:33-39` (scroll-to-top `h-10 w-10` icon, no label); `Navbar.tsx:81-87` (hamburger `p-2`)
 - **Category:** Responsive / Accessibility
 - **Impact:** Targets below the 44×44px minimum are hard to hit on touch devices; the 20px poster menu button is the worst offender.
@@ -100,6 +109,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable adapt`
 
 ### [P2] Missing accessible names on icon-only buttons
+
 - **Location:** `MediaListItem.tsx:55` (ellipsis menu), `MoviesPage.tsx:33` (scroll-to-top), `Navbar.tsx:81` (hamburger), `Search.tsx:65` (search toggle), `Modal.tsx:31` (close)
 - **Category:** Accessibility
 - **Impact:** Buttons whose only child is a FontAwesome icon expose no text to screen readers.
@@ -108,6 +118,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable harden`
 
 ### [P2] Duplicate DOM `id`s and missing `aria-expanded` in navbar
+
 - **Location:** `apps/web/src/shared/components/Navbar/Navbar.tsx:97,117,155,175` — `id="mega-menu-dropdown-button"` and `id="mega-menu-dropdown"` each appear twice
 - **Category:** Accessibility
 - **Impact:** Duplicate IDs are invalid HTML and break `aria-labelledby` association; the disclosure buttons never set `aria-expanded`/`aria-controls`, so state is invisible to AT.
@@ -116,6 +127,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable harden`
 
 ### [P2] Low-contrast metadata text
+
 - **Location:** `apps/web/src/features/Movie/components/Detail/components/Content.tsx:69` (`text-slate-400` rating/runtime/year); navbar dropdown `text-gray-300` on white (`Navbar.tsx:129,137,145,188,196,204`, mobile branch)
 - **Category:** Accessibility
 - **Impact:** `text-slate-400` (#94a3b8) on white is ~3:1, below AA for body text; `text-gray-300` on the white desktop dropdown is worse.
@@ -124,6 +136,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable clarify`
 
 ### [P2] Fixed-width login card can overflow small viewports
+
 - **Location:** `apps/web/src/features/Auth/components/LoginForm/LoginForm.tsx:52` (`w-96` = 384px + `p-12`)
 - **Category:** Responsive
 - **Impact:** On viewports narrower than ~384px the card plus padding overflows, causing horizontal scroll.
@@ -131,6 +144,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable adapt`
 
 ### [P2] Non-interactive element styled as interactive
+
 - **Location:** `apps/web/src/features/Movie/components/Detail/components/Content.tsx:122-125` (genre `<li>` has `cursor-pointer` + hover/active styles but no handler)
 - **Category:** Implementation Integrity
 - **Impact:** Affordance implies a filter action that does nothing — misleading interactivity.
@@ -138,6 +152,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable clarify`
 
 ### [P2] `window.location.pathname` used for routing state inside a component
+
 - **Location:** `apps/web/src/shared/components/Cast/Cast.tsx:31-38`
 - **Category:** Implementation Integrity
 - **Impact:** Reading the raw pathname instead of router params couples the component to URL string shape and won't react to in-app navigation without a remount.
@@ -145,6 +160,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable harden`
 
 ### [P2] Missing `alt` attributes on two images
+
 - **Location:** `apps/web/src/features/Auth/pages/LoginPage.tsx:9` (`<img src="" />`), `apps/web/src/features/Auth/pages/RegisterPage.tsx:9`
 - **Category:** Accessibility
 - **Impact:** 12 of 14 images have alt text; these two decorative images have neither `alt` nor a valid `src`. See also the P2 integrity finding below.
@@ -153,6 +169,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable harden`
 
 ### [P2] Placeholder content shipped (Lorem ipsum + broken image)
+
 - **Location:** `apps/web/src/features/Auth/pages/LoginPage.tsx:9-15` and `RegisterPage.tsx:9-15`
 - **Category:** Implementation Integrity
 - **Impact:** An empty `<img src="">` renders as a broken-image box (detector rule `broken-image`) above literal Lorem-ipsum marketing copy. Ships placeholder scaffolding as production UI.
@@ -160,6 +177,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable clarify`
 
 ### [P3] Dead/commented filter feature
+
 - **Location:** `apps/web/src/features/Movie/pages/MoviesPage.tsx:30` (`{/* <Filter type={MediaType.Movie}/> */}`)
 - **Category:** Implementation Integrity
 - **Impact:** A fully built Sort + Genre filter (`shared/components/Filter/`) is commented out, leaving dead UI code and unreachable functionality.
@@ -167,6 +185,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable shape`
 
 ### [P3] Orphaned dark-mode variant
+
 - **Location:** `apps/web/src/shared/components/Navbar/Navbar.tsx:52` (`dark:bg-gray-900`)
 - **Category:** Theming
 - **Impact:** A single `dark:` variant exists with no dark-mode strategy, toggle, or `darkMode` config — dead style.
@@ -174,6 +193,7 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 - **Suggested command:** `/impeccable colorize`
 
 ### [P3] Thin page content / placeholder pages
+
 - **Location:** `apps/web/src/features/User/pages/ProfilePage.tsx:10-15` ("Profile page / Hello {username}")
 - **Category:** Implementation Integrity
 - **Impact:** Authenticated profile page is a stub with no layout or design treatment.
@@ -184,11 +204,11 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 
 4 anti-patterns found:
 
-| Rule | Count | Locations |
-|------|-------|-----------|
-| `gray-on-color` | 2 | `LoginForm.tsx:87`, `RegisterForm.tsx:104` (`text-gray-100` on `bg-green-400`) |
-| `broken-image` | 2 | `LoginPage.tsx:9`, `RegisterPage.tsx:9` (`<img src="">`) |
-| **Total** | **4** | |
+| Rule            | Count | Locations                                                                      |
+| --------------- | ----- | ------------------------------------------------------------------------------ |
+| `gray-on-color` | 2     | `LoginForm.tsx:87`, `RegisterForm.tsx:104` (`text-gray-100` on `bg-green-400`) |
+| `broken-image`  | 2     | `LoginPage.tsx:9`, `RegisterPage.tsx:9` (`<img src="">`)                       |
+| **Total**       | **4** |                                                                                |
 
 ## Patterns & Systemic Issues
 
@@ -234,14 +254,14 @@ keyboard/screen-reader walk.
 
 ## Audit Health Score
 
-| # | Dimension | Score | Key Finding |
-|---|-----------|-------|-------------|
-| 1 | Accessibility | 3 | Labels associated (`useId`) everywhere; Radix `Dialog`/`DropdownMenu` give real focus trap, Esc, `aria-expanded`; global focus ring; icon buttons ≥44px. No live browser a11y-tree/keyboard walk performed this session. |
-| 2 | Performance | 3 | Scroll-listener leak fixed (rAF-throttled + cleanup); `loading="lazy"` on all grid/rail/search images. No render-profiling or bundle-diet pass. |
-| 3 | Responsive Design | 3 | Mobile `Sheet` nav, hero flex-col→row breakpoints, `autoFit` grids, auth side-panel hides below `xl`. Not manually verified at real device widths. |
-| 4 | Theming | 4 | Full CSS-variable token system (Tailwind v4 `@theme`); one dark world, no light/dark divergence to break; zero raw hex in application code outside the token definitions. |
-| 5 | Implementation Integrity | 4 | Detector clean repo-wide; one consistent design language end-to-end (shell, detail, browse, auth, list); Three-Job Amber Rule and No-Gray Rule hold with no exceptions found. |
-| **Total** | | **17/20** | **Good (address weak dimensions)** — target was ≥16/20 with a11y ≥3/4; both met. |
+| #         | Dimension                | Score     | Key Finding                                                                                                                                                                                                              |
+| --------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1         | Accessibility            | 3         | Labels associated (`useId`) everywhere; Radix `Dialog`/`DropdownMenu` give real focus trap, Esc, `aria-expanded`; global focus ring; icon buttons ≥44px. No live browser a11y-tree/keyboard walk performed this session. |
+| 2         | Performance              | 3         | Scroll-listener leak fixed (rAF-throttled + cleanup); `loading="lazy"` on all grid/rail/search images. No render-profiling or bundle-diet pass.                                                                          |
+| 3         | Responsive Design        | 3         | Mobile `Sheet` nav, hero flex-col→row breakpoints, `autoFit` grids, auth side-panel hides below `xl`. Not manually verified at real device widths.                                                                       |
+| 4         | Theming                  | 4         | Full CSS-variable token system (Tailwind v4 `@theme`); one dark world, no light/dark divergence to break; zero raw hex in application code outside the token definitions.                                                |
+| 5         | Implementation Integrity | 4         | Detector clean repo-wide; one consistent design language end-to-end (shell, detail, browse, auth, list); Three-Job Amber Rule and No-Gray Rule hold with no exceptions found.                                            |
+| **Total** |                          | **17/20** | **Good (address weak dimensions)** — target was ≥16/20 with a11y ≥3/4; both met.                                                                                                                                         |
 
 ## Implementation Integrity Verdict
 
@@ -256,20 +276,20 @@ surfaces) but use the identical token vocabulary, not a divergent one.
 
 ## What Changed, by Original Finding
 
-| Original finding | Resolution |
-|---|---|
-| Unassociated form labels (P1) | `TextField` (Phase 2) and inline `useId` pairs on every remaining raw `<label>`/`<select>`/`<textarea>` |
-| Modal `aria-hidden` traps interactive content (P1) | `shared/components/Modal.tsx` deleted; replaced by shadcn's Radix `Dialog` everywhere (6 call sites) |
-| `text-gray-100` on `bg-green-400`, ~1.5:1 contrast (P1) | `LoginForm`/`RegisterForm` rebuilt on `Button`'s `bg-primary text-primary-foreground` (amber/accent-ink) |
-| Un-throttled, unremoved scroll listener (P1) | Extracted `useScrollThreshold` (rAF-throttled, `removeEventListener` cleanup); used by both `MoviesPage` and `TVsPage` (same bug existed in both) |
-| Zero image lazy-loading (P1) | `loading="lazy"` on every grid/rail/search/cast image |
-| daisyUI classes with `themes: false` (P1) | daisyUI uninstalled (Phase 0); Tailwind v4 native `@theme` token system |
-| Three competing accent families (P1) | One amber `primary` token; Three-Job Amber Rule (primary action / rating / active-brand punctuation) documented and held to |
-| Sub-44px touch targets (P2) | Icon buttons standardized to 44–48px depending on context (grid-card corner vs. hero/nav) |
-| Duplicate DOM ids / missing `aria-expanded` (P2) | Navbar rebuilt from scratch on shadcn `DropdownMenu` (Radix-managed ids and state) |
-| Lorem-ipsum + broken `<img src="">` (P2) | Real per-page copy + real TMDB backdrop imagery (`alt=""`, decorative) |
-| Commented-out Filter feature (P3) | Restyled to tokens (labels associated, react-select themed) per Phase 5's explicit scope; **not** re-enabled — that's a feature decision, out of a redesign's scope |
-| Stub Profile page (P3) | Left minimal by design — no content to show beyond username; not a styling defect |
+| Original finding                                        | Resolution                                                                                                                                                          |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unassociated form labels (P1)                           | `TextField` (Phase 2) and inline `useId` pairs on every remaining raw `<label>`/`<select>`/`<textarea>`                                                             |
+| Modal `aria-hidden` traps interactive content (P1)      | `shared/components/Modal.tsx` deleted; replaced by shadcn's Radix `Dialog` everywhere (6 call sites)                                                                |
+| `text-gray-100` on `bg-green-400`, ~1.5:1 contrast (P1) | `LoginForm`/`RegisterForm` rebuilt on `Button`'s `bg-primary text-primary-foreground` (amber/accent-ink)                                                            |
+| Un-throttled, unremoved scroll listener (P1)            | Extracted `useScrollThreshold` (rAF-throttled, `removeEventListener` cleanup); used by both `MoviesPage` and `TVsPage` (same bug existed in both)                   |
+| Zero image lazy-loading (P1)                            | `loading="lazy"` on every grid/rail/search/cast image                                                                                                               |
+| daisyUI classes with `themes: false` (P1)               | daisyUI uninstalled (Phase 0); Tailwind v4 native `@theme` token system                                                                                             |
+| Three competing accent families (P1)                    | One amber `primary` token; Three-Job Amber Rule (primary action / rating / active-brand punctuation) documented and held to                                         |
+| Sub-44px touch targets (P2)                             | Icon buttons standardized to 44–48px depending on context (grid-card corner vs. hero/nav)                                                                           |
+| Duplicate DOM ids / missing `aria-expanded` (P2)        | Navbar rebuilt from scratch on shadcn `DropdownMenu` (Radix-managed ids and state)                                                                                  |
+| Lorem-ipsum + broken `<img src="">` (P2)                | Real per-page copy + real TMDB backdrop imagery (`alt=""`, decorative)                                                                                              |
+| Commented-out Filter feature (P3)                       | Restyled to tokens (labels associated, react-select themed) per Phase 5's explicit scope; **not** re-enabled — that's a feature decision, out of a redesign's scope |
+| Stub Profile page (P3)                                  | Left minimal by design — no content to show beyond username; not a styling defect                                                                                   |
 
 ## Known Remaining Gaps
 
@@ -294,4 +314,4 @@ surfaces) but use the identical token vocabulary, not a divergent one.
 4. **[P3] `/impeccable shape`** — decide whether `CastPage`/`Person` warrant their own concept-level treatment or stay utility-simple.
 
 > Re-run `/impeccable audit` after any further changes to confirm the score holds.
-</content>
+> </content>

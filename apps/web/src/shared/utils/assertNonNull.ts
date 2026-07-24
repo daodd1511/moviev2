@@ -5,9 +5,7 @@
  */
 export function assertNonNull<T>(val: T, message?: string): asserts val is NonNullable<T> {
   if (val === undefined || val === null) {
-    throw new Error(
-      message ?? 'Expected \'element\' to be defined',
-    );
+    throw new Error(message ?? "Expected 'element' to be defined");
   }
 }
 
@@ -18,9 +16,7 @@ export function assertNonNull<T>(val: T, message?: string): asserts val is NonNu
  */
 export function assertNonNullWithReturn<T>(val: T, message?: string): NonNullable<T> {
   if (val === undefined || val === null) {
-    throw new Error(
-      message ?? 'Expected \'element\' to be defined',
-    );
+    throw new Error(message ?? "Expected 'element' to be defined");
   }
   return val;
 }

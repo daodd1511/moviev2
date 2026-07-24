@@ -42,10 +42,7 @@ const CreateNewComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const debounceSearchQuery = useDebounce<string>(searchQuery);
 
-  const { data: searchResults } = useQuery<
-    Array<MovieSearch | TvSearch>,
-    AxiosError
-  >(
+  const { data: searchResults } = useQuery<Array<MovieSearch | TvSearch>, AxiosError>(
     ['listSearch', debounceSearchQuery],
     () => SearchService.multi(debounceSearchQuery),
     {
@@ -83,8 +80,7 @@ const CreateNewComponent = () => {
   };
 
   const onSubmit = handleSubmit(() => {
-    const movies: Media[] = movieList.map((movie: Movie) =>
-      MediaMapper.fromMovie(movie));
+    const movies: Media[] = movieList.map((movie: Movie) => MediaMapper.fromMovie(movie));
     const tvShows: Media[] = tvList.map((tv: Tv) => MediaMapper.fromTv(tv));
     setValue('movies', movies);
     setValue('tvShows', tvShows);
@@ -93,21 +89,26 @@ const CreateNewComponent = () => {
   });
   return (
     <div>
-      <form onSubmit={onSubmit} className="mx-auto max-w-lg" onKeyDown={e => e.key === 'Enter' && e.preventDefault()}>
+      <form
+        onSubmit={onSubmit}
+        className="mx-auto max-w-lg"
+        onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
+      >
         <div>
           <TextField label="Name" type="text" placeholder="Type here" {...register('name')} />
-          {errors.name?.message !== undefined && (
-            <ErrorField error={errors.name.message} />
-          )}
+          {errors.name?.message !== undefined && <ErrorField error={errors.name.message} />}
         </div>
         <div className="mt-4">
-          <label htmlFor={descriptionId} className="mb-1.5 block text-sm font-medium text-muted-foreground">
+          <label
+            htmlFor={descriptionId}
+            className="mb-1.5 block text-sm font-medium text-muted-foreground"
+          >
             Description
           </label>
           <textarea
             id={descriptionId}
             placeholder="Type here"
-            className="w-full rounded-md border border-input bg-white/[0.08] px-4 py-2 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="w-full rounded-md border border-input bg-white/[0.08] px-4 py-2 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
             {...register('description')}
           />
         </div>
@@ -120,10 +121,7 @@ const CreateNewComponent = () => {
             onChange={onSearchChange}
           />
           {searchQuery !== '' && searchResults != null && (
-            <SearchResults
-              searchResults={searchResults}
-              handleResultClick={handleResultClick}
-            />
+            <SearchResults searchResults={searchResults} handleResultClick={handleResultClick} />
           )}
           <div className="my-4">
             <h2 className="text-xl text-foreground">Movies</h2>

@@ -34,7 +34,9 @@ const tvShowsSchema = z.object({
 });
 
 export const listSchema = z.object({
-  name: z.string().min(1, { message: FORM_ERROR_MESSAGES.required })
+  name: z
+    .string()
+    .min(1, { message: FORM_ERROR_MESSAGES.required })
     .max(255, { message: FORM_ERROR_MESSAGES.max }),
   description: z.string(),
   movies: z.array(movieSchema).default([]),

@@ -23,13 +23,12 @@ const getTrailers = (videos: readonly Video[]): readonly Video[] =>
     .filter(video => video.type === 'Trailer' && video.site === 'YouTube')
     .sort((a, b) => {
       const officialComparison = Number(b.official) - Number(a.official);
-      return officialComparison !== 0 ?
-        officialComparison :
-        b.publishedAt.localeCompare(a.publishedAt);
+      return officialComparison !== 0
+        ? officialComparison
+        : b.publishedAt.localeCompare(a.publishedAt);
     });
 
 interface Props {
-
   /** Movie detail. */
   readonly movie: MovieDetail;
 
@@ -42,25 +41,23 @@ const ContentComponent = ({ movie, credits }: Props) => {
 
   const trailers = getTrailers(movie.videos);
 
-  const director = useMemo(
-    () => credits?.crew?.find(({ job }) => job === 'Director'),
-    [credits],
-  );
+  const director = useMemo(() => credits?.crew?.find(({ job }) => job === 'Director'), [credits]);
 
   const runtime = toHoursAndMinutes(movie.runtime);
   const year = formatToYear(movie.releaseDate);
 
   return (
     <div className="relative z-2 w-full max-w-4xl flex-1 pb-3.5 text-center md:text-left">
-      <p className="mb-3 text-[0.72rem] font-medium uppercase tracking-[0.2em] text-primary md:mb-4 md:text-[0.82rem]">
+      <p className="mb-3 text-[0.72rem] font-medium tracking-[0.2em] text-primary uppercase md:mb-4 md:text-[0.82rem]">
         Now Showing
       </p>
-      <h1 id="movie-title" className="mb-2.5 text-[clamp(2.15rem,11vw,5rem)] font-extralight leading-[1.02] tracking-[0.015em] text-foreground md:uppercase">
+      <h1
+        id="movie-title"
+        className="mb-2.5 text-[clamp(2.15rem,11vw,5rem)] leading-[1.02] font-extralight tracking-[0.015em] text-foreground md:uppercase"
+      >
         {movie.title}
       </h1>
-      {movie.tagline !== '' && (
-        <p className="mb-5 italic text-muted-foreground">{movie.tagline}</p>
-      )}
+      {movie.tagline !== '' && <p className="mb-5 text-muted-foreground italic">{movie.tagline}</p>}
       <p className="mb-5 flex flex-wrap items-center justify-center gap-2.5 text-sm text-muted-foreground md:mb-7 md:justify-start md:gap-4 md:text-base">
         <span className="inline-flex items-center gap-1.5 font-medium text-primary">
           <Star className="h-4 w-4 fill-current" />

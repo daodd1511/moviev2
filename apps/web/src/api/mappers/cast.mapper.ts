@@ -3,7 +3,6 @@ import { CastDto } from '../dtos';
 import { Cast } from '@/models';
 
 export namespace CastMapper {
-
   /**
    * Maps CastDto to Cast model.
    * @param dto Cast dto.

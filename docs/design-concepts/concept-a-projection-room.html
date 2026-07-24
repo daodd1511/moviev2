@@ -15,306 +15,656 @@ FORM: Dark cinematic, image-forward — the direction the design review
   recommended; chosen by the user as candidate A of three.
 -->
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Flix — Concept A · Projection Room</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --ground: #041219;
-    --surface: #07202e;
-    --surface-raised: #0b2a3a;
-    --line: #133a4d;
-    --text: #d9e7ee;
-    --text-muted: #8fb3c4;
-    --accent: #f5a524;
-    --accent-ink: #1c1302;
-    --radius: 0.75rem;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--ground);
-    color: var(--text);
-    font-family: "Be Vietnam Pro", system-ui, sans-serif;
-    font-weight: 300;
-    line-height: 1.65;
-  }
-  img { max-width: 100%; display: block; }
-  a { color: inherit; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flix — Concept A · Projection Room</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ground: #041219;
+        --surface: #07202e;
+        --surface-raised: #0b2a3a;
+        --line: #133a4d;
+        --text: #d9e7ee;
+        --text-muted: #8fb3c4;
+        --accent: #f5a524;
+        --accent-ink: #1c1302;
+        --radius: 0.75rem;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--ground);
+        color: var(--text);
+        font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+        font-weight: 300;
+        line-height: 1.65;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
 
-  /* ── Nav ─────────────────────────────────────────── */
-  .nav {
-    position: absolute; inset: 0 0 auto 0; z-index: 10;
-    display: flex; align-items: center; gap: 2.5rem;
-    padding: 1.25rem 3rem;
-    background: linear-gradient(to bottom, rgba(4,18,25,.85), transparent);
-  }
-  .brand { font-weight: 600; font-size: 1.35rem; letter-spacing: .04em; text-decoration: none; }
-  .brand span { color: var(--accent); }
-  .nav-links { display: flex; gap: 1.75rem; list-style: none; }
-  .nav-links a {
-    text-decoration: none; font-size: .9rem; font-weight: 400;
-    color: var(--text-muted); transition: color .2s;
-  }
-  .nav-links a[aria-current="page"], .nav-links a:hover { color: var(--text); }
-  .nav-search {
-    margin-left: auto; display: flex; align-items: center; gap: .5rem;
-    background: rgba(217,231,238,.08); border: 1px solid rgba(217,231,238,.15);
-    border-radius: 999px; padding: .45rem 1.1rem; color: var(--text-muted); font-size: .875rem;
-  }
+      /* ── Nav ─────────────────────────────────────────── */
+      .nav {
+        position: absolute;
+        inset: 0 0 auto 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+        padding: 1.25rem 3rem;
+        background: linear-gradient(to bottom, rgba(4, 18, 25, 0.85), transparent);
+      }
+      .brand {
+        font-weight: 600;
+        font-size: 1.35rem;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+      }
+      .brand span {
+        color: var(--accent);
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.75rem;
+        list-style: none;
+      }
+      .nav-links a {
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: var(--text-muted);
+        transition: color 0.2s;
+      }
+      .nav-links a[aria-current='page'],
+      .nav-links a:hover {
+        color: var(--text);
+      }
+      .nav-search {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(217, 231, 238, 0.08);
+        border: 1px solid rgba(217, 231, 238, 0.15);
+        border-radius: 999px;
+        padding: 0.45rem 1.1rem;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+      }
 
-  /* ── Hero ────────────────────────────────────────── */
-  .hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; overflow: hidden; }
-  .hero-backdrop {
-    position: absolute; inset: 0;
-    background: url("https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg") center 30% / cover no-repeat;
-    animation: drift 40s ease-out forwards;
-  }
-  @keyframes drift { from { transform: scale(1.08); } to { transform: scale(1); } }
-  @media (prefers-reduced-motion: reduce) { .hero-backdrop { animation: none; } }
-  .hero-scrim {
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(to top, var(--ground) 6%, rgba(4,18,25,.55) 45%, rgba(4,18,25,.25) 100%),
-      linear-gradient(100deg, rgba(4,18,25,.85) 0%, transparent 55%);
-  }
-  .hero-inner {
-    position: relative; z-index: 2;
-    display: flex; align-items: flex-end; gap: 3rem;
-    width: 100%; max-width: 82rem; margin: 0 auto;
-    padding: 8rem 3rem 3.5rem;
-  }
-  .poster-plate {
-    flex: 0 0 240px;
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: 0 24px 48px -12px rgba(0,0,0,.7);
-    outline: 1px solid rgba(217,231,238,.14);
-  }
-  .hero-copy { flex: 1; padding-bottom: .5rem; }
-  .kicker {
-    font-size: .8rem; font-weight: 500; letter-spacing: .22em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
-  }
-  h1 {
-    font-size: clamp(2.6rem, 6vw, 5rem);
-    font-weight: 200; letter-spacing: .015em; line-height: 1.02;
-    text-transform: uppercase; margin-bottom: .6rem;
-  }
-  .tagline { font-size: 1.05rem; color: var(--text-muted); font-style: italic; margin-bottom: 1.4rem; }
-  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; font-size: .95rem; color: var(--text-muted); margin-bottom: 1.8rem; }
-  .rating {
-    display: inline-flex; align-items: center; gap: .4rem;
-    color: var(--accent); font-weight: 500;
-  }
-  .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--line); }
-  .genres { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2.2rem; list-style: none; }
-  .genres a {
-    display: inline-block; padding: .45rem 1.1rem; border-radius: 999px;
-    border: 1px solid rgba(217,231,238,.22); color: var(--text-muted);
-    font-size: .8rem; font-weight: 400; text-decoration: none;
-    transition: border-color .2s, color .2s, background .2s;
-  }
-  .genres a:hover { border-color: var(--accent); color: var(--text); background: rgba(245,165,36,.08); }
-  .actions { display: flex; align-items: center; gap: 1rem; }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: .6rem;
-    background: var(--accent); color: var(--accent-ink);
-    font: inherit; font-weight: 600; font-size: .95rem;
-    border: 0; border-radius: 999px; padding: .85rem 1.9rem; cursor: pointer;
-    box-shadow: 0 10px 26px -8px rgba(245,165,36,.55);
-    transition: transform .2s cubic-bezier(.2,.9,.3,1), box-shadow .2s;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -8px rgba(245,165,36,.6); }
-  .btn-ghost {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 3rem; height: 3rem; border-radius: 999px;
-    background: rgba(217,231,238,.08); border: 1px solid rgba(217,231,238,.2);
-    color: var(--text); font-size: 1.2rem; cursor: pointer;
-    transition: background .2s, border-color .2s;
-  }
-  .btn-ghost:hover { background: rgba(217,231,238,.16); border-color: rgba(217,231,238,.4); }
+      /* ── Hero ────────────────────────────────────────── */
+      .hero {
+        position: relative;
+        min-height: 92vh;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+      }
+      .hero-backdrop {
+        position: absolute;
+        inset: 0;
+        background: url('https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg')
+          center 30% / cover no-repeat;
+        animation: drift 40s ease-out forwards;
+      }
+      @keyframes drift {
+        from {
+          transform: scale(1.08);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-backdrop {
+          animation: none;
+        }
+      }
+      .hero-scrim {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            to top,
+            var(--ground) 6%,
+            rgba(4, 18, 25, 0.55) 45%,
+            rgba(4, 18, 25, 0.25) 100%
+          ),
+          linear-gradient(100deg, rgba(4, 18, 25, 0.85) 0%, transparent 55%);
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: flex-end;
+        gap: 3rem;
+        width: 100%;
+        max-width: 82rem;
+        margin: 0 auto;
+        padding: 8rem 3rem 3.5rem;
+      }
+      .poster-plate {
+        flex: 0 0 240px;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7);
+        outline: 1px solid rgba(217, 231, 238, 0.14);
+      }
+      .hero-copy {
+        flex: 1;
+        padding-bottom: 0.5rem;
+      }
+      .kicker {
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-size: clamp(2.6rem, 6vw, 5rem);
+        font-weight: 200;
+        letter-spacing: 0.015em;
+        line-height: 1.02;
+        text-transform: uppercase;
+        margin-bottom: 0.6rem;
+      }
+      .tagline {
+        font-size: 1.05rem;
+        color: var(--text-muted);
+        font-style: italic;
+        margin-bottom: 1.4rem;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin-bottom: 1.8rem;
+      }
+      .rating {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--accent);
+        font-weight: 500;
+      }
+      .meta-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--line);
+      }
+      .genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 2.2rem;
+        list-style: none;
+      }
+      .genres a {
+        display: inline-block;
+        padding: 0.45rem 1.1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(217, 231, 238, 0.22);
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        font-weight: 400;
+        text-decoration: none;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+      }
+      .genres a:hover {
+        border-color: var(--accent);
+        color: var(--text);
+        background: rgba(245, 165, 36, 0.08);
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font: inherit;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 0;
+        border-radius: 999px;
+        padding: 0.85rem 1.9rem;
+        cursor: pointer;
+        box-shadow: 0 10px 26px -8px rgba(245, 165, 36, 0.55);
+        transition:
+          transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1),
+          box-shadow 0.2s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 32px -8px rgba(245, 165, 36, 0.6);
+      }
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 999px;
+        background: rgba(217, 231, 238, 0.08);
+        border: 1px solid rgba(217, 231, 238, 0.2);
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .btn-ghost:hover {
+        background: rgba(217, 231, 238, 0.16);
+        border-color: rgba(217, 231, 238, 0.4);
+      }
 
-  /* ── Body sections ───────────────────────────────── */
-  .page { max-width: 82rem; margin: 0 auto; padding: 0 3rem 5rem; }
-  .cols { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 4rem; padding-top: 3.5rem; }
-  h2 {
-    font-size: .82rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--text-muted); margin-bottom: 1.2rem;
-  }
-  .overview { font-size: 1.08rem; line-height: 1.8; max-width: 65ch; }
-  .fact-list { list-style: none; display: grid; gap: .9rem; font-size: .95rem; }
-  .fact-list li { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: .9rem; }
-  .fact-list .k { color: var(--text-muted); }
-  .fact-list .v { font-weight: 400; text-align: right; }
+      /* ── Body sections ───────────────────────────────── */
+      .page {
+        max-width: 82rem;
+        margin: 0 auto;
+        padding: 0 3rem 5rem;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+        gap: 4rem;
+        padding-top: 3.5rem;
+      }
+      h2 {
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 1.2rem;
+      }
+      .overview {
+        font-size: 1.08rem;
+        line-height: 1.8;
+        max-width: 65ch;
+      }
+      .fact-list {
+        list-style: none;
+        display: grid;
+        gap: 0.9rem;
+        font-size: 0.95rem;
+      }
+      .fact-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 0.9rem;
+      }
+      .fact-list .k {
+        color: var(--text-muted);
+      }
+      .fact-list .v {
+        font-weight: 400;
+        text-align: right;
+      }
 
-  .rail { padding-top: 4.5rem; }
-  .rail-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.4rem; }
-  .rail-head a { font-size: .85rem; color: var(--accent); text-decoration: none; }
-  .rail-head a:hover { text-decoration: underline; }
-  .cast-row { display: grid; grid-auto-flow: column; grid-auto-columns: 9.5rem; gap: 1.25rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
-  .cast-card { text-decoration: none; }
-  .cast-card img { border-radius: var(--radius); aspect-ratio: 2/3; object-fit: cover; margin-bottom: .7rem; transition: transform .25s cubic-bezier(.2,.9,.3,1); }
-  .cast-card:hover img { transform: translateY(-4px); }
-  .cast-name { font-size: .92rem; font-weight: 500; line-height: 1.3; }
-  .cast-role { font-size: .8rem; color: var(--text-muted); }
+      .rail {
+        padding-top: 4.5rem;
+      }
+      .rail-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 1.4rem;
+      }
+      .rail-head a {
+        font-size: 0.85rem;
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .rail-head a:hover {
+        text-decoration: underline;
+      }
+      .cast-row {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 9.5rem;
+        gap: 1.25rem;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+        scrollbar-width: thin;
+        scrollbar-color: var(--line) transparent;
+      }
+      .cast-card {
+        text-decoration: none;
+      }
+      .cast-card img {
+        border-radius: var(--radius);
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        margin-bottom: 0.7rem;
+        transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      .cast-card:hover img {
+        transform: translateY(-4px);
+      }
+      .cast-name {
+        font-size: 0.92rem;
+        font-weight: 500;
+        line-height: 1.3;
+      }
+      .cast-role {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
 
-  .rec-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.25rem; }
-  .rec-card { position: relative; border-radius: var(--radius); overflow: hidden; text-decoration: none; }
-  .rec-card img { aspect-ratio: 2/3; object-fit: cover; transition: transform .3s cubic-bezier(.2,.9,.3,1); }
-  .rec-card:hover img { transform: scale(1.05); }
-  .rec-card figcaption {
-    position: absolute; inset: auto 0 0 0; padding: 2.2rem .9rem .8rem;
-    background: linear-gradient(to top, rgba(4,18,25,.92), transparent);
-    font-size: .88rem; font-weight: 500;
-  }
-  footer { border-top: 1px solid var(--line); padding: 2rem 3rem; color: var(--text-muted); font-size: .85rem; display: flex; justify-content: space-between; }
+      .rec-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1.25rem;
+      }
+      .rec-card {
+        position: relative;
+        border-radius: var(--radius);
+        overflow: hidden;
+        text-decoration: none;
+      }
+      .rec-card img {
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      .rec-card:hover img {
+        transform: scale(1.05);
+      }
+      .rec-card figcaption {
+        position: absolute;
+        inset: auto 0 0 0;
+        padding: 2.2rem 0.9rem 0.8rem;
+        background: linear-gradient(to top, rgba(4, 18, 25, 0.92), transparent);
+        font-size: 0.88rem;
+        font-weight: 500;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 2rem 3rem;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        display: flex;
+        justify-content: space-between;
+      }
 
-  @media (max-width: 860px) {
-    .nav { padding: 1rem 1.25rem; gap: 1.25rem; }
-    .nav-links, .nav-search span { display: none; }
-    .hero-inner { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 7rem 1.25rem 2.5rem; }
-    .poster-plate { flex-basis: auto; width: 150px; }
-    .page { padding: 0 1.25rem 3rem; }
-    .cols { grid-template-columns: 1fr; gap: 2.5rem; }
-    .rec-row { grid-template-columns: repeat(2, 1fr); }
-    footer { padding: 1.5rem 1.25rem; }
-  }
-</style>
-</head>
-<body>
+      @media (max-width: 860px) {
+        .nav {
+          padding: 1rem 1.25rem;
+          gap: 1.25rem;
+        }
+        .nav-links,
+        .nav-search span {
+          display: none;
+        }
+        .hero-inner {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 2rem;
+          padding: 7rem 1.25rem 2.5rem;
+        }
+        .poster-plate {
+          flex-basis: auto;
+          width: 150px;
+        }
+        .page {
+          padding: 0 1.25rem 3rem;
+        }
+        .cols {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+        .rec-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        footer {
+          padding: 1.5rem 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="#">Flix<span>.</span></a>
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="#" aria-current="page">Movies</a></li>
+          <li><a href="#">TV Shows</a></li>
+          <li><a href="#">My Lists</a></li>
+        </ul>
+      </nav>
+      <div class="nav-search" role="search">⌕ <span>Search titles, people…</span></div>
+    </header>
 
-<header class="nav">
-  <a class="brand" href="#">Flix<span>.</span></a>
-  <nav aria-label="Primary">
-    <ul class="nav-links">
-      <li><a href="#" aria-current="page">Movies</a></li>
-      <li><a href="#">TV Shows</a></li>
-      <li><a href="#">My Lists</a></li>
-    </ul>
-  </nav>
-  <div class="nav-search" role="search">⌕ <span>Search titles, people…</span></div>
-</header>
-
-<section class="hero" aria-labelledby="movie-title">
-  <div class="hero-backdrop" role="img" aria-label="Interstellar backdrop: the Endurance spacecraft near the black hole Gargantua"></div>
-  <div class="hero-scrim"></div>
-  <div class="hero-inner">
-    <div class="poster-plate">
-      <img src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interstellar poster" width="240" height="360" />
-    </div>
-    <div class="hero-copy">
-      <p class="kicker">Now Showing</p>
-      <h1 id="movie-title">Interstellar</h1>
-      <p class="tagline">Mankind was born on Earth. It was never meant to die here.</p>
-      <p class="meta">
-        <span class="rating" aria-label="Rated 8.4 out of 10">★ 8.4</span>
-        <span class="meta-dot" aria-hidden="true"></span>
-        <span>2h 49m</span>
-        <span class="meta-dot" aria-hidden="true"></span>
-        <span>2014</span>
-        <span class="meta-dot" aria-hidden="true"></span>
-        <span>Christopher Nolan</span>
-      </p>
-      <ul class="genres">
-        <li><a href="#">Adventure</a></li>
-        <li><a href="#">Drama</a></li>
-        <li><a href="#">Science Fiction</a></li>
-      </ul>
-      <div class="actions">
-        <button type="button" class="btn-primary">▶ Watch Trailer</button>
-        <button type="button" class="btn-ghost" aria-label="Add to a list">+</button>
-        <button type="button" class="btn-ghost" aria-label="Mark as favorite">♥</button>
+    <section class="hero" aria-labelledby="movie-title">
+      <div
+        class="hero-backdrop"
+        role="img"
+        aria-label="Interstellar backdrop: the Endurance spacecraft near the black hole Gargantua"
+      ></div>
+      <div class="hero-scrim"></div>
+      <div class="hero-inner">
+        <div class="poster-plate">
+          <img
+            src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
+            alt="Interstellar poster"
+            width="240"
+            height="360"
+          />
+        </div>
+        <div class="hero-copy">
+          <p class="kicker">Now Showing</p>
+          <h1 id="movie-title">Interstellar</h1>
+          <p class="tagline">Mankind was born on Earth. It was never meant to die here.</p>
+          <p class="meta">
+            <span class="rating" aria-label="Rated 8.4 out of 10">★ 8.4</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>2h 49m</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>2014</span>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>Christopher Nolan</span>
+          </p>
+          <ul class="genres">
+            <li><a href="#">Adventure</a></li>
+            <li><a href="#">Drama</a></li>
+            <li><a href="#">Science Fiction</a></li>
+          </ul>
+          <div class="actions">
+            <button type="button" class="btn-primary">▶ Watch Trailer</button>
+            <button type="button" class="btn-ghost" aria-label="Add to a list">+</button>
+            <button type="button" class="btn-ghost" aria-label="Mark as favorite">♥</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<main class="page">
-  <div class="cols">
-    <section aria-labelledby="h-overview">
-      <h2 id="h-overview">Overview</h2>
-      <p class="overview">
-        The adventures of a group of explorers who make use of a newly discovered
-        wormhole to surpass the limitations on human space travel and conquer the
-        vast distances involved in an interstellar expedition.
-      </p>
     </section>
-    <section aria-labelledby="h-details">
-      <h2 id="h-details">Details</h2>
-      <ul class="fact-list">
-        <li><span class="k">Director</span><span class="v">Christopher Nolan</span></li>
-        <li><span class="k">Release date</span><span class="v">Nov 5, 2014</span></li>
-        <li><span class="k">Runtime</span><span class="v">169 min</span></li>
-        <li><span class="k">Original language</span><span class="v">English</span></li>
-        <li><span class="k">Status</span><span class="v">Released</span></li>
-      </ul>
-    </section>
-  </div>
 
-  <section class="rail" aria-labelledby="h-cast">
-    <div class="rail-head">
-      <h2 id="h-cast">Top Billed Cast</h2>
-      <a href="#">Full cast &amp; crew →</a>
-    </div>
-    <div class="cast-row">
-      <a class="cast-card" href="#">
-        <img src="https://image.tmdb.org/t/p/w342/lCySuYjhXix3FzQdS4oceDDrXKI.jpg" alt="Matthew McConaughey" loading="lazy" width="152" height="228" />
-        <p class="cast-name">Matthew McConaughey</p>
-        <p class="cast-role">Cooper</p>
-      </a>
-      <a class="cast-card" href="#">
-        <img src="https://image.tmdb.org/t/p/w342/tLelKoPNiyJCSEtQTz1FGv4TLGc.jpg" alt="Anne Hathaway" loading="lazy" width="152" height="228" />
-        <p class="cast-name">Anne Hathaway</p>
-        <p class="cast-role">Brand</p>
-      </a>
-      <a class="cast-card" href="#">
-        <img src="https://image.tmdb.org/t/p/w342/lodMzLKSdrPcBry6TdoDsMN3Vge.jpg" alt="Jessica Chastain" loading="lazy" width="152" height="228" />
-        <p class="cast-name">Jessica Chastain</p>
-        <p class="cast-role">Murph</p>
-      </a>
-      <a class="cast-card" href="#">
-        <img src="https://image.tmdb.org/t/p/w342/bVZRMlpjTAO2pJK6v90buFgVbSW.jpg" alt="Michael Caine" loading="lazy" width="152" height="228" />
-        <p class="cast-name">Michael Caine</p>
-        <p class="cast-role">Professor Brand</p>
-      </a>
-    </div>
-  </section>
+    <main class="page">
+      <div class="cols">
+        <section aria-labelledby="h-overview">
+          <h2 id="h-overview">Overview</h2>
+          <p class="overview">
+            The adventures of a group of explorers who make use of a newly discovered wormhole to
+            surpass the limitations on human space travel and conquer the vast distances involved in
+            an interstellar expedition.
+          </p>
+        </section>
+        <section aria-labelledby="h-details">
+          <h2 id="h-details">Details</h2>
+          <ul class="fact-list">
+            <li><span class="k">Director</span><span class="v">Christopher Nolan</span></li>
+            <li><span class="k">Release date</span><span class="v">Nov 5, 2014</span></li>
+            <li><span class="k">Runtime</span><span class="v">169 min</span></li>
+            <li><span class="k">Original language</span><span class="v">English</span></li>
+            <li><span class="k">Status</span><span class="v">Released</span></li>
+          </ul>
+        </section>
+      </div>
 
-  <section class="rail" aria-labelledby="h-recs">
-    <div class="rail-head">
-      <h2 id="h-recs">More Like This</h2>
-      <a href="#">View all →</a>
-    </div>
-    <div class="rec-row">
-      <a class="rec-card" href="#"><figure>
-        <img src="https://image.tmdb.org/t/p/w342/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg" alt="" loading="lazy" width="228" height="342" />
-        <figcaption>Arrival</figcaption></figure></a>
-      <a class="rec-card" href="#"><figure>
-        <img src="https://image.tmdb.org/t/p/w342/5BHuvQ6p9kfc091Z8RiFNhCwL4b.jpg" alt="" loading="lazy" width="228" height="342" />
-        <figcaption>The Martian</figcaption></figure></a>
-      <a class="rec-card" href="#"><figure>
-        <img src="https://image.tmdb.org/t/p/w342/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg" alt="" loading="lazy" width="228" height="342" />
-        <figcaption>Inception</figcaption></figure></a>
-      <a class="rec-card" href="#"><figure>
-        <img src="https://image.tmdb.org/t/p/w342/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" alt="" loading="lazy" width="228" height="342" />
-        <figcaption>Blade Runner 2049</figcaption></figure></a>
-      <a class="rec-card" href="#"><figure>
-        <img src="https://image.tmdb.org/t/p/w342/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" alt="" loading="lazy" width="228" height="342" />
-        <figcaption>Oppenheimer</figcaption></figure></a>
-    </div>
-  </section>
-</main>
+      <section class="rail" aria-labelledby="h-cast">
+        <div class="rail-head">
+          <h2 id="h-cast">Top Billed Cast</h2>
+          <a href="#">Full cast &amp; crew →</a>
+        </div>
+        <div class="cast-row">
+          <a class="cast-card" href="#">
+            <img
+              src="https://image.tmdb.org/t/p/w342/lCySuYjhXix3FzQdS4oceDDrXKI.jpg"
+              alt="Matthew McConaughey"
+              loading="lazy"
+              width="152"
+              height="228"
+            />
+            <p class="cast-name">Matthew McConaughey</p>
+            <p class="cast-role">Cooper</p>
+          </a>
+          <a class="cast-card" href="#">
+            <img
+              src="https://image.tmdb.org/t/p/w342/tLelKoPNiyJCSEtQTz1FGv4TLGc.jpg"
+              alt="Anne Hathaway"
+              loading="lazy"
+              width="152"
+              height="228"
+            />
+            <p class="cast-name">Anne Hathaway</p>
+            <p class="cast-role">Brand</p>
+          </a>
+          <a class="cast-card" href="#">
+            <img
+              src="https://image.tmdb.org/t/p/w342/lodMzLKSdrPcBry6TdoDsMN3Vge.jpg"
+              alt="Jessica Chastain"
+              loading="lazy"
+              width="152"
+              height="228"
+            />
+            <p class="cast-name">Jessica Chastain</p>
+            <p class="cast-role">Murph</p>
+          </a>
+          <a class="cast-card" href="#">
+            <img
+              src="https://image.tmdb.org/t/p/w342/bVZRMlpjTAO2pJK6v90buFgVbSW.jpg"
+              alt="Michael Caine"
+              loading="lazy"
+              width="152"
+              height="228"
+            />
+            <p class="cast-name">Michael Caine</p>
+            <p class="cast-role">Professor Brand</p>
+          </a>
+        </div>
+      </section>
 
-<footer>
-  <span>Flix — Concept A · “Projection Room”</span>
-  <span>Data &amp; imagery: TMDB (demo)</span>
-</footer>
+      <section class="rail" aria-labelledby="h-recs">
+        <div class="rail-head">
+          <h2 id="h-recs">More Like This</h2>
+          <a href="#">View all →</a>
+        </div>
+        <div class="rec-row">
+          <a class="rec-card" href="#"
+            ><figure>
+              <img
+                src="https://image.tmdb.org/t/p/w342/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg"
+                alt=""
+                loading="lazy"
+                width="228"
+                height="342"
+              />
+              <figcaption>Arrival</figcaption>
+            </figure></a
+          >
+          <a class="rec-card" href="#"
+            ><figure>
+              <img
+                src="https://image.tmdb.org/t/p/w342/5BHuvQ6p9kfc091Z8RiFNhCwL4b.jpg"
+                alt=""
+                loading="lazy"
+                width="228"
+                height="342"
+              />
+              <figcaption>The Martian</figcaption>
+            </figure></a
+          >
+          <a class="rec-card" href="#"
+            ><figure>
+              <img
+                src="https://image.tmdb.org/t/p/w342/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
+                alt=""
+                loading="lazy"
+                width="228"
+                height="342"
+              />
+              <figcaption>Inception</figcaption>
+            </figure></a
+          >
+          <a class="rec-card" href="#"
+            ><figure>
+              <img
+                src="https://image.tmdb.org/t/p/w342/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg"
+                alt=""
+                loading="lazy"
+                width="228"
+                height="342"
+              />
+              <figcaption>Blade Runner 2049</figcaption>
+            </figure></a
+          >
+          <a class="rec-card" href="#"
+            ><figure>
+              <img
+                src="https://image.tmdb.org/t/p/w342/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
+                alt=""
+                loading="lazy"
+                width="228"
+                height="342"
+              />
+              <figcaption>Oppenheimer</figcaption>
+            </figure></a
+          >
+        </div>
+      </section>
+    </main>
 
-</body>
+    <footer>
+      <span>Flix — Concept A · “Projection Room”</span>
+      <span>Data &amp; imagery: TMDB (demo)</span>
+    </footer>
+  </body>
 </html>

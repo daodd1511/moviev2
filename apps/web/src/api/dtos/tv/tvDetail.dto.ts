@@ -6,7 +6,6 @@ import { TvDto } from './tv.dto';
 
 /** Tv detail dto. */
 export interface TvDetailDto extends TvDto {
-
   /** Seasons. */
   readonly seasons: SeasonDto[];
 

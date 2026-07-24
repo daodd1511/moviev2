@@ -4,7 +4,6 @@ import { StorageService } from './storageService';
 
 const TOKEN_KEY = 'TOKENS';
 export namespace TokenService {
-
   /** Get token from local storage. */
   export function get(): null | string {
     return StorageService.get<string>(TOKEN_KEY);

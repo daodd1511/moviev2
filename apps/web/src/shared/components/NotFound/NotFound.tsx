@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 
 export const NotFound = () => (
   <main className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
-    <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Error 404</p>
-    <h1 className="mt-4 text-6xl font-extralight uppercase tracking-wide text-foreground md:text-8xl">
+    <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+      Error 404
+    </p>
+    <h1 className="mt-4 text-6xl font-extralight tracking-wide text-foreground uppercase md:text-8xl">
       Not Found
     </h1>
     <p className="mt-4 max-w-md text-muted-foreground">

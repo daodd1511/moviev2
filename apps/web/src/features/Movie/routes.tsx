@@ -4,17 +4,20 @@ import { Navigate, RouteObject } from 'react-router-dom';
 export const Movies = lazy(() =>
   import('./pages/MoviesPage').then(module => ({
     default: module.Movies,
-  })));
+  })),
+);
 
 export const MovieByDiscover = lazy(() =>
   import('./components').then(module => ({
     default: module.MovieByDiscover,
-  })));
+  })),
+);
 
 export const DetailPage = lazy(() =>
   import('./pages/DetailPage').then(module => ({
     default: module.DetailPage,
-  })));
+  })),
+);
 
 export const movieRoutes: RouteObject[] = [
   {
@@ -34,5 +37,4 @@ export const movieRoutes: RouteObject[] = [
       },
     ],
   },
-
 ];

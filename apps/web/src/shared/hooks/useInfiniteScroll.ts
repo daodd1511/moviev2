@@ -6,7 +6,11 @@ import { useRef, useEffect } from 'react';
  * @param callbackFunction Callback function to be executed when the last item is visible.
  * @param hasNextPage Boolean to indicate if there is a next page.
  */
-export const useInfiniteScroll = (options: Object, callbackFunction: Function, hasNextPage: boolean | undefined) => {
+export const useInfiniteScroll = (
+  options: Object,
+  callbackFunction: Function,
+  hasNextPage: boolean | undefined,
+) => {
   const observerElement = useRef(null);
 
   const executeFunction = (entries: IntersectionObserverEntry[]) => {
@@ -15,10 +19,7 @@ export const useInfiniteScroll = (options: Object, callbackFunction: Function, h
       callbackFunction();
     }
   };
-    const observer = new IntersectionObserver(
-      executeFunction,
-      options,
-    );
+  const observer = new IntersectionObserver(executeFunction, options);
   useEffect(() => {
     if (hasNextPage === undefined) {
       return;

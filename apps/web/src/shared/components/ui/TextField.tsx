@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 interface Props extends ComponentProps<typeof Input> {
-
   /** Field label, always rendered and associated to the input via a generated id. */
   readonly label: string;
 
@@ -20,7 +19,9 @@ export const TextField = forwardRef<HTMLInputElement, Props>(
     const inputId = id ?? generatedId;
     return (
       <div>
-        <Label htmlFor={inputId} className="mb-1.5">{label}</Label>
+        <Label htmlFor={inputId} className="mb-1.5">
+          {label}
+        </Label>
         <Input
           ref={ref}
           id={inputId}

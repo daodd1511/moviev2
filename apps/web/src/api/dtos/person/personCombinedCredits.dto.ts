@@ -1,6 +1,5 @@
 /** Person combined credits DTO. */
 export interface PersonCombinedCreditsDto {
-
   /** Id. */
   readonly id: number;
 
@@ -13,7 +12,6 @@ export interface PersonCombinedCreditsDto {
 
 /** Combined credit DTO. */
 export interface CombinedCreditDto {
-
   /** Id. */
   readonly id: number;
 

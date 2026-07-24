@@ -3,7 +3,6 @@ import { ListDto } from '../dtos/list.dto';
 import { List } from '@/models';
 
 export namespace ListMapper {
-
   /**
    * Maps ListDto to List model.
    * @param dto List dto.

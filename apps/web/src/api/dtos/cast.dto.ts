@@ -1,6 +1,5 @@
 /** Cast dto. */
 export interface CastDto {
-
   /** Id. */
   readonly id: number;
 
@@ -19,7 +18,6 @@ export interface CastDto {
 
 /** Crew dto. */
 export interface CrewDto {
-
   /** Id. */
   readonly id: number;
 
@@ -38,7 +36,6 @@ export interface CrewDto {
 
 /** Credits dto. */
 export interface CreditsDto {
-
   /** Cast. */
   readonly cast: readonly CastDto[];
 

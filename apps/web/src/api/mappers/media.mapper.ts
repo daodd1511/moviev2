@@ -4,7 +4,6 @@ import { Media, Movie, Tv } from '@/models';
 import { MediaType } from '@/shared/enums/mediaType';
 
 export namespace MediaMapper {
-
   /**
    * Maps MovieDto to Media model.
    * @param dto Movie dto.

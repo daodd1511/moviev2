@@ -1,17 +1,11 @@
 import { useState } from 'react';
 import { Play, X } from 'lucide-react';
 
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Video } from '@/models';
 import { cn } from '@/lib/utils';
 
 interface Props {
-
   /** Dialog visibility. */
   readonly open: boolean;
 
@@ -25,15 +19,9 @@ interface Props {
   readonly trailers: readonly Video[];
 }
 
-export const TrailerDialog = ({
-  open,
-  onOpenChange,
-  title,
-  trailers,
-}: Props) => {
+export const TrailerDialog = ({ open, onOpenChange, title, trailers }: Props) => {
   const [selectedTrailerId, setSelectedTrailerId] = useState<string | null>(null);
-  const selectedTrailer =
-    trailers.find(trailer => trailer.id === selectedTrailerId) ?? trailers[0];
+  const selectedTrailer = trailers.find(trailer => trailer.id === selectedTrailerId) ?? trailers[0];
 
   const handleOpenChange = (nextOpen: boolean) => {
     if (!nextOpen) {
@@ -55,9 +43,7 @@ export const TrailerDialog = ({
         <header className="flex h-14 shrink-0 items-center gap-4 border-b border-foreground/10 px-4">
           <DialogTitle className="min-w-0 flex-1 truncate text-sm font-medium text-foreground">
             {title}
-            <span className="font-normal text-muted-foreground">
-              {' '}— {selectedTrailer.name}
-            </span>
+            <span className="font-normal text-muted-foreground"> — {selectedTrailer.name}</span>
           </DialogTitle>
           <DialogClose asChild>
             <button
@@ -70,10 +56,11 @@ export const TrailerDialog = ({
           </DialogClose>
         </header>
 
-        <div className={cn(
-          'min-h-0',
-          trailers.length > 1 && 'lg:grid lg:grid-cols-[minmax(0,1fr)_20rem]',
-        )}
+        <div
+          className={cn(
+            'min-h-0',
+            trailers.length > 1 && 'lg:grid lg:grid-cols-[minmax(0,1fr)_20rem]',
+          )}
         >
           <div className="aspect-video w-full bg-background">
             <iframe
@@ -89,9 +76,9 @@ export const TrailerDialog = ({
           {trailers.length > 1 && (
             <section
               aria-label="Available trailers"
-              className="flex max-h-[28svh] min-h-0 flex-col border-t border-foreground/10 lg:max-h-none lg:border-l lg:border-t-0"
+              className="flex max-h-[28svh] min-h-0 flex-col border-t border-foreground/10 lg:max-h-none lg:border-t-0 lg:border-l"
             >
-              <p className="shrink-0 px-4 pb-2 pt-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              <p className="shrink-0 px-4 pt-3 pb-2 text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
                 Trailers · {trailers.length}
               </p>
               <div className="grid min-h-0 grid-cols-1 gap-1 overflow-y-auto px-2 pb-2 sm:grid-cols-2 lg:grid-cols-1">
@@ -105,23 +92,24 @@ export const TrailerDialog = ({
                       aria-pressed={isSelected}
                       className={cn(
                         'flex min-w-0 items-center gap-3 rounded-md border px-3 py-2.5 text-left transition-colors',
-                        isSelected ?
-                          'border-primary/40 bg-primary/10 text-foreground' :
-                          'border-transparent text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground',
+                        isSelected
+                          ? 'border-primary/40 bg-primary/10 text-foreground'
+                          : 'border-transparent text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground',
                       )}
                       onClick={() => setSelectedTrailerId(trailer.id)}
                     >
-                      <span className={cn(
-                        'flex size-8 shrink-0 items-center justify-center rounded-full',
-                        isSelected ? 'bg-primary text-primary-foreground' : 'bg-surface text-foreground',
-                      )}
+                      <span
+                        className={cn(
+                          'flex size-8 shrink-0 items-center justify-center rounded-full',
+                          isSelected
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-surface text-foreground',
+                        )}
                       >
                         <Play className="size-3.5 fill-current" aria-hidden="true" />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-sm font-medium">
-                          {trailer.name}
-                        </span>
+                        <span className="block truncate text-sm font-medium">{trailer.name}</span>
                         <span className="mt-0.5 block text-xs text-muted-foreground">
                           {trailer.official ? 'Official trailer' : 'Trailer'}
                         </span>

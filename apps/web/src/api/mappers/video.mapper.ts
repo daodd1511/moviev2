@@ -3,7 +3,6 @@ import { VideoDto } from '../dtos';
 import { Video } from '@/models';
 
 export namespace VideoMapper {
-
   /**
    * Maps Dto to model.
    * @param dto Dto.

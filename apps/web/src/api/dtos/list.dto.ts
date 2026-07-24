@@ -2,7 +2,6 @@ import { Media } from '@/models';
 
 /** List dto. */
 export interface ListDto {
-
   /** List id. */
   readonly _id: string;
 

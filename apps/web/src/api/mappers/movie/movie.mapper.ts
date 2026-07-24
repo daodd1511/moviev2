@@ -3,7 +3,6 @@ import { MovieDto } from '../../dtos';
 import { Movie } from '@/models';
 
 export namespace MovieMapper {
-
   /**
    * Maps MovieDto to Movie model.
    * @param dto Movie dto.

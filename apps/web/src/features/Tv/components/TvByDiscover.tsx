@@ -8,17 +8,9 @@ import { TvQueries } from '@/stores/queries/tvQueries';
 
 const TvByDiscoverComponent = () => {
   const { discover } = useParams();
-  const title =
-    TV_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
-    isLoading,
-    isError,
-    error,
-  } = TvQueries.useInfiniteListByDiscover(discover);
+  const title = TV_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isLoading, isError, error } =
+    TvQueries.useInfiniteListByDiscover(discover);
 
   const { observerElement } = useInfiniteScroll(
     {
@@ -31,7 +23,7 @@ const TvByDiscoverComponent = () => {
   );
 
   if (isLoading) {
-    return <Loader className="min-h-[60vh]"/>;
+    return <Loader className="min-h-[60vh]" />;
   }
 
   if (isError) {

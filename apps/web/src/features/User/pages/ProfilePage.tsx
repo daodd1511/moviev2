@@ -13,7 +13,7 @@ export const ProfilePage = () => {
   const { data, isLoading } = UserQueries.useProfile();
 
   if (isLoading) {
-    return <Loader className="min-h-[60vh]"/>;
+    return <Loader className="min-h-[60vh]" />;
   }
   return (
     <div className="px-4 py-8 md:px-8 md:py-12">

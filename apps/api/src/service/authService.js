@@ -1,13 +1,13 @@
-import User from '../model/user.js'
+import User from '../model/user.js';
 // import Role from '../model/role.js'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 // import nodemailer from 'nodemailer'
 // import generator from 'generate-password'
-const AuthService = {}
+const AuthService = {};
 AuthService.Register = async (req, res) => {
   try {
-    const encryptedPassword = await bcrypt.hash(req.body.password, 10)
+    const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
     const user = new User({
       first_name: req.body.first_name,
@@ -16,50 +16,46 @@ AuthService.Register = async (req, res) => {
       phone: req.body.phone,
       email: req.body.email,
       password: encryptedPassword,
-      gender: req.body.gender
-    })
+      gender: req.body.gender,
+    });
 
-    const newUser = await user.save()
-    res.status(201).send(newUser)
+    const newUser = await user.save();
+    res.status(201).send(newUser);
     // Create user in our database
   } catch (err) {
-    res.send({ message: err.message })
+    res.send({ message: err.message });
   }
-}
+};
 AuthService.Login = async (req, res) => {
   try {
     // Get user input
-    User.findOne({ username: req.body.username })
-      .exec((err, user) => {
-        if (err) {
-          res.status(500).send({ message: err })
-          return
-        }
-        if (!user) {
-          return res.status(404).send({ message: 'User not found' })
-        }
-        const passwordIsValid = bcrypt.compareSync(
-          req.body.password,
-          user.password
-        )
-        if (!passwordIsValid) {
-          return res.status(401).send({
-            accessToken: null,
-            message: 'Invalid Credential!'
-          })
-        }
-        const token = jwt.sign({ id: user._id }, process.env.TOKEN_KEY, {
-          expiresIn: '30d'
-        })
-        res.status(200).send({
-          id: user._id,
-          accessToken: token
-        })
-      })
+    User.findOne({ username: req.body.username }).exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!user) {
+        return res.status(404).send({ message: 'User not found' });
+      }
+      const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: 'Invalid Credential!',
+        });
+      }
+      const token = jwt.sign({ id: user._id }, process.env.TOKEN_KEY, {
+        expiresIn: '30d',
+      });
+      res.status(200).send({
+        id: user._id,
+        accessToken: token,
+      });
+    });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 // AuthService.ForgotPassword = async (req, res) => {
 //   const email = req.body.email
 //   await User.findOne({ email })
@@ -148,4 +144,4 @@ AuthService.Login = async (req, res) => {
 //     return res.status(401).send('Invalid Token')
 //   }
 // }
-export default AuthService
+export default AuthService;

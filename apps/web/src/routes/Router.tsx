@@ -17,12 +17,14 @@ import { castRoutes } from '@/features/Cast/routes';
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
     default: module.NotFound,
-  })));
+  })),
+);
 
 export const PublicList = lazy(() =>
   import('../features/List/pages/PublicList').then(module => ({
     default: module.PublicList,
-  })));
+  })),
+);
 
 const routes: RouteObject[] = [
   {

@@ -25,17 +25,13 @@ const CastPageComponent = () => {
     data: media,
     isLoading: isMediaLoading,
     isError: isMediaError,
-  } = isMovie ?
-    MovieQueries.useDetail(mediaId) :
-    TvQueries.useDetail(mediaId);
+  } = isMovie ? MovieQueries.useDetail(mediaId) : TvQueries.useDetail(mediaId);
 
   const {
     data: credits,
     isLoading: isCreditsLoading,
     isError: isCreditsError,
-  } = isMovie ?
-    MovieQueries.useCredits(mediaId) :
-    TvQueries.useCredits(mediaId);
+  } = isMovie ? MovieQueries.useCredits(mediaId) : TvQueries.useCredits(mediaId);
 
   useEffect(() => {
     goToTop();
@@ -51,39 +47,56 @@ const CastPageComponent = () => {
 
   const title = isMovie ? (media as MovieDetail).title : (media as TvDetail).name;
   const posterPath = isMovie ? (media as MovieDetail).posterPath : (media as TvDetail).posterPath;
-  const releaseDate = isMovie ? (media as MovieDetail).releaseDate : (media as TvDetail).firstAirDate;
+  const releaseDate = isMovie
+    ? (media as MovieDetail).releaseDate
+    : (media as TvDetail).firstAirDate;
   const formattedReleaseDate = new Date(releaseDate);
 
-  const formattedDate = releaseDate !== '' ?
-    formattedReleaseDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    }) :
-    '';
+  const formattedDate =
+    releaseDate !== ''
+      ? formattedReleaseDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : '';
 
   return (
     <div className="p-5 md:p-10">
       <div className="mb-5 text-sm">
         <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-muted-foreground [&>li:not(:first-child)]:before:content-['/']">
-          <li><Link to="/" className="text-primary hover:underline">Home</Link></li>
-          <li><Link to={`/${mediaType}`} className="text-primary hover:underline">{isMovie ? 'Movies' : 'TV Shows'}</Link></li>
-          <li><Link to={`/${mediaType}/${mediaId}`} className="text-primary hover:underline">{title}</Link></li>
+          <li>
+            <Link to="/" className="text-primary hover:underline">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to={`/${mediaType}`} className="text-primary hover:underline">
+              {isMovie ? 'Movies' : 'TV Shows'}
+            </Link>
+          </li>
+          <li>
+            <Link to={`/${mediaType}/${mediaId}`} className="text-primary hover:underline">
+              {title}
+            </Link>
+          </li>
           <li className="text-muted-foreground">Cast &amp; Crew</li>
         </ul>
       </div>
 
       <div className="mb-10 flex flex-row items-center justify-start gap-8">
         <img
-          src={posterPath !== null ? `https://image.tmdb.org/t/p/${PosterSizes.extraLarge}${posterPath}` : '/images/no-image.png'}
+          src={
+            posterPath !== null
+              ? `https://image.tmdb.org/t/p/${PosterSizes.extraLarge}${posterPath}`
+              : '/images/no-image.png'
+          }
           alt={`${title} poster`}
           className="w-20 rounded-md shadow-lg"
         />
         <div className="w-full md:w-3/4">
           <h1 className="mb-4 text-3xl font-bold text-foreground">{title}</h1>
-          {formattedDate !== '' && (
-            <p className="mb-2 text-muted-foreground">{formattedDate}</p>
-          )}
+          {formattedDate !== '' && <p className="mb-2 text-muted-foreground">{formattedDate}</p>}
         </div>
       </div>
 
@@ -99,7 +112,11 @@ const CastPageComponent = () => {
               >
                 <div className="h-16 w-16 flex-shrink-0">
                   <img
-                    src={person.profilePath !== null ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}` : '/images/no-profile.png'}
+                    src={
+                      person.profilePath !== null
+                        ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}`
+                        : '/images/no-profile.png'
+                    }
                     alt={person.name}
                     loading="lazy"
                     className="h-full w-full rounded-full object-cover"
@@ -125,7 +142,11 @@ const CastPageComponent = () => {
               >
                 <div className="h-16 w-16 flex-shrink-0">
                   <img
-                    src={person.profilePath !== null ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}` : '/images/no-profile.png'}
+                    src={
+                      person.profilePath !== null
+                        ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}`
+                        : '/images/no-profile.png'
+                    }
                     alt={person.name}
                     loading="lazy"
                     className="h-full w-full rounded-full object-cover"

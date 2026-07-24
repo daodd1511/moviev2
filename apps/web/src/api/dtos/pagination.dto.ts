@@ -1,7 +1,5 @@
-
 /** Pagination dto. */
 export interface PaginationDto<T> {
-
   /** Result page. */
   readonly page: number;
 

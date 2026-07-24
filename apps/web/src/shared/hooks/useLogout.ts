@@ -13,7 +13,7 @@ export const useLogout = () => {
   const [, setUserId] = useAtom(userIdAtom);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const logout = async() => {
+  const logout = async () => {
     setIsLoggingOut(true);
 
     try {

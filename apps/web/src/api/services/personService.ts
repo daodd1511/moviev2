@@ -6,7 +6,6 @@ import { Person, PersonCombinedCredits } from '@/models';
 import { PersonCombinedCreditsMapper } from '@/api/mappers/person/personCombinedCredits.mapper';
 
 export namespace PersonService {
-
   /**
    * Fetches a person's details.
    * @param id Person ID.

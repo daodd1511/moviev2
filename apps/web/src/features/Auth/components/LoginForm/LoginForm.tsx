@@ -19,10 +19,7 @@ import { TextField } from '@/shared/components/ui/TextField';
 import { Button } from '@/components/ui/button';
 
 const getSafeRedirectPath = (redirectPath: string | null): string =>
-  redirectPath?.startsWith('/') === true &&
-  !redirectPath.startsWith('//') ?
-    redirectPath :
-    '/';
+  redirectPath?.startsWith('/') === true && !redirectPath.startsWith('//') ? redirectPath : '/';
 
 const LoginFormComponent = () => {
   const navigate = useNavigate();
@@ -39,8 +36,7 @@ const LoginFormComponent = () => {
     resolver: zodResolver(loginSchema),
   });
   const mutation = useMutation({
-    mutationFn: ({ username, password }: Login) =>
-      AuthService.login({ username, password }),
+    mutationFn: ({ username, password }: Login) => AuthService.login({ username, password }),
     onSuccess(data) {
       TokenService.save(data.accessToken);
       setToken(data.accessToken);
@@ -63,7 +59,7 @@ const LoginFormComponent = () => {
       onSubmit={onSubmit}
     >
       <div className="mb-8">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+        <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
           Your account
         </p>
         <h2 className="text-3xl font-light text-foreground sm:text-4xl">Sign in</h2>
@@ -80,7 +76,9 @@ const LoginFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('username')}
           />
-          {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
+          {errors.username?.message !== undefined && (
+            <ErrorField error={errors.username?.message} />
+          )}
         </div>
         <div>
           <TextField
@@ -90,7 +88,9 @@ const LoginFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('password')}
           />
-          {errors.password?.message !== undefined && <ErrorField error={errors.password?.message}/>}
+          {errors.password?.message !== undefined && (
+            <ErrorField error={errors.password?.message} />
+          )}
         </div>
         <div>
           <Button

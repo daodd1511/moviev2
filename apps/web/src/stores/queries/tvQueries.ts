@@ -30,22 +30,23 @@ export namespace TvQueries {
     );
 
   export const useDetail = (id: number) =>
-    useQuery<TvDetail, AxiosError>(['tvDetail', id], () =>
-      TvService.getTvDetail(id));
+    useQuery<TvDetail, AxiosError>(['tvDetail', id], () => TvService.getTvDetail(id));
 
   export const useRecommendations = (id: number) =>
     useQuery<Pagination<Media>, AxiosError>(['movieRecommendations', id], () =>
-      TvService.getTvRecommendation(id));
+      TvService.getTvRecommendation(id),
+    );
 
   export const useGenres = () =>
-    useQuery<readonly Genre[], AxiosError>(['tvGenres'], () =>
-      TvService.getGenres());
+    useQuery<readonly Genre[], AxiosError>(['tvGenres'], () => TvService.getGenres());
 
-  export const useSeasonDetail = (id: number, seasonNumber: number) => useQuery<readonly Episode[], AxiosError>(
-    ['seasonEpisode', id, seasonNumber],
-    () => TvService.getSeasonDetail(id, seasonNumber),
-    { enabled: seasonNumber !== -1 },
-  );
+  export const useSeasonDetail = (id: number, seasonNumber: number) =>
+    useQuery<readonly Episode[], AxiosError>(
+      ['seasonEpisode', id, seasonNumber],
+      () => TvService.getSeasonDetail(id, seasonNumber),
+      { enabled: seasonNumber !== -1 },
+    );
 
-  export const useCredits = (id: number) => useQuery<Credits, AxiosError>(['tvCredits', id], () => TvService.getCredits(id));
+  export const useCredits = (id: number) =>
+    useQuery<Credits, AxiosError>(['tvCredits', id], () => TvService.getCredits(id));
 }

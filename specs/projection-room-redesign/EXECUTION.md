@@ -38,12 +38,14 @@ Dependency removal must land before any restyle; nothing downstream may import t
 - [x] Replace every FontAwesome icon and daisyUI class per PLAN.md → "Phase 0" mapping (temporary plain styling; visual polish comes later) — icons→lucide across 9 files; daisyUI `btn/card/menu/dropdown/badge/breadcrumbs/tabs/input-bordered/bg-base-*/text-primary/rounded-box` replaced with plain Tailwind across ~13 files. `ProfileDropdown` given a `useState` toggle to replace daisyUI's focus-driven dropdown.
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` (root — includes project-wide `tsc`) — passes; tsc clean, vite build OK
 - [x] `npm run lint` (root) — passes (project script scopes to `.ts`; `.tsx` type-safety covered by tsc in build)
 - [x] `rg -l "daisyui|fortawesome|fonts.googleapis" apps/web` → empty
 - [~] CI green on the phase PR — n/a: single-branch directive, no phase PR; local gate is authoritative. CI will run when `redesign` → `main`.
 
 **Review checklist (user, at PR review):**
+
 - [ ] App runs; no missing icons or unstyled explosions beyond expected plainness
 - [ ] Pre-existing green-CTA/`text-gray-100` contrast (audit P1 #3) intentionally left as-is for Phase 6
 
@@ -62,11 +64,13 @@ Every later phase consumes these tokens; exact values in PLAN.md → "Phase 1 �
 - [x] Verify token values match `DESIGN.md` frontmatter exactly — all 9 match; confirmed `--color-ground:#041219` + `body{background:var(--color-ground)}` in compiled CSS
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` — passes
 - [x] `npm run lint` — passes
 - [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Body renders dark ground/light text; unmigrated pages look wrong-but-usable (expected mid-migration)
 
 **On completion:** as Phase 0.
@@ -99,12 +103,14 @@ isn't used (`vite.config.ts` only enables `typescript: true`).
 - [x] Kept as custom compositions (not shadcn primitives — no shadcn equivalent exists): `Chip`, `Kicker`, `PosterPlate`, `FactList`, `Rail`. Retokened to the shadcn slot names (`text-muted-foreground`, `text-foreground`, `border-border`, `hover:border-primary`) instead of the pre-shadcn flat tokens (`text-muted`, `text-body`, `hover:border-accent`) they were first written against.
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` — passes (tsc clean, Tailwind v4 + Vite 8 build OK)
 - [x] `npm run lint` — passes
 - [x] `npx -y impeccable detect apps/web/src/shared/components/ui apps/web/src/components/ui` → clean (exit 0, no findings)
 - [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Trailer/menu/dialog interactions keyboard-accessible (tab, Esc, focus visible)
 - [ ] Confirm `.npmrc` legacy-peer-deps is acceptable long-term, or revisit once ESLint 9 migration is in scope
 
@@ -121,12 +127,14 @@ Shell frames every page; rebuilt from scratch, not adapted (PLAN.md → "Phase 3
 - [x] Restyle `Footer`, `NotFound`, error states to tokens — `NotFound` fully rewritten: dropped the dead Bootstrap `row/col-sm-*` grid and the external dribbble.com GIF dependency (`NotFound.css` deleted) for a tokened kicker/display/CTA layout using the shadcn `Button`.
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` — passes
 - [x] `npm run lint` — passes
 - [x] `npx -y impeccable detect` on Navbar/Search/Footer/NotFound → clean (exit 0)
 - [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Keyboard-only navbar walk: tab through, Esc closes dropdowns/sheet, no duplicate-ID warnings in devtools
 - [ ] Visual check in a real browser — not yet done this phase; build/lint/detector are static checks only
 
@@ -145,6 +153,7 @@ The signature surfaces; match the concept render (PLAN.md → "Phase 4").
 - [x] Delete daisyUI breadcrumbs from detail pages — removed entirely (not just de-classed) from Movie/TV `Detail.tsx`; nav + backdrop context replaces them per the concept. `CastPage.tsx`/`Person.tsx` still have breadcrumbs — out of Phase 4's listed scope, left for Phase 7's sweep (those files are still light-mode/gray throughout and need a full pass, not a breadcrumb-only edit).
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` — passes
 - [x] `npm run lint` — passes
 - [x] `npx -y impeccable detect` on touched Movie/Tv/Cast/Recommend/Chip files → clean (exit 0)
@@ -152,6 +161,7 @@ The signature surfaces; match the concept render (PLAN.md → "Phase 4").
 - [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Movie + TV detail match `concept-a-projection-room.html` at 1440px and 390px; trailer dialog keyboard-accessible; null-poster/backdrop titles render acceptably
 - [ ] Real visual/interaction check in a browser — not done this phase (no browser tool invoked); build/lint/detector/dev-server-200 are static/shell checks only, not a substitute
 
@@ -168,6 +178,7 @@ Branch: `projection-room-redesign/phase-5-browse` (off `…/phase-4-detail`)
 - [x] **(amended)** `react-select@5.7.2`'s `StylesConfig` type doesn't structurally match the `csstype` version pulled in transitively by Phase 2's `@types/react` bump (a known ecosystem version-lag issue, not a defect in the style values) — worked around with a single boundary cast (`as StylesConfig<...>`) in `Genre.tsx` rather than loosening `tsconfig`'s strictness or downgrading `@types/react`.
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` — passes (after the react-select type cast fix above)
 - [x] `npm run lint` — passes
 - [x] `npx -y impeccable detect` on List/Filter/MoviesPage/TVsPage/useScrollThreshold/PosterPlate → clean (exit 0)
@@ -175,6 +186,7 @@ Branch: `projection-room-redesign/phase-5-browse` (off `…/phase-4-detail`)
 - [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Browse/discover pages match the world; scroll route-change leaves no stray listeners (devtools check)
 - [ ] Real visual/interaction check in a browser — not done this phase (no browser tool invoked)
 
@@ -192,6 +204,7 @@ Kills the green/blue accent families and the remaining P1s (PLAN.md → "Phase 6
 - [x] **(amended)** The phase 6 gate's `rg "green-|blue-"` check is repo-wide, and caught one `text-blue-600` in `Person.tsx` (a file otherwise out of this phase's scope, deferred to Phase 7's gray/slate sweep). Fixed only that one line (→ `text-primary`, plus a missing `type="button"` on the same element) rather than pulling all of `Person.tsx`'s styling into this phase.
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` — passes
 - [x] `npm run lint` — passes
 - [x] `npx -y impeccable detect apps/web/src` → zero findings (exit 0)
@@ -200,6 +213,7 @@ Kills the green/blue accent families and the remaining P1s (PLAN.md → "Phase 6
 - [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Login/register usable and on-world; toasts themed; list CRUD flows styled
 - [ ] Real visual/interaction check in a browser — not done this phase (no browser tool invoked)
 
@@ -210,11 +224,12 @@ Kills the green/blue accent families and the remaining P1s (PLAN.md → "Phase 6
 Branch: `projection-room-redesign/phase-7-cleanup` (off `…/phase-6-auth`)
 
 - [x] Delete legacy tokens: `cPrimary`, `h-withoutNavbar` (replace last usage per PLAN.md → "Phase 7"), unused theme remnants — `h-withoutNavbar` had **11** usages, not the single one PLAN.md assumed (every per-page loading state); all replaced with `min-h-[60vh]`. `cPrimary`'s last two holdouts (`index.css` token def, `ProfileDropdown.tsx`'s logout-confirm "No" button) removed; the button now uses shadcn `Button` variants like every other confirm dialog in the app.
-- [x] `rg "gray-|slate-|zinc-|btn |btn-|base-100|fortawesome|cPrimary" apps/web/src` → **amended**: the literal pattern in this checklist item false-positives on `translate-x`/`translate-y` (substring match on `slate-`/`zinc-`... actually `slate-x`/`slate-y` from `translate-`). Ran the precise version instead: `` \b(bg|text|border|ring|from|to|via|divide|outline|fill|stroke|placeholder|decoration|caret|accent)-(gray|slate|zinc)-[0-9]+ `` plus separate exact-match checks for `cPrimary`/`btn`/`base-100`/`fortawesome`/`withoutNavbar` → all empty. Two full pages had never been touched by any earlier phase (`CastPage.tsx`, `Person.tsx` — heavy `gray-700` throughout, `bg-white` cards); rewrote both to tokens as part of this sweep.
+- [x] `rg "gray-|slate-|zinc-|btn |btn-|base-100|fortawesome|cPrimary" apps/web/src` → **amended**: the literal pattern in this checklist item false-positives on `translate-x`/`translate-y` (substring match on `slate-`/`zinc-`... actually `slate-x`/`slate-y` from `translate-`). Ran the precise version instead: `\b(bg|text|border|ring|from|to|via|divide|outline|fill|stroke|placeholder|decoration|caret|accent)-(gray|slate|zinc)-[0-9]+` plus separate exact-match checks for `cPrimary`/`btn`/`base-100`/`fortawesome`/`withoutNavbar` → all empty. Two full pages had never been touched by any earlier phase (`CastPage.tsx`, `Person.tsx` — heavy `gray-700` throughout, `bg-white` cards); rewrote both to tokens as part of this sweep.
 - [x] Ran the `impeccable` skill's `audit` playbook (not a CLI subcommand — `npx impeccable audit` doesn't exist, only `detect` does; the skill's `reference/audit.md` is a manual scoring rubric) against the full redesign. **17/20** (target ≥16, met) with a11y **3/4** (target ≥3, met). Dated "after" section appended to `docs/design-audit.md` with a before/after table mapping every original finding to its resolution, plus an honest "Known Remaining Gaps" section (no live-browser verification was performed in any phase this session).
 - [x] Synced `DESIGN.md`: added the shadcn semantic-slot mapping table (components read `primary`/`accent`/`muted`/etc., not the raw Projection Room token names directly — this wasn't documented when DESIGN.md was first written, before the shadcn pivot), corrected the icon-button hit-target rule to the two-tier system that actually shipped (48px spacious / 44px-minimum tight contexts, not a flat "3rem always"), added `TextField`/`Dialog`/`DropdownMenu` to the Components section, and noted the Tailwind v4 + shadcn/ui toolchain in the frontmatter description.
 
 **Agent gate (hard):**
+
 - [x] `npm run build:web` — passes
 - [x] `npm run lint` — passes
 - [x] `npx -y impeccable detect apps/web/src` → zero findings (exit 0)
@@ -222,6 +237,7 @@ Branch: `projection-room-redesign/phase-7-cleanup` (off `…/phase-6-auth`)
 - [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Full keyboard pass: navbar → search → grid → detail → trailer dialog → auth form; no invisible focus, no trap losses
 
 **On completion:** as Phase 0.

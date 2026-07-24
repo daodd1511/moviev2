@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
 interface DiscoverOption {
-
   /** Display label. */
   readonly name: string;
 
@@ -10,7 +9,6 @@ interface DiscoverOption {
 }
 
 interface Props {
-
   /** Accessible group label. */
   readonly label: string;
 
@@ -24,16 +22,8 @@ interface Props {
   readonly options: readonly DiscoverOption[];
 }
 
-export const DiscoverTabs = ({
-  label,
-  basePath,
-  activeValue,
-  options,
-}: Props) => (
-  <nav
-    aria-label={label}
-    className="-mx-4 mb-7 flex gap-2 overflow-x-auto px-4 pb-1 md:hidden"
-  >
+export const DiscoverTabs = ({ label, basePath, activeValue, options }: Props) => (
+  <nav aria-label={label} className="-mx-4 mb-7 flex gap-2 overflow-x-auto px-4 pb-1 md:hidden">
     {options.map(option => (
       <Link
         key={option.value}

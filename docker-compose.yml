@@ -17,7 +17,7 @@ services:
     pull_policy: build # build-only image, never in a registry
     environment:
       NODE_ENV: production
-      PORT: "4000"
+      PORT: '4000'
       MONGO_URI: ${MONGO_URI:?}
       TOKEN_KEY: ${TOKEN_KEY:?}
       # GMAIL / GMAIL_PASSWORD intentionally absent: the nodemailer password-reset
@@ -36,7 +36,7 @@ services:
         VITE_APP_BACKEND_API_URL: /api
         VITE_APP_API_BASE_URL: ${VITE_APP_API_BASE_URL:?}
         VITE_APP_TMDB_API_KEY: ${VITE_APP_TMDB_API_KEY:?}
-        VITE_APP_IS_PRODUCTION: "true"
+        VITE_APP_IS_PRODUCTION: 'true'
         APP_COMMIT: ${APP_COMMIT:-}
     image: movie-web:local
     container_name: movie-web
@@ -46,7 +46,7 @@ services:
     # Nothing reaches this stack otherwise now that the tunnel lives with the
     # production compose in the deploy repo. http://localhost:8080
     ports:
-      - "8080:80"
+      - '8080:80'
     networks: [internal]
 
 networks:

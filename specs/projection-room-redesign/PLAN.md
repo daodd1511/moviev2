@@ -73,6 +73,7 @@ block in `tailwind.config.cjs`), all four `@fortawesome/*` packages.
 200/300/400/500/600 only).
 
 **Change:**
+
 - Delete the Google Fonts `@import` from `src/index.css`; import the five
   `@fontsource` weight files in `src/main.tsx`.
 - Grep for every daisyUI class and Font Awesome icon usage; replace icons
@@ -102,9 +103,18 @@ In `src/index.css`:
   --color-danger: #f0605d;
 }
 @layer base {
-  html { font-family: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif; }
-  body { background: var(--color-ground); color: var(--color-text); font-weight: 300; }
-  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  html {
+    font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  }
+  body {
+    background: var(--color-ground);
+    color: var(--color-text);
+    font-weight: 300;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
 }
 ```
 
@@ -140,18 +150,18 @@ concept file's CSS (translate it to Tailwind utilities against the new
 tokens). Props stay minimal; variants via a `variant` prop, no styling
 props leaking class strings from callers.
 
-| Component | Notes |
-|---|---|
-| `Button` | `variant: 'primary' \| 'ghost'`; primary = amber pill + tinted shadow + hover lift |
-| `IconButton` | 3rem translucent circle; `label` prop is required and renders `aria-label` |
-| `Chip` | genre pill; renders `<Link>`; hover = amber border + faint amber fill |
-| `Kicker` | section heading (`h2`) — tracked uppercase muted |
-| `PosterPlate` | image plate: radius, translucent outline, media-lift shadow |
-| `FactList` | key/value rows with line-color rules |
-| `Rail` | section wrapper: Kicker + optional "View all →" link + children |
-| `TextField` | label + input pair, translucent field, amber focus ring; `id` generated with `useId`, label always associated (fixes audit P1 #1) |
-| `Dialog` | replaces `Modal.tsx`: `role="dialog"` + `aria-modal`, focus trap, Esc close, backdrop click, removes the wrong `aria-hidden` (fixes audit P1 #2). Use native `<dialog>` element — simplest correct trap |
-| `Dropdown` | one headless implementation (outside-click + Esc + `aria-expanded`) replacing the three hand-rolled useState menus (Navbar, ProfileDropdown, item Menu) |
+| Component     | Notes                                                                                                                                                                                                   |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`      | `variant: 'primary' \| 'ghost'`; primary = amber pill + tinted shadow + hover lift                                                                                                                      |
+| `IconButton`  | 3rem translucent circle; `label` prop is required and renders `aria-label`                                                                                                                              |
+| `Chip`        | genre pill; renders `<Link>`; hover = amber border + faint amber fill                                                                                                                                   |
+| `Kicker`      | section heading (`h2`) — tracked uppercase muted                                                                                                                                                        |
+| `PosterPlate` | image plate: radius, translucent outline, media-lift shadow                                                                                                                                             |
+| `FactList`    | key/value rows with line-color rules                                                                                                                                                                    |
+| `Rail`        | section wrapper: Kicker + optional "View all →" link + children                                                                                                                                         |
+| `TextField`   | label + input pair, translucent field, amber focus ring; `id` generated with `useId`, label always associated (fixes audit P1 #1)                                                                       |
+| `Dialog`      | replaces `Modal.tsx`: `role="dialog"` + `aria-modal`, focus trap, Esc close, backdrop click, removes the wrong `aria-hidden` (fixes audit P1 #2). Use native `<dialog>` element — simplest correct trap |
+| `Dropdown`    | one headless implementation (outside-click + Esc + `aria-expanded`) replacing the three hand-rolled useState menus (Navbar, ProfileDropdown, item Menu)                                                 |
 
 Delete each old counterpart as its replacement lands (`Modal.tsx`,
 `styles/Loader.tsx` restyled to an amber-on-ground spinner).
@@ -257,15 +267,15 @@ third-party).
 
 ## Audit P1 → phase map
 
-| Audit finding | Fixed in |
-|---|---|
-| 1. Unassociated form labels | 2 (TextField), 5 (Filter), 6 (Auth) |
-| 2. Modal aria-hidden / no dialog semantics | 2 (Dialog) |
-| 3. CTA contrast (green-400/gray-100) | 6 |
-| 4. No visible focus indicators | 1 (global ring) + per-component |
-| 5. Scroll listener leak | 5 |
-| 6. No image lazy-loading | 4, 5 (rule in Ground rules) |
-| 7. daisyUI classes with themes:false | 0 (removal) |
-| 8. Three competing accents | 1–6 (single amber accent) |
-| 9. Sub-44px touch targets | 2 (IconButton), 3, 5 |
-| 10. Duplicate IDs / aria-expanded | 3 (Navbar + Dropdown) |
+| Audit finding                              | Fixed in                            |
+| ------------------------------------------ | ----------------------------------- |
+| 1. Unassociated form labels                | 2 (TextField), 5 (Filter), 6 (Auth) |
+| 2. Modal aria-hidden / no dialog semantics | 2 (Dialog)                          |
+| 3. CTA contrast (green-400/gray-100)       | 6                                   |
+| 4. No visible focus indicators             | 1 (global ring) + per-component     |
+| 5. Scroll listener leak                    | 5                                   |
+| 6. No image lazy-loading                   | 4, 5 (rule in Ground rules)         |
+| 7. daisyUI classes with themes:false       | 0 (removal)                         |
+| 8. Three competing accents                 | 1–6 (single amber accent)           |
+| 9. Sub-44px touch targets                  | 2 (IconButton), 3, 5                |
+| 10. Duplicate IDs / aria-expanded          | 3 (Navbar + Dropdown)               |

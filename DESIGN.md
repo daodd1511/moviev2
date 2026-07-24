@@ -2,87 +2,87 @@
 name: Flix
 description: A dark, image-forward movie and TV browsing app. Visual world — "Projection Room" — committed 2026-07-24; reference render at docs/design-concepts/concept-a-projection-room.html. Built on Tailwind v4 (CSS-first `@theme`, see src/index.css) and shadcn/ui (Radix primitives); component layer lives in apps/web/src/components/ui (shadcn-generated) and apps/web/src/shared/components/ui (custom compositions).
 colors:
-  ground: "#041219"
-  surface: "#07202e"
-  surface-raised: "#0b2a3a"
-  line: "#133a4d"
-  text: "#d9e7ee"
-  text-muted: "#8fb3c4"
-  accent: "#f5a524"
-  accent-ink: "#1c1302"
-  brand-teal: "#023246"
-  danger: "#f0605d"
+  ground: '#041219'
+  surface: '#07202e'
+  surface-raised: '#0b2a3a'
+  line: '#133a4d'
+  text: '#d9e7ee'
+  text-muted: '#8fb3c4'
+  accent: '#f5a524'
+  accent-ink: '#1c1302'
+  brand-teal: '#023246'
+  danger: '#f0605d'
 typography:
   display:
-    fontFamily: "Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(2.6rem, 6vw, 5rem)"
+    fontFamily: 'Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif'
+    fontSize: 'clamp(2.6rem, 6vw, 5rem)'
     fontWeight: 200
     lineHeight: 1.02
-    letterSpacing: "0.015em"
+    letterSpacing: '0.015em'
     textTransform: uppercase
   headline:
-    fontFamily: "Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.5rem"
+    fontFamily: 'Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '1.5rem'
     fontWeight: 300
     lineHeight: 1.25
   kicker:
-    fontFamily: "Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "0.82rem"
+    fontFamily: 'Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '0.82rem'
     fontWeight: 500
-    letterSpacing: "0.2em"
+    letterSpacing: '0.2em'
     textTransform: uppercase
   body:
-    fontFamily: "Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1rem"
+    fontFamily: 'Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '1rem'
     fontWeight: 300
     lineHeight: 1.65
   body-large:
-    fontFamily: "Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.08rem"
+    fontFamily: 'Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '1.08rem'
     fontWeight: 300
     lineHeight: 1.8
   label:
-    fontFamily: "Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "0.875rem"
+    fontFamily: 'Be Vietnam Pro, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '0.875rem'
     fontWeight: 500
-    letterSpacing: "0.025em"
+    letterSpacing: '0.025em'
 rounded:
-  md: "0.75rem"
-  full: "9999px"
+  md: '0.75rem'
+  full: '9999px'
 spacing:
-  gutter: "3rem"
-  gutter-mobile: "1.25rem"
-  section: "4.5rem"
-  rail-gap: "1.25rem"
-  content-max: "82rem"
+  gutter: '3rem'
+  gutter-mobile: '1.25rem'
+  section: '4.5rem'
+  rail-gap: '1.25rem'
+  content-max: '82rem'
 components:
   button-primary:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.accent-ink}"
-    rounded: "{rounded.full}"
-    padding: "0.85rem 1.9rem"
+    backgroundColor: '{colors.accent}'
+    textColor: '{colors.accent-ink}'
+    rounded: '{rounded.full}'
+    padding: '0.85rem 1.9rem'
     fontWeight: 600
   button-ghost:
-    backgroundColor: "rgba(217,231,238,0.08)"
-    borderColor: "rgba(217,231,238,0.2)"
-    textColor: "{colors.text}"
-    rounded: "{rounded.full}"
+    backgroundColor: 'rgba(217,231,238,0.08)'
+    borderColor: 'rgba(217,231,238,0.2)'
+    textColor: '{colors.text}'
+    rounded: '{rounded.full}'
   chip-genre:
-    backgroundColor: "transparent"
-    borderColor: "rgba(217,231,238,0.22)"
-    textColor: "{colors.text-muted}"
-    rounded: "{rounded.full}"
-    padding: "0.45rem 1.1rem"
+    backgroundColor: 'transparent'
+    borderColor: 'rgba(217,231,238,0.22)'
+    textColor: '{colors.text-muted}'
+    rounded: '{rounded.full}'
+    padding: '0.45rem 1.1rem'
   input-text:
-    backgroundColor: "rgba(217,231,238,0.08)"
-    borderColor: "rgba(217,231,238,0.15)"
-    textColor: "{colors.text}"
-    rounded: "{rounded.md}"
-    padding: "0.6rem 1rem"
+    backgroundColor: 'rgba(217,231,238,0.08)'
+    borderColor: 'rgba(217,231,238,0.15)'
+    textColor: '{colors.text}'
+    rounded: '{rounded.md}'
+    padding: '0.6rem 1rem'
   card-poster:
-    backgroundColor: "{colors.surface}"
-    rounded: "{rounded.md}"
-    outline: "1px solid rgba(217,231,238,0.14)"
+    backgroundColor: '{colors.surface}'
+    rounded: '{rounded.md}'
+    outline: '1px solid rgba(217,231,238,0.14)'
 ---
 
 # Design System: Flix — "Projection Room"
@@ -110,6 +110,7 @@ uppercase display titles (Be Vietnam Pro, weight 200) at large scale,
 against weight-500 labels. Hierarchy is weight and size, not color.
 
 **Key Characteristics:**
+
 - Full-bleed backdrop heroes under layered scrims; content composed over imagery
 - Single dark ground with translucent overlays (rgba of the text color) for surfaces
 - One amber accent with a strict three-job reservation
@@ -119,44 +120,51 @@ against weight-500 labels. Hierarchy is weight and size, not color.
 ## Colors
 
 ### Primary
+
 - **Ground** (#041219): The page background everywhere. Derived from brand teal darkened to near-black; never pure black, never gray.
 - **Surface** (#07202e) / **Surface Raised** (#0b2a3a): Panels, dropdowns, modals. Steps up the same teal ramp.
 - **Line** (#133a4d): Hairline dividers and list rules on the ground.
 
 ### Accent
+
 - **Amber** (#f5a524) with **Accent Ink** (#1c1302) as its on-color: the primary CTA fill, the rating star and value, active nav state, kicker text when emphasized, focus rings. Nothing else. Text on amber is always accent-ink, never white.
 
 ### Text
+
 - **Text** (#d9e7ee): Primary copy. ~13.5:1 on ground.
-- **Text Muted** (#8fb3c4): Secondary copy, metadata, inactive nav. ~7:1 on ground. This is the ONLY muted text color; gray-*/slate-* classes are banned on the dark ground.
+- **Text Muted** (#8fb3c4): Secondary copy, metadata, inactive nav. ~7:1 on ground. This is the ONLY muted text color; gray-_/slate-_ classes are banned on the dark ground.
 
 ### Translucent overlays
+
 Interactive chrome (ghost buttons, inputs, chips, hover fills) uses rgba
 of the text color on the ground: `rgba(217,231,238,.08)` fill,
 `rgba(217,231,238,.15–.22)` borders, stepping to `.16` fill on hover.
 
 ### Retained
+
 - **Brand Teal** (#023246): the wordmark origin and the ramp's anchor; not used as a fill in the new world.
 - **Danger** (#f0605d): destructive confirms only, lightened for AA on the dark ground.
 
 ### shadcn semantic slots
+
 Every shadcn/Radix component (`Button`, `Dialog`, `DropdownMenu`, `Sheet`, `Input`, `Label`)
 reads Tailwind's standard semantic slot names, mapped onto the tokens above — this mapping,
 not the raw hex values, is what components actually consume:
 
-| Slot | Maps to | Slot | Maps to |
-|---|---|---|---|
-| `background` / `foreground` | Ground / Text | `primary` / `primary-foreground` | Amber / Accent Ink |
-| `card`, `popover` (+ `-foreground`) | Surface Raised / Text | `secondary` (+ `-foreground`) | Surface / Text |
-| `muted` (+ `-foreground`) | Surface / Text Muted | `accent` (+ `-foreground`) | Surface Raised / Text |
-| `destructive` (+ `-foreground`) | Danger / Ground | `border`, `input` | Line |
-| `ring` | Amber | | |
+| Slot                                | Maps to               | Slot                             | Maps to               |
+| ----------------------------------- | --------------------- | -------------------------------- | --------------------- |
+| `background` / `foreground`         | Ground / Text         | `primary` / `primary-foreground` | Amber / Accent Ink    |
+| `card`, `popover` (+ `-foreground`) | Surface Raised / Text | `secondary` (+ `-foreground`)    | Surface / Text        |
+| `muted` (+ `-foreground`)           | Surface / Text Muted  | `accent` (+ `-foreground`)       | Surface Raised / Text |
+| `destructive` (+ `-foreground`)     | Danger / Ground       | `border`, `input`                | Line                  |
+| `ring`                              | Amber                 |                                  |                       |
 
 Note `accent` here is shadcn's own vocabulary for "subtle hover surface" (menu-item hover,
 etc.) — it is **not** the brand amber and must not be confused with it. This is why the Colors
 section above calls the brand color "Amber," never "accent," in prose.
 
 ### Named Rules
+
 **The Three-Job Amber Rule.** Amber (the `primary` slot) appears only as: primary action, rating, active/brand punctuation. A fourth job requires removing one of the three.
 **The No-Gray Rule.** On the dark ground every "gray" is teal-tinted (text-muted-foreground or a text-color rgba). Tailwind gray/slate/zinc utilities must not appear in new code.
 
@@ -165,6 +173,7 @@ section above calls the brand color "Amber," never "accent," in prose.
 **Single family:** Be Vietnam Pro, weights 200 / 300 / 400 / 500 / 600 only, self-hosted (no Google Fonts CSS import at runtime).
 
 ### Hierarchy
+
 - **Display** (200, clamp(2.6rem→5rem), uppercase, line-height 1.02): detail-page titles over the hero scrim.
 - **Headline** (300, 1.5rem): page-level headings outside detail heroes.
 - **Kicker** (500, 0.82rem, tracking .2em, uppercase, text-muted): every section label ("Overview", "Top Billed Cast", "More Like This"). Kickers replace old bold section headings.
@@ -172,6 +181,7 @@ section above calls the brand color "Amber," never "accent," in prose.
 - **Label** (500, 0.875rem): buttons, form labels, cast names.
 
 ### Named Rules
+
 **The Hairline Title Rule (kept).** Large titles are weight 200 uppercase; hierarchy is built by weight and size contrast, not color.
 
 ## Layout
@@ -196,6 +206,7 @@ Gradient scrims (ground-colored, two directions) guarantee text contrast
 over any backdrop.
 
 ### Named Rules
+
 **The Scrim Rule.** Text never sits on raw imagery; a ground-colored gradient scrim always mediates, strong enough to keep AA at the text position.
 
 ## Shapes
@@ -231,6 +242,7 @@ visible by default; nothing animates from opacity 0.
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** put imagery under every hero and let the scrim system carry legibility.
 - **Do** tint all secondary text and translucent chrome from the teal/text family.
 - **Do** reserve amber for its three jobs and use accent-ink for text on amber.
@@ -238,6 +250,7 @@ visible by default; nothing animates from opacity 0.
 - **Do** ship visible `:focus-visible` amber rings on every interactive element.
 
 ### Don't:
+
 - **Don't** use Tailwind gray/slate/zinc utilities on the dark ground — tint from the palette instead.
 - **Don't** introduce a second accent or use amber for decoration.
 - **Don't** place text on raw imagery without a scrim.

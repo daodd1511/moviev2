@@ -1,6 +1,5 @@
 /** Person DTO. */
 export interface PersonDto {
-
   /** Id. */
   readonly id: number;
 

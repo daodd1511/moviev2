@@ -9,18 +9,10 @@ import { MovieQueries } from '@/stores/queries/movieQueries';
 
 const MovieByDiscoverComponent = () => {
   const { discover } = useParams();
-  const title =
-    MOVIE_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
+  const title = MOVIE_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
 
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
-    isLoading,
-    isError,
-    error,
-  } = MovieQueries.useInfiniteListByDiscover(discover ?? '');
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isLoading, isError, error } =
+    MovieQueries.useInfiniteListByDiscover(discover ?? '');
 
   const { observerElement } = useInfiniteScroll(
     {

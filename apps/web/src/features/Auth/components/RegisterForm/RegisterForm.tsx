@@ -26,8 +26,7 @@ const RegisterFormComponent = () => {
     resolver: zodResolver(registerSchema),
   });
   const mutation = useMutation({
-    mutationFn: (credential: Register) =>
-      AuthService.register(credential),
+    mutationFn: (credential: Register) => AuthService.register(credential),
 
     onSuccess() {
       navigate('/auth/login');
@@ -47,7 +46,7 @@ const RegisterFormComponent = () => {
       onSubmit={onSubmit}
     >
       <div className="mb-8">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+        <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
           Start your library
         </p>
         <h2 className="text-3xl font-light text-foreground sm:text-4xl">Create account</h2>
@@ -64,7 +63,7 @@ const RegisterFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('email')}
           />
-          {errors.email?.message !== undefined && <ErrorField error={errors.email?.message}/>}
+          {errors.email?.message !== undefined && <ErrorField error={errors.email?.message} />}
         </div>
         <div>
           <TextField
@@ -74,7 +73,9 @@ const RegisterFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('username')}
           />
-          {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
+          {errors.username?.message !== undefined && (
+            <ErrorField error={errors.username?.message} />
+          )}
         </div>
         <div>
           <TextField
@@ -84,7 +85,9 @@ const RegisterFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('password')}
           />
-          {errors.password?.message !== undefined && <ErrorField error={errors.password?.message}/>}
+          {errors.password?.message !== undefined && (
+            <ErrorField error={errors.password?.message} />
+          )}
         </div>
         <div>
           <TextField
@@ -94,7 +97,9 @@ const RegisterFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('confirmPassword')}
           />
-          {errors.confirmPassword?.message !== undefined && <ErrorField error={errors.confirmPassword?.message}/>}
+          {errors.confirmPassword?.message !== undefined && (
+            <ErrorField error={errors.confirmPassword?.message} />
+          )}
         </div>
         <div>
           <Button

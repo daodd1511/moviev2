@@ -6,21 +6,21 @@ import { XIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
-const Dialog = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) => <DialogPrimitive.Root data-slot="dialog" {...props} />;
+const Dialog = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) => (
+  <DialogPrimitive.Root data-slot="dialog" {...props} />
+);
 
-const DialogTrigger = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) => <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
+const DialogTrigger = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger>) => (
+  <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+);
 
-const DialogPortal = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) => <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
+const DialogPortal = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>) => (
+  <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
+);
 
-const DialogClose = ({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) => <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
+const DialogClose = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) => (
+  <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+);
 
 const DialogOverlay = ({
   className,
@@ -29,8 +29,8 @@ const DialogOverlay = ({
   <DialogPrimitive.Overlay
     data-slot="dialog-overlay"
     className={cn(
-      'fixed inset-0 isolate z-50 bg-background/85 duration-200 supports-backdrop-filter:backdrop-blur-md data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
-        className,
+      'fixed inset-0 isolate z-50 bg-background/85 duration-200 data-closed:animate-out data-closed:fade-out-0 data-open:animate-in data-open:fade-in-0 supports-backdrop-filter:backdrop-blur-md',
+      className,
     )}
     {...props}
   />
@@ -49,8 +49,8 @@ const DialogContent = ({
     <DialogPrimitive.Content
       data-slot="dialog-content"
       className={cn(
-        'fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
-          className,
+        'fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 sm:max-w-sm',
+        className,
       )}
       {...props}
     >
@@ -62,8 +62,7 @@ const DialogContent = ({
             className="absolute top-3 right-3 z-10 size-11 rounded-full border border-foreground/15 bg-background/75 text-foreground shadow-lg backdrop-blur-md hover:bg-background"
             size="icon"
           >
-            <XIcon
-            />
+            <XIcon />
             <span className="sr-only">Close</span>
           </Button>
         </DialogPrimitive.Close>
@@ -73,11 +72,7 @@ const DialogContent = ({
 );
 
 const DialogHeader = ({ className, ...props }: React.ComponentProps<'div'>) => (
-  <div
-    data-slot="dialog-header"
-    className={cn('flex flex-col gap-2', className)}
-    {...props}
-  />
+  <div data-slot="dialog-header" className={cn('flex flex-col gap-2', className)} {...props} />
 );
 
 const DialogFooter = ({
@@ -92,7 +87,7 @@ const DialogFooter = ({
     data-slot="dialog-footer"
     className={cn(
       '-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 sm:flex-row sm:justify-end',
-        className,
+      className,
     )}
     {...props}
   >
@@ -111,10 +106,7 @@ const DialogTitle = ({
 }: React.ComponentProps<typeof DialogPrimitive.Title>) => (
   <DialogPrimitive.Title
     data-slot="dialog-title"
-    className={cn(
-      'text-base leading-none font-medium',
-        className,
-    )}
+    className={cn('text-base leading-none font-medium', className)}
     {...props}
   />
 );
@@ -127,7 +119,7 @@ const DialogDescription = ({
     data-slot="dialog-description"
     className={cn(
       'text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground',
-        className,
+      className,
     )}
     {...props}
   />
