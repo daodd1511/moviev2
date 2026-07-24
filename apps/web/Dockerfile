@@ -19,7 +19,7 @@ ENV VITE_APP_BACKEND_API_URL=$VITE_APP_BACKEND_API_URL \
     VITE_APP_IS_PRODUCTION=$VITE_APP_IS_PRODUCTION \
     APP_COMMIT=$APP_COMMIT
 
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json .npmrc ./
 RUN npm ci
 
 COPY . .
