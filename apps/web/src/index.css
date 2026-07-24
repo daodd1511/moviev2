@@ -1,8 +1,64 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
 
+/*
+ * Projection Room design tokens — see DESIGN.md.
+ * Single permanent dark world (no light/dark toggle), so shadcn's semantic
+ * slots (background/foreground/primary/etc.) are defined once, directly,
+ * rather than split across :root/.dark.
+ */
+@theme {
+  --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+
+  /* Projection Room tokens (DESIGN.md) */
+  --color-ground: #041219;
+  --color-surface: #07202e;
+  --color-surface-raised: #0b2a3a;
+  --color-line: #133a4d;
+  --color-body: #d9e7ee;
+  --color-danger: #f0605d;
+
+  /* Legacy brand color — removed in Phase 7 once all pages migrate off it. */
+  --color-cPrimary: #023246;
+
+  /* shadcn semantic slots, mapped onto Projection Room tokens. */
+  --color-background: #041219;
+  --color-foreground: #d9e7ee;
+  --color-card: #0b2a3a;
+  --color-card-foreground: #d9e7ee;
+  --color-popover: #0b2a3a;
+  --color-popover-foreground: #d9e7ee;
+  --color-primary: #f5a524;
+  --color-primary-foreground: #1c1302;
+  --color-secondary: #07202e;
+  --color-secondary-foreground: #d9e7ee;
+  --color-muted: #07202e;
+  --color-muted-foreground: #8fb3c4;
+  --color-accent: #0b2a3a;
+  --color-accent-foreground: #d9e7ee;
+  --color-destructive: #f0605d;
+  --color-destructive-foreground: #041219;
+  --color-border: #133a4d;
+  --color-input: #133a4d;
+  --color-ring: #f5a524;
+
+  /* Two-radius system: 0.75rem for plates/cards/inputs, rounded-full for pills. */
+  --radius-sm: 0.75rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 0.75rem;
+}
+
+@utility h-withoutNavbar {
+  height: calc(100vh - 4rem);
+}
+
+@utility grid-cols-autoFit {
+  grid-template-columns: repeat(auto-fit, minmax(0, 16rem));
+}
+
+@utility grid-cols-autoFit-sm {
+  grid-template-columns: repeat(auto-fit, minmax(0, 12rem));
+}
 
 pre {
   white-space: pre-wrap;       /* Since CSS 2.1 */
@@ -13,10 +69,15 @@ pre {
 }
 
 @layer base {
-  html {
-    font-family: Be Vietnam Pro, sans-serif;
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-weight: 300;
   }
   h1 {
     @apply text-2xl font-medium;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
   }
 }
