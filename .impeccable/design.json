@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-24T00:00:00.000Z",
+  "title": "Design System: Flix — Projection Room",
+  "extensions": {
+    "colorMeta": {
+      "ground": { "role": "primary", "displayName": "Ground", "canonical": "#041219", "tonalRamp": ["#020b0f", "#041219", "#07202e", "#0b2a3a", "#133a4d", "#1d5068", "#2b6b88", "#8fb3c4"] },
+      "accent": { "role": "secondary", "displayName": "Amber Accent", "canonical": "#f5a524", "tonalRamp": ["#1c1302", "#4a3406", "#8a610d", "#c48616", "#f5a524", "#f7b95c", "#fad096", "#fde8cb"] },
+      "text": { "role": "neutral", "displayName": "Text", "canonical": "#d9e7ee", "tonalRamp": ["#041219", "#133a4d", "#3d6b82", "#6a93a8", "#8fb3c4", "#b5cdd9", "#d9e7ee", "#eef5f8"] },
+      "brand-teal": { "role": "tertiary", "displayName": "Brand Teal (origin)", "canonical": "#023246", "tonalRamp": ["#01151e", "#012230", "#023246", "#054a63", "#0a6a8a", "#2b93b3", "#74bdd6", "#c3e4ef"] },
+      "danger": { "role": "tertiary", "displayName": "Danger", "canonical": "#f0605d", "tonalRamp": ["#3d0a09", "#6e1513", "#a12421", "#cf403c", "#f0605d", "#f48a88", "#f8b3b1", "#fcdbda"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Uppercase hairline (200) titles over hero scrims; clamp 2.6rem to 5rem." },
+      "headline": { "displayName": "Headline", "purpose": "Page headings outside detail heroes; weight 300." },
+      "kicker": { "displayName": "Kicker", "purpose": "Tracked uppercase section labels (Overview, Cast, More Like This)." },
+      "body": { "displayName": "Body", "purpose": "General copy; weight 300, lh 1.65, max 65ch." },
+      "body-large": { "displayName": "Body Large", "purpose": "Overview paragraphs on detail pages." },
+      "label": { "displayName": "Label", "purpose": "Buttons, form labels, cast names; weight 500." }
+    },
+    "shadows": [
+      { "name": "media-lift", "value": "0 24px 48px -12px rgba(0,0,0,0.7)", "purpose": "Poster plates and floating panels on the dark ground." },
+      { "name": "accent-glow", "value": "0 10px 26px -8px rgba(245,165,36,0.55)", "purpose": "Primary amber CTA; deepens on hover to 0 16px 32px -8px rgba(245,165,36,0.6)." }
+    ],
+    "motion": [
+      { "name": "hero-drift", "value": "scale(1.08) to scale(1), 40s ease-out, once", "purpose": "The single authored moment: detail hero backdrop settles behind static content. Disabled under prefers-reduced-motion." },
+      { "name": "micro-lift", "value": "translateY(-2px to -4px), 150-300ms cubic-bezier(.2,.9,.3,1)", "purpose": "Hover lifts on buttons and cards." },
+      { "name": "image-scale", "value": "scale(1.05), 300ms cubic-bezier(.2,.9,.3,1)", "purpose": "Rec-card poster zoom inside its clipped plate." }
+    ],
+    "breakpoints": [
+      { "name": "mobile-collapse", "value": "860px" },
+      { "name": "content-max", "value": "82rem centered, 3rem gutters (1.25rem mobile)" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Amber pill CTA; accent-ink text, tinted shadow, hover lift. One per viewport region.",
+      "html": "<button class=\"ds-btn-primary\">▶ Watch Trailer</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:.6rem; background:#f5a524; color:#1c1302; font-weight:600; font-size:.95rem; border:0; border-radius:9999px; padding:.85rem 1.9rem; cursor:pointer; box-shadow:0 10px 26px -8px rgba(245,165,36,.55); transition:transform .2s cubic-bezier(.2,.9,.3,1), box-shadow .2s; } .ds-btn-primary:hover { transform:translateY(-2px); box-shadow:0 16px 32px -8px rgba(245,165,36,.6); } .ds-btn-primary:focus-visible { outline:2px solid #f5a524; outline-offset:3px; }"
+    },
+    {
+      "name": "Ghost Icon Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "3rem translucent circle for secondary actions; requires aria-label.",
+      "html": "<button class=\"ds-btn-ghost\" aria-label=\"Add to a list\">+</button>",
+      "css": ".ds-btn-ghost { display:inline-flex; align-items:center; justify-content:center; width:3rem; height:3rem; border-radius:9999px; background:rgba(217,231,238,.08); border:1px solid rgba(217,231,238,.2); color:#d9e7ee; font-size:1.2rem; cursor:pointer; transition:background .2s, border-color .2s; } .ds-btn-ghost:hover { background:rgba(217,231,238,.16); border-color:rgba(217,231,238,.4); } .ds-btn-ghost:focus-visible { outline:2px solid #f5a524; outline-offset:3px; }"
+    },
+    {
+      "name": "Genre Chip",
+      "kind": "chip",
+      "refersTo": "chip-genre",
+      "description": "Transparent pill link; hover borders amber with a faint amber fill.",
+      "html": "<a class=\"ds-chip\" href=\"#\">Science Fiction</a>",
+      "css": ".ds-chip { display:inline-block; padding:.45rem 1.1rem; border-radius:9999px; border:1px solid rgba(217,231,238,.22); color:#8fb3c4; font-size:.8rem; text-decoration:none; transition:border-color .2s, color .2s, background .2s; } .ds-chip:hover { border-color:#f5a524; color:#d9e7ee; background:rgba(245,165,36,.08); } .ds-chip:focus-visible { outline:2px solid #f5a524; outline-offset:3px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Translucent field on the dark ground with an amber focus ring.",
+      "html": "<label class=\"ds-label\" for=\"q\">Search</label><input class=\"ds-input\" id=\"q\" type=\"text\" placeholder=\"Search titles, people…\" />",
+      "css": ".ds-input { width:100%; background:rgba(217,231,238,.08); border:1px solid rgba(217,231,238,.15); border-radius:.75rem; padding:.6rem 1rem; color:#d9e7ee; font-size:1rem; } .ds-input::placeholder { color:#8fb3c4; } .ds-input:focus-visible { outline:2px solid #f5a524; outline-offset:2px; } .ds-label { display:block; font-size:.875rem; font-weight:500; color:#8fb3c4; margin-bottom:.4rem; }"
+    },
+    {
+      "name": "Poster Plate",
+      "kind": "card",
+      "refersTo": "card-poster",
+      "description": "Image plate: radius, translucent outline, heavy soft shadow.",
+      "html": "<div class=\"ds-plate\"><img src=\"poster.jpg\" alt=\"Movie title poster\" /></div>",
+      "css": ".ds-plate { border-radius:.75rem; overflow:hidden; outline:1px solid rgba(217,231,238,.14); box-shadow:0 24px 48px -12px rgba(0,0,0,.7); } .ds-plate img { display:block; width:100%; }"
+    },
+    {
+      "name": "Fact List",
+      "kind": "list",
+      "refersTo": null,
+      "description": "Key/value detail rows separated by hairline lines.",
+      "html": "<ul class=\"ds-facts\"><li><span class=\"k\">Director</span><span class=\"v\">Christopher Nolan</span></li></ul>",
+      "css": ".ds-facts { list-style:none; display:grid; gap:.9rem; font-size:.95rem; padding:0; margin:0; } .ds-facts li { display:flex; justify-content:space-between; gap:1rem; border-bottom:1px solid #133a4d; padding-bottom:.9rem; } .ds-facts .k { color:#8fb3c4; } .ds-facts .v { color:#d9e7ee; font-weight:400; text-align:right; }"
+    },
+    {
+      "name": "Kicker Heading",
+      "kind": "heading",
+      "refersTo": null,
+      "description": "Tracked uppercase section label; replaces bold section headings.",
+      "html": "<h2 class=\"ds-kicker\">Top Billed Cast</h2>",
+      "css": ".ds-kicker { font-size:.82rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:#8fb3c4; margin:0 0 1.2rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The backdrop is the page.",
+    "overview": "Flix is a dark, image-forward cinema catalog. Every screen sits in projection-booth darkness deepened from the original brand teal, so TMDB imagery carries all visual weight. Chrome recedes: nav floats over imagery on gradient scrims, sections are labeled with tracked kickers, and depth comes from layered translucency on one ground color. A single amber accent is reserved for the primary action, the rating, and active/brand punctuation; secondary text is always teal-tinted, never gray. Reference render: docs/design-concepts/concept-a-projection-room.html.",
+    "keyCharacteristics": [
+      "Full-bleed backdrop heroes under layered ground-colored scrims",
+      "Single dark ground; surfaces are translucent overlays or ramp steps",
+      "One amber accent with a strict three-job reservation",
+      "Teal-tinted secondary text; no neutral grays on the dark ground",
+      "Hairline uppercase display type; tracked uppercase kickers"
+    ],
+    "rules": [
+      { "name": "The Three-Job Amber Rule", "body": "Amber appears only as primary action, rating, and active/brand punctuation. A fourth job requires removing one of the three.", "section": "colors" },
+      { "name": "The No-Gray Rule", "body": "On the dark ground every gray is teal-tinted (text-muted or an rgba of the text color). Tailwind gray/slate/zinc utilities are banned in new code.", "section": "colors" },
+      { "name": "The Hairline Title Rule", "body": "Large titles use weight 200 and uppercase transform; hierarchy is weight and size contrast, not color.", "section": "typography" },
+      { "name": "The Scrim Rule", "body": "Text never sits on raw imagery; a ground-colored gradient scrim always mediates, strong enough to keep AA at the text position.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do put imagery under every hero and let the scrim system carry legibility.",
+      "Do tint all secondary text and translucent chrome from the teal/text family.",
+      "Do reserve amber for its three jobs and use accent-ink (#1c1302) for text on amber.",
+      "Do keep the two-radius system (0.75rem / 9999px) and 3rem icon-button hit targets.",
+      "Do ship visible :focus-visible amber rings on every interactive element."
+    ],
+    "donts": [
+      "Don't use Tailwind gray/slate/zinc utilities on the dark ground.",
+      "Don't introduce a second accent or use amber decoratively.",
+      "Don't place text on raw imagery without a scrim.",
+      "Don't use pure black or pure white as surfaces or text.",
+      "Don't reintroduce daisyUI classes or Font Awesome; icons are inline SVG (lucide-react)."
+    ]
+  }
+}
