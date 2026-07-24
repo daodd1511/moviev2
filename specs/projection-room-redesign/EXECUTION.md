@@ -13,7 +13,7 @@ Impeccable detector. Do not add a test framework as a side quest.
 
 ## STATUS
 
-- Current phase: 6 — done (local gate green; CI n/a per single-branch directive)
+- Current phase: 7 — done. **All phases complete.**
 - Phase 0 — deps-and-font: done
 - Phase 1 — tokens: done (superseded by Phase 2's Tailwind v4 retheme — index.css/tailwind.config.cjs from Phase 1 no longer exist as such; see Phase 2 for current token source of truth)
 - Phase 2 — ui-primitives: done
@@ -21,10 +21,11 @@ Impeccable detector. Do not add a test framework as a side quest.
 - Phase 4 — detail-pages: done
 - Phase 5 — browse-grids: done
 - Phase 6 — auth-user: done
-- Phase 5 — browse-grids: pending
-- Phase 6 — auth-user: pending
-- Phase 7 — cleanup-gates: pending
-- Verification debt: none
+- Phase 7 — cleanup-gates: done
+- Verification debt: no live-browser/keyboard/screen-reader pass was performed in any phase
+  this session (no browser tool was invoked) — every phase's "Review checklist" lane carries
+  this as an open item for the user. Final re-audit: **17/20** (target ≥16, met), a11y **3/4**
+  (target ≥3, met). See `docs/design-audit.md` → "Re-audit — After Projection Room Redesign".
 
 ## Phase 0 — deps-and-font
 
@@ -208,16 +209,17 @@ Kills the green/blue accent families and the remaining P1s (PLAN.md → "Phase 6
 
 Branch: `projection-room-redesign/phase-7-cleanup` (off `…/phase-6-auth`)
 
-- [ ] Delete legacy tokens: `cPrimary`, `h-withoutNavbar` (replace last usage per PLAN.md → "Phase 7"), unused theme remnants
-- [ ] `rg "gray-|slate-|zinc-|btn |btn-|base-100|fortawesome|cPrimary" apps/web/src` → empty
-- [ ] Run `/impeccable audit apps/web`; append dated "after" section to `docs/design-audit.md` (target ≥16/20, a11y ≥3/4)
-- [ ] Sync `DESIGN.md` with any token that changed during implementation
+- [x] Delete legacy tokens: `cPrimary`, `h-withoutNavbar` (replace last usage per PLAN.md → "Phase 7"), unused theme remnants — `h-withoutNavbar` had **11** usages, not the single one PLAN.md assumed (every per-page loading state); all replaced with `min-h-[60vh]`. `cPrimary`'s last two holdouts (`index.css` token def, `ProfileDropdown.tsx`'s logout-confirm "No" button) removed; the button now uses shadcn `Button` variants like every other confirm dialog in the app.
+- [x] `rg "gray-|slate-|zinc-|btn |btn-|base-100|fortawesome|cPrimary" apps/web/src` → **amended**: the literal pattern in this checklist item false-positives on `translate-x`/`translate-y` (substring match on `slate-`/`zinc-`... actually `slate-x`/`slate-y` from `translate-`). Ran the precise version instead: `` \b(bg|text|border|ring|from|to|via|divide|outline|fill|stroke|placeholder|decoration|caret|accent)-(gray|slate|zinc)-[0-9]+ `` plus separate exact-match checks for `cPrimary`/`btn`/`base-100`/`fortawesome`/`withoutNavbar` → all empty. Two full pages had never been touched by any earlier phase (`CastPage.tsx`, `Person.tsx` — heavy `gray-700` throughout, `bg-white` cards); rewrote both to tokens as part of this sweep.
+- [x] Ran the `impeccable` skill's `audit` playbook (not a CLI subcommand — `npx impeccable audit` doesn't exist, only `detect` does; the skill's `reference/audit.md` is a manual scoring rubric) against the full redesign. **17/20** (target ≥16, met) with a11y **3/4** (target ≥3, met). Dated "after" section appended to `docs/design-audit.md` with a before/after table mapping every original finding to its resolution, plus an honest "Known Remaining Gaps" section (no live-browser verification was performed in any phase this session).
+- [x] Synced `DESIGN.md`: added the shadcn semantic-slot mapping table (components read `primary`/`accent`/`muted`/etc., not the raw Projection Room token names directly — this wasn't documented when DESIGN.md was first written, before the shadcn pivot), corrected the icon-button hit-target rule to the two-tier system that actually shipped (48px spacious / 44px-minimum tight contexts, not a flat "3rem always"), added `TextField`/`Dialog`/`DropdownMenu` to the Components section, and noted the Tailwind v4 + shadcn/ui toolchain in the frontmatter description.
 
 **Agent gate (hard):**
-- [ ] `npm run build:web`
-- [ ] `npm run lint`
-- [ ] `npx -y impeccable detect apps/web/src` → zero findings
-- [ ] CI green on the phase PR
+- [x] `npm run build:web` — passes
+- [x] `npm run lint` — passes
+- [x] `npx -y impeccable detect apps/web/src` → zero findings (exit 0)
+- [x] Dev-server smoke check: 9 routes spanning every feature (`/movie/155`, `/tv/1399`, both discover pages, `/movie/155/cast`, `/person/6193`, both auth pages, `/list/new`) all HTTP 200
+- [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
 - [ ] Full keyboard pass: navbar → search → grid → detail → trailer dialog → auth form; no invisible focus, no trap losses

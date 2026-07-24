@@ -64,7 +64,7 @@ const ListDetailComponent = () => {
   };
 
   if (isLoading || isUserLoading) {
-    return <Loader className="h-withoutNavbar" />;
+    return <Loader className="min-h-[60vh]" />;
   }
 
   return (

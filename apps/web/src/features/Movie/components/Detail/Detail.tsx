@@ -37,7 +37,7 @@ const MovieDetailComponent = () => {
 
   if (isLoading) {
     return (
-      <div className="h-withoutNavbar">
+      <div className="min-h-[60vh]">
         <Loader />
       </div>
     );

@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import { AuthService } from '@/api/services/authService';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
@@ -31,7 +32,7 @@ export const ProfileDropdown = () => {
       <DropdownMenu>
         <DropdownMenuTrigger
           aria-label="Open profile menu"
-          className="flex h-10 w-10 items-center justify-center rounded-full text-white"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-foreground"
         >
           <User className="h-5 w-5" />
         </DropdownMenuTrigger>
@@ -51,16 +52,8 @@ export const ProfileDropdown = () => {
         <DialogContent className="sm:max-w-sm">
           <DialogTitle className="text-center">Do you want to log out?</DialogTitle>
           <div className="flex justify-center gap-2">
-            <button
-              type="button"
-              className="rounded-lg bg-cPrimary px-4 py-2 text-white"
-              onClick={() => setIsConfirmLogoutModalOpen(false)}
-            >No</button>
-            <button
-              type="button"
-              className="rounded-lg bg-red-500 px-4 py-2 text-white"
-              onClick={onConfirmButtonClick}
-            >Yes</button>
+            <Button variant="outline" onClick={() => setIsConfirmLogoutModalOpen(false)}>No</Button>
+            <Button variant="destructive" onClick={onConfirmButtonClick}>Yes</Button>
           </div>
         </DialogContent>
       </Dialog>

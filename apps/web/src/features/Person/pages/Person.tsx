@@ -62,7 +62,7 @@ const PersonComponent: FC = () => {
 
   if (isDetailLoading || isCreditsLoading) {
     return (
-      <div className="h-withoutNavbar">
+      <div className="min-h-[60vh]">
         <Loader />
       </div>
     );
@@ -111,12 +111,12 @@ const PersonComponent: FC = () => {
   return (
     <div className="p-5 md:p-10">
       <div className="mb-5 text-sm">
-        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-gray-400 [&>li:not(:first-child)]:before:content-['/']">
+        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-muted-foreground [&>li:not(:first-child)]:before:content-['/']">
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" className="text-primary hover:underline">Home</Link>
           </li>
-          <li>Person</li>
-          <li>{personDetail.name}</li>
+          <li className="text-muted-foreground">Person</li>
+          <li className="text-muted-foreground">{personDetail.name}</li>
         </ul>
       </div>
 
@@ -132,32 +132,32 @@ const PersonComponent: FC = () => {
 
         {/* Info section - matches height with image */}
         <div className="w-full md:w-2/3">
-          <h1 className="mb-4 text-3xl font-bold">{personDetail.name}</h1>
+          <h1 className="mb-4 text-3xl font-bold text-foreground">{personDetail.name}</h1>
 
           <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
             {formattedBirthday && (
               <div>
-                <h3 className="font-semibold text-gray-700">Born</h3>
-                <p>{formattedBirthday}</p>
+                <h3 className="font-semibold text-muted-foreground">Born</h3>
+                <p className="text-foreground">{formattedBirthday}</p>
               </div>
             )}
             {formattedDeathday && (
               <div>
-                <h3 className="font-semibold text-gray-700">Died</h3>
-                <p>{formattedDeathday}</p>
+                <h3 className="font-semibold text-muted-foreground">Died</h3>
+                <p className="text-foreground">{formattedDeathday}</p>
               </div>
             )}
             {personDetail.place_of_birth && (
               <div>
-                <h3 className="font-semibold text-gray-700">Place of Birth</h3>
-                <p>{personDetail.place_of_birth}</p>
+                <h3 className="font-semibold text-muted-foreground">Place of Birth</h3>
+                <p className="text-foreground">{personDetail.place_of_birth}</p>
               </div>
             )}
           </div>
 
           <div className="mb-6">
-            <h3 className="mb-2 font-semibold text-gray-700">Biography</h3>
-            <p className="whitespace-pre-line text-gray-700">
+            <h3 className="mb-2 font-semibold text-muted-foreground">Biography</h3>
+            <p className="whitespace-pre-line text-foreground">
               {displayBiography}
             </p>
             {isLongBiography && (

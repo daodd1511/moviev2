@@ -8,7 +8,7 @@ export const ListPage = () => {
   const { data, isLoading } = ListQueries.useAll();
 
   if (isLoading) {
-    return <Loader className="h-withoutNavbar"/>;
+    return <Loader className="min-h-[60vh]"/>;
   }
   return (
     <div className="px-8 py-12">

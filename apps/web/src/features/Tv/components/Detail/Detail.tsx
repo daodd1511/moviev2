@@ -36,7 +36,7 @@ const TvDetailComponent = () => {
   }, [id]);
 
   if (isLoading) {
-    return <Loader className="h-withoutNavbar"/>;
+    return <Loader className="min-h-[60vh]"/>;
   }
 
   if (isError) {

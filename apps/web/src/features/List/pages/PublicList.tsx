@@ -16,7 +16,7 @@ const PublicListComponent = () => {
   const { data, isLoading } = ListQueries.usePublicList(username, listId);
 
   if (isLoading) {
-    return <Loader className="h-withoutNavbar" />;
+    return <Loader className="min-h-[60vh]" />;
   }
 
   return (

@@ -18,9 +18,6 @@
   --color-body: #d9e7ee;
   --color-danger: #f0605d;
 
-  /* Legacy brand color — removed in Phase 7 once all pages migrate off it. */
-  --color-cPrimary: #023246;
-
   /* shadcn semantic slots, mapped onto Projection Room tokens. */
   --color-background: #041219;
   --color-foreground: #d9e7ee;
@@ -46,10 +43,6 @@
   --radius-sm: 0.75rem;
   --radius-md: 0.75rem;
   --radius-lg: 0.75rem;
-}
-
-@utility h-withoutNavbar {
-  height: calc(100vh - 4rem);
 }
 
 @utility grid-cols-autoFit {

@@ -1,6 +1,6 @@
 ---
 name: Flix
-description: A dark, image-forward movie and TV browsing app. Visual world — "Projection Room" — committed 2026-07-24; reference render at docs/design-concepts/concept-a-projection-room.html.
+description: A dark, image-forward movie and TV browsing app. Visual world — "Projection Room" — committed 2026-07-24; reference render at docs/design-concepts/concept-a-projection-room.html. Built on Tailwind v4 (CSS-first `@theme`, see src/index.css) and shadcn/ui (Radix primitives); component layer lives in apps/web/src/components/ui (shadcn-generated) and apps/web/src/shared/components/ui (custom compositions).
 colors:
   ground: "#041219"
   surface: "#07202e"
@@ -139,9 +139,26 @@ of the text color on the ground: `rgba(217,231,238,.08)` fill,
 - **Brand Teal** (#023246): the wordmark origin and the ramp's anchor; not used as a fill in the new world.
 - **Danger** (#f0605d): destructive confirms only, lightened for AA on the dark ground.
 
+### shadcn semantic slots
+Every shadcn/Radix component (`Button`, `Dialog`, `DropdownMenu`, `Sheet`, `Input`, `Label`)
+reads Tailwind's standard semantic slot names, mapped onto the tokens above — this mapping,
+not the raw hex values, is what components actually consume:
+
+| Slot | Maps to | Slot | Maps to |
+|---|---|---|---|
+| `background` / `foreground` | Ground / Text | `primary` / `primary-foreground` | Amber / Accent Ink |
+| `card`, `popover` (+ `-foreground`) | Surface Raised / Text | `secondary` (+ `-foreground`) | Surface / Text |
+| `muted` (+ `-foreground`) | Surface / Text Muted | `accent` (+ `-foreground`) | Surface Raised / Text |
+| `destructive` (+ `-foreground`) | Danger / Ground | `border`, `input` | Line |
+| `ring` | Amber | | |
+
+Note `accent` here is shadcn's own vocabulary for "subtle hover surface" (menu-item hover,
+etc.) — it is **not** the brand amber and must not be confused with it. This is why the Colors
+section above calls the brand color "Amber," never "accent," in prose.
+
 ### Named Rules
-**The Three-Job Amber Rule.** Amber appears only as: primary action, rating, active/brand punctuation. A fourth job requires removing one of the three.
-**The No-Gray Rule.** On the dark ground every "gray" is teal-tinted (text-muted or a text-color rgba). Tailwind gray/slate/zinc utilities must not appear in new code.
+**The Three-Job Amber Rule.** Amber (the `primary` slot) appears only as: primary action, rating, active/brand punctuation. A fourth job requires removing one of the three.
+**The No-Gray Rule.** On the dark ground every "gray" is teal-tinted (text-muted-foreground or a text-color rgba). Tailwind gray/slate/zinc utilities must not appear in new code.
 
 ## Typography
 
@@ -184,8 +201,10 @@ over any backdrop.
 ## Shapes
 
 Two radii only: 0.75rem for plates, cards, inputs, and panels; 9999px for
-pills (buttons, chips). Circular icon buttons are 3rem hit targets.
-No other radius values.
+pills (buttons, chips). Circular icon buttons are 3rem (48px) hit targets
+in spacious contexts (hero, nav) and no smaller than 2.75rem (44px, the
+WCAG minimum) in tight contexts (a grid-card corner control) — never below
+44px. No other radius values.
 
 ## Components
 
@@ -196,9 +215,10 @@ No other radius values.
 - **Cast card:** 2/3 portrait in a 0.75rem plate, name (label), character (muted); hover lifts image -4px.
 - **Rec card:** poster with a bottom ground-gradient caption overlay; hover scales image 1.05 inside the clipped plate.
 - **Rail header:** kicker left, amber text-link right ("View all →").
-- **Nav:** absolute over hero on detail pages (gradient scrim), solid ground elsewhere; wordmark "Flix." with amber period; active link full text color, inactive muted.
-- **Inputs:** translucent fill/border on ground, text color, amber focus ring via `:focus-visible`.
-- **Modal/dialog:** surface-raised panel, 0.75rem radius, ground/.8 backdrop; role="dialog", focus trap, Esc closes.
+- **Nav:** `fixed` overlay over the hero on detail routes (gradient scrim, auto-selected by matching the route against `/^\/(movie|tv)\/\d+$/`), static solid ground elsewhere; wordmark "Flix." with amber period; active link full text color, inactive muted. Movie/TV Shows are `DropdownMenu` triggers; mobile nav is a `Sheet` (right-side drawer).
+- **Text field:** label + input pair (`shared/components/ui/TextField`), label always associated via `useId` when no id is passed. Translucent fill/border on ground, amber focus ring via `:focus-visible`.
+- **Dialog:** shadcn's Radix `Dialog` (`components/ui/dialog`) — surface-raised panel, `role="dialog"`, real focus trap, Esc closes, backdrop click closes. Every use gives it a `DialogTitle` (visually hidden via `sr-only` where no heading is wanted, e.g. the trailer/full-size-image dialogs).
+- **Dropdown menu:** shadcn's Radix `DropdownMenu` (`components/ui/dropdown-menu`) — owns its own `aria-expanded`/id state, closes on Esc/outside-click/item-select. Used for the navbar's Movie/TV menus, the profile menu, and the shared add-to-list menu (`shared/components/List/Menu.tsx`, whose "Add to list" panel is a `DropdownMenuSub`).
 
 ## Motion
 

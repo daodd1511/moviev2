@@ -10,6 +10,7 @@ import { assertNonNull, goToTop } from '@/shared/utils';
 import { Loader } from '@/shared/components';
 import { MovieDetail, TvDetail } from '@/models';
 import { PosterSizes, ProfileSizes } from '@/shared/enums';
+import { Kicker } from '@/shared/components/ui/Kicker';
 
 const CastPageComponent = () => {
   const { mediaType, id } = useParams();
@@ -18,10 +19,8 @@ const CastPageComponent = () => {
 
   const mediaId = parseInt(id, 10);
 
-  // Determine if it's a movie or TV show
   const isMovie = mediaType === MediaType.Movie;
 
-  // Fetch media data and credits based on media type
   const {
     data: media,
     isLoading: isMediaLoading,
@@ -44,7 +43,7 @@ const CastPageComponent = () => {
 
   if (isMediaLoading || isCreditsLoading) {
     return (
-      <div className="h-withoutNavbar">
+      <div className="min-h-[60vh]">
         <Loader />
       </div>
     );
@@ -54,13 +53,11 @@ const CastPageComponent = () => {
     return <NotFound />;
   }
 
-  // Get media title based on type
   const title = isMovie ? (media as MovieDetail).title : (media as TvDetail).name;
   const posterPath = isMovie ? (media as MovieDetail).posterPath : (media as TvDetail).posterPath;
   const releaseDate = isMovie ? (media as MovieDetail).releaseDate : (media as TvDetail).firstAirDate;
   const formattedReleaseDate = new Date(releaseDate);
 
-  // Format release date
   const formattedDate = releaseDate !== '' ?
     formattedReleaseDate.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -72,79 +69,75 @@ const CastPageComponent = () => {
   return (
     <div className="p-5 md:p-10">
       <div className="mb-5 text-sm">
-        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-gray-400 [&>li:not(:first-child)]:before:content-['/']">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to={`/${mediaType}`}>{isMovie ? 'Movies' : 'TV Shows'}</Link></li>
-          <li><Link to={`/${mediaType}/${mediaId}`}>{title}</Link></li>
-          <li>Cast & Crew</li>
+        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-muted-foreground [&>li:not(:first-child)]:before:content-['/']">
+          <li><Link to="/" className="text-primary hover:underline">Home</Link></li>
+          <li><Link to={`/${mediaType}`} className="text-primary hover:underline">{isMovie ? 'Movies' : 'TV Shows'}</Link></li>
+          <li><Link to={`/${mediaType}/${mediaId}`} className="text-primary hover:underline">{title}</Link></li>
+          <li className="text-muted-foreground">Cast &amp; Crew</li>
         </ul>
       </div>
 
-      {/* Header with basic info */}
-      <div className="mb-10">
-        <div className="flex flex-row items-center justify-start gap-8 ">
-          <img
-            src={posterPath !== null ? `https://image.tmdb.org/t/p/${PosterSizes.extraLarge}${posterPath}` : '/images/no-image.png'}
-            alt={`${title} poster`}
-            className="w-20 rounded-lg shadow-lg"
-          />
-          <div className="w-full md:w-3/4">
-            <h1 className="text-3xl font-bold mb-4">{title}</h1>
-            {formattedDate !== '' && (
-              <p className="text-gray-600 mb-2">{formattedDate}</p>
-            )}
-          </div>
+      <div className="mb-10 flex flex-row items-center justify-start gap-8">
+        <img
+          src={posterPath !== null ? `https://image.tmdb.org/t/p/${PosterSizes.extraLarge}${posterPath}` : '/images/no-image.png'}
+          alt={`${title} poster`}
+          className="w-20 rounded-md shadow-lg"
+        />
+        <div className="w-full md:w-3/4">
+          <h1 className="mb-4 text-3xl font-bold text-foreground">{title}</h1>
+          {formattedDate !== '' && (
+            <p className="mb-2 text-muted-foreground">{formattedDate}</p>
+          )}
         </div>
       </div>
 
-      {/* Cast and Crew sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
-        {/* Cast Section */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold mb-6 border-b pb-3">Cast</h2>
+      <div className="grid grid-cols-1 gap-8 pb-10 md:grid-cols-2">
+        <div className="rounded-md border border-border bg-card p-6">
+          <Kicker className="border-b border-border pb-3">Cast</Kicker>
           <div className="space-y-4">
             {credits.cast.map((person, idx) => (
               <Link
                 key={`${person.id}-${idx}`}
                 to={`/person/${person.id}`}
-                className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors block"
+                className="flex items-center gap-4 rounded-md p-3 transition-colors hover:bg-accent"
               >
-                <div className="w-16 h-16 flex-shrink-0">
+                <div className="h-16 w-16 flex-shrink-0">
                   <img
                     src={person.profilePath !== null ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}` : '/images/no-profile.png'}
                     alt={person.name}
-                    className="w-full h-full object-cover rounded-full"
+                    loading="lazy"
+                    className="h-full w-full rounded-full object-cover"
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold truncate">{person.name}</p>
-                  <p className="text-gray-600 truncate">{person.character}</p>
+                  <p className="truncate font-semibold text-foreground">{person.name}</p>
+                  <p className="truncate text-muted-foreground">{person.character}</p>
                 </div>
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Crew Section */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold mb-6 border-b pb-3">Crew</h2>
+        <div className="rounded-md border border-border bg-card p-6">
+          <Kicker className="border-b border-border pb-3">Crew</Kicker>
           <div className="space-y-4">
             {credits.crew.map((person, idx) => (
               <Link
                 key={`${person.id}-${idx}`}
                 to={`/person/${person.id}`}
-                className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors block"
+                className="flex items-center gap-4 rounded-md p-3 transition-colors hover:bg-accent"
               >
-                <div className="w-16 h-16 flex-shrink-0">
+                <div className="h-16 w-16 flex-shrink-0">
                   <img
                     src={person.profilePath !== null ? `https://image.tmdb.org/t/p/${ProfileSizes.medium}${person.profilePath}` : '/images/no-profile.png'}
                     alt={person.name}
-                    className="w-full h-full object-cover rounded-full"
+                    loading="lazy"
+                    className="h-full w-full rounded-full object-cover"
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold truncate">{person.name}</p>
-                  <p className="text-gray-600 truncate">{person.job}</p>
+                  <p className="truncate font-semibold text-foreground">{person.name}</p>
+                  <p className="truncate text-muted-foreground">{person.job}</p>
                 </div>
               </Link>
             ))}

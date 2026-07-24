@@ -219,4 +219,79 @@ Baseline technical audit of the current implementation. Read-only assessment; no
 > You can ask me to run these one at a time, all at once, or in any order you prefer.
 >
 > Re-run `/impeccable audit` after fixes to see your score improve.
+
+---
+
+# Re-audit — After Projection Room Redesign (2026-07-24)
+
+Full redesign executed per `specs/projection-room-redesign/PLAN.md`/`EXECUTION.md`, phases 0–7,
+against the "Projection Room" world (dark, image-forward, single amber accent). Deterministic
+detector (`npx impeccable detect apps/web/src`) exits 0 (no findings) as of this section.
+Verification note: build/lint/detector are static checks, and routes were smoke-checked via a
+local dev server (all HTTP 200) — no live browser/axe/visual-regression pass ran this session;
+treat the a11y/responsive scores below as code-level assessment, not a substitute for a manual
+keyboard/screen-reader walk.
+
+## Audit Health Score
+
+| # | Dimension | Score | Key Finding |
+|---|-----------|-------|-------------|
+| 1 | Accessibility | 3 | Labels associated (`useId`) everywhere; Radix `Dialog`/`DropdownMenu` give real focus trap, Esc, `aria-expanded`; global focus ring; icon buttons ≥44px. No live browser a11y-tree/keyboard walk performed this session. |
+| 2 | Performance | 3 | Scroll-listener leak fixed (rAF-throttled + cleanup); `loading="lazy"` on all grid/rail/search images. No render-profiling or bundle-diet pass. |
+| 3 | Responsive Design | 3 | Mobile `Sheet` nav, hero flex-col→row breakpoints, `autoFit` grids, auth side-panel hides below `xl`. Not manually verified at real device widths. |
+| 4 | Theming | 4 | Full CSS-variable token system (Tailwind v4 `@theme`); one dark world, no light/dark divergence to break; zero raw hex in application code outside the token definitions. |
+| 5 | Implementation Integrity | 4 | Detector clean repo-wide; one consistent design language end-to-end (shell, detail, browse, auth, list); Three-Job Amber Rule and No-Gray Rule hold with no exceptions found. |
+| **Total** | | **17/20** | **Good (address weak dimensions)** — target was ≥16/20 with a11y ≥3/4; both met. |
+
+## Implementation Integrity Verdict
+
+**Pass.** Every surface — app shell, movie/TV detail, browse grids, auth, list management —
+now shares one token source of truth (`src/index.css`'s `@theme` block, mirrored in
+`DESIGN.md`). daisyUI and Font Awesome are fully removed (Phase 0); the three competing accent
+families collapsed into the single amber `primary` token; the lorem-ipsum/broken-image auth
+panels are gone. The Movie/TV detail pages, built directly against the approved concept render,
+are the strongest expression of the world; the utility pages (`CastPage`, `Person`, list CRUD)
+are simpler by design (no hero — they're Operate-mode wayfinding pages, not entertainment
+surfaces) but use the identical token vocabulary, not a divergent one.
+
+## What Changed, by Original Finding
+
+| Original finding | Resolution |
+|---|---|
+| Unassociated form labels (P1) | `TextField` (Phase 2) and inline `useId` pairs on every remaining raw `<label>`/`<select>`/`<textarea>` |
+| Modal `aria-hidden` traps interactive content (P1) | `shared/components/Modal.tsx` deleted; replaced by shadcn's Radix `Dialog` everywhere (6 call sites) |
+| `text-gray-100` on `bg-green-400`, ~1.5:1 contrast (P1) | `LoginForm`/`RegisterForm` rebuilt on `Button`'s `bg-primary text-primary-foreground` (amber/accent-ink) |
+| Un-throttled, unremoved scroll listener (P1) | Extracted `useScrollThreshold` (rAF-throttled, `removeEventListener` cleanup); used by both `MoviesPage` and `TVsPage` (same bug existed in both) |
+| Zero image lazy-loading (P1) | `loading="lazy"` on every grid/rail/search/cast image |
+| daisyUI classes with `themes: false` (P1) | daisyUI uninstalled (Phase 0); Tailwind v4 native `@theme` token system |
+| Three competing accent families (P1) | One amber `primary` token; Three-Job Amber Rule (primary action / rating / active-brand punctuation) documented and held to |
+| Sub-44px touch targets (P2) | Icon buttons standardized to 44–48px depending on context (grid-card corner vs. hero/nav) |
+| Duplicate DOM ids / missing `aria-expanded` (P2) | Navbar rebuilt from scratch on shadcn `DropdownMenu` (Radix-managed ids and state) |
+| Lorem-ipsum + broken `<img src="">` (P2) | Real per-page copy + real TMDB backdrop imagery (`alt=""`, decorative) |
+| Commented-out Filter feature (P3) | Restyled to tokens (labels associated, react-select themed) per Phase 5's explicit scope; **not** re-enabled — that's a feature decision, out of a redesign's scope |
+| Stub Profile page (P3) | Left minimal by design — no content to show beyond username; not a styling defect |
+
+## Known Remaining Gaps
+
+- **No live browser verification.** Every phase's gate was build + lint + deterministic
+  detector + dev-server HTTP-200 route checks. A real keyboard-only walk, screen-reader pass,
+  and visual check at real breakpoints have not been done — flagged in every phase's review
+  checklist as the user's remaining step.
+- **`CastPage`/`Person`** were the last files touched (Phase 7 sweep) and are simpler than the
+  concept-driven detail pages — functional and on-token, but not individually art-directed
+  against the concept file the way Movie/TV detail were.
+- **Bundle size** grew with the shadcn/Radix/Tailwind v4 toolchain switch; not measured against
+  a budget this session.
+- **ESLint/TypeScript stayed pinned** (8.x / 4.8) through the whole redesign — see
+  `PLAN.md` → "Stack decision" for why, and the `apps/web/.npmrc` `legacy-peer-deps` workaround
+  it required.
+
+## Recommended Actions
+
+1. **[P2] `/impeccable critique`** — a UX heuristic pass now that the technical audit is clean; catches things this dimension-scored audit doesn't (information architecture, flow).
+2. **[P2] Manual QA** — real browser keyboard/screen-reader walk per every phase's outstanding review-checklist item.
+3. **[P3] `/impeccable optimize`** — bundle-size pass now that shadcn/Radix/Tailwind v4 are in.
+4. **[P3] `/impeccable shape`** — decide whether `CastPage`/`Person` warrant their own concept-level treatment or stay utility-simple.
+
+> Re-run `/impeccable audit` after any further changes to confirm the score holds.
 </content>
