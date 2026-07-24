@@ -1,14 +1,14 @@
-/* eslint-disable max-lines-per-function */
 import { memo, useMemo, useState } from 'react';
-import { List as ListIcon, Play } from 'lucide-react';
+import { List as ListIcon, Play, Star } from 'lucide-react';
 
 import { MovieDetail, Credits, Video } from '@/models';
 import { formatToYear } from '@/shared/utils';
 import { Menu } from '@/shared/components/List/Menu';
 import { MediaMapper } from '@/api/mappers/media.mapper';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Chip } from '@/shared/components/ui/Chip';
 
-// Utility for formatting runtime
 const toHoursAndMinutes = (minutes: number | null): string => {
   if (minutes === null) {
     return '';
@@ -37,118 +37,85 @@ const ContentComponent = ({ movie, credits }: Props) => {
 
   const trailerKey = getTrailerKey(movie.videos);
 
-  // Memoize derived data
-  const directors = useMemo(
-    () => credits?.crew?.filter(({ job }) => job === 'Director') ?? [],
+  const director = useMemo(
+    () => credits?.crew?.find(({ job }) => job === 'Director'),
     [credits],
   );
 
-  const movieInfoText = useMemo(() => {
-    const rating = movie.voteAverage.toFixed(1);
-    const runtime = toHoursAndMinutes(movie.runtime);
-    const year = formatToYear(movie.releaseDate);
-    return `${rating} / ${runtime} / ${year}`;
-  }, [movie.voteAverage, movie.runtime, movie.releaseDate]);
+  const runtime = toHoursAndMinutes(movie.runtime);
+  const year = formatToYear(movie.releaseDate);
 
   return (
-    <div className="pb-8">
-      {/* Header */}
-      <header className="mb-8">
-        <h1 className="mb-2 text-5xl font-extralight text-slate-700">
-          {movie.title.toUpperCase()}
-        </h1>
-        <h2 className="mb-2 text-lg font-bold text-slate-700">
-          {movie.tagline.toUpperCase()}
-        </h2>
-        <p className="text-slate-400">{movieInfoText}</p>
+    <div className="relative z-2 pb-3.5">
+      <p className="mb-4 text-[0.82rem] font-medium uppercase tracking-[0.2em] text-primary">
+        Now Showing
+      </p>
+      <h1 className="mb-2.5 text-[clamp(2.6rem,6vw,5rem)] font-extralight uppercase leading-[1.02] tracking-[0.015em] text-foreground">
+        {movie.title}
+      </h1>
+      {movie.tagline !== '' && (
+        <p className="mb-5 italic text-muted-foreground">{movie.tagline}</p>
+      )}
+      <p className="mb-7 flex flex-wrap items-center gap-4 text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5 font-medium text-primary">
+          <Star className="h-4 w-4 fill-current" />
+          {movie.voteAverage.toFixed(1)}
+        </span>
+        {runtime !== '' && (
+          <>
+            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border" />
+            <span>{runtime}</span>
+          </>
+        )}
+        <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border" />
+        <span>{year}</span>
+        {director != null && (
+          <>
+            <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border" />
+            <span>{director.name}</span>
+          </>
+        )}
+      </p>
 
-        {/* Menu button */}
-        <div className="flex gap-4 items-center pt-4">
-          <Menu
-            media={MediaMapper.fromMovie(movie)}
-            triggerLabel="Toggle movie menu"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-white transition hover:bg-cPrimary/90"
-            trigger={<ListIcon className="h-4 w-4" />}
-          />
-          <div>
-            <button
-              type="button"
-              className="h-10 w-28 rounded-full border border-gray-800 text-xs transition-all hover:-translate-y-0.5 hover:bg-gray-800 hover:text-white"
-              onClick={() => setIsWatchTrailer(true)}
-            >
-              Trailer <Play className="ml-1 inline h-3.5 w-3.5" />
-            </button>
-            {trailerKey !== '' && (
-              <Dialog open={isWatchTrailer} onOpenChange={setIsWatchTrailer}>
-                <DialogContent className="w-[80vw] max-w-7xl border-0 bg-transparent p-0 shadow-none ring-0">
-                  <DialogTitle className="sr-only">{movie.title} trailer</DialogTitle>
-                  <div className="aspect-video">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${trailerKey}`}
-                      title="Trailer"
-                      className="h-full w-full rounded-lg"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                </DialogContent>
-              </Dialog>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* Genres */}
       {movie.genres.length > 0 && (
-        <section className="pb-8">
-          <h3 className="mb-2 text-lg font-medium">Genres</h3>
-          <ul className="flex flex-wrap gap-2">
-            {movie.genres.map(({ id, name }) => (
-              <li
-                key={id}
-                className="cursor-pointer rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500 transition duration-200 hover:bg-gray-100 active:bg-gray-200"
-              >
-                {name}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ul className="mb-8 flex flex-wrap gap-3">
+          {movie.genres.map(({ id, name }) => (
+            <li key={id}>
+              <Chip>{name}</Chip>
+            </li>
+          ))}
+        </ul>
       )}
 
-      {/* Overview */}
-      <section className="pb-8">
-        <h3 className="mb-2 text-lg font-medium">Overview</h3>
-        <p className="font-light leading-relaxed">{movie.overview}</p>
-      </section>
+      <div className="flex items-center gap-4">
+        {trailerKey !== '' && (
+          <Button onClick={() => setIsWatchTrailer(true)}>
+            <Play className="h-4 w-4" /> Watch Trailer
+          </Button>
+        )}
+        <Menu
+          media={MediaMapper.fromMovie(movie)}
+          triggerLabel="Add to list"
+          className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.08] text-foreground transition-colors hover:border-white/40 hover:bg-white/[0.16]"
+          trigger={<ListIcon className="h-4 w-4" />}
+        />
+      </div>
 
-      {/* Directors */}
-      {directors.length > 0 && (
-        <section className="pb-8">
-          <h3 className="mb-2 text-lg font-medium">
-            Director{directors.length > 1 ? 's' : ''}
-          </h3>
-          <ul className="space-y-2">
-            {directors.map(director => {
-              const otherRoles =
-                credits?.crew
-                  ?.filter(
-                    crew => crew.id === director.id && crew.job !== 'Director',
-                  )
-                  .map(crew => crew.job) ?? [];
-
-              return (
-                <li key={director.id} className="flex flex-wrap items-center">
-                  <span className="font-semibold">{director.name}</span>
-                  {otherRoles.length > 0 && (
-                    <span className="ml-2 text-gray-600">
-                      ({otherRoles.join(', ')})
-                    </span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </section>
+      {trailerKey !== '' && (
+        <Dialog open={isWatchTrailer} onOpenChange={setIsWatchTrailer}>
+          <DialogContent className="w-[80vw] max-w-7xl border-0 bg-transparent p-0 shadow-none ring-0">
+            <DialogTitle className="sr-only">{movie.title} trailer</DialogTitle>
+            <div className="aspect-video">
+              <iframe
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                title="Trailer"
+                className="h-full w-full rounded-md"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );

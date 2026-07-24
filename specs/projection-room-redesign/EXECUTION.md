@@ -13,12 +13,12 @@ Impeccable detector. Do not add a test framework as a side quest.
 
 ## STATUS
 
-- Current phase: 3 — done (local gate green; CI n/a per single-branch directive)
+- Current phase: 4 — done (local gate green; CI n/a per single-branch directive)
 - Phase 0 — deps-and-font: done
 - Phase 1 — tokens: done (superseded by Phase 2's Tailwind v4 retheme — index.css/tailwind.config.cjs from Phase 1 no longer exist as such; see Phase 2 for current token source of truth)
 - Phase 2 — ui-primitives: done
 - Phase 3 — app-shell: done
-- Phase 4 — detail-pages: pending
+- Phase 4 — detail-pages: done
 - Phase 5 — browse-grids: pending
 - Phase 6 — auth-user: pending
 - Phase 7 — cleanup-gates: pending
@@ -135,20 +135,22 @@ Branch: `projection-room-redesign/phase-4-detail` (off `…/phase-3-shell`)
 
 The signature surfaces; match the concept render (PLAN.md → "Phase 4").
 
-- [ ] Movie detail (`features/Movie/components/Detail/`): full-bleed backdrop hero + scrims + drift animation (reduced-motion guarded), poster plate, Display title, amber rating, `Chip` genres, primary trailer `Button` → `Dialog`, ghost `IconButton`s; surface-color fallback when `backdropPath` null
-- [ ] Same layout for TV detail (`features/Tv/…`), incl. seasons section restyle
-- [ ] `shared/components/Cast/Cast.tsx` → horizontal rail; replace `window.location.pathname` routing with router APIs
-- [ ] `shared/components/Recommend.tsx` → 5-up/2-up gradient-caption grid
-- [ ] Delete daisyUI breadcrumbs from detail pages
+- [x] Movie detail (`features/Movie/components/Detail/`): full-bleed backdrop hero + scrims + drift animation (reduced-motion guarded), poster plate, Display title, amber rating, `Chip` genres, primary trailer `Button` → `Dialog`, ghost `IconButton`s; surface-color fallback when `backdropPath` null — restructured into hero (`Detail.tsx`: backdrop/scrim/`PosterPlate`/`Content`) + below-hero band (new `Overview.tsx`: overview text + `FactList` of director/release/runtime/language/status). `animate-hero-drift` keyframes added to `index.css` (`prefers-reduced-motion` guarded). Poster click still opens the full-size `Dialog` (kept from the incumbent, not in the concept mockup but a real existing feature).
+- [x] Same layout for TV detail (`features/Tv/…`), incl. seasons section restyle — mirrored Movie's structure; new `Seasons.tsx` rail (poster + name + episode count, horizontal scroll) since TV never rendered seasons before this phase. TV's `Overview.tsx` facts use First Air Date/Seasons/Original Language, **not** Director/Runtime/Status — the `Tv`/`TvDetail` models don't carry those fields (TMDB TV credits don't reliably yield a "Director" crew job, and there's no `status`/`runtime` on the model); inventing them would mean fabricated data, so the two `Overview` components are intentionally not identical.
+- [x] `shared/components/Cast/Cast.tsx` → horizontal rail; replace `window.location.pathname` routing with router APIs — went further than `useParams`: `mediaType`/`mediaId` are now explicit required props from the parent (Detail.tsx already knows them), so `Cast` no longer does any routing inference at all, not even a hook-based one.
+- [x] `shared/components/Recommend.tsx` → 5-up/2-up gradient-caption grid — own card style (gradient caption overlay), intentionally distinct from `MediaListItem`'s bordered-badge card (that one is Phase 5's browse-grid concern).
+- [x] Delete daisyUI breadcrumbs from detail pages — removed entirely (not just de-classed) from Movie/TV `Detail.tsx`; nav + backdrop context replaces them per the concept. `CastPage.tsx`/`Person.tsx` still have breadcrumbs — out of Phase 4's listed scope, left for Phase 7's sweep (those files are still light-mode/gray throughout and need a full pass, not a breadcrumb-only edit).
 
 **Agent gate (hard):**
-- [ ] `npm run build:web`
-- [ ] `npm run lint`
-- [ ] `npx -y impeccable detect apps/web/src/features` → no new findings in touched files
-- [ ] CI green on the phase PR
+- [x] `npm run build:web` — passes
+- [x] `npm run lint` — passes
+- [x] `npx -y impeccable detect` on touched Movie/Tv/Cast/Recommend/Chip files → clean (exit 0)
+- [x] Dev-server smoke check: `/movie/155` and `/tv/1399` both return HTTP 200, zero TypeScript errors from the checker plugin (amended check — no CI, no browser tool available this session, so this is the closest runtime signal beyond static checks)
+- [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
 - [ ] Movie + TV detail match `concept-a-projection-room.html` at 1440px and 390px; trailer dialog keyboard-accessible; null-poster/backdrop titles render acceptably
+- [ ] Real visual/interaction check in a browser — not done this phase (no browser tool invoked); build/lint/detector/dev-server-200 are static/shell checks only, not a substitute
 
 **On completion:** as Phase 0.
 

@@ -60,6 +60,22 @@
   grid-template-columns: repeat(auto-fit, minmax(0, 12rem));
 }
 
+/* Detail-page hero backdrop: the one authored motion moment (DESIGN.md → Motion). */
+@keyframes hero-drift {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+@utility animate-hero-drift {
+  animation: hero-drift 40s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-drift {
+    animation: none;
+  }
+}
+
 pre {
   white-space: pre-wrap;       /* Since CSS 2.1 */
   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */

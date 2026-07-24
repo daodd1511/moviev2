@@ -1,18 +1,19 @@
-import { memo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { memo, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { Content } from './components';
+import { Content, Overview, Seasons } from './components';
 
 import { Cast } from '@/shared/components/Cast';
 
-import { assertNonNull } from '@/shared/utils';
+import { assertNonNull, goToTop } from '@/shared/utils';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Footer, Loader } from '@/shared/components';
-import { PosterSizes } from '@/shared/enums';
+import { BackdropSizes, PosterSizes } from '@/shared/enums';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { TvQueries } from '@/stores/queries/tvQueries';
 import { MediaType } from '@/shared/enums/mediaType';
 import { Recommend } from '@/shared/components/Recommend';
+import { PosterPlate } from '@/shared/components/ui/PosterPlate';
 
 const TvDetailComponent = () => {
   const { id } = useParams();
@@ -30,15 +31,19 @@ const TvDetailComponent = () => {
     data: credits,
   } = TvQueries.useCredits(tvId);
 
+  useEffect(() => {
+    goToTop();
+  }, [id]);
+
   if (isLoading) {
     return <Loader className="h-withoutNavbar"/>;
-}
+  }
 
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
 
-  const imageURL =
+  const posterUrl =
     tv.posterPath !== null ?
       `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${tv.posterPath}` :
       '/images/no-image.png';
@@ -46,34 +51,47 @@ const TvDetailComponent = () => {
     tv.posterPath !== null ?
       `${IMAGE_BASE_URL}${PosterSizes.original}${tv.posterPath}` :
       '/images/no-image.png';
+  const backdropUrl =
+    tv.backdropPath != null ?
+      `${IMAGE_BASE_URL}${BackdropSizes.original}${tv.backdropPath}` :
+      null;
+
   return (
-    <div className="p-5 md:p-10 relative">
-      <div className="text-sm">
-        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-gray-400 [&>li:not(:first-child)]:before:content-['/']">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/tv">Tv shows</Link></li>
-          <li>{tv.name}</li>
-        </ul>
-      </div>
-      <div className="flex flex-col md:flex-row md:justify-between pt-5 md:pt-10">
-        <div className="max-w-[100%] md:max-w-[30%] p-5 md:p-10">
-          <img
-            src={imageURL}
-            alt={`${tv.name} image`}
-            className="max-w-full cursor-zoom-in rounded-xl shadow-2xl"
+    <div className="relative">
+      <section className="relative flex min-h-[92vh] items-end overflow-hidden" aria-labelledby="tv-title">
+        {backdropUrl != null ?
+          (
+            <div
+              role="img"
+              aria-label={`${tv.name} backdrop`}
+              className="animate-hero-drift absolute inset-0 bg-cover"
+              style={{ backgroundImage: `url(${backdropUrl})`, backgroundPosition: 'center 20%' }}
+            />
+          ) :
+          <div className="absolute inset-0 bg-surface" />}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/35 to-transparent" />
+        <div className="relative z-2 mx-auto flex w-full max-w-[82rem] flex-col items-start gap-8 px-4 pb-14 pt-32 md:flex-row md:items-end md:px-12">
+          <button
+            type="button"
+            aria-label={`View full size poster for ${tv.name}`}
+            className="w-40 shrink-0 cursor-zoom-in md:w-60"
             onClick={() => setIsFullSizeImage(true)}
-          />
+          >
+            <PosterPlate src={posterUrl} alt={`${tv.name} poster`} />
+          </button>
+          <Content tv={tv} />
         </div>
-        <div className="max-w-[100%] md:max-w-[60%] p-5 md:p-10">
-          <Content tv={tv}/>
-        </div>
-      </div>
-      {(credits != null) && (
-        <div className="p-5 md:p-10">
-          <Cast credits={credits} />
-        </div>
-      )}
-      <Recommend mediaId={tv.id} mediaType={MediaType.Tv}/>
+      </section>
+
+      <main className="mx-auto max-w-[82rem] px-4 md:px-12">
+        <Overview tv={tv} />
+        <Seasons seasons={tv.seasons} />
+        {credits != null && (
+          <Cast credits={credits} mediaType={MediaType.Tv} mediaId={tv.id} />
+        )}
+        <Recommend mediaId={tv.id} mediaType={MediaType.Tv} />
+      </main>
       <Footer />
 
       <Dialog open={isFullSizeImage} onOpenChange={setIsFullSizeImage}>
