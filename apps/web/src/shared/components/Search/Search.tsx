@@ -40,7 +40,7 @@ const SearchComponent = () => {
           ref={searchInputRef}
           type="search"
           value={searchQuery}
-          className={`block h-10 w-full rounded-lg bg-gray-50 text-gray-900 outline-none ${
+          className={`block h-10 w-full rounded-md border border-input bg-white/[0.08] text-foreground outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
             isSearchBarOpen ? 'px-3' : 'px-0'
           }`}
           placeholder="Search Movies, TVs"
@@ -48,9 +48,9 @@ const SearchComponent = () => {
           onChange={onSearchChange}
         />
         {searchQuery !== '' && (
-          <div className="absolute top-16 z-20 h-80 w-full overflow-auto overflow-x-hidden rounded-lg bg-white shadow-xl">
+          <div className="absolute top-12 right-0 z-20 h-80 w-[280px] overflow-auto overflow-x-hidden rounded-md border border-border bg-popover shadow-xl md:w-[400px]">
             {isLoading && <Loader />}
-            {isError && <div>Error: {error.message}</div>}
+            {isError && <div className="p-4 text-sm text-destructive">Error: {error.message}</div>}
             {data?.map(result => (
               <SearchResult
                 key={result.id}
@@ -63,7 +63,8 @@ const SearchComponent = () => {
       </div>
       <button
         type="button"
-        className="px-3 text-xl"
+        aria-label={isSearchBarOpen ? 'Close search' : 'Open search'}
+        className="flex h-12 w-12 items-center justify-center text-foreground"
         onClick={onSearchButtonClick}
       >
         {isSearchBarOpen ?

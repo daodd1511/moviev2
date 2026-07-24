@@ -13,11 +13,11 @@ Impeccable detector. Do not add a test framework as a side quest.
 
 ## STATUS
 
-- Current phase: 2 — done (local gate green; CI n/a per single-branch directive)
+- Current phase: 3 — done (local gate green; CI n/a per single-branch directive)
 - Phase 0 — deps-and-font: done
 - Phase 1 — tokens: done (superseded by Phase 2's Tailwind v4 retheme — index.css/tailwind.config.cjs from Phase 1 no longer exist as such; see Phase 2 for current token source of truth)
 - Phase 2 — ui-primitives: done
-- Phase 3 — app-shell: pending
+- Phase 3 — app-shell: done
 - Phase 4 — detail-pages: pending
 - Phase 5 — browse-grids: pending
 - Phase 6 — auth-user: pending
@@ -113,17 +113,19 @@ Branch: `projection-room-redesign/phase-3-shell` (off `…/phase-2-primitives`)
 
 Shell frames every page; rebuilt from scratch, not adapted (PLAN.md → "Phase 3").
 
-- [ ] Rebuild `shared/components/Navbar/` from scratch: `overlay`/`solid` modes, "Flix." wordmark, `Dropdown`-based Movie/TV menus (fixes duplicate IDs, audit #10), ≥3rem mobile menu button
-- [ ] Restyle `Search` (keep expand behavior; surface-raised results panel, visible focus)
-- [ ] Restyle `Footer`, `NotFound`, error states to tokens
+- [x] Rebuild `shared/components/Navbar/` from scratch: `overlay`/`solid` modes, "Flix." wordmark, `Dropdown`-based Movie/TV menus (fixes duplicate IDs, audit #10), ≥3rem mobile menu button — `overlay` (fixed, gradient scrim) auto-selected via route match on `/^\/(movie|tv)\/\d+$/` (detail pages), `solid` (static, `border-b border-border bg-background`) everywhere else. Movie/TV menus use shadcn `DropdownMenu` (Radix owns `aria-expanded`/unique ids). Mobile nav uses shadcn `Sheet` (added via `npx shadcn add sheet`) instead of the old inline-expand panel — proper focus trap, `SheetClose` auto-dismisses on link click. `ProfileDropdown`'s old `useState` menu (Phase 0 stopgap) now folds into the same `DropdownMenu` pattern used app-wide.
+- [x] Restyle `Search` (keep expand behavior; surface-raised results panel, visible focus) — field: `border-input bg-white/[0.08]` + `focus-visible:ring-ring/50`; results panel: `bg-popover border-border`; icon-button hit target bumped 40px→48px (audit #9); result rows themed (`hover:bg-accent`, movie/tv badge on `primary`/`secondary`), poster images now `loading="lazy"`.
+- [x] Restyle `Footer`, `NotFound`, error states to tokens — `NotFound` fully rewritten: dropped the dead Bootstrap `row/col-sm-*` grid and the external dribbble.com GIF dependency (`NotFound.css` deleted) for a tokened kicker/display/CTA layout using the shadcn `Button`.
 
 **Agent gate (hard):**
-- [ ] `npm run build:web`
-- [ ] `npm run lint`
-- [ ] CI green on the phase PR
+- [x] `npm run build:web` — passes
+- [x] `npm run lint` — passes
+- [x] `npx -y impeccable detect` on Navbar/Search/Footer/NotFound → clean (exit 0)
+- [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
-- [ ] Keyboard-only navbar walk: tab through, Esc closes dropdowns, no duplicate-ID warnings in devtools
+- [ ] Keyboard-only navbar walk: tab through, Esc closes dropdowns/sheet, no duplicate-ID warnings in devtools
+- [ ] Visual check in a real browser — not yet done this phase; build/lint/detector are static checks only
 
 **On completion:** as Phase 0.
 

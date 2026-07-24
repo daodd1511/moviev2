@@ -23,7 +23,7 @@ const SearchResultComponent = ({ searchResult, resetSearchState }: Props) => {
     <Link
       to={`/${searchResult.mediaType}/${searchResult.id}`}
       key={searchResult.id}
-      className="flex items-center border-b border-gray-200 p-4"
+      className="flex items-center border-b border-border p-4 hover:bg-accent"
       onClick={onSearchResultClick}
     >
       <img
@@ -33,14 +33,15 @@ const SearchResultComponent = ({ searchResult, resetSearchState }: Props) => {
             '/images/no-image.png'
         }
         alt="item poster"
-        className="h-20 rounded-lg"
+        className="h-20 rounded-md"
+        loading="lazy"
       />
       <div className="ml-4 mr-2">
-        <h3 className="text-lg font-medium text-gray-900">
+        <h3 className="text-base font-medium text-foreground">
           {searchResult instanceof MovieSearch ? searchResult.title : searchResult.name}
         </h3>
       </div>
-      <span className={`inline-block rounded-full px-2 py-0.5 text-xs ${searchResult.mediaType === Type.Movie ? 'bg-cPrimary text-white' : 'bg-gray-200 text-gray-700'}`}>
+      <span className={`ml-auto inline-block shrink-0 rounded-full px-2 py-0.5 text-xs ${searchResult.mediaType === Type.Movie ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'}`}>
         {searchResult.mediaType}
       </span>
     </Link>

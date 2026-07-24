@@ -1,22 +1,18 @@
-/* eslint-disable react/no-unescaped-entities */
-import './NotFound.css';
+import { Link } from 'react-router-dom';
+
+import { Button } from '@/components/ui/button';
 
 export const NotFound = () => (
-  <main>
-    <section className="page_404">
-      <div className="row">
-        <div className="col-sm-12">
-          <div className="col-sm-10 col-sm-offset-1 text-center">
-            <h1 className="text-center title">404</h1>
-            <div className="four_zero_four_bg"></div>
-            <div className="contant_box_404">
-              <h3 className="h2">Look like you're lost</h3>
-              <p>the page you are looking for not avaible!</p>
-              <a href="/" className="link_404">Go to Home</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <main className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
+    <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Error 404</p>
+    <h1 className="mt-4 text-6xl font-extralight uppercase tracking-wide text-foreground md:text-8xl">
+      Not Found
+    </h1>
+    <p className="mt-4 max-w-md text-muted-foreground">
+      Looks like you&apos;re lost — the page you&apos;re looking for doesn&apos;t exist.
+    </p>
+    <Button asChild className="mt-8">
+      <Link to="/">Go to Home</Link>
+    </Button>
   </main>
 );
