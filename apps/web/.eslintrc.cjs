@@ -25,11 +25,21 @@ module.exports = {
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/promise-function-async': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/member-delimiter-style': 'off',
     '@eslint/no-return-await': 'off',
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
+    'function-paren-newline': 'off',
+    'lines-around-comment': 'off',
     'max-classes-per-file': 'off',
+    'multiline-ternary': 'off',
+    'newline-per-chained-call': 'off',
+    'operator-linebreak': 'off',
+    'quote-props': 'off',
+    quotes: 'off',
     'react/prop-types': 'off',
+    'space-before-function-paren': 'off',
     'max-len': 'off',
     'linebreak-style': 'off',
     'no-param-reassign': [
@@ -78,8 +88,7 @@ module.exports = {
           {
             selector:
               "TSTypeReference[typeName.name='FC'] TSTypeReference[typeName.name!=/Props$/]",
-            message:
-              'Prefer name with `Props` ending for the component\'s props interface',
+            message: "Prefer name with `Props` ending for the component's props interface",
           },
         ],
       },

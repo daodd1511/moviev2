@@ -13,10 +13,13 @@
     "build:web": "pnpm --filter @movie/web build",
     "typecheck": "pnpm --filter @movie/web exec tsc --noEmit",
     "lint": "pnpm --filter @movie/web lint",
-    "format": "pnpm --filter @movie/web format",
-    "format:check": "pnpm --filter @movie/web exec prettier --check ../../package.json ../api/package.json package.json"
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check ."
   },
   "volta": {
     "node": "22.20.0"
+  },
+  "devDependencies": {
+    "oxfmt": "0.60.0"
   }
 }

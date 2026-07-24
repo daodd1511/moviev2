@@ -6,9 +6,9 @@ on 2026-07-25; phase branches remain local and PR CI is replaced by the equivale
 
 ## STATUS
 
-- Current phase: 1 — done
+- Current phase: 2 — done
 - Phase 1 — pnpm workspace: done
-- Phase 2 — Oxfmt: pending
+- Phase 2 — Oxfmt: done
 - Phase 3 — Oxlint: pending
 - Phase 4 — React 19: pending
 - Phase 5 — TypeScript 6 bridge: pending
@@ -35,6 +35,7 @@ The shared workspace, runtime, lockfile, Docker layout, and PR CI must land befo
 - [x] (amended 2026-07-25) Fix web `nginx.conf` copying for the root Docker context and add a root `.dockerignore` so dependencies, builds, environment files, and repository-only files are not sent to either image build.
 
 **Agent gate (hard):**
+
 - [x] `pnpm install --frozen-lockfile`
 - [x] `pnpm typecheck && pnpm --filter @movie/web build`
 - [x] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
@@ -42,6 +43,7 @@ The shared workspace, runtime, lockfile, Docker layout, and PR CI must land befo
 - [x] CI-equivalent local lane passes; remote PR/CI explicitly waived by the user on 2026-07-25.
 
 **Review checklist (user, after phase):**
+
 - [ ] `pnpm dev:web` and `pnpm dev:api` start through the new root workspace scripts.
 
 **On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
@@ -53,19 +55,22 @@ Branch: `toolchain-modernization/phase-2-oxfmt` (off `toolchain-modernization/ph
 
 Formatting is isolated so its one-time rewrite cannot obscure lint, React, or TypeScript behavior changes.
 
-- [ ] Add root `oxfmt` and `.oxfmtrc.json` with `printWidth: 100`, import sorting off, and package sorting off to avoid unrelated manifest churn.
-- [ ] Configure Tailwind v4 sorting against `apps/web/src/index.css` for `cn`, `clsx`, and `cva`.
-- [ ] Replace root/web format scripts with Oxfmt write/check commands; remove `prettier` and `prettier-plugin-tailwindcss` from `apps/web/package.json`.
-- [ ] Remove or translate active Prettier editor settings, ignore files, and inline directives found by the Phase 1 baseline.
-- [ ] Run Oxfmt once across tracked source/config/documentation files and keep the formatting-only diff in this phase.
+- [x] Add root `oxfmt` and `.oxfmtrc.json` with `printWidth: 100`, import sorting off, and package sorting off to avoid unrelated manifest churn.
+- [x] Configure Tailwind v4 sorting against `apps/web/src/index.css` for `cn`, `clsx`, and `cva`.
+- [x] Replace root/web format scripts with Oxfmt write/check commands; remove `prettier` and `prettier-plugin-tailwindcss` from `apps/web/package.json`.
+- [x] Remove or translate active Prettier editor settings, ignore files, and inline directives found by the Phase 1 baseline.
+- [x] Run Oxfmt once across tracked source/config/documentation files and keep the formatting-only diff in this phase.
+- [x] (amended 2026-07-25) Disable only formatter-owned rules in `apps/web/.eslintrc.cjs` that conflict with Oxfmt, retaining correctness linting until the Phase 3 Oxlint replacement.
 
 **Agent gate (hard):**
-- [ ] `pnpm format`
-- [ ] `pnpm format:check`
-- [ ] `pnpm typecheck && pnpm --filter @movie/web build`
-- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
+
+- [x] `pnpm format`
+- [x] `pnpm format:check`
+- [x] `pnpm typecheck && pnpm --filter @movie/web build`
+- [x] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
+
 - [ ] Inspect representative TSX and Tailwind-heavy files and accept the one-time Oxfmt layout.
 
 **On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
@@ -84,6 +89,7 @@ The linter replacement establishes the final high-signal policy before framework
 - [ ] Remove obsolete ESLint directives, including `apps/web/src/routes/Router.tsx`, and fix Oxlint findings without restoring dropped style/JSDoc rules.
 
 **Agent gate (hard):**
+
 - [ ] `pnpm lint:fix && pnpm lint`
 - [ ] `pnpm typecheck && pnpm --filter @movie/web build`
 - [ ] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
@@ -91,6 +97,7 @@ The linter replacement establishes the final high-signal policy before framework
 - [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
+
 - [ ] Confirm the reduced diagnostics are useful and do not enforce JSDoc, naming, ordering, or formatting preferences.
 
 **On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
@@ -110,6 +117,7 @@ React and its peer-blocking data/form packages move together so the workspace ne
 - [ ] Review React 19 codemod output before retaining it; do not enable React Compiler or perform speculative memo/`forwardRef` cleanup.
 
 **Agent gate (hard):**
+
 - [ ] `pnpm lint`
 - [ ] `pnpm typecheck`
 - [ ] `pnpm --filter @movie/web build`
@@ -117,6 +125,7 @@ React and its peer-blocking data/form packages move together so the workspace ne
 - [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
+
 - [ ] Verify authentication forms, search, menus/dialogs, list mutations, media/person loading, and mobile navigation in the browser.
 
 **On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
@@ -134,6 +143,7 @@ TypeScript 6 removes legacy configuration before the native compiler makes those
 - [ ] Regenerate `pnpm-lock.yaml` and confirm no package requires the removed TypeScript 4.8 behavior.
 
 **Agent gate (hard):**
+
 - [ ] `pnpm lint`
 - [ ] `pnpm typecheck`
 - [ ] `pnpm --filter @movie/web build`
@@ -141,6 +151,7 @@ TypeScript 6 removes legacy configuration before the native compiler makes those
 - [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
+
 - [ ] Smoke-test the same primary routes after the compiler-only migration; no intended UI behavior changes.
 
 **On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
@@ -158,6 +169,7 @@ The native compiler cutover follows the clean TypeScript 6 checkpoint and remove
 - [ ] Confirm no TypeScript 6 compatibility alias or legacy compiler API consumer remains in manifests or tooling configuration.
 
 **Agent gate (hard):**
+
 - [ ] `pnpm lint`
 - [ ] `pnpm typecheck`
 - [ ] `pnpm format:check`
@@ -166,6 +178,7 @@ The native compiler cutover follows the clean TypeScript 6 checkpoint and remove
 - [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
+
 - [ ] Confirm editor TypeScript diagnostics and completion work with the TypeScript 7 language server.
 
 **On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
@@ -182,6 +195,7 @@ The final phase removes active migration residue and proves the complete workspa
 - [ ] Verify root `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.oxlintrc.json`, and `.oxfmtrc.json` describe the final pinned toolchain.
 
 **Agent gate (hard):**
+
 - [ ] `pnpm install --frozen-lockfile`
 - [ ] `pnpm format:check && pnpm lint && pnpm typecheck && pnpm --filter @movie/web build`
 - [ ] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
@@ -189,6 +203,7 @@ The final phase removes active migration residue and proves the complete workspa
 - [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
+
 - [ ] Perform the final browser walkthrough; agent verification is CLI-only by explicit project directive.
 
 **On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
