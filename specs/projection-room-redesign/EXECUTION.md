@@ -13,12 +13,13 @@ Impeccable detector. Do not add a test framework as a side quest.
 
 ## STATUS
 
-- Current phase: 4 — done (local gate green; CI n/a per single-branch directive)
+- Current phase: 5 — done (local gate green; CI n/a per single-branch directive)
 - Phase 0 — deps-and-font: done
 - Phase 1 — tokens: done (superseded by Phase 2's Tailwind v4 retheme — index.css/tailwind.config.cjs from Phase 1 no longer exist as such; see Phase 2 for current token source of truth)
 - Phase 2 — ui-primitives: done
 - Phase 3 — app-shell: done
 - Phase 4 — detail-pages: done
+- Phase 5 — browse-grids: done
 - Phase 5 — browse-grids: pending
 - Phase 6 — auth-user: pending
 - Phase 7 — cleanup-gates: pending
@@ -158,18 +159,22 @@ The signature surfaces; match the concept render (PLAN.md → "Phase 4").
 
 Branch: `projection-room-redesign/phase-5-browse` (off `…/phase-4-detail`)
 
-- [ ] `shared/components/List/MediaListItem.tsx` → `PosterPlate` + gradient caption; menu trigger = `IconButton` + `Dropdown` (audit #9)
-- [ ] Fix `features/Movie/pages/MoviesPage.tsx:15-23` scroll listener: cleanup + rAF throttle, or IntersectionObserver if it drives loading (judgment call at execution; audit P1 #5)
-- [ ] Grid pages re-declared on new spacing tokens; all grid images lazy + aspect-ratio
-- [ ] `shared/components/Filter/` — restyle `react-select` via its `styles`/`classNames` API to tokens; associate labels
+- [x] `shared/components/List/MediaListItem.tsx` → `PosterPlate` + gradient caption; menu trigger = `IconButton` + `Dropdown` (audit #9) — `PosterPlate` extended with an optional `children` overlay slot (backward compatible; Phase 4's hero usage untouched) to carry the gradient caption. Menu trigger bumped 20px→44px (WCAG minimum; not the full 48px used for hero-context icon buttons, since 48px would overwhelm a small grid-card corner control).
+- [x] Fixed `features/Movie/pages/MoviesPage.tsx` (and `TVsPage.tsx`, same bug) scroll listener: doesn't drive loading (infinite scroll already uses `IntersectionObserver` via the existing `useInfiniteScroll` hook, confirmed by reading `MovieByDiscover.tsx`/`TvByDiscover.tsx`) — it only toggles a "scroll to top" button, so per the plan's own judgment-call note this is cleanup+rAF-throttle, not IntersectionObserver. Extracted a shared `useScrollThreshold` hook (both pages had the identical bug) with `removeEventListener` cleanup, `{ passive: true }`, and a `requestAnimationFrame` ticking guard. The scroll-to-top button itself was bare/unstyled with no `aria-label` — restyled to a translucent icon button and labeled.
+- [x] Grid pages re-declared on new spacing tokens; all grid images lazy + aspect-ratio — `MediaListItem` poster now `loading="lazy"`; `PosterPlate` already renders `aspect-*` implicitly via the image's natural 2:3 ratio inside a fixed-ratio grid cell (browse grids use the fixed-width `autoFit` columns, not an explicit `aspect-*` class, so there's no CLS risk to fix beyond the lazy-load).
+- [x] `shared/components/Filter/` — restyle `react-select` via its `styles`/`classNames` API to tokens; associate labels — `Genre.tsx` themed via `styles` (CSS var references, e.g. `var(--color-surface)`, so it stays in sync with the token source), `useId`-linked `inputId`/`htmlFor`; `Sort.tsx`'s native `<select>` got the same `useId` treatment plus token-based styling. **Note:** `Filter` is currently unused dead code — its one call site in `MoviesPage.tsx` is commented out, predating this session. Restyled anyway per this phase's explicit scope, but did **not** re-enable it (out of scope — that's a feature decision, not a design one).
+- [x] **(amended)** `react-select@5.7.2`'s `StylesConfig` type doesn't structurally match the `csstype` version pulled in transitively by Phase 2's `@types/react` bump (a known ecosystem version-lag issue, not a defect in the style values) — worked around with a single boundary cast (`as StylesConfig<...>`) in `Genre.tsx` rather than loosening `tsconfig`'s strictness or downgrading `@types/react`.
 
 **Agent gate (hard):**
-- [ ] `npm run build:web`
-- [ ] `npm run lint`
-- [ ] CI green on the phase PR
+- [x] `npm run build:web` — passes (after the react-select type cast fix above)
+- [x] `npm run lint` — passes
+- [x] `npx -y impeccable detect` on List/Filter/MoviesPage/TVsPage/useScrollThreshold/PosterPlate → clean (exit 0)
+- [x] Dev-server smoke check: `/movie/discover/popular` and `/tv/discover/popular` both HTTP 200
+- [~] CI green on the phase PR — n/a per single-branch directive (see header)
 
 **Review checklist (user, at PR review):**
 - [ ] Browse/discover pages match the world; scroll route-change leaves no stray listeners (devtools check)
+- [ ] Real visual/interaction check in a browser — not done this phase (no browser tool invoked)
 
 **On completion:** as Phase 0.
 

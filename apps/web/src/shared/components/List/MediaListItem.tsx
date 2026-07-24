@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, Star } from 'lucide-react';
 
 import { IMAGE_BASE_URL } from '../../constants';
 import { PosterSizes } from '../../enums';
@@ -10,6 +10,7 @@ import { formatToYear } from '../../utils';
 import { Menu } from './Menu';
 
 import { Media } from '@/models';
+import { PosterPlate } from '@/shared/components/ui/PosterPlate';
 
 interface Props {
 
@@ -24,33 +25,31 @@ const MediaListItemComponent = ({ media }: Props) => {
       '/images/no-image.png';
 
   return (
-    <div className="relative">
-      <Link
-        to={`/${media.type}/${media.id}`}
-        className="group block h-fit pb-4 transition-all hover:text-white"
-      >
-        <img
+    <div className="group relative">
+      <Link to={`/${media.type}/${media.id}`} className="block">
+        <PosterPlate
           src={imageURL}
-          alt={`${media.title} image`}
-          className="rounded-lg shadow-2xl group-hover:rounded-bl-none group-hover:rounded-br-none"
-        />
-        <div className="pb-4  group-hover:rounded-b-lg group-hover:bg-slate-700">
-          <p className="text-md p-2 pb-4 text-center">{media.title}</p>
-          <div className="flex justify-evenly">
-            <div className="flex items-center rounded-lg border border-gray-300 px-2 py-1 text-center text-sm">
-              {formatToYear(media.releaseDate)}
-            </div>
-            <div className="ml-2 rounded-lg border border-gray-300 p-2 text-center text-sm">
-              {media.voteAverage.toFixed(1)}
-            </div>
+          alt={`${media.title} poster`}
+          loading="lazy"
+          className="transition-transform duration-300 group-hover:scale-[1.02]"
+        >
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent px-3.5 pb-3 pt-9">
+            <p className="truncate text-sm font-medium text-foreground">{media.title}</p>
+            <p className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+              <span>{formatToYear(media.releaseDate)}</span>
+              <span className="inline-flex items-center gap-1 text-primary">
+                <Star className="h-3 w-3 fill-current" />
+                {media.voteAverage.toFixed(1)}
+              </span>
+            </p>
           </div>
-        </div>
+        </PosterPlate>
       </Link>
       <Menu
         media={media}
         triggerLabel="Open item menu"
-        className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-slate-500"
-        trigger={<MoreHorizontal className="h-3 w-3 text-white" />}
+        className="absolute top-2 right-2 flex h-11 w-11 items-center justify-center rounded-full bg-background/60 text-foreground backdrop-blur-sm transition-colors hover:bg-background/80"
+        trigger={<MoreHorizontal className="h-4 w-4" />}
       />
     </div>
   );
