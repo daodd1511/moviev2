@@ -1,12 +1,13 @@
 # Toolchain Modernization — Execution Plan
 
 Spec: [PLAN.md](PLAN.md). Rulebook: `CLAUDE.md` → "Spec-Driven Execution Workflow".
-Integration branch: `redesign`. Branch model: stacked (default).
+Integration branch: `redesign`. Branch model: stacked, local-only by explicit user override
+on 2026-07-25; phase branches remain local and PR CI is replaced by the equivalent local lane.
 
 ## STATUS
 
-- Current phase: 1 — in-progress
-- Phase 1 — pnpm workspace: in-progress
+- Current phase: 1 — done
+- Phase 1 — pnpm workspace: done
 - Phase 2 — Oxfmt: pending
 - Phase 3 — Oxlint: pending
 - Phase 4 — React 19: pending
@@ -38,12 +39,13 @@ The shared workspace, runtime, lockfile, Docker layout, and PR CI must land befo
 - [x] `pnpm typecheck && pnpm --filter @movie/web build`
 - [x] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
 - [x] `docker build -f apps/web/Dockerfile . && docker build -f apps/api/Dockerfile .`
-- [ ] CI green on the phase PR
+- [x] CI-equivalent local lane passes; remote PR/CI explicitly waived by the user on 2026-07-25.
 
-**Review checklist (user, at PR review):**
+**Review checklist (user, after phase):**
 - [ ] `pnpm dev:web` and `pnpm dev:api` start through the new root workspace scripts.
 
-**On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
+**On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
+checkboxes, commit the phase, and stop for explicit approval before starting the next phase.
 
 ## Phase 2 — Oxfmt
 
@@ -61,12 +63,13 @@ Formatting is isolated so its one-time rewrite cannot obscure lint, React, or Ty
 - [ ] `pnpm format`
 - [ ] `pnpm format:check`
 - [ ] `pnpm typecheck && pnpm --filter @movie/web build`
-- [ ] CI green on the phase PR
+- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
-**Review checklist (user, at PR review):**
+**Review checklist (user, after phase):**
 - [ ] Inspect representative TSX and Tailwind-heavy files and accept the one-time Oxfmt layout.
 
-**On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
+**On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
+checkboxes, commit the phase, and stop for explicit approval before starting the next phase.
 
 ## Phase 3 — Oxlint
 
@@ -85,12 +88,13 @@ The linter replacement establishes the final high-signal policy before framework
 - [ ] `pnpm typecheck && pnpm --filter @movie/web build`
 - [ ] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
 - [ ] `rg -n 'eslint|@chernodub' package.json apps --glob 'package.json' --glob '.eslintrc*'` returns no matches
-- [ ] CI green on the phase PR
+- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
-**Review checklist (user, at PR review):**
+**Review checklist (user, after phase):**
 - [ ] Confirm the reduced diagnostics are useful and do not enforce JSDoc, naming, ordering, or formatting preferences.
 
-**On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
+**On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
+checkboxes, commit the phase, and stop for explicit approval before starting the next phase.
 
 ## Phase 4 — React 19
 
@@ -110,12 +114,13 @@ React and its peer-blocking data/form packages move together so the workspace ne
 - [ ] `pnpm typecheck`
 - [ ] `pnpm --filter @movie/web build`
 - [ ] `pnpm install --frozen-lockfile` reports no unsupported React peer dependency
-- [ ] CI green on the phase PR
+- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
-**Review checklist (user, at PR review):**
+**Review checklist (user, after phase):**
 - [ ] Verify authentication forms, search, menus/dialogs, list mutations, media/person loading, and mobile navigation in the browser.
 
-**On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
+**On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
+checkboxes, commit the phase, and stop for explicit approval before starting the next phase.
 
 ## Phase 5 — TypeScript 6 bridge
 
@@ -133,12 +138,13 @@ TypeScript 6 removes legacy configuration before the native compiler makes those
 - [ ] `pnpm typecheck`
 - [ ] `pnpm --filter @movie/web build`
 - [ ] `pnpm format:check`
-- [ ] CI green on the phase PR
+- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
-**Review checklist (user, at PR review):**
+**Review checklist (user, after phase):**
 - [ ] Smoke-test the same primary routes after the compiler-only migration; no intended UI behavior changes.
 
-**On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
+**On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
+checkboxes, commit the phase, and stop for explicit approval before starting the next phase.
 
 ## Phase 6 — TypeScript 7
 
@@ -157,12 +163,13 @@ The native compiler cutover follows the clean TypeScript 6 checkpoint and remove
 - [ ] `pnpm format:check`
 - [ ] `pnpm --filter @movie/web build`
 - [ ] `pnpm --filter @movie/web exec tsc --version` reports the pinned TypeScript 7 release
-- [ ] CI green on the phase PR
+- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
-**Review checklist (user, at PR review):**
+**Review checklist (user, after phase):**
 - [ ] Confirm editor TypeScript diagnostics and completion work with the TypeScript 7 language server.
 
-**On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
+**On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
+checkboxes, commit the phase, and stop for explicit approval before starting the next phase.
 
 ## Phase 7 — final audit
 
@@ -179,9 +186,10 @@ The final phase removes active migration residue and proves the complete workspa
 - [ ] `pnpm format:check && pnpm lint && pnpm typecheck && pnpm --filter @movie/web build`
 - [ ] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
 - [ ] `docker build -f apps/web/Dockerfile . && docker build -f apps/api/Dockerfile .`
-- [ ] CI green on the phase PR
+- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
-**Review checklist (user, at PR review):**
+**Review checklist (user, after phase):**
 - [ ] Perform the final browser walkthrough; agent verification is CLI-only by explicit project directive.
 
-**On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
+**On completion:** run the hard gate plus the CI-equivalent local lane, update STATUS +
+checkboxes, commit the phase, and stop for explicit approval before starting the next phase.

@@ -112,6 +112,11 @@ No test suite currently exists. Do not create a test framework as a toolchain
 migration side task, and do not treat the API's intentionally failing
 placeholder `test` script as a valid gate.
 
+Execution is local-only by explicit user direction on 2026-07-25. Keep the
+stacked phase branches and commits, but replace phase PR/CI checkpoints with
+the equivalent frozen-install, format, lint, typecheck, syntax, build, and
+container checks run locally. Do not claim remote CI ran.
+
 ## Target structure
 
 ```text
