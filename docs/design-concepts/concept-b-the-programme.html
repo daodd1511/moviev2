@@ -1,0 +1,262 @@
+<!doctype html>
+<!--
+DIRECTION CONTRACT — Concept B: "The Programme"
+THESIS: A film-society programme sheet, not a streaming clone. Refuses the
+  dark-backdrop hero the category ships; the page is typographic and light,
+  and the poster is a plate on paper.
+OWN-WORLD: Near-white ground, teal-tinted ink, hairline rules everywhere,
+  ONE accent — the brand teal (#023246), consolidating today's green/blue
+  strays. Metadata rendered as a ruled fact table. Genres are underlined
+  text links, never chips.
+STORY: The visitor reads the film like a catalogue entry: title, verdict,
+  credits, essay. Calm authority; imagery is framed, not atmospheric.
+FIRST VIEWPORT: Ruled masthead; below it a two-column plate — poster left
+  in a hairline frame, right column stacks kicker, display title, tagline,
+  fact table, and a solid-teal primary action.
+FORM: Light editorial, quiet chrome — the refined evolution of the
+  incumbent look; chosen by the user as candidate B of three.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flix — Concept B · The Programme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #fbfaf8;
+    --ink: #14232c;
+    --ink-soft: #51646f;
+    --rule: #dcd9d3;
+    --rule-strong: #14232c;
+    --teal: #023246;
+    --teal-link: #0a5977;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Be Vietnam Pro", system-ui, sans-serif;
+    font-weight: 300; line-height: 1.65;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--teal-link); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--teal); }
+  :focus-visible { outline: 2px solid var(--teal-link); outline-offset: 3px; }
+
+  .shell { max-width: 76rem; margin: 0 auto; padding: 0 2.5rem; }
+
+  /* ── Masthead ────────────────────────────────────── */
+  .masthead { border-bottom: 2px solid var(--rule-strong); }
+  .masthead-inner { display: flex; align-items: baseline; gap: 2.5rem; padding: 1.4rem 0 1.1rem; }
+  .brand { font-weight: 600; font-size: 1.45rem; letter-spacing: .02em; color: var(--ink); text-decoration: none; }
+  .masthead nav ul { display: flex; gap: 2rem; list-style: none; }
+  .masthead nav a { color: var(--ink-soft); text-decoration: none; font-size: .92rem; font-weight: 400; }
+  .masthead nav a[aria-current="page"] { color: var(--ink); border-bottom: 2px solid var(--teal); padding-bottom: .2rem; }
+  .masthead nav a:hover { color: var(--ink); }
+  .masthead-search { margin-left: auto; font-size: .9rem; color: var(--ink-soft); }
+  .crumbs { padding: .8rem 0; font-size: .82rem; color: var(--ink-soft); border-bottom: 1px solid var(--rule); }
+  .crumbs a { color: var(--ink-soft); }
+
+  /* ── Plate ───────────────────────────────────────── */
+  .plate { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 4rem; padding: 3.5rem 0; border-bottom: 1px solid var(--rule); }
+  .poster-frame { border: 1px solid var(--rule); padding: .75rem; background: #fff; box-shadow: 0 6px 24px -12px rgba(20,35,44,.18); align-self: start; }
+  .poster-frame figcaption { padding-top: .6rem; font-size: .78rem; color: var(--ink-soft); text-align: center; letter-spacing: .04em; }
+  .kicker { font-size: .78rem; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--teal-link); margin-bottom: 1.1rem; }
+  h1 {
+    font-size: clamp(2.8rem, 5.5vw, 4.6rem); font-weight: 200;
+    text-transform: uppercase; letter-spacing: .01em; line-height: 1.04;
+    margin-bottom: .5rem;
+  }
+  .tagline { font-style: italic; font-weight: 300; font-size: 1.1rem; color: var(--ink-soft); margin-bottom: 2rem; }
+
+  .facts { width: 100%; border-collapse: collapse; margin-bottom: 2.2rem; font-size: .95rem; }
+  .facts th, .facts td { text-align: left; padding: .65rem 0; border-bottom: 1px solid var(--rule); }
+  .facts th { font-weight: 400; color: var(--ink-soft); width: 11rem; }
+  .facts td { font-weight: 400; }
+  .facts .score { font-weight: 600; color: var(--teal); }
+
+  .genre-line { font-size: .95rem; margin-bottom: 2.4rem; }
+  .genre-line span { color: var(--ink-soft); margin-right: .75rem; }
+  .genre-line a { margin-right: 1.1rem; }
+
+  .actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    background: var(--teal); color: #fff; font: inherit; font-weight: 500; font-size: .95rem;
+    border: 0; padding: .85rem 1.8rem; cursor: pointer; letter-spacing: .02em;
+    transition: background .2s;
+  }
+  .btn-primary:hover { background: #06496a; }
+  .btn-secondary {
+    background: transparent; color: var(--ink); font: inherit; font-weight: 400; font-size: .95rem;
+    border: 1px solid var(--rule-strong); padding: .85rem 1.6rem; cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── Essay / sections ────────────────────────────── */
+  section { padding: 3rem 0; border-bottom: 1px solid var(--rule); }
+  h2 { font-size: .8rem; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.5rem; }
+  .overview { columns: 2; column-gap: 3.5rem; font-size: 1.02rem; line-height: 1.85; max-width: 100%; }
+  .overview p { break-inside: avoid-column; margin-bottom: 1rem; }
+  .overview .lede::first-letter { font-size: 3.2em; font-weight: 200; float: left; line-height: .85; padding: .05em .12em 0 0; color: var(--teal); }
+
+  .cast-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .cast-entry { text-decoration: none; color: var(--ink); }
+  .cast-entry img { aspect-ratio: 3/4; object-fit: cover; filter: grayscale(35%); transition: filter .25s; margin-bottom: .8rem; }
+  .cast-entry:hover img { filter: grayscale(0%); }
+  .cast-name { font-weight: 500; font-size: .95rem; }
+  .cast-role { font-size: .85rem; color: var(--ink-soft); font-style: italic; }
+
+  .rec-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem; }
+  .rec-head a { font-size: .88rem; }
+  .rec-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.75rem; }
+  .rec-entry { text-decoration: none; color: var(--ink); font-size: .9rem; }
+  .rec-entry img { aspect-ratio: 2/3; object-fit: cover; border: 1px solid var(--rule); margin-bottom: .7rem; transition: box-shadow .25s, transform .25s; }
+  .rec-entry:hover img { box-shadow: 0 10px 24px -10px rgba(20,35,44,.35); transform: translateY(-3px); }
+  .rec-entry .no { color: var(--ink-soft); margin-right: .4rem; }
+
+  footer { padding: 2rem 0 3rem; font-size: .85rem; color: var(--ink-soft); display: flex; justify-content: space-between; }
+
+  @media (max-width: 860px) {
+    .shell { padding: 0 1.25rem; }
+    .masthead nav, .masthead-search { display: none; }
+    .plate { grid-template-columns: 1fr; gap: 2.5rem; padding: 2.5rem 0; }
+    .poster-frame { max-width: 260px; }
+    .overview { columns: 1; }
+    .cast-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    .rec-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="shell masthead-inner">
+    <a class="brand" href="#">Flix</a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#" aria-current="page">Movies</a></li>
+        <li><a href="#">TV Shows</a></li>
+        <li><a href="#">My Lists</a></li>
+      </ul>
+    </nav>
+    <div class="masthead-search" role="search">Search ⌕</div>
+  </div>
+</header>
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="shell"><a href="#">Home</a> / <a href="#">Movies</a> / Interstellar</div>
+</nav>
+
+<main class="shell">
+  <article>
+    <div class="plate">
+      <figure class="poster-frame">
+        <img src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interstellar theatrical poster" width="340" height="510" />
+        <figcaption>Theatrical one-sheet, 2014</figcaption>
+      </figure>
+
+      <div>
+        <p class="kicker">Programme · No. 157</p>
+        <h1>Interstellar</h1>
+        <p class="tagline">Mankind was born on Earth. It was never meant to die here.</p>
+
+        <table class="facts">
+          <tbody>
+            <tr><th scope="row">Rating</th><td><span class="score">8.4</span> / 10 · 38k votes</td></tr>
+            <tr><th scope="row">Directed by</th><td>Christopher Nolan</td></tr>
+            <tr><th scope="row">Release</th><td>November 5, 2014</td></tr>
+            <tr><th scope="row">Runtime</th><td>2h 49m</td></tr>
+            <tr><th scope="row">Language</th><td>English</td></tr>
+          </tbody>
+        </table>
+
+        <p class="genre-line">
+          <span>Filed under</span>
+          <a href="#">Adventure</a><a href="#">Drama</a><a href="#">Science Fiction</a>
+        </p>
+
+        <div class="actions">
+          <button type="button" class="btn-primary">Watch Trailer</button>
+          <button type="button" class="btn-secondary">+ Add to List</button>
+        </div>
+      </div>
+    </div>
+
+    <section aria-labelledby="h-overview">
+      <h2 id="h-overview">Overview</h2>
+      <div class="overview">
+        <p class="lede">
+          The adventures of a group of explorers who make use of a newly
+          discovered wormhole to surpass the limitations on human space travel
+          and conquer the vast distances involved in an interstellar expedition.
+        </p>
+        <p>
+          As a blight ravages Earth's crops, former pilot Cooper leaves his
+          family behind to lead a mission through the wormhole near Saturn —
+          a last search for a world that can sustain the species he left at home.
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-cast">
+      <h2 id="h-cast">Top Billed Cast</h2>
+      <div class="cast-grid">
+        <a class="cast-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/lCySuYjhXix3FzQdS4oceDDrXKI.jpg" alt="Matthew McConaughey" loading="lazy" width="256" height="341" />
+          <p class="cast-name">Matthew McConaughey</p>
+          <p class="cast-role">as Cooper</p>
+        </a>
+        <a class="cast-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/tLelKoPNiyJCSEtQTz1FGv4TLGc.jpg" alt="Anne Hathaway" loading="lazy" width="256" height="341" />
+          <p class="cast-name">Anne Hathaway</p>
+          <p class="cast-role">as Brand</p>
+        </a>
+        <a class="cast-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/lodMzLKSdrPcBry6TdoDsMN3Vge.jpg" alt="Jessica Chastain" loading="lazy" width="256" height="341" />
+          <p class="cast-name">Jessica Chastain</p>
+          <p class="cast-role">as Murph</p>
+        </a>
+        <a class="cast-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/bVZRMlpjTAO2pJK6v90buFgVbSW.jpg" alt="Michael Caine" loading="lazy" width="256" height="341" />
+          <p class="cast-name">Michael Caine</p>
+          <p class="cast-role">as Professor Brand</p>
+        </a>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-recs">
+      <div class="rec-head">
+        <h2 id="h-recs" style="margin-bottom:0">Also in this Programme</h2>
+        <a href="#">Full listings →</a>
+      </div>
+      <div class="rec-grid">
+        <a class="rec-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg" alt="" loading="lazy" width="204" height="306" />
+          <span class="no">01</span>Arrival</a>
+        <a class="rec-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/5BHuvQ6p9kfc091Z8RiFNhCwL4b.jpg" alt="" loading="lazy" width="204" height="306" />
+          <span class="no">02</span>The Martian</a>
+        <a class="rec-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg" alt="" loading="lazy" width="204" height="306" />
+          <span class="no">03</span>Inception</a>
+        <a class="rec-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" alt="" loading="lazy" width="204" height="306" />
+          <span class="no">04</span>Blade Runner 2049</a>
+        <a class="rec-entry" href="#">
+          <img src="https://image.tmdb.org/t/p/w342/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" alt="" loading="lazy" width="204" height="306" />
+          <span class="no">05</span>Oppenheimer</a>
+      </div>
+    </section>
+  </article>
+
+  <footer>
+    <span>Flix — Concept B · “The Programme”</span>
+    <span>Data &amp; imagery: TMDB (demo)</span>
+  </footer>
+</main>
+
+</body>
+</html>
