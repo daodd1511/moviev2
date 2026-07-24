@@ -6,7 +6,7 @@ import { Content } from './components';
 import { Cast } from '@/shared/components/Cast';
 
 import { assertNonNull } from '@/shared/utils';
-import { Modal } from '@/shared/components/Modal';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Footer, Loader } from '@/shared/components';
 import { PosterSizes } from '@/shared/enums';
 import { IMAGE_BASE_URL } from '@/shared/constants';
@@ -48,8 +48,8 @@ const TvDetailComponent = () => {
       '/images/no-image.png';
   return (
     <div className="p-5 md:p-10 relative">
-      <div className="text-sm breadcrumbs">
-        <ul>
+      <div className="text-sm">
+        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-gray-400 [&>li:not(:first-child)]:before:content-['/']">
           <li><Link to="/">Home</Link></li>
           <li><Link to="/tv">Tv shows</Link></li>
           <li>{tv.name}</li>
@@ -76,15 +76,16 @@ const TvDetailComponent = () => {
       <Recommend mediaId={tv.id} mediaType={MediaType.Tv}/>
       <Footer />
 
-      {isFullSizeImage && fullSizeImageUrl !== null && (
-        <Modal setIsOpen={setIsFullSizeImage}>
+      <Dialog open={isFullSizeImage} onOpenChange={setIsFullSizeImage}>
+        <DialogContent className="w-fit max-w-[95vw] border-0 bg-transparent p-0 shadow-none ring-0">
+          <DialogTitle className="sr-only">{tv.name} full size poster</DialogTitle>
           <img
             src={fullSizeImageUrl}
-            alt="full size image"
+            alt={`${tv.name} full size poster`}
             className="h-[95vh]"
           />
-        </Modal>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

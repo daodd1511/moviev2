@@ -92,11 +92,11 @@ const CreateNewComponent = () => {
     <div>
       <form onSubmit={onSubmit} className="mx-auto max-w-lg" onKeyDown={e => e.key === 'Enter' && e.preventDefault()}>
         <div>
-          <label className="label">Name</label>
+          <label className="mb-1 block text-sm font-medium">Name</label>
           <input
             type="text"
             placeholder="Type here"
-            className="input input-bordered w-full "
+            className="w-full rounded-lg border border-gray-300 px-4 py-2"
             {...register('name')}
           />
           {errors.name?.message !== undefined && (
@@ -104,19 +104,19 @@ const CreateNewComponent = () => {
           )}
         </div>
         <div className="mt-4">
-          <label className="label">Description</label>
+          <label className="mb-1 block text-sm font-medium">Description</label>
           <textarea
             placeholder="Type here"
-            className="textarea textarea-bordered w-full"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2"
             {...register('description')}
           />
         </div>
         <div className="mt-4">
-          <label className="label">Add movies/tv shows</label>
+          <label className="mb-1 block text-sm font-medium">Add movies/tv shows</label>
           <input
             type="text"
             placeholder="Search here"
-            className="input input-bordered w-full"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2"
             value={searchQuery}
             onChange={onSearchChange}
           />
@@ -144,7 +144,7 @@ const CreateNewComponent = () => {
           </div>
         </div>
         <div className="mt-4 flex justify-end">
-          <button type="submit" className="btn btn-sm">
+          <button type="submit" className="rounded-lg bg-cPrimary px-3 py-1.5 text-sm text-white">
             Create
           </button>
         </div>

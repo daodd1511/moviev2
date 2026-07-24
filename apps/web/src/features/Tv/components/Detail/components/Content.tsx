@@ -1,12 +1,11 @@
 import { memo, useState } from 'react';
-import { faList, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { List as ListIcon, Play } from 'lucide-react';
 
 import { TvDetail, Video } from '@/models';
 import { formatToYear } from '@/shared/utils';
 import { MediaMapper } from '@/api/mappers/media.mapper';
 import { Menu } from '@/shared/components/List/Menu';
-import { Modal } from '@/shared/components/Modal';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 
 interface Props {
 
@@ -20,11 +19,7 @@ const getTrailerKey = (videos: readonly Video[]) => {
   };
 
 const ContentComponent = ({ tv }: Props) => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isWatchTrailer, setIsWatchTrailer] = useState(false);
-  const onListMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   const trailerKey = getTrailerKey(tv.videos);
   return (
@@ -40,20 +35,12 @@ const ContentComponent = ({ tv }: Props) => {
           {tv.voteAverage.toFixed(1)} / {formatToYear(tv.firstAirDate)}
         </h3>
         <div className="flex gap-4 items-center pt-4">
-          <div className='relative'>
-            <button
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-sm text-white"
-              onClick={onListMenuClick}
-            >
-              <FontAwesomeIcon icon={faList} />
-            </button>
-            <Menu
-              media={MediaMapper.fromTv(tv)}
-              isMenuOpen={isMenuOpen}
-              setIsMenuOpen={setIsMenuOpen}
-              className="shadow-xl"
-            />
-          </div>
+          <Menu
+            media={MediaMapper.fromTv(tv)}
+            triggerLabel="Toggle TV show menu"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-sm text-white"
+            trigger={<ListIcon className="h-4 w-4" />}
+          />
 
           <div>
             <button
@@ -61,11 +48,12 @@ const ContentComponent = ({ tv }: Props) => {
               className="h-10 w-28 rounded-full border border-gray-800 text-xs transition-all hover:-translate-y-0.5 hover:bg-gray-800 hover:text-white"
               onClick={() => setIsWatchTrailer(true)}
             >
-              Trailer <FontAwesomeIcon icon={faVideo} className="ml-1" />
+              Trailer <Play className="ml-1 inline h-3.5 w-3.5" />
             </button>
-            {isWatchTrailer && trailerKey !== '' && (
-              <Modal setIsOpen={setIsWatchTrailer}>
-                <div className="relative z-50 w-[80vw] max-w-7xl mx-auto">
+            {trailerKey !== '' && (
+              <Dialog open={isWatchTrailer} onOpenChange={setIsWatchTrailer}>
+                <DialogContent className="w-[80vw] max-w-7xl border-0 bg-transparent p-0 shadow-none ring-0">
+                  <DialogTitle className="sr-only">{tv.name} trailer</DialogTitle>
                   <div className="aspect-video">
                     <iframe
                       src={`https://www.youtube.com/embed/${trailerKey}`}
@@ -75,8 +63,8 @@ const ContentComponent = ({ tv }: Props) => {
                       allowFullScreen
                     />
                   </div>
-                </div>
-              </Modal>
+                </DialogContent>
+              </Dialog>
             )}
           </div>
         </div>

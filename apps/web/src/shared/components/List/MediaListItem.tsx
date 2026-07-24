@@ -1,9 +1,7 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MoreHorizontal } from 'lucide-react';
 
 import { IMAGE_BASE_URL } from '../../constants';
 import { PosterSizes } from '../../enums';
@@ -20,10 +18,6 @@ interface Props {
 }
 
 const MediaListItemComponent = ({ media }: Props) => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const onItemMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
   const imageURL =
     media.posterPath != null ?
       `${IMAGE_BASE_URL}${PosterSizes.large}${media.posterPath}` :
@@ -52,14 +46,12 @@ const MediaListItemComponent = ({ media }: Props) => {
           </div>
         </div>
       </Link>
-      <button
-        type="button"
-        className="absolute top-2 right-2  flex h-5 w-5 items-center justify-center rounded-full bg-slate-500"
-        onClick={onItemMenuClick}
-      >
-        <FontAwesomeIcon icon={faEllipsis} className="text-white" />
-      </button>
-      <Menu media={media} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} className="top-2 right-2"/>
+      <Menu
+        media={media}
+        triggerLabel="Open item menu"
+        className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-slate-500"
+        trigger={<MoreHorizontal className="h-3 w-3 text-white" />}
+      />
     </div>
   );
 };

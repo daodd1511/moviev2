@@ -15,7 +15,7 @@ import { Media } from '@/models';
 import { ListService } from '@/api/services/listService';
 import { UserQueries } from '@/stores/queries/userQueries';
 import { MediaType } from '@/shared/enums/mediaType';
-import { Modal } from '@/shared/components/Modal';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 
 const ListDetailComponent = () => {
   const queryClient = useQueryClient();
@@ -86,50 +86,46 @@ const ListDetailComponent = () => {
           </Link>
           <button
             type="button"
-            className="btn btn-outline btn-error btn-sm"
+            className="rounded-lg border border-red-500 px-3 py-1.5 text-sm text-red-500 hover:bg-red-500 hover:text-white"
             onClick={onRemoveListButtonClick}
           >
             Remove
           </button>
 
-          {isConfirmRemoveListModalOpen && (
-            <Modal setIsOpen={setIsConfirmRemoveListModalOpen}>
-              <div className="card w-100 bg-base-100 text-neutral-content">
-                <div className="card-body items-center text-center text-black">
-                  <h2 className="card-title p-6">
-                    Do you want to remove this list?
-                  </h2>
-                  <div className="card-actions">
-                    <button
-                      type="button"
-                      className="btn btn-outline btn-primary"
-                      onClick={() => setIsConfirmRemoveListModalOpen(false)}
-                    >
-                      No
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-outline btn-error "
-                      onClick={onConfirmRemoveListButtonClick}
-                    >
-                      Yes
-                    </button>
-                  </div>
-                </div>
+          <Dialog open={isConfirmRemoveListModalOpen} onOpenChange={setIsConfirmRemoveListModalOpen}>
+            <DialogContent className="sm:max-w-sm">
+              <DialogTitle className="text-center">
+                Do you want to remove this list?
+              </DialogTitle>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  className="rounded-lg border border-cPrimary px-4 py-2 text-cPrimary hover:bg-cPrimary hover:text-white"
+                  onClick={() => setIsConfirmRemoveListModalOpen(false)}
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white"
+                  onClick={onConfirmRemoveListButtonClick}
+                >
+                  Yes
+                </button>
               </div>
-            </Modal>
-          )}
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
-      <div className="tabs pb-10">
+      <div className="flex gap-4 border-b border-gray-300 pb-10">
         <a
-          className={`tab ${activeTab === Type.Movie ? 'tab-active' : ''}`}
+          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Movie ? 'border-b-2 border-cPrimary font-semibold' : ''}`}
           onClick={() => setActiveTab(Type.Movie)}
         >
           Movies
         </a>
         <a
-          className={`tab ${activeTab === Type.Tv ? 'tab-active' : ''}`}
+          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Tv ? 'border-b-2 border-cPrimary font-semibold' : ''}`}
           onClick={() => setActiveTab(Type.Tv)}
         >
           Tv Shows
@@ -142,7 +138,7 @@ const ListDetailComponent = () => {
               <MediaListItem media={movie} />
               <button
                 type="button"
-                className="btn btn-outline btn-error btn-sm w-full"
+                className="w-full rounded-lg border border-red-500 px-3 py-1.5 text-sm text-red-500 hover:bg-red-500 hover:text-white"
                 onClick={() => onRemoveMediaButtonClick(movie)}
               >
                   Remove
@@ -154,7 +150,7 @@ const ListDetailComponent = () => {
               <MediaListItem media={tv} />
               <button
                 type="button"
-                className="btn btn-outline btn-error btn-sm w-full"
+                className="w-full rounded-lg border border-red-500 px-3 py-1.5 text-sm text-red-500 hover:bg-red-500 hover:text-white"
                 onClick={() => onRemoveMediaButtonClick(tv)}
               >
                   Remove

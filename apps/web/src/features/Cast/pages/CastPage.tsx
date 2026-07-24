@@ -71,8 +71,8 @@ const CastPageComponent = () => {
 
   return (
     <div className="p-5 md:p-10">
-      <div className="text-sm breadcrumbs mb-5">
-        <ul>
+      <div className="mb-5 text-sm">
+        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-gray-400 [&>li:not(:first-child)]:before:content-['/']">
           <li><Link to="/">Home</Link></li>
           <li><Link to={`/${mediaType}`}>{isMovie ? 'Movies' : 'TV Shows'}</Link></li>
           <li><Link to={`/${mediaType}/${mediaId}`}>{title}</Link></li>

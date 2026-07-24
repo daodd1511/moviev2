@@ -23,15 +23,15 @@ const PublicListComponent = () => {
     <div className="px-8 py-12">
       <h1>{data?.name}</h1>
       <p>{data?.description}</p>
-      <div className="tabs pb-10">
+      <div className="flex gap-4 border-b border-gray-300 pb-10">
         <a
-          className={`tab ${activeTab === Type.Movie ? 'tab-active' : ''}`}
+          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Movie ? 'border-b-2 border-cPrimary font-semibold' : ''}`}
           onClick={() => setActiveTab(Type.Movie)}
         >
           Movies
         </a>
         <a
-          className={`tab ${activeTab === Type.Tv ? 'tab-active' : ''}`}
+          className={`cursor-pointer px-4 py-2 ${activeTab === Type.Tv ? 'border-b-2 border-cPrimary font-semibold' : ''}`}
           onClick={() => setActiveTab(Type.Tv)}
         >
           Tv Shows

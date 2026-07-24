@@ -6,7 +6,7 @@ import { Content } from './components/Content';
 import { Recommend } from '@/shared/components/Recommend';
 import { Cast } from '@/shared/components/Cast';
 
-import { Modal } from '@/shared/components/Modal';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Footer, Loader } from '@/shared/components';
 import { PosterSizes } from '@/shared/enums';
 import { IMAGE_BASE_URL } from '@/shared/constants';
@@ -61,8 +61,8 @@ const MovieDetailComponent = () => {
       '/images/no-image.png';
   return (
     <div className="relative p-5 md:p-10">
-      <div className="text-sm breadcrumbs">
-        <ul>
+      <div className="text-sm">
+        <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-gray-400 [&>li:not(:first-child)]:before:content-['/']">
           <li><Link to="/">Home</Link></li>
           <li><Link to="/movie">Movies</Link></li>
           <li>{movie.title}</li>
@@ -88,15 +88,16 @@ const MovieDetailComponent = () => {
       )}
       <Recommend mediaId={movie.id} mediaType={MediaType.Movie} />
       <Footer />
-      {isFullSizeImage && (
-        <Modal setIsOpen={setIsFullSizeImage}>
+      <Dialog open={isFullSizeImage} onOpenChange={setIsFullSizeImage}>
+        <DialogContent className="w-fit max-w-[95vw] border-0 bg-transparent p-0 shadow-none ring-0">
+          <DialogTitle className="sr-only">{movie.title} full size poster</DialogTitle>
           <img
             src={fullSizeImageUrl}
-            alt="full size image"
+            alt={`${movie.title} full size poster`}
             className="h-2/3 md:h-[90vh]"
           />
-        </Modal>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

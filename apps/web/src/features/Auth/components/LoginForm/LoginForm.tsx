@@ -84,7 +84,8 @@ const LoginFormComponent = () => {
         <div>
           <button
             type="submit"
-            className={`btn flex w-full cursor-pointer justify-center  rounded-full bg-green-400 p-3  font-semibold tracking-wide text-gray-100  shadow-lg border-none hover:bg-green-500 ${mutation.isLoading ? 'loading' : ''}`}
+            className={`flex w-full cursor-pointer justify-center rounded-full bg-green-400 p-3 font-semibold tracking-wide text-gray-100 shadow-lg border-none hover:bg-green-500 ${mutation.isLoading ? 'opacity-70' : ''}`}
+            disabled={mutation.isLoading}
           >
             {mutation.isLoading ? 'Signing In' : 'Sign In'}
           </button>

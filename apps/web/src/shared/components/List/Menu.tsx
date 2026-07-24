@@ -1,6 +1,5 @@
-/* eslint-disable max-lines-per-function */
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -8,6 +7,15 @@ import { useAtom } from 'jotai';
 
 import { Loader } from '../styles';
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { ListQueries } from '@/stores/queries/listQueries';
 import { List, Media } from '@/models';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
@@ -19,22 +27,17 @@ interface Props {
   /** Media id. */
   readonly media: Media;
 
-  /** Menu open state. */
-  readonly isMenuOpen: boolean;
+  /** Trigger button content (icon). */
+  readonly trigger: ReactNode;
 
-  /** Menu open state setter. */
-  readonly setIsMenuOpen: (value: boolean) => void;
+  /** Trigger accessible name. */
+  readonly triggerLabel: string;
 
-  /** Custom class. */
+  /** Custom class for the trigger button. */
   readonly className?: string;
 }
 
-export const Menu = ({
-  media,
-  isMenuOpen,
-  setIsMenuOpen,
-  className,
-}: Props) => {
+export const Menu = ({ media, trigger, triggerLabel, className }: Props) => {
   const [isListMenuOpen, setIsListMenuOpen] = useState<boolean>(false);
   const [isAuth] = useAtom(isAuthAtom);
   const { data: lists, isLoading: isListLoading } =
@@ -44,16 +47,10 @@ export const Menu = ({
     (list: List) => ListService.update(list),
     {
       onSuccess() {
-        setIsListMenuOpen(false);
-        setIsMenuOpen(false);
         toast.success('Movie added to list');
       },
     },
   );
-
-  const addToListClick = () => {
-    setIsListMenuOpen(!isListMenuOpen);
-  };
 
   const onListClick = (list: List) => {
     const isMovie = media.type === MediaType.Movie;
@@ -73,72 +70,35 @@ export const Menu = ({
     addItemToListMutation.mutate(newList as List);
   };
 
-  const onCloseButtonClick = () => {
-    setIsMenuOpen(false);
-    setIsListMenuOpen(false);
-  };
   return (
-    <div className={`absolute flex flex-col items-end ${className ?? ''} min-w-[200px]`}>
-      {isMenuOpen && (
-        <div
-          className={'relative z-20 rounded-lg bg-white p-2 text-sm w-full flex flex-col items-center gap-2'}
-        >
-          {!isAuth && <Link to="/auth/login" className="rounded-lg p-2 text-md hover:bg-base-300 w-full text-center">Login</Link>}
-          {isAuth && (
-            <ul className="w-full">
-              <li className="relative">
-                <button
-                  type="button"
-                  onClick={addToListClick}
-                  className="p-2 hover:rounded-lg hover:bg-gray-300 w-full"
-                >
-                  Add to list
-                </button>
-                {isListMenuOpen && (
-                  <div className="absolute top-24 -right-2 w-60 flex flex-col items-center rounded-lg bg-white p-2 shadow-2xl">
-                    <Link
-                      to="/list/new"
-                      className="rounded-lg p-2 text-md hover:bg-base-300 w-full text-center"
-                    >
-                      Create new list
-                    </Link>
-                    <ul className='w-full'>
-                      {isListLoading ?
-                        (
-                          <Loader />
-                        ) :
-                        (
-                          <div className="p-2 flex flex-col gap-2 w-full">
-                            <p className="font-bold text-center">Add to existing lists</p>
-
-                            {lists?.map(list => (
-                              <li key={list.id}>
-                                <button
-                                  type="button"
-                                  className="w-full rounded-lg py-2 hover:bg-base-300"
-                                  onClick={() => onListClick(list)}
-                                >
-                                  {list.name}
-                                </button>
-                              </li>
-                            ))}
-                          </div>
-                        )}
-                    </ul>
-                  </div>
-                )}
-              </li>
-            </ul>
-          )}
-          <button
-            type="button"
-            onClick={onCloseButtonClick}
-            className="w-full rounded-lg p-2 hover:bg-error hover:text-white"
-          >
-            Close
-          </button>
-        </div>
-      )}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger aria-label={triggerLabel} className={className}>
+        {trigger}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {!isAuth && (
+          <DropdownMenuItem asChild>
+            <Link to="/auth/login">Login</Link>
+          </DropdownMenuItem>
+        )}
+        {isAuth && (
+          <DropdownMenuSub onOpenChange={setIsListMenuOpen}>
+            <DropdownMenuSubTrigger>Add to list</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem asChild>
+                <Link to="/list/new">Create new list</Link>
+              </DropdownMenuItem>
+              {isListLoading ?
+                <Loader /> :
+                lists?.map(list => (
+                  <DropdownMenuItem key={list.id} onClick={() => onListClick(list)}>
+                    {list.name}
+                  </DropdownMenuItem>
+                ))}
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

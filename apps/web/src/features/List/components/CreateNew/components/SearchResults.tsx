@@ -42,10 +42,10 @@ const SearchResultsComponent = ({
           </h3>
         </div>
         <span
-          className={`badge ${
+          className={`inline-block rounded-full px-2 py-0.5 text-xs ${
               result instanceof Movie ?
-                'badge-primary' :
-                'badge-secondary'
+                'bg-cPrimary text-white' :
+                'bg-gray-200 text-gray-700'
           }`}
         >
           {result instanceof Movie ? Type.Movie : Type.Tv}

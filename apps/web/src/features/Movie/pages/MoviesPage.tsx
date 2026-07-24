@@ -1,7 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { ChevronUp } from 'lucide-react';
 
 import { MovieByDiscover } from '../components';
 
@@ -35,7 +34,7 @@ const MoviesComponent = () => {
           className="fixed bottom-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full"
           onClick={goToTop}
         >
-          <FontAwesomeIcon icon={faAngleUp} className="text-3xl" />
+          <ChevronUp className="h-7 w-7" />
         </button>
       )}
     </div>

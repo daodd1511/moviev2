@@ -40,7 +40,7 @@ const SearchResultComponent = ({ searchResult, resetSearchState }: Props) => {
           {searchResult instanceof MovieSearch ? searchResult.title : searchResult.name}
         </h3>
       </div>
-      <span className={`badge ${searchResult.mediaType === Type.Movie ? 'badge-primary' : 'badge-secondary'}`}>
+      <span className={`inline-block rounded-full px-2 py-0.5 text-xs ${searchResult.mediaType === Type.Movie ? 'bg-cPrimary text-white' : 'bg-gray-200 text-gray-700'}`}>
         {searchResult.mediaType}
       </span>
     </Link>

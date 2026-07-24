@@ -1,13 +1,12 @@
 /* eslint-disable max-lines-per-function */
-import { memo, useMemo, useState, useCallback } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { memo, useMemo, useState } from 'react';
+import { List as ListIcon, Play } from 'lucide-react';
 
 import { MovieDetail, Credits, Video } from '@/models';
 import { formatToYear } from '@/shared/utils';
 import { Menu } from '@/shared/components/List/Menu';
 import { MediaMapper } from '@/api/mappers/media.mapper';
-import { Modal } from '@/shared/components/Modal';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 
 // Utility for formatting runtime
 const toHoursAndMinutes = (minutes: number | null): string => {
@@ -34,13 +33,8 @@ interface Props {
 }
 
 const ContentComponent = ({ movie, credits }: Props) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const [isWatchTrailer, setIsWatchTrailer] = useState(false);
 
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen(prev => !prev);
-  }, []);
   const trailerKey = getTrailerKey(movie.videos);
 
   // Memoize derived data
@@ -70,33 +64,24 @@ const ContentComponent = ({ movie, credits }: Props) => {
 
         {/* Menu button */}
         <div className="flex gap-4 items-center pt-4">
-          <div className="relative">
-            <button
-              type="button"
-              aria-label="Toggle movie menu"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-white transition hover:bg-cPrimary/90"
-              onClick={toggleMenu}
-            >
-              <FontAwesomeIcon icon={faList} />
-            </button>
-            <Menu
-              media={MediaMapper.fromMovie(movie)}
-              isMenuOpen={isMenuOpen}
-              setIsMenuOpen={setIsMenuOpen}
-              className="shadow-xl"
-            />
-          </div>
+          <Menu
+            media={MediaMapper.fromMovie(movie)}
+            triggerLabel="Toggle movie menu"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-cPrimary text-white transition hover:bg-cPrimary/90"
+            trigger={<ListIcon className="h-4 w-4" />}
+          />
           <div>
             <button
               type="button"
               className="h-10 w-28 rounded-full border border-gray-800 text-xs transition-all hover:-translate-y-0.5 hover:bg-gray-800 hover:text-white"
               onClick={() => setIsWatchTrailer(true)}
             >
-              Trailer <FontAwesomeIcon icon={faVideo} className="ml-1" />
+              Trailer <Play className="ml-1 inline h-3.5 w-3.5" />
             </button>
-            {isWatchTrailer && trailerKey !== '' && (
-              <Modal setIsOpen={setIsWatchTrailer}>
-                <div className="relative z-50 mx-auto w-[80vw] max-w-7xl">
+            {trailerKey !== '' && (
+              <Dialog open={isWatchTrailer} onOpenChange={setIsWatchTrailer}>
+                <DialogContent className="w-[80vw] max-w-7xl border-0 bg-transparent p-0 shadow-none ring-0">
+                  <DialogTitle className="sr-only">{movie.title} trailer</DialogTitle>
                   <div className="aspect-video">
                     <iframe
                       src={`https://www.youtube.com/embed/${trailerKey}`}
@@ -106,8 +91,8 @@ const ContentComponent = ({ movie, credits }: Props) => {
                       allowFullScreen
                     />
                   </div>
-                </div>
-              </Modal>
+                </DialogContent>
+              </Dialog>
             )}
           </div>
         </div>

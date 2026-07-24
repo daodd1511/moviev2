@@ -2,8 +2,7 @@
 import { useAtom } from 'jotai';
 import { memo, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Menu as MenuIcon } from 'lucide-react';
 
 import { Search } from '../Search/Search';
 
@@ -83,7 +82,7 @@ const NavbarComponent = () => {
           className="ml-1 inline-flex items-center rounded-lg p-2 text-sm text-white md:hidden"
           onClick={toggleMenu}
         >
-          <FontAwesomeIcon icon={faBars} />
+          <MenuIcon className="h-5 w-5" />
         </button>
         <div
           id="mega-menu"

@@ -1,6 +1,5 @@
 import { ChangeEvent, memo, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Search as SearchIcon, X } from 'lucide-react';
 
 import { SearchResult } from './components/SearchResult';
 
@@ -69,10 +68,10 @@ const SearchComponent = () => {
       >
         {isSearchBarOpen ?
           (
-            <FontAwesomeIcon icon={faXmark} />
+            <X className="h-5 w-5" />
           ) :
           (
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <SearchIcon className="h-5 w-5" />
           )}
       </button>
     </div>

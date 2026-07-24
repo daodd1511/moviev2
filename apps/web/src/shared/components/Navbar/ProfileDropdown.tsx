@@ -2,11 +2,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { User } from 'lucide-react';
 
-import { Modal } from '../Modal';
-
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { AuthService } from '@/api/services/authService';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
@@ -24,42 +28,42 @@ export const ProfileDropdown = () => {
   };
   return (
     <>
-      <div className="dropdown dropdown-end text-black">
-        <label tabIndex={0} className="btn btn-ghost btn-circle">
-          <div className="w-10 text-white text-xl">
-            <FontAwesomeIcon icon={faUser} />
-          </div>
-        </label>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu rounded-box menu-compact mt-3 w-32 bg-base-100 p-2 shadow-2xl"
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          aria-label="Open profile menu"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-white"
         >
-          <li>
+          <User className="h-5 w-5" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem asChild>
             <Link to="user/profile">Profile</Link>
-          </li>
-          <li>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link to="user/lists">Lists</Link>
-          </li>
-          <li>
-            <button type="button" onClick={onLogoutButtonClick}>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={onLogoutButtonClick}>
             Logout
-            </button>
-          </li>
-        </ul>
-      </div>
-      {isConfirmLogoutModalOpen && (
-        <Modal setIsOpen={setIsConfirmLogoutModalOpen}>
-          <div className="card w-96 bg-base-100 text-neutral-content">
-            <div className="card-body items-center text-center text-black">
-              <h2 className="card-title p-6">Do you want to log out?</h2>
-              <div className="card-actions">
-                <button type="button" className="btn btn-primary" onClick={() => setIsConfirmLogoutModalOpen(false)}>No</button>
-                <button type="button" className="btn btn-error" onClick={onConfirmButtonClick}>Yes</button>
-              </div>
-            </div>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Dialog open={isConfirmLogoutModalOpen} onOpenChange={setIsConfirmLogoutModalOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogTitle className="text-center">Do you want to log out?</DialogTitle>
+          <div className="flex justify-center gap-2">
+            <button
+              type="button"
+              className="rounded-lg bg-cPrimary px-4 py-2 text-white"
+              onClick={() => setIsConfirmLogoutModalOpen(false)}
+            >No</button>
+            <button
+              type="button"
+              className="rounded-lg bg-red-500 px-4 py-2 text-white"
+              onClick={onConfirmButtonClick}
+            >Yes</button>
           </div>
-        </Modal>
-      )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
