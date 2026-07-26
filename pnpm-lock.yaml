@@ -61,8 +61,8 @@ importers:
         specifier: 4.5.8
         version: 4.5.8
       '@hookform/resolvers':
-        specifier: 2.9.10
-        version: 2.9.10(react-hook-form@7.83.0(react@19.2.8))
+        specifier: 5.4.0
+        version: 5.4.0(react-hook-form@7.83.0(react@19.2.8))
       '@tanstack/react-query':
         specifier: 5.62.16
         version: 5.62.16(react@19.2.8)
@@ -137,14 +137,14 @@ importers:
         specifier: 4.3.3
         version: 4.3.3
       typescript:
-        specifier: 4.8.4
-        version: 4.8.4
+        specifier: 6.0.3
+        version: 6.0.3
       vite:
         specifier: 8.1.5
         version: 8.1.5(@types/node@22.20.1)(jiti@2.7.0)
       vite-plugin-checker:
         specifier: 0.14.5
-        version: 0.14.5(optionator@0.9.4)(oxlint@1.75.0(oxlint-tsgolint@7.0.2001))(typescript@4.8.4)(vite@8.1.5(@types/node@22.20.1)(jiti@2.7.0))
+        version: 0.14.5(optionator@0.9.4)(oxlint@1.75.0(oxlint-tsgolint@7.0.2001))(typescript@6.0.3)(vite@8.1.5(@types/node@22.20.1)(jiti@2.7.0))
 
 packages:
 
@@ -251,10 +251,10 @@ packages:
   '@fontsource/be-vietnam-pro@4.5.8':
     resolution: {integrity: sha512-02BI3zS+7Rs4vffa2U6AznQEjG2skMn4nswjEzwQc7uzE04n1MLxh9Mhf3KT5GBuP9HuPHJYVgytcGQ1xNLJfw==}
 
-  '@hookform/resolvers@2.9.10':
-    resolution: {integrity: sha512-JIL1DgJIlH9yuxcNGtyhsWX/PgNltz+5Gr6+8SX9fhXc/hPbEIk6wPI82nhgvp3uUb6ZfAM5mqg/x7KR7NAb+A==}
+  '@hookform/resolvers@5.4.0':
+    resolution: {integrity: sha512-EIsqr/t/qbinPIhGjMdtvutIN1Kk4uwbROE9/UQ93CAVGR7GkA7Y92+fX80OzXi/OB67jVFYwKGO1WzkxmkFZw==}
     peerDependencies:
-      react-hook-form: ^7.0.0
+      react-hook-form: ^7.55.0
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1523,6 +1523,9 @@ packages:
     resolution: {integrity: sha512-0JFs3V2y2M9tKW5na/qxe69Zv+uxLMO7QBbhxF/FHu/Gp2NFZAAL9tWl9PU02xxo07pb3G9FTyjNc6D5uZrJIg==}
     engines: {node: '>=18.0.0'}
 
+  '@standard-schema/utils@0.3.0':
+    resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
+
   '@tailwindcss/node@4.3.3':
     resolution: {integrity: sha512-/T8IKEsf9VTU6tLjgC7+sv2mOPtQxzE2jMw7u4Tt40Tx+QSZxpzh95/H6cMKoja9XuW7iMdLJYBB0o9G1CaAgg==}
 
@@ -2728,9 +2731,9 @@ packages:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
 
-  typescript@4.8.4:
-    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
-    engines: {node: '>=4.2.0'}
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
+    engines: {node: '>=14.17'}
     hasBin: true
 
   undefsafe@2.0.5:
@@ -3087,8 +3090,9 @@ snapshots:
 
   '@fontsource/be-vietnam-pro@4.5.8': {}
 
-  '@hookform/resolvers@2.9.10(react-hook-form@7.83.0(react@19.2.8))':
+  '@hookform/resolvers@5.4.0(react-hook-form@7.83.0(react@19.2.8))':
     dependencies:
+      '@standard-schema/utils': 0.3.0
       react-hook-form: 7.83.0(react@19.2.8)
 
   '@jridgewell/gen-mapping@0.3.13':
@@ -4166,6 +4170,8 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
+
+  '@standard-schema/utils@0.3.0': {}
 
   '@tailwindcss/node@4.3.3':
     dependencies:
@@ -5390,7 +5396,7 @@ snapshots:
       media-typer: 0.3.0
       mime-types: 2.1.35
 
-  typescript@4.8.4: {}
+  typescript@6.0.3: {}
 
   undefsafe@2.0.5: {}
 
@@ -5419,7 +5425,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite-plugin-checker@0.14.5(optionator@0.9.4)(oxlint@1.75.0(oxlint-tsgolint@7.0.2001))(typescript@4.8.4)(vite@8.1.5(@types/node@22.20.1)(jiti@2.7.0)):
+  vite-plugin-checker@0.14.5(optionator@0.9.4)(oxlint@1.75.0(oxlint-tsgolint@7.0.2001))(typescript@6.0.3)(vite@8.1.5(@types/node@22.20.1)(jiti@2.7.0)):
     dependencies:
       '@babel/code-frame': 7.29.7
       chokidar: 5.0.0
@@ -5432,7 +5438,7 @@ snapshots:
     optionalDependencies:
       optionator: 0.9.4
       oxlint: 1.75.0(oxlint-tsgolint@7.0.2001)
-      typescript: 4.8.4
+      typescript: 6.0.3
 
   vite@8.1.5(@types/node@22.20.1)(jiti@2.7.0):
     dependencies:

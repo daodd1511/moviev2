@@ -37,8 +37,14 @@ const RegisterFormComponent = () => {
     },
   });
 
-  const onSubmit = handleSubmit((registerData: Register) => {
-    mutation.mutate(registerData);
+  const onSubmit = handleSubmit(registerData => {
+    mutation.mutate({
+      email: registerData.email,
+      password: registerData.password,
+      username: registerData.username,
+      firstName: null,
+      lastName: null,
+    });
   });
   return (
     <form

@@ -8,11 +8,11 @@ import { AxiosError } from 'axios';
 
 import { toast } from 'react-toastify';
 
-import { listSchema } from './formSetting';
+import { ListFormValues, listSchema } from './formSetting';
 
 import { SearchResults } from './components/SearchResults';
 
-import { List, Media, Movie, Tv } from '@/models';
+import { Media, Movie, Tv } from '@/models';
 import { SearchService } from '@/api/services/searchService';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { useDebounce } from '@/shared/hooks';
@@ -28,11 +28,9 @@ const CreateNewComponent = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    getValues,
     reset,
     formState: { errors },
-  } = useForm<List>({
+  } = useForm<ListFormValues>({
     resolver: zodResolver(listSchema),
   });
 
@@ -48,7 +46,7 @@ const CreateNewComponent = () => {
   });
 
   const addMutation = useMutation({
-    mutationFn: (list: List) => ListService.create(list),
+    mutationFn: ListService.create,
     async onSuccess() {
       await queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast.success('List created successfully');
@@ -77,13 +75,10 @@ const CreateNewComponent = () => {
     setSearchQuery('');
   };
 
-  const onSubmit = handleSubmit(() => {
+  const onSubmit = handleSubmit(values => {
     const movies: Media[] = movieList.map((movie: Movie) => MediaMapper.fromMovie(movie));
     const tvShows: Media[] = tvList.map((tv: Tv) => MediaMapper.fromTv(tv));
-    setValue('movies', movies);
-    setValue('tvShows', tvShows);
-    const list = getValues();
-    addMutation.mutate(list);
+    addMutation.mutate({ ...values, movies, tvShows });
   });
   return (
     <div>

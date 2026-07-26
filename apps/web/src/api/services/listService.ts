@@ -4,7 +4,7 @@ import { ListMapper } from '../mappers/list.mapper';
 
 import { ListDto } from '../dtos/list.dto';
 
-import { List, Media } from '@/models';
+import { CreateListInput, List, Media } from '@/models';
 
 export namespace ListService {
   export const getAll = async () => {
@@ -13,7 +13,7 @@ export namespace ListService {
     return result;
   };
 
-  export const create = async (list: List) => {
+  export const create = async (list: CreateListInput) => {
     const dto = ListMapper.toDto(list);
     const { data } = await backendApi.post<ListDto>('/list', dto);
     return ListMapper.fromDto(data);

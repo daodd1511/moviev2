@@ -37,3 +37,5 @@ export class List extends Immerable {
 }
 
 type InitArgsSpokenLanguage = OmitImmerable<List>;
+
+export type CreateListInput = Pick<List, 'name' | 'description' | 'movies' | 'tvShows'>;

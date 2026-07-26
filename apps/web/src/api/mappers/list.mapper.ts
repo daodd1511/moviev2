@@ -1,6 +1,6 @@
 import { ListDto } from '../dtos/list.dto';
 
-import { List } from '@/models';
+import { CreateListInput, List } from '@/models';
 
 export namespace ListMapper {
   /**
@@ -23,7 +23,7 @@ export namespace ListMapper {
    * Maps List model to ListDto.
    * @param list List model.
    */
-  export function toDto(list: List): ListDto {
+  export function toDto(list: CreateListInput): ListDto {
     return {
       name: list.name,
       description: list.description,

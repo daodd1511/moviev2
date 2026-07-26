@@ -1,13 +1,6 @@
 import { z } from 'zod';
 
 import { FORM_ERROR_MESSAGES } from '@/shared/constants/formErrorMessages';
-import { Register } from '@/models/auth';
-
-/** Form values. */
-export interface FormValues extends Register {
-  /** Confirm password. */
-  readonly confirmPassword: string;
-}
 
 export const registerSchema = z
   .object({
@@ -29,3 +22,6 @@ export const registerSchema = z
     message: FORM_ERROR_MESSAGES.passwordNotMatch,
     path: ['confirmPassword'],
   });
+
+/** Form values. */
+export type FormValues = z.infer<typeof registerSchema>;
