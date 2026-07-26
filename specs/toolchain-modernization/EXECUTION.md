@@ -6,14 +6,14 @@ on 2026-07-25; phase branches remain local and PR CI is replaced by the equivale
 
 ## STATUS
 
-- Current phase: 6 — done
+- Current phase: 7 — done
 - Phase 1 — pnpm workspace: done
 - Phase 2 — Oxfmt: done
 - Phase 3 — Oxlint: done
 - Phase 4 — React 19: done
 - Phase 5 — TypeScript 6 bridge: done
 - Phase 6 — TypeScript 7: done
-- Phase 7 — final audit: pending
+- Phase 7 — final audit: done
 - Verification debt: none
 
 ## Phase 1 — pnpm workspace
@@ -213,17 +213,17 @@ Branch: `toolchain-modernization/phase-7-final-audit` (off `toolchain-modernizat
 
 The final phase removes active migration residue and proves the complete workspace and container paths from a frozen install.
 
-- [ ] Run the PLAN.md → "Phase 7 — Final audit" repository search and remove active npm/npx, ESLint, `@chernodub`, Prettier, checker, peer, and TypeScript compatibility residue.
-- [ ] Update active toolchain references in `docs/deploy-flow.html`, Docker comments, root scripts, and editor recommendations; leave completed historical specs intact.
-- [ ] Verify root `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.oxlintrc.json`, and `.oxfmtrc.json` describe the final pinned toolchain.
+- [x] Run the PLAN.md → "Phase 7 — Final audit" repository search and remove active npm/npx, ESLint, `@chernodub`, Prettier, checker, peer, and TypeScript compatibility residue.
+- [x] Update active toolchain references in `docs/deploy-flow.html`, Docker comments, root scripts, and editor recommendations; leave completed historical specs intact.
+- [x] Verify root `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.oxlintrc.json`, and `.oxfmtrc.json` describe the final pinned toolchain.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint && pnpm typecheck && pnpm --filter @movie/web build`
-- [ ] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
-- [ ] `docker build -f apps/web/Dockerfile . && docker build -f apps/api/Dockerfile .`
-- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint && pnpm typecheck && pnpm --filter @movie/web build`
+- [x] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
+- [x] `docker build -f apps/web/Dockerfile . && docker build -f apps/api/Dockerfile .`
+- [x] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
 
