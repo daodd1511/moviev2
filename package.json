@@ -7,6 +7,7 @@
     "node": ">=22.20.0"
   },
   "scripts": {
+    "dev": "pnpm --parallel --filter @movie/web --filter @movie/api dev",
     "dev:web": "pnpm --filter @movie/web dev",
     "dev:api": "pnpm --filter @movie/api dev",
     "build": "pnpm --filter @movie/web build",
