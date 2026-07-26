@@ -6,11 +6,11 @@ on 2026-07-25; phase branches remain local and PR CI is replaced by the equivale
 
 ## STATUS
 
-- Current phase: 3 — done
+- Current phase: 4 — done
 - Phase 1 — pnpm workspace: done
 - Phase 2 — Oxfmt: done
 - Phase 3 — Oxlint: done
-- Phase 4 — React 19: pending
+- Phase 4 — React 19: done
 - Phase 5 — TypeScript 6 bridge: pending
 - Phase 6 — TypeScript 7: pending
 - Phase 7 — final audit: pending
@@ -114,20 +114,25 @@ Branch: `toolchain-modernization/phase-4-react-19` (off `toolchain-modernization
 
 React and its peer-blocking data/form packages move together so the workspace never lands with unsupported peers.
 
-- [ ] Upgrade React/React DOM and `@types/react`/`@types/react-dom` together in `apps/web/package.json`.
-- [ ] Upgrade TanStack Query/devtools to v5 and migrate `apps/web/src/stores/queries/*.ts`, `apps/web/src/App.tsx`, and all mutation consumers under `features/Auth`, `features/List`, and `shared/components/List/Menu.tsx`.
-- [ ] Update TanStack v5 loading/pending state consumers across `apps/web/src/features` and `apps/web/src/shared/components`.
-- [ ] Upgrade React Hook Form within v7; update `@hookform/resolvers` only if peer compatibility requires it, retaining Zod 3.
-- [ ] Resolve React 19 ref/type changes in `apps/web/src/components/ui/{input,input-group,textarea}.tsx`, `apps/web/src/shared/components/ui/TextField.tsx`, hooks using `useRef`, and `apps/web/src/main.tsx`.
-- [ ] Review React 19 codemod output before retaining it; do not enable React Compiler or perform speculative memo/`forwardRef` cleanup.
+- [x] Upgrade React/React DOM and `@types/react`/`@types/react-dom` together in `apps/web/package.json`.
+- [x] Upgrade TanStack Query/devtools to v5 and migrate `apps/web/src/stores/queries/*.ts`, `apps/web/src/App.tsx`, and all mutation consumers under `features/Auth`, `features/List`, and `shared/components/List/Menu.tsx`.
+- [x] Update TanStack v5 loading/pending state consumers across `apps/web/src/features` and `apps/web/src/shared/components`.
+- [x] Upgrade React Hook Form within v7; update `@hookform/resolvers` only if peer compatibility requires it, retaining Zod 3.
+- [x] Resolve React 19 ref/type changes in `apps/web/src/components/ui/{input,input-group,textarea}.tsx`, `apps/web/src/shared/components/ui/TextField.tsx`, hooks using `useRef`, and `apps/web/src/main.tsx`.
+- [x] Review React 19 codemod output before retaining it; no codemod output was retained,
+      React Compiler remains disabled, and only the Phase 4 `forwardRef` compatibility wrappers
+      were removed.
+- [x] (amended 2026-07-26) Upgrade `react-router-dom` within v6 in
+      `apps/web/package.json` and `pnpm-lock.yaml`; v6.4’s published JSX types are incompatible
+      with `@types/react` 19.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm --filter @movie/web build`
-- [ ] `pnpm install --frozen-lockfile` reports no unsupported React peer dependency
-- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
+- [x] `pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm --filter @movie/web build`
+- [x] `pnpm install --frozen-lockfile` reports no unsupported React peer dependency
+- [x] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
 
