@@ -6,12 +6,12 @@ on 2026-07-25; phase branches remain local and PR CI is replaced by the equivale
 
 ## STATUS
 
-- Current phase: 4 — done
+- Current phase: 5 — done
 - Phase 1 — pnpm workspace: done
 - Phase 2 — Oxfmt: done
 - Phase 3 — Oxlint: done
 - Phase 4 — React 19: done
-- Phase 5 — TypeScript 6 bridge: pending
+- Phase 5 — TypeScript 6 bridge: done
 - Phase 6 — TypeScript 7: pending
 - Phase 7 — final audit: pending
 - Verification debt: none
@@ -147,18 +147,31 @@ Branch: `toolchain-modernization/phase-5-typescript-6` (off `toolchain-moderniza
 
 TypeScript 6 removes legacy configuration before the native compiler makes those deprecations hard errors.
 
-- [ ] Upgrade `typescript` in `apps/web/package.json` to the latest stable 6.x release.
-- [ ] Update `apps/web/tsconfig.json` and `apps/web/tsconfig.node.json` to bundler resolution with explicit `rootDir`/`types` where required; remove obsolete or forbidden options.
-- [ ] Keep root/web `typecheck` on `tsc --noEmit`; resolve TypeScript 6 diagnostics without `ignoreDeprecations`, weaker strictness, broad casts, or new skip-check workarounds.
-- [ ] Regenerate `pnpm-lock.yaml` and confirm no package requires the removed TypeScript 4.8 behavior.
+- [x] Upgrade `typescript` in `apps/web/package.json` to the latest stable 6.x release.
+- [x] Update `apps/web/tsconfig.json` and `apps/web/tsconfig.node.json` to bundler resolution with explicit `rootDir`/`types` where required; remove obsolete or forbidden options.
+- [x] Keep root/web `typecheck` on `tsc --noEmit`; resolve TypeScript 6 diagnostics without `ignoreDeprecations`, weaker strictness, broad casts, or new skip-check workarounds.
+- [x] Regenerate `pnpm-lock.yaml` and confirm no package requires the removed TypeScript 4.8 behavior.
+- [x] (amended 2026-07-27) Remove the temporary `apps/web/src/tsconfig.json`
+      type-aware-lint shim added in Phase 3; the authoritative TypeScript 6 application
+      config now uses bundler resolution and is compatible with `oxlint-tsgolint`.
+- [x] (amended 2026-07-27) Upgrade `@hookform/resolvers` to 5.4.0 in
+      `apps/web/package.json` and `pnpm-lock.yaml`; v2.9.10 does not export its Zod
+      declarations through the package subpath map required by TypeScript 6 bundler
+      resolution. Use the newest release outside the workspace package-age window rather
+      than adding an exception.
+- [x] (amended 2026-07-27) Align React Hook Form values with their Zod schemas in
+      `features/Auth/components/RegisterForm` and `features/List/components/CreateNew`,
+      and add a typed list-creation input across `models/list.model.ts`,
+      `api/mappers/list.mapper.ts`, and `api/services/listService.ts`; resolver 5 exposes
+      the previously hidden input/model mismatches under TypeScript 6.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm --filter @movie/web build`
-- [ ] `pnpm format:check`
-- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
+- [x] `pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm --filter @movie/web build`
+- [x] `pnpm format:check`
+- [x] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
 
