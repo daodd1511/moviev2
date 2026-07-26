@@ -6,13 +6,13 @@ on 2026-07-25; phase branches remain local and PR CI is replaced by the equivale
 
 ## STATUS
 
-- Current phase: 5 — done
+- Current phase: 6 — done
 - Phase 1 — pnpm workspace: done
 - Phase 2 — Oxfmt: done
 - Phase 3 — Oxlint: done
 - Phase 4 — React 19: done
 - Phase 5 — TypeScript 6 bridge: done
-- Phase 6 — TypeScript 7: pending
+- Phase 6 — TypeScript 7: done
 - Phase 7 — final audit: pending
 - Verification debt: none
 
@@ -186,19 +186,19 @@ Branch: `toolchain-modernization/phase-6-typescript-7` (off `toolchain-moderniza
 
 The native compiler cutover follows the clean TypeScript 6 checkpoint and removes the incompatible Vite checker API consumer.
 
-- [ ] Remove `vite-plugin-checker` from `apps/web/package.json` and its `checker()` registration/import from `apps/web/vite.config.ts`.
-- [ ] Upgrade `typescript` to the latest stable 7.x release and regenerate `pnpm-lock.yaml`.
-- [ ] Resolve TypeScript 7 native compiler/configuration differences while keeping `tsc` as the authoritative typecheck/build gate.
-- [ ] Confirm no TypeScript 6 compatibility alias or legacy compiler API consumer remains in manifests or tooling configuration.
+- [x] Remove `vite-plugin-checker` from `apps/web/package.json` and its `checker()` registration/import from `apps/web/vite.config.ts`.
+- [x] Upgrade `typescript` to the latest stable 7.x release and regenerate `pnpm-lock.yaml`.
+- [x] Resolve TypeScript 7 native compiler/configuration differences while keeping `tsc` as the authoritative typecheck/build gate.
+- [x] Confirm no TypeScript 6 compatibility alias or legacy compiler API consumer remains in manifests or tooling configuration.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm format:check`
-- [ ] `pnpm --filter @movie/web build`
-- [ ] `pnpm --filter @movie/web exec tsc --version` reports the pinned TypeScript 7 release
-- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
+- [x] `pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm format:check`
+- [x] `pnpm --filter @movie/web build`
+- [x] `pnpm --filter @movie/web exec tsc --version` reports the pinned TypeScript 7 release
+- [x] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
 
