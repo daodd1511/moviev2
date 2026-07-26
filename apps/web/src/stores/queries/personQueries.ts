@@ -6,10 +6,14 @@ import { Person, PersonCombinedCredits } from '@/models';
 
 export namespace PersonQueries {
   export const useDetail = (id: number) =>
-    useQuery<Person, AxiosError>(['personDetail', id], () => PersonService.fetchPerson(id));
+    useQuery<Person, AxiosError>({
+      queryKey: ['personDetail', id],
+      queryFn: () => PersonService.fetchPerson(id),
+    });
 
   export const useCombinedCredits = (id: number) =>
-    useQuery<PersonCombinedCredits, AxiosError>(['personCombinedCredits', id], () =>
-      PersonService.getCombinedCredits(id),
-    );
+    useQuery<PersonCombinedCredits, AxiosError>({
+      queryKey: ['personCombinedCredits', id],
+      queryFn: () => PersonService.getCombinedCredits(id),
+    });
 }

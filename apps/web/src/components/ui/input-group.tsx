@@ -100,36 +100,29 @@ const InputGroupText = ({ className, ...props }: React.ComponentProps<'span'>) =
   />
 );
 
-// forwardRef: see input.tsx comment — React 18 pin, shadcn assumes 19.
-const InputGroupInput = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
-  ({ className, ...props }, ref) => (
-    <Input
-      ref={ref}
-      data-slot="input-group-control"
-      className={cn(
-        'flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent',
-        className,
-      )}
-      {...props}
-    />
-  ),
+const InputGroupInput = ({ className, ref, ...props }: React.ComponentProps<'input'>) => (
+  <Input
+    ref={ref}
+    data-slot="input-group-control"
+    className={cn(
+      'flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent',
+      className,
+    )}
+    {...props}
+  />
 );
-InputGroupInput.displayName = 'InputGroupInput';
 
-const InputGroupTextarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(
-  ({ className, ...props }, ref) => (
-    <Textarea
-      ref={ref}
-      data-slot="input-group-control"
-      className={cn(
-        'flex-1 resize-none rounded-none border-0 bg-transparent py-2 shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent',
-        className,
-      )}
-      {...props}
-    />
-  ),
+const InputGroupTextarea = ({ className, ref, ...props }: React.ComponentProps<'textarea'>) => (
+  <Textarea
+    ref={ref}
+    data-slot="input-group-control"
+    className={cn(
+      'flex-1 resize-none rounded-none border-0 bg-transparent py-2 shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent',
+      className,
+    )}
+    {...props}
+  />
 );
-InputGroupTextarea.displayName = 'InputGroupTextarea';
 
 export {
   InputGroup,

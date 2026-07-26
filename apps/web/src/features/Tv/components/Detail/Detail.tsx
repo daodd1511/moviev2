@@ -20,7 +20,7 @@ const TvDetailComponent = () => {
   assertNonNull(id, 'TV id is null');
   const tvId = parseInt(id, 10);
   const [isFullSizeImage, setIsFullSizeImage] = useState(false);
-  const { data: tv, isLoading, isError, error } = TvQueries.useDetail(tvId);
+  const { data: tv, isPending, isError, error } = TvQueries.useDetail(tvId);
 
   const { data: credits } = TvQueries.useCredits(tvId);
 
@@ -28,7 +28,7 @@ const TvDetailComponent = () => {
     goToTop();
   }, [id]);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 

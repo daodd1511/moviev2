@@ -14,9 +14,9 @@ const PublicListComponent = () => {
   const [selectedTab, setSelectedTab] = useState<Type | null>(null);
   assertNonNull(username);
   assertNonNull(listId);
-  const { data, isLoading, isError } = ListQueries.usePublicList(username, listId);
+  const { data, isPending, isError } = ListQueries.usePublicList(username, listId);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 

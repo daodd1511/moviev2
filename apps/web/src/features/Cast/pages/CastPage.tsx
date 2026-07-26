@@ -23,13 +23,13 @@ const CastPageComponent = () => {
 
   const {
     data: media,
-    isLoading: isMediaLoading,
+    isPending: isMediaPending,
     isError: isMediaError,
   } = isMovie ? MovieQueries.useDetail(mediaId) : TvQueries.useDetail(mediaId);
 
   const {
     data: credits,
-    isLoading: isCreditsLoading,
+    isPending: isCreditsPending,
     isError: isCreditsError,
   } = isMovie ? MovieQueries.useCredits(mediaId) : TvQueries.useCredits(mediaId);
 
@@ -37,7 +37,7 @@ const CastPageComponent = () => {
     goToTop();
   }, []);
 
-  if (isMediaLoading || isCreditsLoading) {
+  if (isMediaPending || isCreditsPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 

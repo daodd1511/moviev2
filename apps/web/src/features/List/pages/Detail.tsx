@@ -72,25 +72,24 @@ const ListDetailComponent = () => {
 
   const { id } = useParams<{ id: string }>();
   const [isConfirmRemoveListModalOpen, setIsConfirmRemoveListModalOpen] = useState(false);
-  const { data: user, isLoading: isUserLoading } = UserQueries.useProfile();
+  const { data: user, isPending: isUserPending } = UserQueries.useProfile();
   const [activeTab, setActiveTab] = useState<Type>(Type.Movie);
   assertNonNull(id);
-  const { data, isLoading } = ListQueries.useById(id);
+  const { data, isPending } = ListQueries.useById(id);
 
-  const removeMediaMutation = useMutation(
-    (item: Media) =>
+  const removeMediaMutation = useMutation({
+    mutationFn: (item: Media) =>
       item.type === MediaType.Movie
         ? ListService.removeMovie(id, item)
         : ListService.removeTv(id, item),
-    {
-      async onSuccess() {
-        await queryClient.invalidateQueries(['listDetail']);
-        toast.success('Item removed from list');
-      },
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ['listDetail'] });
+      toast.success('Item removed from list');
     },
-  );
+  });
 
-  const removeListMutation = useMutation(() => ListService.remove(id), {
+  const removeListMutation = useMutation({
+    mutationFn: () => ListService.remove(id),
     onSuccess() {
       setIsConfirmRemoveListModalOpen(false);
       toast.success('List removed');
@@ -110,7 +109,7 @@ const ListDetailComponent = () => {
     removeListMutation.mutate();
   };
 
-  if (isLoading || isUserLoading) {
+  if (isPending || isUserPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 
@@ -131,7 +130,7 @@ const ListDetailComponent = () => {
         </div>
         <div className="flex w-full shrink-0 items-center justify-between gap-3 md:w-auto md:justify-start">
           <Link
-            to={`/u/${user.username}/lists/${data?.id ?? ''}`}
+            to={`/u/${user?.username ?? ''}/lists/${data?.id ?? ''}`}
             target="_blank"
             className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
           >
@@ -152,7 +151,7 @@ const ListDetailComponent = () => {
         description="Every title in this list will be removed. This action cannot be undone."
         confirmLabel="Delete list"
         destructive
-        isLoading={removeListMutation.isLoading}
+        isLoading={removeListMutation.isPending}
         onConfirm={onConfirmRemoveListButtonClick}
       />
 

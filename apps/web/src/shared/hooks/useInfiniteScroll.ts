@@ -7,32 +7,34 @@ import { useRef, useEffect } from 'react';
  * @param hasNextPage Boolean to indicate if there is a next page.
  */
 export const useInfiniteScroll = (
-  options: Object,
-  callbackFunction: Function,
+  options: IntersectionObserverInit,
+  callbackFunction: () => void,
   hasNextPage: boolean | undefined,
 ) => {
-  const observerElement = useRef(null);
+  const observerElement = useRef<HTMLDivElement | null>(null);
 
-  const executeFunction = (entries: IntersectionObserverEntry[]) => {
-    const [entry] = entries;
-    if (entry.isIntersecting) {
-      callbackFunction();
-    }
-  };
-  const observer = new IntersectionObserver(executeFunction, options);
   useEffect(() => {
     if (hasNextPage === undefined) {
       return;
     }
 
-    if (observerElement.current !== null) {
-      observer.observe(observerElement.current);
+    const element = observerElement.current;
+    if (element === null) {
+      return;
     }
+
+    const observer = new IntersectionObserver(entries => {
+      const [entry] = entries;
+      if (entry.isIntersecting) {
+        callbackFunction();
+      }
+    }, options);
+    observer.observe(element);
 
     return () => {
       observer.disconnect();
     };
-  }, [observerElement, hasNextPage]);
+  }, [callbackFunction, hasNextPage, options]);
 
   return { observerElement };
 };

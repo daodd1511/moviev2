@@ -22,11 +22,11 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const normalizedQuery = searchQuery.trim();
   const debouncedQuery = useDebounce(normalizedQuery, SEARCH_DEBOUNCE_MS);
-  const { data, isLoading, isError, error } = SearchQueries.useMulti(debouncedQuery);
+  const { data, isPending, isError, error } = SearchQueries.useMulti(debouncedQuery);
 
   const isDebouncing = normalizedQuery !== debouncedQuery;
   const canSearch = normalizedQuery.length >= MINIMUM_QUERY_LENGTH;
-  const isSearching = canSearch && (isDebouncing || isLoading);
+  const isSearching = canSearch && (isDebouncing || isPending);
   const results = !isDebouncing ? data : undefined;
 
   const handleOpenChange = (open: boolean) => {

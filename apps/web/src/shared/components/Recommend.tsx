@@ -21,12 +21,12 @@ interface Props {
 }
 
 const RecommendComponent = ({ mediaId, mediaType }: Props) => {
-  const { data, isLoading, isError, error } =
+  const { data, isPending, isError, error } =
     mediaType === MediaType.Tv
       ? TvQueries.useRecommendations(mediaId)
       : MovieQueries.useRecommendations(mediaId);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader />;
   }
 

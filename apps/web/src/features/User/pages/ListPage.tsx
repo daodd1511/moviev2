@@ -6,9 +6,9 @@ import { ListQueries } from '@/stores/queries/listQueries';
 import { Button } from '@/components/ui/button';
 
 export const ListPage = () => {
-  const { data, isLoading } = ListQueries.useAll();
+  const { data, isPending } = ListQueries.useAll();
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
   return (

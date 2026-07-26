@@ -42,9 +42,10 @@ interface Props {
 export const Menu = ({ media, trigger, triggerLabel, className }: Props) => {
   const [isListMenuOpen, setIsListMenuOpen] = useState<boolean>(false);
   const [isAuth] = useAtom(isAuthAtom);
-  const { data: lists, isLoading: isListLoading } = ListQueries.useAll(isListMenuOpen);
+  const { data: lists, isPending: isListPending } = ListQueries.useAll(isListMenuOpen);
 
-  const addItemToListMutation = useMutation((list: List) => ListService.update(list), {
+  const addItemToListMutation = useMutation({
+    mutationFn: (list: List) => ListService.update(list),
     onSuccess() {
       toast.success('Movie added to list');
     },
@@ -94,7 +95,7 @@ export const Menu = ({ media, trigger, triggerLabel, className }: Props) => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel>Your lists</DropdownMenuLabel>
-              {isListLoading ? (
+              {isListPending ? (
                 <Loader />
               ) : (
                 lists?.map(list => (

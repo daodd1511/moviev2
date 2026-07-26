@@ -10,9 +10,9 @@ import { useLogout } from '@/shared/hooks';
 export const ProfilePage = () => {
   const [isConfirmLogoutOpen, setIsConfirmLogoutOpen] = useState(false);
   const { isLoggingOut, logout } = useLogout();
-  const { data, isLoading } = UserQueries.useProfile();
+  const { data, isPending } = UserQueries.useProfile();
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
   return (

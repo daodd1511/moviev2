@@ -106,13 +106,13 @@ const PersonComponent: FC = () => {
 
   const {
     data: personDetail,
-    isLoading: isDetailLoading,
+    isPending: isDetailPending,
     isError: isDetailError,
   } = PersonQueries.useDetail(personId);
 
   const {
     data: personCredits,
-    isLoading: isCreditsLoading,
+    isPending: isCreditsPending,
     isError: isCreditsError,
   } = PersonQueries.useCombinedCredits(personId);
 
@@ -121,7 +121,7 @@ const PersonComponent: FC = () => {
   const [mediaTypeFilter, setMediaTypeFilter] = useState<MediaTypeFilter>('all');
   const [visibleFilmographyCount, setVisibleFilmographyCount] = useState(FILMOGRAPHY_PAGE_SIZE);
 
-  if (isDetailLoading || isCreditsLoading) {
+  if (isDetailPending || isCreditsPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 

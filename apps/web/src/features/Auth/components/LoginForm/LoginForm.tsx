@@ -99,9 +99,9 @@ const LoginFormComponent = () => {
           <Button
             type="submit"
             className="h-14 w-full rounded-full text-base font-semibold shadow-[0_12px_30px_-10px_rgba(245,165,36,0.55)]"
-            disabled={mutation.isLoading}
+            disabled={mutation.isPending}
           >
-            {mutation.isLoading ? 'Signing In' : 'Sign In'}
+            {mutation.isPending ? 'Signing In' : 'Sign In'}
           </Button>
         </div>
         <div className="border-t border-foreground/10 pt-5 text-center text-sm text-muted-foreground">

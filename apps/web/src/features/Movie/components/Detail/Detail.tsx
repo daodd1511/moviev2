@@ -21,14 +21,14 @@ const MovieDetailComponent = () => {
   assertNonNull(id, 'Movie id is null');
   const movieId = parseInt(id, 10);
   const [isFullSizeImage, setIsFullSizeImage] = useState(false);
-  const { data: movie, isLoading, isError, error } = MovieQueries.useDetail(movieId);
+  const { data: movie, isPending, isError, error } = MovieQueries.useDetail(movieId);
 
   const { data: credits } = MovieQueries.useCredits(movieId);
   useEffect(() => {
     goToTop();
   }, [id]);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 

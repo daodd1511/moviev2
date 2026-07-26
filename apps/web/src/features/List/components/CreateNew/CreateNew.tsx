@@ -41,17 +41,16 @@ const CreateNewComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const debounceSearchQuery = useDebounce<string>(searchQuery);
 
-  const { data: searchResults } = useQuery<Array<MovieSearch | TvSearch>, AxiosError>(
-    ['listSearch', debounceSearchQuery],
-    () => SearchService.multi(debounceSearchQuery),
-    {
-      enabled: debounceSearchQuery !== '',
-    },
-  );
+  const { data: searchResults } = useQuery<Array<MovieSearch | TvSearch>, AxiosError>({
+    queryKey: ['listSearch', debounceSearchQuery],
+    queryFn: () => SearchService.multi(debounceSearchQuery),
+    enabled: debounceSearchQuery !== '',
+  });
 
-  const addMutation = useMutation((list: List) => ListService.create(list), {
+  const addMutation = useMutation({
+    mutationFn: (list: List) => ListService.create(list),
     async onSuccess() {
-      await queryClient.invalidateQueries(['lists']);
+      await queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast.success('List created successfully');
       reset();
     },
