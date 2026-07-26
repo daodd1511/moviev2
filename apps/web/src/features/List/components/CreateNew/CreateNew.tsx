@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, memo, useId, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -90,7 +89,7 @@ const CreateNewComponent = () => {
   return (
     <div>
       <form
-        onSubmit={onSubmit}
+        onSubmit={event => void onSubmit(event)}
         className="mx-auto max-w-lg"
         onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
       >

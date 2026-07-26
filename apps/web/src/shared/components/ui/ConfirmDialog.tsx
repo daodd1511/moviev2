@@ -89,7 +89,7 @@ export const ConfirmDialog = ({
             ],
           )}
           disabled={isLoading}
-          onClick={onConfirm}
+          onClick={() => void onConfirm()}
         >
           {isLoading ? 'Working…' : confirmLabel}
         </Button>

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import { useState } from 'react';
@@ -132,7 +131,6 @@ const ListDetailComponent = () => {
         </div>
         <div className="flex w-full shrink-0 items-center justify-between gap-3 md:w-auto md:justify-start">
           <Link
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             to={`/u/${user.username}/lists/${data?.id ?? ''}`}
             target="_blank"
             className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"

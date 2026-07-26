@@ -1,0 +1,56 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "plugins": ["oxc", "import", "promise"],
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/coverage/**",
+    "docs/**",
+    "specs/**"
+  ],
+  "options": {
+    "reportUnusedDisableDirectives": "error",
+    "respectEslintDisableDirectives": false
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "caughtErrors": "none" }],
+    "no-shadow": "off",
+    "no-underscore-dangle": "off",
+    "import/no-unassigned-import": "off",
+    "promise/always-return": "off",
+    "promise/no-promise-in-callback": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "18.2.0"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["apps/web/**/*.{ts,tsx}"],
+      "env": {
+        "browser": true,
+        "es2022": true
+      },
+      "plugins": ["oxc", "typescript", "import", "promise", "react", "jsx-a11y"],
+      "rules": {
+        "typescript/no-explicit-any": "error",
+        "typescript/no-floating-promises": ["error", { "ignoreVoid": true }],
+        "typescript/no-misused-promises": "error"
+      }
+    },
+    {
+      "files": ["apps/api/**/*.js"],
+      "env": {
+        "node": true,
+        "es2022": true
+      },
+      "plugins": ["oxc", "import", "promise", "node"]
+    }
+  ]
+}

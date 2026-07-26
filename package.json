@@ -12,7 +12,8 @@
     "build": "pnpm --filter @movie/web build",
     "build:web": "pnpm --filter @movie/web build",
     "typecheck": "pnpm --filter @movie/web exec tsc --noEmit",
-    "lint": "pnpm --filter @movie/web lint",
+    "lint": "oxlint apps && oxlint --type-aware apps/web/src",
+    "lint:fix": "oxlint apps --fix && oxlint --type-aware apps/web/src --fix",
     "format": "oxfmt .",
     "format:check": "oxfmt --check ."
   },
@@ -20,6 +21,8 @@
     "node": "22.20.0"
   },
   "devDependencies": {
-    "oxfmt": "0.60.0"
+    "oxfmt": "0.60.0",
+    "oxlint": "1.74.0",
+    "oxlint-tsgolint": "0.24.0"
   }
 }

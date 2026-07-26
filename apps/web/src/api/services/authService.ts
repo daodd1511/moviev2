@@ -19,7 +19,6 @@ export namespace AuthService {
     await backendApi.post('auth/register', userRegisterDto);
   };
 
-  // eslint-disable-next-line require-await
   export const logout = async (): Promise<void> => {
     TokenService.destroy();
   };

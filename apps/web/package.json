@@ -7,8 +7,6 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "pnpm --workspace-root exec oxfmt apps/web",
     "format:check": "pnpm --workspace-root exec oxfmt --check apps/web"
   },
@@ -35,19 +33,11 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
-    "@chernodub/eslint-config": "2.1.0",
     "@tailwindcss/vite": "4.3.3",
     "@types/node": "22.20.1",
     "@types/react": "18.3.31",
     "@types/react-dom": "18.3.7",
-    "@typescript-eslint/eslint-plugin": "5.40.0",
     "@vitejs/plugin-react": "6.0.4",
-    "eslint": "8.28.0",
-    "eslint-config-standard-with-typescript": "23.0.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-n": "15.3.0",
-    "eslint-plugin-promise": "6.1.0",
-    "eslint-plugin-react": "7.31.10",
     "tailwindcss": "4.3.3",
     "typescript": "4.8.4",
     "vite": "8.1.5",

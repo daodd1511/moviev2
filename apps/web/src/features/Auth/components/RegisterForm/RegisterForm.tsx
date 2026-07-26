@@ -1,10 +1,10 @@
-/* eslint-disable max-lines-per-function */
 import { useMutation } from '@tanstack/react-query';
 import { memo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { isAxiosError } from 'axios';
 
 import { ErrorField } from '../ErrorField';
 
@@ -31,9 +31,9 @@ const RegisterFormComponent = () => {
     onSuccess() {
       navigate('/auth/login');
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError(error: any) {
-      toast.error(error.response.data);
+    onError(error: unknown) {
+      const message = isAxiosError<string>(error) ? error.response?.data : undefined;
+      toast.error(message ?? 'Unable to create account');
     },
   });
 
@@ -43,7 +43,7 @@ const RegisterFormComponent = () => {
   return (
     <form
       className="w-full rounded-lg border border-foreground/10 bg-surface/65 p-6 shadow-[0_28px_70px_-32px_rgba(0,0,0,0.9)] backdrop-blur-sm sm:p-9"
-      onSubmit={onSubmit}
+      onSubmit={event => void onSubmit(event)}
     >
       <div className="mb-8">
         <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
