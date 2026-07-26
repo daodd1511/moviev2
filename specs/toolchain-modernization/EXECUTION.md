@@ -6,10 +6,10 @@ on 2026-07-25; phase branches remain local and PR CI is replaced by the equivale
 
 ## STATUS
 
-- Current phase: 2 — done
+- Current phase: 3 — done
 - Phase 1 — pnpm workspace: done
 - Phase 2 — Oxfmt: done
-- Phase 3 — Oxlint: pending
+- Phase 3 — Oxlint: done
 - Phase 4 — React 19: pending
 - Phase 5 — TypeScript 6 bridge: pending
 - Phase 6 — TypeScript 7: pending
@@ -82,19 +82,24 @@ Branch: `toolchain-modernization/phase-3-oxlint` (off `toolchain-modernization/p
 
 The linter replacement establishes the final high-signal policy before framework types change.
 
-- [ ] Add root `oxlint`, `oxlint-tsgolint`, and `.oxlintrc.json` with type-aware TypeScript, React/Hooks, JSX accessibility, import, promise, and API-only Node rules.
-- [ ] Configure web browser globals, API Node globals, generated-path ignores, and only the retained rules in PLAN.md → "Small, high-signal lint policy".
-- [ ] Add non-mutating root `lint` and safe-only `lint:fix` scripts.
-- [ ] Remove `apps/web/.eslintrc.cjs`, `apps/api/.eslintrc.json`, `@chernodub/eslint-config`, and every ESLint package from both application manifests.
-- [ ] Remove obsolete ESLint directives, including `apps/web/src/routes/Router.tsx`, and fix Oxlint findings without restoring dropped style/JSDoc rules.
+- [x] Add root `oxlint`, `oxlint-tsgolint`, and `.oxlintrc.json` with type-aware TypeScript, React/Hooks, JSX accessibility, import, promise, and API-only Node rules.
+- [x] Configure web browser globals, API Node globals, generated-path ignores, and only the retained rules in PLAN.md → "Small, high-signal lint policy".
+- [x] Add non-mutating root `lint` and safe-only `lint:fix` scripts.
+- [x] Remove `apps/web/.eslintrc.cjs`, `apps/api/.eslintrc.json`, `@chernodub/eslint-config`, and every ESLint package from both application manifests.
+- [x] Remove obsolete ESLint directives, including `apps/web/src/routes/Router.tsx`, and fix Oxlint findings without restoring dropped style/JSDoc rules.
+- [x] (amended 2026-07-26) Add `apps/web/src/tsconfig.json` as a temporary
+      type-aware-lint project using TypeScript 7-compatible options. `oxlint-tsgolint` uses
+      the TypeScript 7 compiler and rejects the application’s TypeScript 4.8
+      `moduleResolution: "Node"` before Phase 5 can migrate it; remove this shim when Phase 5
+      updates the authoritative application configs.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm lint:fix && pnpm lint`
-- [ ] `pnpm typecheck && pnpm --filter @movie/web build`
-- [ ] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
-- [ ] `rg -n 'eslint|@chernodub' package.json apps --glob 'package.json' --glob '.eslintrc*'` returns no matches
-- [ ] CI-equivalent local lane passes; no remote PR/CI for this spec.
+- [x] `pnpm lint:fix && pnpm lint`
+- [x] `pnpm typecheck && pnpm --filter @movie/web build`
+- [x] `find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;` (no automated test suite exists, per PLAN.md)
+- [x] `rg -n 'eslint|@chernodub' package.json apps --glob 'package.json' --glob '.eslintrc*'` returns no matches
+- [x] CI-equivalent local lane passes; no remote PR/CI for this spec.
 
 **Review checklist (user, after phase):**
 
