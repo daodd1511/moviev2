@@ -4,55 +4,82 @@ Movie browser: React SPA (`apps/web`) + Express API (`apps/api`). Redesign in
 progress — design authority is `DESIGN.md` (root); execution spec in
 `specs/projection-room-redesign/`.
 
+## Domain Model & Decisions
+
+<!-- domain-rulebook v1 -->
+
+`CONTEXT.md` (repo root) is the project's glossary. Use its canonical terms — and avoid the
+synonyms it marks `_Avoid_` — in code, docs, specs, and UI copy. It is a glossary only:
+never add schema, file references, or implementation detail to it.
+
+Recording a new term, or a decision worth keeping? Read `docs/DOMAIN-RULEBOOK.md` first — it
+routes between `CONTEXT.md`, `docs/adr/`, and a spec's `PLAN.md`, and defines what does and
+doesn't qualify as an ADR.
+
+## Backlog
+
+`docs/BACKLOG.md` is the single inbox for fixes, features, and ideas (no separate
+features doc). Capture via the `capture` skill: one line per item, `- [ ] <desc> (<date>)`,
+appended to the matching section. Agents may capture proactively when they notice
+out-of-scope issues, but must list those additions in the session's final summary.
+Never auto-commit a capture. Delete a line only when the item ships or graduates into a
+`docs/specs/<feature>/` plan.
+
 ## Spec-Driven Execution Workflow
 
-Large/architectural changes flow: `/grill-me` → `specs/<feature>/PLAN.md` →
-`specs/<feature>/EXECUTION.md` (via the `spec-plan` skill) → phased implementation
-(via the `spec-phase` skill). These rules bind even when neither skill is invoked.
+<!-- rulebook v3 -->
 
-### State model
+Specs live in `specs/<feature>/`. Flow: `/grill-me` → `PLAN.md` → `/spec-plan` →
+`EXECUTION.md` → `/spec-phase` per phase.
 
-- **Git is the authoritative state store**: branch name encodes spec+phase
-  (`<feature-slug>/phase-<n>-<desc>`), commits encode progress. Each `EXECUTION.md` opens
-  with a **STATUS block** (current phase, per-phase state, verification debt) — the only
-  prose trusted as state. **On any conflict, git wins silently** for mechanical facts
-  (branch, commits, merged-or-not); STATUS is trusted only for what git can't express
-  (debt, park reasons). `HANDOFF.md` is a session baton from `/handoff` — advisory context,
-  never authority; do not resume from it.
-- Phase states: `pending` / `in-progress` / `done` / `done-with-debt`. Gate items are
-  `[ ]`/`[x]`; an item may be `[~]` (deferred) only when environment-blocked (missing
-  tool/credentials, not effort), with substitute evidence inline and a mirrored STATUS debt
-  entry. A phase is in-progress iff it has unchecked **non-deferred** items.
+Binding on all work in this repo, spec skill or not:
 
-### Branch model — stacked by default
+- **Git is the authoritative state store.** Branch `<feature-slug>/phase-<n>-<desc>` encodes
+  spec + phase and commits encode progress. Never infer spec state from prose, and never
+  rewrite history to make it tidy.
+- **One spec in flight.** Do not start or resume a second spec's phase while another has an
+  unfinished one.
+- **Never push, open a PR, or merge without a separate explicit ask** — regardless of what
+  earlier work in the session was authorized.
 
-- **Default: stacked.** Each phase branches off the **previous phase's branch** (phase 1
-  off the integration branch, currently `redesign`; resolve at plan time, never
-  hardcode). Push → PR to the previous phase's branch (or to the integration branch if the
-  previous phase already merged) → continue to the next phase without waiting for
-  review/merge. Rebase onto the integration branch after an earlier phase's PR merges.
-- **Sequential (off the integration branch, wait for merge) is opt-in only** — use it only
-  when the user explicitly says so for this spec (e.g. "do phases sequentially" / "wait for
-  merge before the next phase"). When opted in: each phase branches off the integration
-  branch → push → PR → user reviews & merges → pull → next phase branches off the updated
-  integration branch.
-- After a phase's PR merges, ask before deleting the merged phase branch (local + remote).
+Doing spec work? Read `specs/RULEBOOK.md` first — the state model (`done-with-debt`,
+`[~]`, verification debt), gate lanes, branch model, checkpoints, and capability baseline are
+defined there, not here. Don't improvise substitutes for those terms from this summary.
 
-### Checkpoints
+## Coding Standards
 
-- Starting a phase authorizes its commits — nothing else.
-- Gate pass → one ask: "push + open PR?". Remote actions are never bundled with anything
-  else.
-- A phase is complete only when its **agent gate** (typecheck, tests, build) actually
-  passed — checking boxes doesn't substitute for running it — **and the phase PR's CI is
-  green**. The local gate is a pre-PR smoke check; CI's full run is authoritative, and red
-  CI on a phase PR is the agent's to fix before the phase is done. Manual verification scenarios
-  are the **review checklist**, listed in the PR description for the user to walk through
-  before merging — they are the user's, not agent debt.
-- **One spec in flight at a time.** Do not start or resume a different spec's phase while
-  another has an unfinished phase. Finish the current phase, or explicitly **park** it with
-  the user's go-ahead: a `WIP: parked <date>` commit on the phase branch plus a STATUS note
-  (never `git stash` — stashes are invisible to a cold agent and easy to orphan).
+- Always use `react-frontend-developer` skill for frontend code generation.
 
-Procedure lives in the skills — planning in the `spec-plan` skill, execution and resume in
-the `spec-phase` skill — invoke the relevant one rather than re-deriving it.
+### Reuse First
+
+- Prefer existing components, hooks, utilities, and models before creating new ones.
+- Before creating a new component, check both [packages/web/src/shared/components](packages/web/src/shared/components) and the relevant feature module for a compatible pattern.
+- Create new shared components only when reuse is likely across multiple screens/features.
+- If a new component is required, keep it small, composable, and aligned with existing naming and folder conventions.
+
+### TypeScript Strictness
+
+- Keep TypeScript strict. Prefer precise types, discriminated unions, and generics over broad fallback types.
+- Avoid `any`. If unavoidable, limit scope to the smallest boundary and include a short justification comment with a follow-up improvement note.
+- Prefer `unknown` plus narrowing over `any` when handling untyped data.
+- Do not silence type errors with unsafe assertions unless there is no practical typed alternative.
+
+### Documentation Expectations
+
+- Add concise documentation for exported functions, exported types/interfaces, and exported constants when behavior is not obvious.
+- At minimum, document purpose, inputs, output/return value, and important side effects or constraints.
+- Keep documentation accurate when behavior changes; update or remove stale comments in the same change.
+- For complex business rules, link to canonical docs instead of duplicating long explanations.
+
+## Safety Rules
+
+- Report outcomes faithfully: distinguish completed actions, not-run checks, and blockers.
+  Never claim something was run or verified when it was not.
+- Stop and ask before: destructive/irreversible actions, bulk edits that are hard to review,
+  deploy/release/push/merge, or changes to auth, payments, CI/CD, or production config.
+- When a decision materially affects behavior or scope and confidence is low, ask instead of guessing.
+- Never hardcode secrets or place sensitive client/personal data in source, logs, tests, or docs;
+  use synthetic data in tests and redact sensitive values in output.
+- Before any `gh` operation (`gh repo view`, `gh pr create`, etc.), check `gh auth status`
+  and ensure the active account is the one that owns this repo — otherwise `gh` can't
+  resolve it. (Specific account handles are in agent memory, not this tracked file.)
