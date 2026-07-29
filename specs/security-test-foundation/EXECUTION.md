@@ -5,8 +5,8 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 1 — in-progress (local gate green, CI pending)
-- Phase 1 — Test harness and application seam: in-progress
+- Current phase: 1 — done (PR #1, awaiting merge)
+- Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: pending
 - Phase 3 — Authentication and account hardening: pending
 - Phase 4 — Legacy list hardening: pending
@@ -39,7 +39,7 @@ and root commands `test:unit`, `test:api`, `test:web`, `check:api`.
 - [x] `pnpm check:api`
 - [x] `pnpm test:unit`
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (`verify` job in `.github/workflows/ci.yml` passed; unrelated Netlify deploy-preview checks for the `flix-stream` site failed independently of this diff — not part of this repo's CI)
 
 **Review checklist (user, at PR review):**
 
