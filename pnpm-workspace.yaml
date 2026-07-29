@@ -1,4 +1,8 @@
 packages:
   - apps/*
 
+allowBuilds:
+  mongodb-memory-server: true
+  msw: true
+
 injectWorkspacePackages: true
