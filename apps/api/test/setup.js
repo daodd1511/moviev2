@@ -6,6 +6,10 @@ import { logger } from '../src/logger.js';
 
 logger.level = 'silent';
 
+// Synthetic, never read from a developer .env — jwt.sign/verify need a TOKEN_KEY and
+// tests must not depend on (or be able to touch) a real one.
+process.env.TOKEN_KEY ??= 'test-only-token-key';
+
 let mongod;
 
 beforeAll(async () => {
