@@ -5,10 +5,10 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 2 — done (PR #2, awaiting merge)
+- Current phase: 3 — in-progress (local gate green, PR not yet opened)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
-- Phase 3 — Authentication and account hardening: pending
+- Phase 3 — Authentication and account hardening: in-progress
 - Phase 4 — Legacy list hardening: pending
 - Phase 5 — Web resilience: pending
 - Phase 6 — Browser smoke and authoritative CI: pending
@@ -99,21 +99,21 @@ Produces: `AuthService.register(input)`, `AuthService.login(input)`,
 `UserService.updateProfile(userId, input)`, `toPublicUser(user)`, and authenticated
 `GET|PUT /api/user/profile`.
 
-- [ ] Add `apps/api/src/validation/auth.schema.js` for strict trimmed register/login bodies and `apps/api/src/validation/user.schema.js` for strict profile updates without password or target-user fields.
-- [ ] Add `apps/api/src/dto/user.dto.js#toPublicUser`; update `apps/api/src/service/authService.js` and `apps/api/src/controller/auth.controller.js` to use the PLAN.md service signatures and return only public registration/login payloads.
-- [ ] Update `apps/api/src/middleware/auth.middleware.js` to require a non-empty Bearer token and map every verification failure to `AppError` code `unauthorized`.
-- [ ] Update `apps/api/src/router/auth.routes.js` with validation plus a 10-request/15-minute IP rate limit for register/login.
-- [ ] Update `apps/api/src/service/userService.js`, `apps/api/src/controller/user.controller.js`, and `apps/api/src/router/user.routes.js`; remove `PUT /api/user/update/:id` and add validated `PUT /api/user/profile` deriving identity only from `req.userId`.
-- [ ] Add `apps/api/test/auth.integration.test.js`, `apps/api/test/user.integration.test.js`, and helper functions in `apps/api/test/helpers/auth.js` for invalid input, duplicates, safe DTOs, bearer failures, rate limiting, and same-user/non-owner update attempts.
+- [x] Add `apps/api/src/validation/auth.schema.js` for strict trimmed register/login bodies and `apps/api/src/validation/user.schema.js` for strict profile updates without password or target-user fields.
+- [x] Add `apps/api/src/dto/user.dto.js#toPublicUser`; update `apps/api/src/service/authService.js` and `apps/api/src/controller/auth.controller.js` to use the PLAN.md service signatures and return only public registration/login payloads (also collapses "no such user" and "wrong password" into the same `invalid_credentials` error, so login can't be used to enumerate usernames).
+- [x] Update `apps/api/src/middleware/auth.middleware.js` to require a non-empty Bearer token and map every verification failure to `AppError` code `unauthorized`.
+- [x] Update `apps/api/src/router/auth.routes.js` with validation plus a 10-request/15-minute IP rate limit for register/login (amended <2026-07-29>: added `app.set('trust proxy', 1)` to `apps/api/src/app.js` — without it `req.ip` always resolves to the upstream proxy's address in production, and to the same value for every test client, making per-IP rate limiting meaningless).
+- [x] Update `apps/api/src/service/userService.js`, `apps/api/src/controller/user.controller.js`, and `apps/api/src/router/user.routes.js`; remove `PUT /api/user/update/:id` and add validated `PUT /api/user/profile` deriving identity only from `req.userId`. (`UserService.update`/`.delete` and `UserController.deleteUser` are untouched — `listService.js`, phase 4, still depends on the exact `update` signature.)
+- [x] Add `apps/api/test/auth.integration.test.js`, `apps/api/test/user.integration.test.js`, and helper functions in `apps/api/test/helpers/auth.js` for invalid input, duplicates, safe DTOs, bearer failures, rate limiting, and same-user/non-owner update attempts (amended <2026-07-29>: `test/setup.js` now sets a synthetic `process.env.TOKEN_KEY` fallback — tests must not depend on a developer `.env`).
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit`
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm check:api`
+- [x] `pnpm test:unit`
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
