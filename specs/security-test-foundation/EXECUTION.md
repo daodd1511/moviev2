@@ -5,8 +5,8 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 1 — pending
-- Phase 1 — Test harness and application seam: pending
+- Current phase: 1 — in-progress (local gate green, CI pending)
+- Phase 1 — Test harness and application seam: in-progress
 - Phase 2 — API boundary and observability: pending
 - Phase 3 — Authentication and account hardening: pending
 - Phase 4 — Legacy list hardening: pending
@@ -33,12 +33,12 @@ and root commands `test:unit`, `test:api`, `test:web`, `check:api`.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit`
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm check:api`
+- [x] `pnpm test:unit`
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
