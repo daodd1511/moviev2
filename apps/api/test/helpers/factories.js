@@ -23,3 +23,19 @@ export const createUser = async (overrides = {}) => {
   const user = await User.create({ ...input, password: hashedPassword });
   return { user, plainPassword: input.password };
 };
+
+let mediaSequence = 0;
+
+/** Builds a unique, schema-valid media payload matching the web app's Media model. */
+export const buildMedia = (overrides = {}) => {
+  mediaSequence += 1;
+  return {
+    id: mediaSequence,
+    posterPath: `/poster-${mediaSequence}.jpg`,
+    releaseDate: '2020-01-01',
+    title: `Media ${mediaSequence}`,
+    voteAverage: 7.5,
+    type: 'movie',
+    ...overrides,
+  };
+};
