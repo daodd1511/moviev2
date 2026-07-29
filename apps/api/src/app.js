@@ -22,6 +22,9 @@ const parseCorsOrigins = () =>
 export const createApp = ({ logger = defaultLogger } = {}) => {
   const app = express();
   app.locals.logger = logger;
+  // Trust exactly one hop (the platform's load balancer/reverse proxy) so req.ip reflects
+  // the real client for rate limiting instead of the proxy's address.
+  app.set('trust proxy', 1);
 
   app.use(requestId);
   app.use(createHttpLogger(logger));
