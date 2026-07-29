@@ -1,8 +1,8 @@
 import { verifyToken } from '../middleware/auth.middleware.js';
 import ListController from '../controller/list.controller.js';
-import express from 'express';
+import { createRouter } from './create-router.js';
 
-const listRouter = express.Router();
+const listRouter = createRouter();
 listRouter.get('/clear', verifyToken, (req, res) => {
   ListController.clearAll(req, res);
 });
