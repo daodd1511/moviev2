@@ -2,7 +2,6 @@ import { PersonDto } from '@/api/dtos';
 import { Person } from '@/models';
 
 export namespace PersonMapper {
-
   /**
    * Maps PersonDto to Person model.
    * @param dto Person dto.

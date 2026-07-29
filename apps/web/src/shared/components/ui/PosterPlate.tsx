@@ -1,7 +1,6 @@
 import { ImgHTMLAttributes, ReactNode } from 'react';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
-
   /** Image source. */
   readonly src: string;
 

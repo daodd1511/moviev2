@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { memo, FC, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -18,27 +15,24 @@ const KNOWN_FOR_LIMIT = 12;
 const FILMOGRAPHY_PAGE_SIZE = 24;
 const MIN_KNOWN_FOR_VOTES = 100;
 const LOW_SIGNAL_GENRE_IDS = new Set([10763, 10764, 10767]);
-const SELF_APPEARANCE_PATTERN =
-  /\b(?:self|himself|herself|themselves|archive footage)\b/i;
+const SELF_APPEARANCE_PATTERN = /\b(?:self|himself|herself|themselves|archive footage)\b/i;
 
 type CreditDepartment = 'cast' | 'crew';
 type MediaTypeFilter = 'all' | 'movie' | 'tv';
 
-const toMedia = (credit: CombinedCredit): Media => new Media({
-  id: credit.id,
-  type: credit.mediaType === 'movie' ? 'movie' : 'tv',
-  title: credit.title || credit.name,
-  releaseDate: credit.mediaType === 'movie' ? credit.releaseDate : credit.firstAirDate,
-  voteAverage: credit.voteAverage || 0,
-  posterPath: credit.posterPath,
-});
+const toMedia = (credit: CombinedCredit): Media =>
+  new Media({
+    id: credit.id,
+    type: credit.mediaType === 'movie' ? 'movie' : 'tv',
+    title: credit.title || credit.name,
+    releaseDate: credit.mediaType === 'movie' ? credit.releaseDate : credit.firstAirDate,
+    voteAverage: credit.voteAverage || 0,
+    posterPath: credit.posterPath,
+  });
 
-const getCreditKey = (credit: CombinedCredit): string =>
-  `${credit.mediaType}:${credit.id}`;
+const getCreditKey = (credit: CombinedCredit): string => `${credit.mediaType}:${credit.id}`;
 
-const deduplicateCredits = (
-  credits: readonly CombinedCredit[],
-): readonly CombinedCredit[] => {
+const deduplicateCredits = (credits: readonly CombinedCredit[]): readonly CombinedCredit[] => {
   const uniqueCredits = new Map<string, CombinedCredit>();
 
   credits.forEach(credit => {
@@ -63,18 +57,15 @@ const isSubstantiveActingCredit = (credit: CombinedCredit): boolean =>
 const getKnownForScore = (credit: CombinedCredit): number => {
   const audienceReach = Math.log10(credit.voteCount + 1) * 30;
   const currentInterest = Math.min(credit.popularity, 100);
-  const billingWeight =
-    credit.order == null ? 0 : Math.max(0, 12 - credit.order) * 4;
+  const billingWeight = credit.order == null ? 0 : Math.max(0, 12 - credit.order) * 4;
 
   return audienceReach + currentInterest + billingWeight;
 };
 
-const sortKnownFor = (
-  credits: readonly CombinedCredit[],
-): readonly CombinedCredit[] =>
-  [...credits].sort((a, b) =>
-    getKnownForScore(b) - getKnownForScore(a) ||
-    b.voteCount - a.voteCount);
+const sortKnownFor = (credits: readonly CombinedCredit[]): readonly CombinedCredit[] =>
+  [...credits].sort(
+    (a, b) => getKnownForScore(b) - getKnownForScore(a) || b.voteCount - a.voteCount,
+  );
 
 const getKnownFor = (
   credits: PersonCombinedCredits,
@@ -82,23 +73,16 @@ const getKnownFor = (
 ): readonly Media[] => {
   const isActingDepartment = knownForDepartment === 'Acting';
   const departmentCredits =
-    isActingDepartment || credits.crew.length === 0 ?
-      credits.cast :
-      credits.crew;
+    isActingDepartment || credits.crew.length === 0 ? credits.cast : credits.crew;
   const uniqueCredits = deduplicateCredits(departmentCredits);
-  const preferredCredits =
-    isActingDepartment ?
-      uniqueCredits.filter(isSubstantiveActingCredit) :
-      uniqueCredits.filter(credit => (
-        credit.voteCount >= MIN_KNOWN_FOR_VOTES &&
-        credit.posterPath != null
-      ));
-  const knownForCredits =
-    preferredCredits.length > 0 ? preferredCredits : uniqueCredits;
+  const preferredCredits = isActingDepartment
+    ? uniqueCredits.filter(isSubstantiveActingCredit)
+    : uniqueCredits.filter(
+        credit => credit.voteCount >= MIN_KNOWN_FOR_VOTES && credit.posterPath != null,
+      );
+  const knownForCredits = preferredCredits.length > 0 ? preferredCredits : uniqueCredits;
 
-  return sortKnownFor(knownForCredits)
-    .slice(0, KNOWN_FOR_LIMIT)
-    .map(toMedia);
+  return sortKnownFor(knownForCredits).slice(0, KNOWN_FOR_LIMIT).map(toMedia);
 };
 
 const getFilmography = (
@@ -122,25 +106,22 @@ const PersonComponent: FC = () => {
 
   const {
     data: personDetail,
-    isLoading: isDetailLoading,
+    isPending: isDetailPending,
     isError: isDetailError,
   } = PersonQueries.useDetail(personId);
 
   const {
     data: personCredits,
-    isLoading: isCreditsLoading,
+    isPending: isCreditsPending,
     isError: isCreditsError,
   } = PersonQueries.useCombinedCredits(personId);
 
   const [showFullBiography, setShowFullBiography] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] =
-    useState<CreditDepartment | null>(null);
-  const [mediaTypeFilter, setMediaTypeFilter] =
-    useState<MediaTypeFilter>('all');
-  const [visibleFilmographyCount, setVisibleFilmographyCount] =
-    useState(FILMOGRAPHY_PAGE_SIZE);
+  const [selectedDepartment, setSelectedDepartment] = useState<CreditDepartment | null>(null);
+  const [mediaTypeFilter, setMediaTypeFilter] = useState<MediaTypeFilter>('all');
+  const [visibleFilmographyCount, setVisibleFilmographyCount] = useState(FILMOGRAPHY_PAGE_SIZE);
 
-  if (isDetailLoading || isCreditsLoading) {
+  if (isDetailPending || isCreditsPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 
@@ -151,21 +132,13 @@ const PersonComponent: FC = () => {
   const knownFor = getKnownFor(personCredits, personDetail.knownForDepartment);
   const creditDepartment =
     selectedDepartment ??
-    (
-      personDetail.knownForDepartment === 'Acting' ||
-      personCredits.crew.length === 0 ?
-        'cast' :
-        'crew'
-    );
-  const filmography = getFilmography(
-    personCredits,
-    creditDepartment,
-    mediaTypeFilter,
-  );
+    (personDetail.knownForDepartment === 'Acting' || personCredits.crew.length === 0
+      ? 'cast'
+      : 'crew');
+  const filmography = getFilmography(personCredits, creditDepartment, mediaTypeFilter);
   const visibleFilmography = filmography.slice(0, visibleFilmographyCount);
   const hasMoreFilmography = visibleFilmography.length < filmography.length;
-  const remainingFilmographyCount =
-    filmography.length - visibleFilmography.length;
+  const remainingFilmographyCount = filmography.length - visibleFilmography.length;
 
   const handleDepartmentChange = (department: CreditDepartment) => {
     setSelectedDepartment(department);
@@ -182,47 +155,46 @@ const PersonComponent: FC = () => {
   };
 
   const imageUrl =
-    personDetail.profilePath != null ?
-      `${IMAGE_BASE_URL}${ProfileSizes.original}${String(
-          personDetail.profilePath,
-      )}` :
-      '/images/no-profile.png';
+    personDetail.profilePath != null
+      ? `${IMAGE_BASE_URL}${ProfileSizes.original}${String(personDetail.profilePath)}`
+      : '/images/no-profile.png';
 
   // Format birthday
   const formattedBirthday =
-    personDetail.birthday != null ?
-      new Date(personDetail.birthday).toLocaleDateString('en-US', {
+    personDetail.birthday != null
+      ? new Date(personDetail.birthday).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
-      }) :
-      null;
+        })
+      : null;
 
   // Format deathday
   const formattedDeathday =
-    personDetail.deathday != null ?
-      new Date(personDetail.deathday).toLocaleDateString('en-US', {
+    personDetail.deathday != null
+      ? new Date(personDetail.deathday).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
-      }) :
-      null;
+        })
+      : null;
 
   // Limit biography length if too long
-  const isLongBiography =
-    personDetail.biography != null && personDetail.biography.length > 300;
-  const displayBiography = showFullBiography ?
-    personDetail.biography :
-    isLongBiography ?
-      `${personDetail.biography?.substring(0, 300)}...` :
-    personDetail.biography;
+  const isLongBiography = personDetail.biography != null && personDetail.biography.length > 300;
+  const displayBiography = showFullBiography
+    ? personDetail.biography
+    : isLongBiography
+      ? `${personDetail.biography?.substring(0, 300)}...`
+      : personDetail.biography;
 
   return (
     <div className="px-4 py-7 md:p-10">
       <div className="mb-5 hidden text-sm md:block">
         <ul className="flex flex-wrap items-center gap-2 [&>li:not(:first-child)]:before:mr-2 [&>li:not(:first-child)]:before:text-muted-foreground [&>li:not(:first-child)]:before:content-['/']">
           <li>
-            <Link to="/" className="text-primary hover:underline">Home</Link>
+            <Link to="/" className="text-primary hover:underline">
+              Home
+            </Link>
           </li>
           <li className="text-muted-foreground">Person</li>
           <li className="text-muted-foreground">{personDetail.name}</li>
@@ -231,7 +203,7 @@ const PersonComponent: FC = () => {
 
       <div className="flex flex-col items-start gap-6 md:flex-row md:gap-4">
         {/* Image section */}
-        <div className="flex w-full shrink-0 self-start justify-center md:block md:w-1/3">
+        <div className="flex w-full shrink-0 justify-center self-start md:block md:w-1/3">
           <img
             src={imageUrl}
             alt={`${personDetail.name} profile`}
@@ -241,34 +213,42 @@ const PersonComponent: FC = () => {
 
         {/* Info section - matches height with image */}
         <div className="w-full md:w-2/3">
-          <h1 className="mb-5 text-center text-3xl font-semibold text-foreground md:mb-4 md:text-left md:font-bold">{personDetail.name}</h1>
+          <h1 className="mb-5 text-center text-3xl font-semibold text-foreground md:mb-4 md:text-left md:font-bold">
+            {personDetail.name}
+          </h1>
 
           <div className="mb-7 grid grid-cols-2 gap-x-4 gap-y-5 rounded-lg border border-border bg-surface/60 p-4 md:mb-6 md:rounded-none md:border-0 md:bg-transparent md:p-0">
             {formattedBirthday && (
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Born</h3>
+                <h3 className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                  Born
+                </h3>
                 <p className="mt-1 text-sm text-foreground md:text-base">{formattedBirthday}</p>
               </div>
             )}
             {formattedDeathday && (
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Died</h3>
+                <h3 className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                  Died
+                </h3>
                 <p className="mt-1 text-sm text-foreground md:text-base">{formattedDeathday}</p>
               </div>
             )}
             {personDetail.place_of_birth && (
               <div className="col-span-2 md:col-span-1">
-                <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Place of Birth</h3>
-                <p className="mt-1 text-sm text-foreground md:text-base">{personDetail.place_of_birth}</p>
+                <h3 className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                  Place of Birth
+                </h3>
+                <p className="mt-1 text-sm text-foreground md:text-base">
+                  {personDetail.place_of_birth}
+                </p>
               </div>
             )}
           </div>
 
           <div className="mb-6">
             <h3 className="mb-2 font-semibold text-muted-foreground">Biography</h3>
-            <p className="whitespace-pre-line leading-7 text-foreground">
-              {displayBiography}
-            </p>
+            <p className="leading-7 whitespace-pre-line text-foreground">{displayBiography}</p>
             {isLongBiography && (
               <button
                 type="button"
@@ -284,7 +264,7 @@ const PersonComponent: FC = () => {
 
       <section className="mt-12 border-t border-border pt-7 md:mt-14 md:pt-8">
         <div className="mb-6">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+          <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-primary uppercase">
             Essential viewing
           </p>
           <h2 className="text-2xl font-bold">Known For</h2>
@@ -295,7 +275,7 @@ const PersonComponent: FC = () => {
       <section className="mt-8 border-t border-border pt-7 md:mt-10 md:pt-8">
         <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-primary uppercase">
               Complete credits
             </p>
             <h2 className="text-2xl font-bold">Filmography</h2>
@@ -316,7 +296,7 @@ const PersonComponent: FC = () => {
                   type="button"
                   aria-pressed={creditDepartment === department}
                   onClick={() => handleDepartmentChange(department)}
-                  className="min-h-9 flex-1 rounded-md px-4 text-sm font-medium capitalize text-muted-foreground transition-colors hover:text-foreground aria-pressed:bg-surface-raised aria-pressed:text-primary sm:flex-none"
+                  className="min-h-9 flex-1 rounded-md px-4 text-sm font-medium text-muted-foreground capitalize transition-colors hover:text-foreground aria-pressed:bg-surface-raised aria-pressed:text-primary sm:flex-none"
                 >
                   {department}
                 </button>
@@ -334,7 +314,7 @@ const PersonComponent: FC = () => {
                   type="button"
                   aria-pressed={mediaTypeFilter === mediaType}
                   onClick={() => handleMediaTypeChange(mediaType)}
-                  className="min-h-9 flex-1 rounded-md px-4 text-sm font-medium capitalize text-muted-foreground transition-colors hover:text-foreground aria-pressed:bg-surface-raised aria-pressed:text-primary sm:flex-none"
+                  className="min-h-9 flex-1 rounded-md px-4 text-sm font-medium text-muted-foreground capitalize transition-colors hover:text-foreground aria-pressed:bg-surface-raised aria-pressed:text-primary sm:flex-none"
                 >
                   {mediaType === 'all' ? 'All' : mediaType}
                 </button>

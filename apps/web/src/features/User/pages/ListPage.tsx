@@ -6,16 +6,16 @@ import { ListQueries } from '@/stores/queries/listQueries';
 import { Button } from '@/components/ui/button';
 
 export const ListPage = () => {
-  const { data, isLoading } = ListQueries.useAll();
+  const { data, isPending } = ListQueries.useAll();
 
-  if (isLoading) {
-    return <Loader className="min-h-[60vh]"/>;
+  if (isPending) {
+    return <Loader className="min-h-[60vh]" />;
   }
   return (
     <div className="px-4 py-8 md:px-8 md:py-12">
       <div className="mb-7 flex items-center justify-between md:mb-8">
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+          <p className="mb-1 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
             Your library
           </p>
           <h1 className="text-2xl font-semibold md:text-3xl">My lists</h1>

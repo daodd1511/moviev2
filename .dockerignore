@@ -1,0 +1,11 @@
+.git
+.github
+.pnpm-store
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+**/*.log
+**/.DS_Store
+docs
+specs

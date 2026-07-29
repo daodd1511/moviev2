@@ -11,6 +11,7 @@ Large/architectural changes flow: `/grill-me` → `specs/<feature>/PLAN.md` →
 (via the `spec-phase` skill). These rules bind even when neither skill is invoked.
 
 ### State model
+
 - **Git is the authoritative state store**: branch name encodes spec+phase
   (`<feature-slug>/phase-<n>-<desc>`), commits encode progress. Each `EXECUTION.md` opens
   with a **STATUS block** (current phase, per-phase state, verification debt) — the only
@@ -24,6 +25,7 @@ Large/architectural changes flow: `/grill-me` → `specs/<feature>/PLAN.md` →
   entry. A phase is in-progress iff it has unchecked **non-deferred** items.
 
 ### Branch model — stacked by default
+
 - **Default: stacked.** Each phase branches off the **previous phase's branch** (phase 1
   off the integration branch, currently `redesign`; resolve at plan time, never
   hardcode). Push → PR to the previous phase's branch (or to the integration branch if the
@@ -37,6 +39,7 @@ Large/architectural changes flow: `/grill-me` → `specs/<feature>/PLAN.md` →
 - After a phase's PR merges, ask before deleting the merged phase branch (local + remote).
 
 ### Checkpoints
+
 - Starting a phase authorizes its commits — nothing else.
 - Gate pass → one ask: "push + open PR?". Remote actions are never bundled with anything
   else.

@@ -1,6 +1,5 @@
 /** Register model. */
 export interface Register {
-
   /** User's email. */
   readonly email: string;
 

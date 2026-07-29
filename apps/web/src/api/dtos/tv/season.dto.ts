@@ -1,6 +1,5 @@
 /** Season dto. */
 export interface SeasonDto {
-
   /** Air date. */
   readonly air_date: string;
 

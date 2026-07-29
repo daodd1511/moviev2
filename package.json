@@ -2,11 +2,28 @@
   "name": "moviev2",
   "private": true,
   "description": "Movie browser: React SPA (apps/web) + express API (apps/api), deployed as one stack.",
+  "packageManager": "pnpm@11.17.0",
+  "engines": {
+    "node": ">=22.20.0"
+  },
   "scripts": {
-    "dev:web": "npm --prefix apps/web run dev",
-    "dev:api": "npm --prefix apps/api run dev",
-    "build:web": "npm --prefix apps/web run build",
-    "install:all": "npm --prefix apps/web ci && npm --prefix apps/api ci",
-    "lint": "npm --prefix apps/web run lint"
+    "dev": "pnpm --parallel --filter @movie/web --filter @movie/api dev",
+    "dev:web": "pnpm --filter @movie/web dev",
+    "dev:api": "pnpm --filter @movie/api dev",
+    "build": "pnpm --filter @movie/web build",
+    "build:web": "pnpm --filter @movie/web build",
+    "typecheck": "pnpm --filter @movie/web exec tsc --noEmit",
+    "lint": "oxlint apps && oxlint --type-aware apps/web/src",
+    "lint:fix": "oxlint apps --fix && oxlint --type-aware apps/web/src --fix",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check ."
+  },
+  "volta": {
+    "node": "22.20.0"
+  },
+  "devDependencies": {
+    "oxfmt": "0.60.0",
+    "oxlint": "1.74.0",
+    "oxlint-tsgolint": "0.24.0"
   }
 }

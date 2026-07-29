@@ -1,6 +1,5 @@
 /** Episode dto. */
 export interface EpisodeDto {
-
   /** Air date. */
   readonly air_date: string;
 
@@ -15,5 +14,4 @@ export interface EpisodeDto {
 
   /** Overview. */
   readonly overview: string;
-
 }

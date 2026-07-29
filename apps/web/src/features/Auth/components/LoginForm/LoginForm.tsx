@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { isAxiosError } from 'axios';
 
 import { ErrorField } from '../ErrorField';
 
@@ -19,10 +20,7 @@ import { TextField } from '@/shared/components/ui/TextField';
 import { Button } from '@/components/ui/button';
 
 const getSafeRedirectPath = (redirectPath: string | null): string =>
-  redirectPath?.startsWith('/') === true &&
-  !redirectPath.startsWith('//') ?
-    redirectPath :
-    '/';
+  redirectPath?.startsWith('/') === true && !redirectPath.startsWith('//') ? redirectPath : '/';
 
 const LoginFormComponent = () => {
   const navigate = useNavigate();
@@ -39,8 +37,7 @@ const LoginFormComponent = () => {
     resolver: zodResolver(loginSchema),
   });
   const mutation = useMutation({
-    mutationFn: ({ username, password }: Login) =>
-      AuthService.login({ username, password }),
+    mutationFn: ({ username, password }: Login) => AuthService.login({ username, password }),
     onSuccess(data) {
       TokenService.save(data.accessToken);
       setToken(data.accessToken);
@@ -48,9 +45,11 @@ const LoginFormComponent = () => {
       setAuth(true);
       navigate(redirectPath, { replace: true });
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError(error: any) {
-      toast.error(error.response?.data.message);
+    onError(error: unknown) {
+      const message = isAxiosError<{ message?: string }>(error)
+        ? error.response?.data.message
+        : undefined;
+      toast.error(message ?? 'Unable to sign in');
     },
   });
 
@@ -60,10 +59,10 @@ const LoginFormComponent = () => {
   return (
     <form
       className="w-full rounded-lg border border-foreground/10 bg-surface/65 p-6 shadow-[0_28px_70px_-32px_rgba(0,0,0,0.9)] backdrop-blur-sm sm:p-9"
-      onSubmit={onSubmit}
+      onSubmit={event => void onSubmit(event)}
     >
       <div className="mb-8">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+        <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
           Your account
         </p>
         <h2 className="text-3xl font-light text-foreground sm:text-4xl">Sign in</h2>
@@ -80,7 +79,9 @@ const LoginFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('username')}
           />
-          {errors.username?.message !== undefined && <ErrorField error={errors.username?.message}/>}
+          {errors.username?.message !== undefined && (
+            <ErrorField error={errors.username?.message} />
+          )}
         </div>
         <div>
           <TextField
@@ -90,15 +91,17 @@ const LoginFormComponent = () => {
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
             {...register('password')}
           />
-          {errors.password?.message !== undefined && <ErrorField error={errors.password?.message}/>}
+          {errors.password?.message !== undefined && (
+            <ErrorField error={errors.password?.message} />
+          )}
         </div>
         <div>
           <Button
             type="submit"
             className="h-14 w-full rounded-full text-base font-semibold shadow-[0_12px_30px_-10px_rgba(245,165,36,0.55)]"
-            disabled={mutation.isLoading}
+            disabled={mutation.isPending}
           >
-            {mutation.isLoading ? 'Signing In' : 'Sign In'}
+            {mutation.isPending ? 'Signing In' : 'Sign In'}
           </Button>
         </div>
         <div className="border-t border-foreground/10 pt-5 text-center text-sm text-muted-foreground">

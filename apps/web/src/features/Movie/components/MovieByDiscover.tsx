@@ -9,18 +9,10 @@ import { MovieQueries } from '@/stores/queries/movieQueries';
 
 const MovieByDiscoverComponent = () => {
   const { discover } = useParams();
-  const title =
-    MOVIE_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
+  const title = MOVIE_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
 
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
-    isLoading,
-    isError,
-    error,
-  } = MovieQueries.useInfiniteListByDiscover(discover ?? '');
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending, isError, error } =
+    MovieQueries.useInfiniteListByDiscover(discover ?? '');
 
   const { observerElement } = useInfiniteScroll(
     {
@@ -28,11 +20,11 @@ const MovieByDiscoverComponent = () => {
       rootMargin: '0px',
       threshold: 0.5,
     },
-    fetchNextPage,
+    () => void fetchNextPage(),
     hasNextPage,
   );
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 

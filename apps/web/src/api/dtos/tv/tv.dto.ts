@@ -1,6 +1,5 @@
 /** Tv dto. */
 export interface TvDto {
-
   /** Poster path. */
   readonly poster_path: string | null;
 

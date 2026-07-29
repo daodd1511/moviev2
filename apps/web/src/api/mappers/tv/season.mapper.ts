@@ -3,7 +3,6 @@ import { SeasonDto } from '../../dtos/';
 import { Season } from '@/models/';
 
 export namespace SeasonMapper {
-
   /**
    * Maps SeasonDto to Season model.
    * @param dto Season dto.
@@ -17,7 +16,6 @@ export namespace SeasonMapper {
       overview: dto.overview,
       posterPath: dto.poster_path,
       seasonNumber: dto.season_number,
-
     });
   }
 }

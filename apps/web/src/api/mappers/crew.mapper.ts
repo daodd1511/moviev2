@@ -3,7 +3,6 @@ import { CrewDto } from '../dtos';
 import { Crew } from '@/models';
 
 export namespace CrewMapper {
-
   /**
    * Maps CrewDto to Crew model.
    * @param dto Crew dto.

@@ -23,7 +23,7 @@ export const App = () => {
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer theme="dark" />
       <HashRouter>
-        <Suspense fallback={<Loader className="min-h-svh"/>}>
+        <Suspense fallback={<Loader className="min-h-svh" />}>
           <Router />
         </Suspense>
       </HashRouter>

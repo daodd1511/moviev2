@@ -23,7 +23,7 @@ const TVsComponent = () => {
         <button
           type="button"
           aria-label="Scroll to top"
-          className="fixed bottom-5 right-5 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-background/80 text-foreground backdrop-blur-sm transition-colors hover:bg-background"
+          className="fixed right-5 bottom-5 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-background/80 text-foreground backdrop-blur-sm transition-colors hover:bg-background"
           onClick={goToTop}
         >
           <ChevronUp className="h-6 w-6" />

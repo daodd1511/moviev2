@@ -1,4 +1,3 @@
-
 import { memo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Film } from 'lucide-react';
@@ -15,10 +14,9 @@ const PublicListComponent = () => {
   const [selectedTab, setSelectedTab] = useState<Type | null>(null);
   assertNonNull(username);
   assertNonNull(listId);
-  const { data, isLoading, isError } =
-    ListQueries.usePublicList(username, listId);
+  const { data, isPending, isError } = ListQueries.usePublicList(username, listId);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 
@@ -28,10 +26,8 @@ const PublicListComponent = () => {
 
   const isListEmpty = data.movies.length === 0 && data.tvShows.length === 0;
   const activeTab =
-    selectedTab ??
-    (data.movies.length > 0 || data.tvShows.length === 0 ? Type.Movie : Type.Tv);
-  const activeItems =
-    activeTab === Type.Movie ? data.movies : data.tvShows;
+    selectedTab ?? (data.movies.length > 0 || data.tvShows.length === 0 ? Type.Movie : Type.Tv);
+  const activeItems = activeTab === Type.Movie ? data.movies : data.tvShows;
   const activeTypeLabel = activeTab === Type.Movie ? 'movies' : 'TV shows';
 
   return (
@@ -61,33 +57,31 @@ const PublicListComponent = () => {
         </button>
       </div>
 
-      {activeItems.length > 0 ?
-        (
-          <div className="grid grid-cols-2 gap-x-3 gap-y-6 pb-10 sm:grid-cols-autoFit sm:place-content-evenly sm:gap-x-6 sm:gap-y-10">
-            {activeItems.map((media: Media) => (
-              <div key={`${media.type}:${media.id}`}>
-                <MediaListItem media={media} />
-              </div>
-            ))}
-          </div>
-        ) :
-        (
-          <div className="flex min-h-[22rem] items-center justify-center border-b border-border">
-            <div className="max-w-sm text-center">
-              <span className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full border border-border bg-surface text-primary">
-                <Film className="size-6" aria-hidden="true" />
-              </span>
-              <h2 className="text-xl font-medium text-foreground">
-                {isListEmpty ? 'This list is empty' : `No ${activeTypeLabel} here`}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {isListEmpty ?
-                  'Nothing has been added to this public list yet.' :
-                  `This public list does not contain any ${activeTypeLabel}.`}
-              </p>
+      {activeItems.length > 0 ? (
+        <div className="grid grid-cols-2 gap-x-3 gap-y-6 pb-10 sm:grid-cols-autoFit sm:place-content-evenly sm:gap-x-6 sm:gap-y-10">
+          {activeItems.map((media: Media) => (
+            <div key={`${media.type}:${media.id}`}>
+              <MediaListItem media={media} />
             </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex min-h-[22rem] items-center justify-center border-b border-border">
+          <div className="max-w-sm text-center">
+            <span className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full border border-border bg-surface text-primary">
+              <Film className="size-6" aria-hidden="true" />
+            </span>
+            <h2 className="text-xl font-medium text-foreground">
+              {isListEmpty ? 'This list is empty' : `No ${activeTypeLabel} here`}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {isListEmpty
+                ? 'Nothing has been added to this public list yet.'
+                : `This public list does not contain any ${activeTypeLabel}.`}
+            </p>
           </div>
-        )}
+        </div>
+      )}
       <Footer />
     </div>
   );

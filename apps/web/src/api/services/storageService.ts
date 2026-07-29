@@ -1,5 +1,4 @@
 export namespace StorageService {
-
   /**
    * Set data to localStorage.
    * @param key Key to store.

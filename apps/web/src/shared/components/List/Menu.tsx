@@ -26,7 +26,6 @@ import { ListService } from '@/api/services/listService';
 import { MediaType } from '@/shared/enums/mediaType';
 
 interface Props {
-
   /** Media id. */
   readonly media: Media;
 
@@ -43,32 +42,29 @@ interface Props {
 export const Menu = ({ media, trigger, triggerLabel, className }: Props) => {
   const [isListMenuOpen, setIsListMenuOpen] = useState<boolean>(false);
   const [isAuth] = useAtom(isAuthAtom);
-  const { data: lists, isLoading: isListLoading } =
-    ListQueries.useAll(isListMenuOpen);
+  const { data: lists, isPending: isListPending } = ListQueries.useAll(isListMenuOpen);
 
-  const addItemToListMutation = useMutation(
-    (list: List) => ListService.update(list),
-    {
-      onSuccess() {
-        toast.success('Movie added to list');
-      },
+  const addItemToListMutation = useMutation({
+    mutationFn: (list: List) => ListService.update(list),
+    onSuccess() {
+      toast.success('Movie added to list');
     },
-  );
+  });
 
   const onListClick = (list: List) => {
     const isMovie = media.type === MediaType.Movie;
-    const existingItem = isMovie ?
-      list.movies.find(m => m.id === media.id) :
-      list.tvShows.find(t => t.id === media.id);
+    const existingItem = isMovie
+      ? list.movies.find(m => m.id === media.id)
+      : list.tvShows.find(t => t.id === media.id);
 
     if (existingItem !== undefined) {
       toast.error(`${isMovie ? 'Movie' : 'Show'} already in list`);
       return;
     }
 
-    const newList = isMovie ?
-      { ...list, movies: [...list.movies, media] } :
-      { ...list, tvShows: [...list.tvShows, media] };
+    const newList = isMovie
+      ? { ...list, movies: [...list.movies, media] }
+      : { ...list, tvShows: [...list.tvShows, media] };
 
     addItemToListMutation.mutate(newList as List);
   };
@@ -85,13 +81,8 @@ export const Menu = ({ media, trigger, triggerLabel, className }: Props) => {
           </DropdownMenuItem>
         )}
         {isAuth && (
-          <DropdownMenuSub
-            open={isListMenuOpen}
-            onOpenChange={setIsListMenuOpen}
-          >
-            <DropdownMenuSubTrigger
-              onPointerEnter={() => setIsListMenuOpen(true)}
-            >
+          <DropdownMenuSub open={isListMenuOpen} onOpenChange={setIsListMenuOpen}>
+            <DropdownMenuSubTrigger onPointerEnter={() => setIsListMenuOpen(true)}>
               <ListPlus aria-hidden="true" />
               Add to list
             </DropdownMenuSubTrigger>
@@ -104,14 +95,16 @@ export const Menu = ({ media, trigger, triggerLabel, className }: Props) => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel>Your lists</DropdownMenuLabel>
-              {isListLoading ?
-                <Loader /> :
+              {isListPending ? (
+                <Loader />
+              ) : (
                 lists?.map(list => (
                   <DropdownMenuItem key={list.id} onClick={() => onListClick(list)}>
                     <Bookmark aria-hidden="true" />
                     {list.name}
                   </DropdownMenuItem>
-                ))}
+                ))
+              )}
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         )}

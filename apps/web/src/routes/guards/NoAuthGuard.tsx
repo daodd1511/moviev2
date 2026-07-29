@@ -10,7 +10,7 @@ export const NoAuthGuard = () => {
     const redirect: To = {
       pathname: '/',
     };
-    return <Navigate to={redirect} replace/>;
+    return <Navigate to={redirect} replace />;
   }
 
   return <Outlet />;

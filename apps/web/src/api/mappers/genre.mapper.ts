@@ -3,7 +3,6 @@ import { GenreDto } from '../dtos';
 import { Genre } from '@/models';
 
 export namespace GenreMapper {
-
   /**
    * Maps GenreDto to Genre model.
    * @param dto Genre dto.

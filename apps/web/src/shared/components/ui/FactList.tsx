@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 interface Fact {
-
   /** Fact key/label. */
   readonly key: string;
 
@@ -13,7 +12,6 @@ interface Fact {
 }
 
 interface Props {
-
   /** Facts to render as rows. */
   readonly facts: readonly Fact[];
 

@@ -1,4 +1,3 @@
-
 import { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { TokenService } from '../services/tokenService';
@@ -9,9 +8,7 @@ const LOGIN_ROUTE = '/auth/login';
  * Intercept and add bearer authorization.
  * @param config Axios Request Config.
  */
-export function tokenInterceptor(
-  config: AxiosRequestConfig,
-): AxiosRequestConfig {
+export function tokenInterceptor(config: AxiosRequestConfig): AxiosRequestConfig {
   if (!shouldInterceptWithToken(config)) {
     return config;
   }
@@ -41,9 +38,7 @@ export function shouldInterceptWithToken(config: AxiosRequestConfig): boolean {
  * Clear token and redirect to login if a request is unauthorized.
  * @param error Axios Error.
  */
-export function tokenErrorInterceptor(
-  error: AxiosError,
-): Promise<never> {
+export function tokenErrorInterceptor(error: AxiosError): Promise<never> {
   if (error.response?.status === 401) {
     TokenService.destroy();
 

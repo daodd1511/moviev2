@@ -5,7 +5,6 @@ import { TvDetailDto } from '../../dtos';
 import { TvDetail } from '@/models/';
 
 export namespace TvDetailMapper {
-
   /**
    * Maps TvDto to Tv model.
    * @param dto Tv dto.

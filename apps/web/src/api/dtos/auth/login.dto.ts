@@ -1,6 +1,5 @@
 /** Login dto. */
 export interface LoginDto {
-
   /** Username. */
   username: string;
 
@@ -10,7 +9,6 @@ export interface LoginDto {
 
 /** Login response dto. */
 export interface LoginResponseDto {
-
   /** Token. */
   accessToken: string;
 

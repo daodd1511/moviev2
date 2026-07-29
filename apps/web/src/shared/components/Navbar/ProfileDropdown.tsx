@@ -18,7 +18,7 @@ export const ProfileDropdown = () => {
   const onLogoutButtonClick = () => {
     setIsConfirmLogoutModalOpen(true);
   };
-  const onConfirmButtonClick = async() => {
+  const onConfirmButtonClick = async () => {
     await logout();
   };
   return (

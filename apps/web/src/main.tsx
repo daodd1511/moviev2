@@ -1,5 +1,5 @@
 import { StrictMode } from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 
 import '@fontsource/be-vietnam-pro/200.css';
 import '@fontsource/be-vietnam-pro/300.css';
@@ -15,7 +15,7 @@ if (rootElement === null) {
   throw new Error('Failed to find root element');
 }
 
-ReactDOM.createRoot(rootElement).render(
+createRoot(rootElement).render(
   <StrictMode>
     <App />
   </StrictMode>,

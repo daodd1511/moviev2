@@ -1,16 +1,10 @@
 import { ReactNode } from 'react';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface Props {
-
   /** Dialog visibility. */
   readonly open: boolean;
 
@@ -55,18 +49,18 @@ export const ConfirmDialog = ({
       showCloseButton={false}
       className="w-[min(92vw,28rem)] max-w-none gap-0 overflow-hidden border border-foreground/10 bg-popover p-0 shadow-[0_28px_80px_-24px_rgba(0,0,0,0.9)] sm:max-w-none"
     >
-      <div className="px-6 pb-7 pt-8 text-center sm:px-8">
+      <div className="px-6 pt-8 pb-7 text-center sm:px-8">
         <span
           className={cn(
             'mx-auto mb-5 flex size-12 items-center justify-center rounded-full border',
-            destructive ?
-              'border-destructive/25 bg-destructive/10 text-destructive' :
-              'border-foreground/10 bg-foreground/[0.06] text-foreground',
+            destructive
+              ? 'border-destructive/25 bg-destructive/10 text-destructive'
+              : 'border-foreground/10 bg-foreground/[0.06] text-foreground',
           )}
         >
           {icon}
         </span>
-        <DialogTitle className="text-xl font-medium leading-tight text-foreground">
+        <DialogTitle className="text-xl leading-tight font-medium text-foreground">
           {title}
         </DialogTitle>
         <DialogDescription className="mx-auto mt-2 max-w-sm leading-relaxed">
@@ -95,7 +89,7 @@ export const ConfirmDialog = ({
             ],
           )}
           disabled={isLoading}
-          onClick={onConfirm}
+          onClick={() => void onConfirm()}
         >
           {isLoading ? 'Working…' : confirmLabel}
         </Button>

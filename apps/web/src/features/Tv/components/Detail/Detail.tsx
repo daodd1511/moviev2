@@ -20,23 +20,16 @@ const TvDetailComponent = () => {
   assertNonNull(id, 'TV id is null');
   const tvId = parseInt(id, 10);
   const [isFullSizeImage, setIsFullSizeImage] = useState(false);
-  const {
-    data: tv,
-    isLoading,
-    isError,
-    error,
-  } = TvQueries.useDetail(tvId);
+  const { data: tv, isPending, isError, error } = TvQueries.useDetail(tvId);
 
-  const {
-    data: credits,
-  } = TvQueries.useCredits(tvId);
+  const { data: credits } = TvQueries.useCredits(tvId);
 
   useEffect(() => {
     goToTop();
   }, [id]);
 
-  if (isLoading) {
-    return <Loader className="min-h-[60vh]"/>;
+  if (isPending) {
+    return <Loader className="min-h-[60vh]" />;
   }
 
   if (isError) {
@@ -44,17 +37,15 @@ const TvDetailComponent = () => {
   }
 
   const posterUrl =
-    tv.posterPath !== null ?
-      `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${tv.posterPath}` :
-      '/images/no-image.png';
+    tv.posterPath !== null
+      ? `${IMAGE_BASE_URL}${PosterSizes.extraExtraLarge}${tv.posterPath}`
+      : '/images/no-image.png';
   const fullSizeImageUrl =
-    tv.posterPath !== null ?
-      `${IMAGE_BASE_URL}${PosterSizes.original}${tv.posterPath}` :
-      '/images/no-image.png';
+    tv.posterPath !== null
+      ? `${IMAGE_BASE_URL}${PosterSizes.original}${tv.posterPath}`
+      : '/images/no-image.png';
   const backdropUrl =
-    tv.backdropPath != null ?
-      `${IMAGE_BASE_URL}${BackdropSizes.original}${tv.backdropPath}` :
-      null;
+    tv.backdropPath != null ? `${IMAGE_BASE_URL}${BackdropSizes.original}${tv.backdropPath}` : null;
 
   return (
     <div className="relative">
@@ -62,19 +53,19 @@ const TvDetailComponent = () => {
         className="relative left-1/2 flex w-screen -translate-x-1/2 items-end overflow-hidden bg-background md:min-h-[92svh]"
         aria-labelledby="tv-title"
       >
-        {backdropUrl != null ?
-          (
-            <div
-              role="img"
-              aria-label={`${tv.name} backdrop`}
-              className="animate-hero-drift absolute inset-0 hidden bg-cover md:block md:[background-position:center_20%]"
-              style={{ backgroundImage: `url(${backdropUrl})` }}
-            />
-          ) :
-          <div className="absolute inset-0 hidden bg-surface md:block" />}
+        {backdropUrl != null ? (
+          <div
+            role="img"
+            aria-label={`${tv.name} backdrop`}
+            className="absolute inset-0 hidden animate-hero-drift bg-cover md:block md:[background-position:center_20%]"
+            style={{ backgroundImage: `url(${backdropUrl})` }}
+          />
+        ) : (
+          <div className="absolute inset-0 hidden bg-surface md:block" />
+        )}
         <div className="absolute inset-0 hidden bg-gradient-to-t from-background via-background/55 to-background/25 md:block" />
         <div className="absolute inset-0 hidden bg-gradient-to-r from-background/85 via-background/35 to-transparent md:block" />
-        <div className="relative z-2 mx-auto flex w-full max-w-[90rem] flex-col items-center gap-7 px-4 pb-10 pt-20 md:flex-row md:items-end md:gap-10 md:px-12 md:pb-16 md:pt-32 lg:gap-14 lg:px-16 xl:px-20">
+        <div className="relative z-2 mx-auto flex w-full max-w-[90rem] flex-col items-center gap-7 px-4 pt-20 pb-10 md:flex-row md:items-end md:gap-10 md:px-12 md:pt-32 md:pb-16 lg:gap-14 lg:px-16 xl:px-20">
           <button
             type="button"
             aria-label={`View full size poster for ${tv.name}`}
@@ -90,9 +81,7 @@ const TvDetailComponent = () => {
       <main className="mx-auto max-w-[90rem] px-4 md:px-12 lg:px-16 xl:px-20">
         <Overview tv={tv} />
         <Seasons seasons={tv.seasons} />
-        {credits != null && (
-          <Cast credits={credits} mediaType={MediaType.Tv} mediaId={tv.id} />
-        )}
+        {credits != null && <Cast credits={credits} mediaType={MediaType.Tv} mediaId={tv.id} />}
         <Recommend mediaId={tv.id} mediaType={MediaType.Tv} />
       </main>
       <Footer />

@@ -3,7 +3,6 @@ import { LoginDto, LoginResponseDto } from '../../dtos/auth/login.dto';
 import { Login, LoginResponse } from '@/models/auth/login.model';
 
 export namespace LoginMapper {
-
   /**
    * Maps model to DTO.
    * @param credential User login credential.

@@ -3,7 +3,6 @@ import { SpokenLanguageDto } from '../spokenLang.dto';
 
 /** Movie detail dto. */
 export interface MovieDetailDto extends MovieDto {
-
   /** Budget. */
   readonly budget: number;
 
@@ -36,7 +35,6 @@ export interface MovieDetailDto extends MovieDto {
 
   /** Videos. */
   readonly videos: VideoResponseDto;
-
 }
 
 // Optional

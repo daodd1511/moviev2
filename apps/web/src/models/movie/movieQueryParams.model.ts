@@ -2,7 +2,6 @@ import { SortBy, SortOrder } from '@/shared/enums/sort';
 
 /** Movie query params model. */
 export interface MovieQueryParams {
-
   /** Page. */
   readonly page: number;
 

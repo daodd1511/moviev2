@@ -5,7 +5,6 @@ import { MovieDetailDto } from '../../dtos';
 import { MovieDetail } from '@/models';
 
 export namespace MovieDetailMapper {
-
   /**
    * Maps MovieDto to Movie model.
    * @param dto Movie dto.

@@ -15,9 +15,11 @@ export const backendApi: AxiosInstance = axios.create({
 });
 
 backendApi.interceptors.request.use(
-  config => tokenInterceptor(config), error => Promise.reject(error),
+  config => tokenInterceptor(config),
+  error => Promise.reject(error),
 );
 
 backendApi.interceptors.response.use(
-  response => response, error => tokenErrorInterceptor(error),
+  response => response,
+  error => tokenErrorInterceptor(error),
 );

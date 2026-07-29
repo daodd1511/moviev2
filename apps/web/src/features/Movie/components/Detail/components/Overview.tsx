@@ -5,7 +5,6 @@ import { Kicker } from '@/shared/components/ui/Kicker';
 import { FactList } from '@/shared/components/ui/FactList';
 
 interface Props {
-
   /** Movie detail. */
   readonly movie: MovieDetail;
 
@@ -14,15 +13,24 @@ interface Props {
 }
 
 const OverviewComponent = ({ movie, credits }: Props) => {
-  const director = useMemo(
-    () => credits?.crew?.find(({ job }) => job === 'Director'),
-    [credits],
-  );
+  const director = useMemo(() => credits?.crew?.find(({ job }) => job === 'Director'), [credits]);
 
   const facts = [
     { key: 'director', label: 'Director', value: director?.name ?? '—' },
-    { key: 'release', label: 'Release date', value: new Date(movie.releaseDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) },
-    { key: 'runtime', label: 'Runtime', value: movie.runtime !== null ? `${movie.runtime} min` : '—' },
+    {
+      key: 'release',
+      label: 'Release date',
+      value: new Date(movie.releaseDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+    },
+    {
+      key: 'runtime',
+      label: 'Runtime',
+      value: movie.runtime !== null ? `${movie.runtime} min` : '—',
+    },
     { key: 'language', label: 'Original language', value: movie.originalLanguage.toUpperCase() },
     { key: 'status', label: 'Status', value: movie.status },
   ];

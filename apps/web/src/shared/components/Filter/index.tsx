@@ -8,7 +8,6 @@ import { MediaType } from '@/shared/enums/mediaType';
 
 /** Filter props. */
 export interface FilterProps {
-
   /** Media type. */
   readonly type: MediaType;
 }

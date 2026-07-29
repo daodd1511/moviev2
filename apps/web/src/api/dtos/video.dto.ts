@@ -1,6 +1,5 @@
 /** Video dto. */
 export interface VideoDto {
-
   /** Id. */
   readonly id: string;
 
@@ -25,7 +24,6 @@ export interface VideoDto {
 
 /** Video response dto. */
 export interface VideoResponseDto {
-
   /** Id. */
   readonly id: number;
 

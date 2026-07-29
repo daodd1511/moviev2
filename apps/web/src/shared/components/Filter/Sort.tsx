@@ -15,9 +15,13 @@ import {
 export const Sort = () => {
   const labelId = useId();
   const [queryParams, setQueryParams] = useAtom(queryParamsAtom);
-  const selectedIndex = String(SORT_OPTIONS.findIndex(option =>
-    option.value.sortBy === queryParams.sortBy &&
-    option.value.sortOrder === queryParams.sortOrder));
+  const selectedIndex = String(
+    SORT_OPTIONS.findIndex(
+      option =>
+        option.value.sortBy === queryParams.sortBy &&
+        option.value.sortOrder === queryParams.sortOrder,
+    ),
+  );
 
   const onValueChange = (index: string) => {
     const option = SORT_OPTIONS[Number(index)];
@@ -30,7 +34,10 @@ export const Sort = () => {
 
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-2 md:max-w-72">
-      <span id={labelId} className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+      <span
+        id={labelId}
+        className="flex items-center gap-2 text-xs font-medium tracking-[0.16em] text-muted-foreground uppercase"
+      >
         <ArrowDownWideNarrow aria-hidden="true" className="size-3.5" />
         Sort by
       </span>

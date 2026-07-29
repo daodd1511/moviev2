@@ -16,279 +16,683 @@ FORM: Bold expressive / poster-art energy; chosen by the user as
   candidate C of three.
 -->
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Flix — Concept C · Midnight Marquee</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --night: #16110c;
-    --night-2: #1f1811;
-    --cream: #f4ecdf;
-    --cream-soft: #cbbfa8;
-    --orange: #ff5c1a;
-    --orange-deep: #d84302;
-    --ink: #16110c;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--night); color: var(--cream);
-    font-family: "Archivo", system-ui, sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-  img { max-width: 100%; display: block; }
-  a { color: inherit; }
-  :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
-  .display { font-family: "Anton", "Archivo", sans-serif; font-weight: 400; letter-spacing: .01em; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flix — Concept C · Midnight Marquee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --night: #16110c;
+        --night-2: #1f1811;
+        --cream: #f4ecdf;
+        --cream-soft: #cbbfa8;
+        --orange: #ff5c1a;
+        --orange-deep: #d84302;
+        --ink: #16110c;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--night);
+        color: var(--cream);
+        font-family: 'Archivo', system-ui, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 3px solid var(--orange);
+        outline-offset: 3px;
+      }
+      .display {
+        font-family: 'Anton', 'Archivo', sans-serif;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+      }
 
-  /* ── Marquee nav ─────────────────────────────────── */
-  .nav {
-    display: flex; align-items: center; gap: 2rem;
-    padding: 1rem 2.5rem;
-    border-bottom: 3px solid var(--cream);
-    background: var(--night);
-  }
-  .brand { font-family: "Anton", sans-serif; font-size: 1.6rem; text-transform: uppercase; text-decoration: none; color: var(--orange); }
-  .nav ul { display: flex; gap: 1.75rem; list-style: none; }
-  .nav ul a { text-decoration: none; font-weight: 600; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--cream-soft); }
-  .nav ul a[aria-current="page"], .nav ul a:hover { color: var(--cream); }
-  .nav-search { margin-left: auto; font-size: .85rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cream-soft); }
-  .bulbs { height: 14px; background-image: radial-gradient(circle at 7px 7px, var(--orange) 3px, transparent 3.5px); background-size: 22px 14px; border-bottom: 3px solid var(--cream); }
+      /* ── Marquee nav ─────────────────────────────────── */
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 1rem 2.5rem;
+        border-bottom: 3px solid var(--cream);
+        background: var(--night);
+      }
+      .brand {
+        font-family: 'Anton', sans-serif;
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--orange);
+      }
+      .nav ul {
+        display: flex;
+        gap: 1.75rem;
+        list-style: none;
+      }
+      .nav ul a {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--cream-soft);
+      }
+      .nav ul a[aria-current='page'],
+      .nav ul a:hover {
+        color: var(--cream);
+      }
+      .nav-search {
+        margin-left: auto;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--cream-soft);
+      }
+      .bulbs {
+        height: 14px;
+        background-image: radial-gradient(circle at 7px 7px, var(--orange) 3px, transparent 3.5px);
+        background-size: 22px 14px;
+        border-bottom: 3px solid var(--cream);
+      }
 
-  /* ── Hero ────────────────────────────────────────── */
-  .hero { position: relative; padding: 4rem 2.5rem 0; }
-  .hero-title {
-    font-size: clamp(4rem, 13vw, 12.5rem);
-    line-height: .92; text-transform: uppercase; color: var(--cream);
-    -webkit-text-stroke: 0; position: relative; z-index: 1;
-  }
-  .hero-title .accent { color: var(--orange); }
-  .stamp {
-    position: absolute; top: 2.5rem; right: 3rem; z-index: 3;
-    width: 7.5rem; height: 7.5rem; border-radius: 50%;
-    border: 3px solid var(--orange); color: var(--orange);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    transform: rotate(8deg); background: var(--night);
-    box-shadow: 8px 8px 0 rgba(255,92,26,.25);
-  }
-  .stamp .n { font-family: "Anton", sans-serif; font-size: 2.4rem; line-height: 1; }
-  .stamp .d { font-size: .65rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+      /* ── Hero ────────────────────────────────────────── */
+      .hero {
+        position: relative;
+        padding: 4rem 2.5rem 0;
+      }
+      .hero-title {
+        font-size: clamp(4rem, 13vw, 12.5rem);
+        line-height: 0.92;
+        text-transform: uppercase;
+        color: var(--cream);
+        -webkit-text-stroke: 0;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-title .accent {
+        color: var(--orange);
+      }
+      .stamp {
+        position: absolute;
+        top: 2.5rem;
+        right: 3rem;
+        z-index: 3;
+        width: 7.5rem;
+        height: 7.5rem;
+        border-radius: 50%;
+        border: 3px solid var(--orange);
+        color: var(--orange);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(8deg);
+        background: var(--night);
+        box-shadow: 8px 8px 0 rgba(255, 92, 26, 0.25);
+      }
+      .stamp .n {
+        font-family: 'Anton', sans-serif;
+        font-size: 2.4rem;
+        line-height: 1;
+      }
+      .stamp .d {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
 
-  .hero-band {
-    margin-top: 2.5rem;
-    background: var(--orange); color: var(--ink);
-    border-top: 3px solid var(--cream); border-bottom: 3px solid var(--cream);
-    display: grid; grid-template-columns: minmax(0,1fr) 300px;
-    gap: 3rem; padding: 2.5rem 2.5rem 2.5rem 0; position: relative;
-  }
-  .band-left { padding-left: 2.5rem; align-self: center; max-width: 60ch; }
-  .tagline { font-family: "Anton", sans-serif; font-size: clamp(1.3rem, 2.4vw, 2rem); text-transform: uppercase; line-height: 1.15; margin-bottom: 1.2rem; }
-  .stub {
-    display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 1.6rem;
-    border: 3px solid var(--ink); width: fit-content;
-  }
-  .stub div { padding: .55rem 1.1rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-right: 3px dashed var(--ink); }
-  .stub div:last-child { border-right: 0; }
-  .actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    font-family: "Anton", sans-serif; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .04em;
-    background: var(--ink); color: var(--cream);
-    border: 3px solid var(--ink); padding: .8rem 2rem; cursor: pointer;
-    box-shadow: 6px 6px 0 rgba(22,17,12,.35);
-    transition: transform .15s ease-out, box-shadow .15s ease-out;
-  }
-  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 rgba(22,17,12,.35); }
-  .btn-outline {
-    font-family: "Anton", sans-serif; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .04em;
-    background: transparent; color: var(--ink);
-    border: 3px solid var(--ink); padding: .8rem 1.6rem; cursor: pointer;
-    transition: background .15s, color .15s;
-  }
-  .btn-outline:hover { background: var(--ink); color: var(--orange); }
-  .hero-poster {
-    margin-top: -9rem; transform: rotate(2.5deg); z-index: 2; align-self: start;
-    border: 3px solid var(--cream);
-    box-shadow: 14px 14px 0 var(--ink), 14px 14px 0 3px var(--cream);
-    background: var(--night);
-  }
+      .hero-band {
+        margin-top: 2.5rem;
+        background: var(--orange);
+        color: var(--ink);
+        border-top: 3px solid var(--cream);
+        border-bottom: 3px solid var(--cream);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 3rem;
+        padding: 2.5rem 2.5rem 2.5rem 0;
+        position: relative;
+      }
+      .band-left {
+        padding-left: 2.5rem;
+        align-self: center;
+        max-width: 60ch;
+      }
+      .tagline {
+        font-family: 'Anton', sans-serif;
+        font-size: clamp(1.3rem, 2.4vw, 2rem);
+        text-transform: uppercase;
+        line-height: 1.15;
+        margin-bottom: 1.2rem;
+      }
+      .stub {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        margin-bottom: 1.6rem;
+        border: 3px solid var(--ink);
+        width: fit-content;
+      }
+      .stub div {
+        padding: 0.55rem 1.1rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border-right: 3px dashed var(--ink);
+      }
+      .stub div:last-child {
+        border-right: 0;
+      }
+      .actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        font-family: 'Anton', sans-serif;
+        font-size: 1.05rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: var(--ink);
+        color: var(--cream);
+        border: 3px solid var(--ink);
+        padding: 0.8rem 2rem;
+        cursor: pointer;
+        box-shadow: 6px 6px 0 rgba(22, 17, 12, 0.35);
+        transition:
+          transform 0.15s ease-out,
+          box-shadow 0.15s ease-out;
+      }
+      .btn-primary:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 rgba(22, 17, 12, 0.35);
+      }
+      .btn-outline {
+        font-family: 'Anton', sans-serif;
+        font-size: 1.05rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: transparent;
+        color: var(--ink);
+        border: 3px solid var(--ink);
+        padding: 0.8rem 1.6rem;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .btn-outline:hover {
+        background: var(--ink);
+        color: var(--orange);
+      }
+      .hero-poster {
+        margin-top: -9rem;
+        transform: rotate(2.5deg);
+        z-index: 2;
+        align-self: start;
+        border: 3px solid var(--cream);
+        box-shadow:
+          14px 14px 0 var(--ink),
+          14px 14px 0 3px var(--cream);
+        background: var(--night);
+      }
 
-  /* ── Sections ────────────────────────────────────── */
-  .page { padding: 4.5rem 2.5rem; max-width: 82rem; margin: 0 auto; }
-  h2.display { font-size: clamp(1.8rem, 3.4vw, 2.8rem); text-transform: uppercase; margin-bottom: 1.8rem; }
-  h2 .idx { color: var(--orange); margin-right: .5rem; }
-  .overview-block { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(0,1fr); gap: 4rem; margin-bottom: 5rem; }
-  .overview { font-size: 1.12rem; line-height: 1.8; color: var(--cream); max-width: 62ch; }
-  .credits { border: 3px solid var(--cream); padding: 1.5rem; align-self: start; background: var(--night-2); }
-  .credits h3 { font-family: "Anton", sans-serif; text-transform: uppercase; font-size: 1.1rem; color: var(--orange); margin-bottom: 1rem; }
-  .credits dl { display: grid; grid-template-columns: auto 1fr; gap: .55rem 1.25rem; font-size: .92rem; }
-  .credits dt { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .75rem; color: var(--cream-soft); align-self: center; }
-  .credits dd { color: var(--cream); }
-  .genre-row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.2rem; }
-  .genre-row a {
-    font-family: "Anton", sans-serif; font-size: .9rem; text-transform: uppercase; text-decoration: none;
-    border: 3px solid var(--orange); color: var(--orange); padding: .35rem .9rem;
-    transition: background .15s, color .15s;
-  }
-  .genre-row a:hover { background: var(--orange); color: var(--ink); }
+      /* ── Sections ────────────────────────────────────── */
+      .page {
+        padding: 4.5rem 2.5rem;
+        max-width: 82rem;
+        margin: 0 auto;
+      }
+      h2.display {
+        font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+        text-transform: uppercase;
+        margin-bottom: 1.8rem;
+      }
+      h2 .idx {
+        color: var(--orange);
+        margin-right: 0.5rem;
+      }
+      .overview-block {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+        gap: 4rem;
+        margin-bottom: 5rem;
+      }
+      .overview {
+        font-size: 1.12rem;
+        line-height: 1.8;
+        color: var(--cream);
+        max-width: 62ch;
+      }
+      .credits {
+        border: 3px solid var(--cream);
+        padding: 1.5rem;
+        align-self: start;
+        background: var(--night-2);
+      }
+      .credits h3 {
+        font-family: 'Anton', sans-serif;
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        color: var(--orange);
+        margin-bottom: 1rem;
+      }
+      .credits dl {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.55rem 1.25rem;
+        font-size: 0.92rem;
+      }
+      .credits dt {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.75rem;
+        color: var(--cream-soft);
+        align-self: center;
+      }
+      .credits dd {
+        color: var(--cream);
+      }
+      .genre-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin-top: 1.2rem;
+      }
+      .genre-row a {
+        font-family: 'Anton', sans-serif;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 3px solid var(--orange);
+        color: var(--orange);
+        padding: 0.35rem 0.9rem;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .genre-row a:hover {
+        background: var(--orange);
+        color: var(--ink);
+      }
 
-  .cast-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.75rem; margin-bottom: 5rem; }
-  .cast-card { text-decoration: none; border: 3px solid var(--cream); background: var(--night-2); transition: transform .15s ease-out, box-shadow .15s ease-out; }
-  .cast-card:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--orange); }
-  .cast-card img { aspect-ratio: 3/4; object-fit: cover; border-bottom: 3px solid var(--cream); }
-  .cast-card figcaption { padding: .8rem 1rem 1rem; }
-  .cast-name { font-family: "Anton", sans-serif; font-size: 1.05rem; text-transform: uppercase; color: var(--cream); }
-  .cast-role { font-size: .85rem; color: var(--cream-soft); }
+      .cast-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.75rem;
+        margin-bottom: 5rem;
+      }
+      .cast-card {
+        text-decoration: none;
+        border: 3px solid var(--cream);
+        background: var(--night-2);
+        transition:
+          transform 0.15s ease-out,
+          box-shadow 0.15s ease-out;
+      }
+      .cast-card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 8px 8px 0 var(--orange);
+      }
+      .cast-card img {
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        border-bottom: 3px solid var(--cream);
+      }
+      .cast-card figcaption {
+        padding: 0.8rem 1rem 1rem;
+      }
+      .cast-name {
+        font-family: 'Anton', sans-serif;
+        font-size: 1.05rem;
+        text-transform: uppercase;
+        color: var(--cream);
+      }
+      .cast-role {
+        font-size: 0.85rem;
+        color: var(--cream-soft);
+      }
 
-  .rec-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; }
-  .rec-card { position: relative; text-decoration: none; border: 3px solid var(--cream); transition: transform .15s ease-out, box-shadow .15s ease-out; }
-  .rec-card:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--orange); }
-  .rec-card img { aspect-ratio: 2/3; object-fit: cover; }
-  .rec-card figcaption {
-    position: absolute; top: -3px; left: -3px;
-    background: var(--orange); color: var(--ink);
-    font-family: "Anton", sans-serif; font-size: .95rem; text-transform: uppercase;
-    padding: .3rem .8rem; border: 3px solid var(--cream);
-  }
+      .rec-strip {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1.5rem;
+      }
+      .rec-card {
+        position: relative;
+        text-decoration: none;
+        border: 3px solid var(--cream);
+        transition:
+          transform 0.15s ease-out,
+          box-shadow 0.15s ease-out;
+      }
+      .rec-card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 8px 8px 0 var(--orange);
+      }
+      .rec-card img {
+        aspect-ratio: 2/3;
+        object-fit: cover;
+      }
+      .rec-card figcaption {
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        background: var(--orange);
+        color: var(--ink);
+        font-family: 'Anton', sans-serif;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        padding: 0.3rem 0.8rem;
+        border: 3px solid var(--cream);
+      }
 
-  footer { border-top: 3px solid var(--cream); padding: 1.8rem 2.5rem; display: flex; justify-content: space-between; font-size: .82rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--cream-soft); }
+      footer {
+        border-top: 3px solid var(--cream);
+        padding: 1.8rem 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--cream-soft);
+      }
 
-  @media (max-width: 900px) {
-    .nav { padding: 1rem 1.25rem; }
-    .nav ul, .nav-search { display: none; }
-    .hero { padding: 2.5rem 1.25rem 0; }
-    .stamp { width: 5.5rem; height: 5.5rem; top: 1rem; right: 1rem; }
-    .stamp .n { font-size: 1.7rem; }
-    .hero-band { grid-template-columns: 1fr; padding: 2rem 1.25rem; gap: 2rem; }
-    .band-left { padding-left: 0; }
-    .hero-poster { margin: 0 auto; max-width: 240px; transform: rotate(0); }
-    .page { padding: 3rem 1.25rem; }
-    .overview-block { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3.5rem; }
-    .cast-strip { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-bottom: 3.5rem; }
-    .rec-strip { grid-template-columns: repeat(2, 1fr); }
-  }
-</style>
-</head>
-<body>
+      @media (max-width: 900px) {
+        .nav {
+          padding: 1rem 1.25rem;
+        }
+        .nav ul,
+        .nav-search {
+          display: none;
+        }
+        .hero {
+          padding: 2.5rem 1.25rem 0;
+        }
+        .stamp {
+          width: 5.5rem;
+          height: 5.5rem;
+          top: 1rem;
+          right: 1rem;
+        }
+        .stamp .n {
+          font-size: 1.7rem;
+        }
+        .hero-band {
+          grid-template-columns: 1fr;
+          padding: 2rem 1.25rem;
+          gap: 2rem;
+        }
+        .band-left {
+          padding-left: 0;
+        }
+        .hero-poster {
+          margin: 0 auto;
+          max-width: 240px;
+          transform: rotate(0);
+        }
+        .page {
+          padding: 3rem 1.25rem;
+        }
+        .overview-block {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+          margin-bottom: 3.5rem;
+        }
+        .cast-strip {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.25rem;
+          margin-bottom: 3.5rem;
+        }
+        .rec-strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="#">Flix</a>
+        <ul>
+          <li><a href="#" aria-current="page">Movies</a></li>
+          <li><a href="#">TV Shows</a></li>
+          <li><a href="#">My Lists</a></li>
+        </ul>
+        <div class="nav-search" role="search">Search ⌕</div>
+      </nav>
+      <div class="bulbs" aria-hidden="true"></div>
+    </header>
 
-<header>
-  <nav class="nav" aria-label="Primary">
-    <a class="brand" href="#">Flix</a>
-    <ul>
-      <li><a href="#" aria-current="page">Movies</a></li>
-      <li><a href="#">TV Shows</a></li>
-      <li><a href="#">My Lists</a></li>
-    </ul>
-    <div class="nav-search" role="search">Search ⌕</div>
-  </nav>
-  <div class="bulbs" aria-hidden="true"></div>
-</header>
-
-<main>
-  <section class="hero" aria-labelledby="movie-title">
-    <div class="stamp" aria-label="Rated 8.4 out of 10">
-      <span class="n">8.4</span>
-      <span class="d">TMDB Score</span>
-    </div>
-    <h1 id="movie-title" class="display hero-title">Inter<span class="accent">stellar</span></h1>
-
-    <div class="hero-band">
-      <div class="band-left">
-        <p class="tagline">Mankind was born on Earth. It was never meant to die here.</p>
-        <div class="stub" role="group" aria-label="Key facts">
-          <div>2014</div>
-          <div>2H 49M</div>
-          <div>Sci-Fi</div>
-          <div>Dir. Nolan</div>
+    <main>
+      <section class="hero" aria-labelledby="movie-title">
+        <div class="stamp" aria-label="Rated 8.4 out of 10">
+          <span class="n">8.4</span>
+          <span class="d">TMDB Score</span>
         </div>
-        <div class="actions">
-          <button type="button" class="btn-primary">▶ Watch Trailer</button>
-          <button type="button" class="btn-outline">+ My List</button>
-        </div>
-      </div>
-      <img class="hero-poster" src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interstellar poster" width="300" height="450" />
-    </div>
-  </section>
+        <h1 id="movie-title" class="display hero-title">
+          Inter<span class="accent">stellar</span>
+        </h1>
 
-  <div class="page">
-    <div class="overview-block">
-      <section aria-labelledby="h-overview">
-        <h2 class="display" id="h-overview"><span class="idx">01</span>The Story</h2>
-        <p class="overview">
-          The adventures of a group of explorers who make use of a newly
-          discovered wormhole to surpass the limitations on human space travel
-          and conquer the vast distances involved in an interstellar expedition.
-        </p>
-        <div class="genre-row">
-          <a href="#">Adventure</a>
-          <a href="#">Drama</a>
-          <a href="#">Science Fiction</a>
+        <div class="hero-band">
+          <div class="band-left">
+            <p class="tagline">Mankind was born on Earth. It was never meant to die here.</p>
+            <div class="stub" role="group" aria-label="Key facts">
+              <div>2014</div>
+              <div>2H 49M</div>
+              <div>Sci-Fi</div>
+              <div>Dir. Nolan</div>
+            </div>
+            <div class="actions">
+              <button type="button" class="btn-primary">▶ Watch Trailer</button>
+              <button type="button" class="btn-outline">+ My List</button>
+            </div>
+          </div>
+          <img
+            class="hero-poster"
+            src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
+            alt="Interstellar poster"
+            width="300"
+            height="450"
+          />
         </div>
       </section>
-      <aside class="credits" aria-labelledby="h-credits">
-        <h3 id="h-credits">Billing</h3>
-        <dl>
-          <dt>Director</dt><dd>Christopher Nolan</dd>
-          <dt>Release</dt><dd>November 5, 2014</dd>
-          <dt>Runtime</dt><dd>169 minutes</dd>
-          <dt>Language</dt><dd>English</dd>
-          <dt>Status</dt><dd>Released</dd>
-        </dl>
-      </aside>
-    </div>
 
-    <section aria-labelledby="h-cast">
-      <h2 class="display" id="h-cast"><span class="idx">02</span>Starring</h2>
-      <div class="cast-strip">
-        <a class="cast-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/lCySuYjhXix3FzQdS4oceDDrXKI.jpg" alt="Matthew McConaughey" loading="lazy" width="256" height="341" />
-          <figcaption><span class="cast-name">M. McConaughey</span><br /><span class="cast-role">Cooper</span></figcaption>
-        </figure></a>
-        <a class="cast-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/tLelKoPNiyJCSEtQTz1FGv4TLGc.jpg" alt="Anne Hathaway" loading="lazy" width="256" height="341" />
-          <figcaption><span class="cast-name">Anne Hathaway</span><br /><span class="cast-role">Brand</span></figcaption>
-        </figure></a>
-        <a class="cast-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/lodMzLKSdrPcBry6TdoDsMN3Vge.jpg" alt="Jessica Chastain" loading="lazy" width="256" height="341" />
-          <figcaption><span class="cast-name">Jessica Chastain</span><br /><span class="cast-role">Murph</span></figcaption>
-        </figure></a>
-        <a class="cast-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/bVZRMlpjTAO2pJK6v90buFgVbSW.jpg" alt="Michael Caine" loading="lazy" width="256" height="341" />
-          <figcaption><span class="cast-name">Michael Caine</span><br /><span class="cast-role">Prof. Brand</span></figcaption>
-        </figure></a>
+      <div class="page">
+        <div class="overview-block">
+          <section aria-labelledby="h-overview">
+            <h2 class="display" id="h-overview"><span class="idx">01</span>The Story</h2>
+            <p class="overview">
+              The adventures of a group of explorers who make use of a newly discovered wormhole to
+              surpass the limitations on human space travel and conquer the vast distances involved
+              in an interstellar expedition.
+            </p>
+            <div class="genre-row">
+              <a href="#">Adventure</a>
+              <a href="#">Drama</a>
+              <a href="#">Science Fiction</a>
+            </div>
+          </section>
+          <aside class="credits" aria-labelledby="h-credits">
+            <h3 id="h-credits">Billing</h3>
+            <dl>
+              <dt>Director</dt>
+              <dd>Christopher Nolan</dd>
+              <dt>Release</dt>
+              <dd>November 5, 2014</dd>
+              <dt>Runtime</dt>
+              <dd>169 minutes</dd>
+              <dt>Language</dt>
+              <dd>English</dd>
+              <dt>Status</dt>
+              <dd>Released</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <section aria-labelledby="h-cast">
+          <h2 class="display" id="h-cast"><span class="idx">02</span>Starring</h2>
+          <div class="cast-strip">
+            <a class="cast-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/lCySuYjhXix3FzQdS4oceDDrXKI.jpg"
+                  alt="Matthew McConaughey"
+                  loading="lazy"
+                  width="256"
+                  height="341"
+                />
+                <figcaption>
+                  <span class="cast-name">M. McConaughey</span><br /><span class="cast-role"
+                    >Cooper</span
+                  >
+                </figcaption>
+              </figure></a
+            >
+            <a class="cast-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/tLelKoPNiyJCSEtQTz1FGv4TLGc.jpg"
+                  alt="Anne Hathaway"
+                  loading="lazy"
+                  width="256"
+                  height="341"
+                />
+                <figcaption>
+                  <span class="cast-name">Anne Hathaway</span><br /><span class="cast-role"
+                    >Brand</span
+                  >
+                </figcaption>
+              </figure></a
+            >
+            <a class="cast-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/lodMzLKSdrPcBry6TdoDsMN3Vge.jpg"
+                  alt="Jessica Chastain"
+                  loading="lazy"
+                  width="256"
+                  height="341"
+                />
+                <figcaption>
+                  <span class="cast-name">Jessica Chastain</span><br /><span class="cast-role"
+                    >Murph</span
+                  >
+                </figcaption>
+              </figure></a
+            >
+            <a class="cast-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/bVZRMlpjTAO2pJK6v90buFgVbSW.jpg"
+                  alt="Michael Caine"
+                  loading="lazy"
+                  width="256"
+                  height="341"
+                />
+                <figcaption>
+                  <span class="cast-name">Michael Caine</span><br /><span class="cast-role"
+                    >Prof. Brand</span
+                  >
+                </figcaption>
+              </figure></a
+            >
+          </div>
+        </section>
+
+        <section aria-labelledby="h-recs">
+          <h2 class="display" id="h-recs"><span class="idx">03</span>Double Features</h2>
+          <div class="rec-strip">
+            <a class="rec-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg"
+                  alt=""
+                  loading="lazy"
+                  width="204"
+                  height="306"
+                />
+                <figcaption>Arrival</figcaption>
+              </figure></a
+            >
+            <a class="rec-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/5BHuvQ6p9kfc091Z8RiFNhCwL4b.jpg"
+                  alt=""
+                  loading="lazy"
+                  width="204"
+                  height="306"
+                />
+                <figcaption>The Martian</figcaption>
+              </figure></a
+            >
+            <a class="rec-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
+                  alt=""
+                  loading="lazy"
+                  width="204"
+                  height="306"
+                />
+                <figcaption>Inception</figcaption>
+              </figure></a
+            >
+            <a class="rec-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg"
+                  alt=""
+                  loading="lazy"
+                  width="204"
+                  height="306"
+                />
+                <figcaption>Blade Runner</figcaption>
+              </figure></a
+            >
+            <a class="rec-card" href="#"
+              ><figure>
+                <img
+                  src="https://image.tmdb.org/t/p/w342/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
+                  alt=""
+                  loading="lazy"
+                  width="204"
+                  height="306"
+                />
+                <figcaption>Oppenheimer</figcaption>
+              </figure></a
+            >
+          </div>
+        </section>
       </div>
-    </section>
+    </main>
 
-    <section aria-labelledby="h-recs">
-      <h2 class="display" id="h-recs"><span class="idx">03</span>Double Features</h2>
-      <div class="rec-strip">
-        <a class="rec-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg" alt="" loading="lazy" width="204" height="306" />
-          <figcaption>Arrival</figcaption></figure></a>
-        <a class="rec-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/5BHuvQ6p9kfc091Z8RiFNhCwL4b.jpg" alt="" loading="lazy" width="204" height="306" />
-          <figcaption>The Martian</figcaption></figure></a>
-        <a class="rec-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg" alt="" loading="lazy" width="204" height="306" />
-          <figcaption>Inception</figcaption></figure></a>
-        <a class="rec-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" alt="" loading="lazy" width="204" height="306" />
-          <figcaption>Blade Runner</figcaption></figure></a>
-        <a class="rec-card" href="#"><figure>
-          <img src="https://image.tmdb.org/t/p/w342/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" alt="" loading="lazy" width="204" height="306" />
-          <figcaption>Oppenheimer</figcaption></figure></a>
-      </div>
-    </section>
-  </div>
-</main>
-
-<footer>
-  <span>Flix — Concept C · “Midnight Marquee”</span>
-  <span>Data &amp; imagery: TMDB (demo)</span>
-</footer>
-
-</body>
+    <footer>
+      <span>Flix — Concept C · “Midnight Marquee”</span>
+      <span>Data &amp; imagery: TMDB (demo)</span>
+    </footer>
+  </body>
 </html>

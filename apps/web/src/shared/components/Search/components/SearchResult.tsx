@@ -8,7 +8,6 @@ import { PosterSizes, Type } from '@/shared/enums';
 import { formatToYear } from '@/shared/utils';
 
 interface Props {
-
   /** Search result. */
   readonly searchResult: MovieSearch | TvSearch;
 
@@ -24,14 +23,14 @@ const SearchResultComponent = ({ searchResult, onSelect }: Props) => {
   return (
     <Link
       to={`/${searchResult.mediaType}/${searchResult.id}`}
-      className="group flex gap-4 border-b border-foreground/10 px-4 py-3.5 outline-none transition-colors last:border-b-0 hover:bg-foreground/[0.06] focus-visible:bg-foreground/[0.08] sm:px-5"
+      className="group flex gap-4 border-b border-foreground/10 px-4 py-3.5 transition-colors outline-none last:border-b-0 hover:bg-foreground/[0.06] focus-visible:bg-foreground/[0.08] sm:px-5"
       onClick={onSelect}
     >
       <img
         src={
-          searchResult.posterPath !== null ?
-            `${IMAGE_BASE_URL}${PosterSizes.small}${searchResult.posterPath}` :
-            '/images/no-image.png'
+          searchResult.posterPath !== null
+            ? `${IMAGE_BASE_URL}${PosterSizes.small}${searchResult.posterPath}`
+            : '/images/no-image.png'
         }
         alt={`${title} poster`}
         className="aspect-2/3 h-24 shrink-0 rounded-md object-cover outline outline-1 outline-foreground/10"
@@ -39,10 +38,8 @@ const SearchResultComponent = ({ searchResult, onSelect }: Props) => {
       />
       <div className="min-w-0 flex-1 py-0.5">
         <div className="flex items-start gap-3">
-          <h3 className="truncate text-base font-medium text-foreground">
-            {title}
-          </h3>
-          <span className="ml-auto shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.06] px-2 py-0.5 text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
+          <h3 className="truncate text-base font-medium text-foreground">{title}</h3>
+          <span className="ml-auto shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.06] px-2 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground uppercase">
             {searchResult.mediaType === Type.Movie ? 'Movie' : 'TV'}
           </span>
         </div>

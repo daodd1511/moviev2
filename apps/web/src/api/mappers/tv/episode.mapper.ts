@@ -3,7 +3,6 @@ import { EpisodeDto } from '../../dtos';
 import { Episode } from '@/models';
 
 export namespace EpisodeMapper {
-
   /**
    * Maps EpisodeDto to Episode model.
    * @param dto Episode dto.

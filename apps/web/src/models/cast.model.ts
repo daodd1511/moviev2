@@ -1,6 +1,5 @@
 /** Cast. */
 export interface Cast {
-
   /** Id. */
   readonly id: number;
 
@@ -19,7 +18,6 @@ export interface Cast {
 
 /** Crew. */
 export interface Crew {
-
   /** Id. */
   readonly id: number;
 
@@ -38,7 +36,6 @@ export interface Crew {
 
 /** Credits. */
 export interface Credits {
-
   /** Cast. */
   readonly cast: readonly Cast[];
 

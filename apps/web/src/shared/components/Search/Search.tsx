@@ -6,19 +6,13 @@ import { SearchResult } from './components/SearchResult';
 import { Loader } from '@/shared/components';
 import { useDebounce } from '@/shared/hooks';
 import { SearchQueries } from '@/stores/queries/searchQueries';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
 const MINIMUM_QUERY_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 300;
 
 interface Props {
-
   /** Render as an item in the mobile bottom navigation. */
   readonly mobileTab?: boolean;
 }
@@ -28,11 +22,11 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const normalizedQuery = searchQuery.trim();
   const debouncedQuery = useDebounce(normalizedQuery, SEARCH_DEBOUNCE_MS);
-  const { data, isLoading, isError, error } = SearchQueries.useMulti(debouncedQuery);
+  const { data, isPending, isError, error } = SearchQueries.useMulti(debouncedQuery);
 
   const isDebouncing = normalizedQuery !== debouncedQuery;
   const canSearch = normalizedQuery.length >= MINIMUM_QUERY_LENGTH;
-  const isSearching = canSearch && (isDebouncing || isLoading);
+  const isSearching = canSearch && (isDebouncing || isPending);
   const results = !isDebouncing ? data : undefined;
 
   const handleOpenChange = (open: boolean) => {
@@ -69,23 +63,23 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
         aria-label="Search movies and TV shows"
         className={cn(
           'group text-muted-foreground transition-colors hover:text-foreground',
-          mobileTab ?
-            'flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-[0.65rem] font-medium' :
-            'flex h-10 items-center gap-2 rounded-full px-2.5 hover:bg-foreground/[0.08] md:px-3',
+          mobileTab
+            ? 'flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-[0.65rem] font-medium'
+            : 'flex h-10 items-center gap-2 rounded-full px-2.5 hover:bg-foreground/[0.08] md:px-3',
         )}
         onClick={() => setIsOpen(true)}
       >
         <SearchIcon aria-hidden="true" className="size-5" />
-        {mobileTab ?
-          <span>Search</span> :
-          (
-            <>
-              <span className="hidden text-sm lg:inline">Search</span>
-              <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.06] px-1.5 py-0.5 text-[0.65rem] font-medium text-muted-foreground xl:inline">
-                ⌘K
-              </kbd>
-            </>
-          )}
+        {mobileTab ? (
+          <span>Search</span>
+        ) : (
+          <>
+            <span className="hidden text-sm lg:inline">Search</span>
+            <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.06] px-1.5 py-0.5 text-[0.65rem] font-medium text-muted-foreground xl:inline">
+              ⌘K
+            </kbd>
+          </>
+        )}
       </button>
 
       <DialogContent
@@ -145,7 +139,7 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
 
           {canSearch && !isSearching && !isError && results !== undefined && results.length > 0 && (
             <div aria-live="polite">
-              <p className="border-b border-foreground/10 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              <p className="border-b border-foreground/10 px-5 py-2.5 text-xs font-medium tracking-[0.14em] text-muted-foreground uppercase">
                 {results.length} result{results.length === 1 ? '' : 's'}
               </p>
               <div>

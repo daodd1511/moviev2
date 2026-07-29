@@ -5,7 +5,6 @@ import { IMAGE_BASE_URL } from '@/shared/constants';
 import { PosterSizes, Type } from '@/shared/enums';
 
 interface Props {
-
   /** Search result. */
   readonly searchResults: Array<Movie | Tv>;
 
@@ -13,10 +12,7 @@ interface Props {
   readonly handleResultClick: (media: Movie | Tv) => void;
 }
 
-const SearchResultsComponent = ({
-  searchResults,
-  handleResultClick,
-}: Props) => (
+const SearchResultsComponent = ({ searchResults, handleResultClick }: Props) => (
   <div className="h-80 overflow-auto rounded-md border border-border bg-popover pt-2">
     {searchResults.length === 0 && (
       <p className="text-center text-muted-foreground">No data found</p>
@@ -30,24 +26,24 @@ const SearchResultsComponent = ({
       >
         <img
           src={
-              result.posterPath !== null ?
-                `${IMAGE_BASE_URL}${PosterSizes.small}${result.posterPath}` :
-                '/images/no-image.png'
+            result.posterPath !== null
+              ? `${IMAGE_BASE_URL}${PosterSizes.small}${result.posterPath}`
+              : '/images/no-image.png'
           }
           alt="item poster"
           loading="lazy"
           className="h-20 rounded-md"
         />
-        <div className="ml-4 mr-2">
+        <div className="mr-2 ml-4">
           <h3 className="text-lg font-medium text-foreground">
             {result instanceof Movie ? result.title : result.name}
           </h3>
         </div>
         <span
           className={`ml-auto inline-block shrink-0 rounded-full px-2 py-0.5 text-xs ${
-              result instanceof Movie ?
-                'bg-primary text-primary-foreground' :
-                'bg-secondary text-secondary-foreground'
+            result instanceof Movie
+              ? 'bg-primary text-primary-foreground'
+              : 'bg-secondary text-secondary-foreground'
           }`}
         >
           {result instanceof Movie ? Type.Movie : Type.Tv}

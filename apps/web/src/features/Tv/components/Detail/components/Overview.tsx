@@ -6,7 +6,6 @@ import { FactList } from '@/shared/components/ui/FactList';
 import { formatDate } from '@/shared/utils';
 
 interface Props {
-
   /** Tv detail. */
   readonly tv: TvDetail;
 }

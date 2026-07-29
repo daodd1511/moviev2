@@ -1,6 +1,5 @@
 /** Movie query params. */
 export interface MovieQueryParamsDto {
-
   /** Page. */
   readonly page: number;
 

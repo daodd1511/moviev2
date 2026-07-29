@@ -3,7 +3,6 @@ import { SpokenLanguageDto } from '../dtos';
 import { SpokenLanguage } from '@/models';
 
 export namespace SpokenLangMapper {
-
   /**
    * Maps Dto to model.
    * @param dto Dto.

@@ -1,7 +1,5 @@
-
 /** Genre dto. */
 export interface GenreDto {
-
   /** Genre id. */
   readonly id: number;
 
@@ -11,7 +9,6 @@ export interface GenreDto {
 
 /** Genre response. */
 export interface GenreResponseDto {
-
   /** Genres data. */
   readonly genres: readonly GenreDto[];
 }

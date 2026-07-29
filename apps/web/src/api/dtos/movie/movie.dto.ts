@@ -1,6 +1,5 @@
 /** Movie Dto. */
 export interface MovieDto {
-
   /** Poster path. */
   readonly poster_path: string | null;
 

@@ -1,24 +1,24 @@
-import { verifyToken } from '../middleware/auth.middleware.js'
-import UserController from '../controller/user.controller.js'
-import ListController from '../controller/list.controller.js'
-import express from 'express'
+import { verifyToken } from '../middleware/auth.middleware.js';
+import UserController from '../controller/user.controller.js';
+import ListController from '../controller/list.controller.js';
+import express from 'express';
 
-const userRouter = express.Router()
+const userRouter = express.Router();
 
 // userRouter.get('/:id', verifyToken, (req, res) => {
 //   UserController.getUserById(req, res)
 // })
 userRouter.put('/update/:id', verifyToken, (req, res) => {
-  UserController.updateUser(req, res)
-})
+  UserController.updateUser(req, res);
+});
 
 userRouter.get('/profile', verifyToken, (req, res) => {
-  UserController.getUserById(req, res)
-})
+  UserController.getUserById(req, res);
+});
 
 userRouter.get('/list/:username/:listId', (req, res) => {
-  ListController.getListByUsername(req, res)
-})
+  ListController.getListByUsername(req, res);
+});
 // userRouter.delete(
 //   '/delete/:id',
 //   [auth.verifyToken],
@@ -27,4 +27,4 @@ userRouter.get('/list/:username/:listId', (req, res) => {
 //   }
 // )
 
-export default userRouter
+export default userRouter;

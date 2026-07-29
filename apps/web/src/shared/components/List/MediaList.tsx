@@ -5,7 +5,6 @@ import { MediaListItem } from './MediaListItem';
 import { Media } from '@/models';
 
 interface Props {
-
   /** Film data. */
   readonly data: readonly Media[];
 }

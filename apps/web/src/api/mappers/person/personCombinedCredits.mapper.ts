@@ -1,9 +1,11 @@
-import { PersonCombinedCreditsDto, CombinedCreditDto } from '@/api/dtos/person/personCombinedCredits.dto';
+import {
+  PersonCombinedCreditsDto,
+  CombinedCreditDto,
+} from '@/api/dtos/person/personCombinedCredits.dto';
 
 import { PersonCombinedCredits, CombinedCredit } from '@/models';
 
 export namespace PersonCombinedCreditsMapper {
-
   /**
    * Maps PersonCombinedCreditsDto to PersonCombinedCredits model.
    * @param dto Person combined credits dto.

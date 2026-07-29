@@ -1,13 +1,7 @@
 import { useAtom } from 'jotai';
 import { memo, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  ChevronDown,
-  Film,
-  ListVideo,
-  Tv,
-  UserRound,
-} from 'lucide-react';
+import { ChevronDown, Film, ListVideo, Tv, UserRound } from 'lucide-react';
 
 import { Search } from '../Search/Search';
 
@@ -23,7 +17,6 @@ import {
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
 interface NavLink {
-
   /** Link label. */
   readonly label: string;
 
@@ -47,7 +40,6 @@ const TvLinks: readonly NavLink[] = [
 const DETAIL_ROUTE_PATTERN = /^\/(movie|tv)\/\d+$/;
 
 interface NavDropdownProps {
-
   /** Trigger label. */
   readonly label: string;
 
@@ -57,7 +49,7 @@ interface NavDropdownProps {
 
 const NavDropdown = ({ label, links }: NavDropdownProps) => (
   <DropdownMenu>
-    <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground data-[state=open]:text-foreground">
+    <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-muted-foreground transition-colors outline-none hover:text-foreground data-[state=open]:text-foreground">
       {label}
       <ChevronDown className="h-3.5 w-3.5" />
     </DropdownMenuTrigger>
@@ -72,7 +64,6 @@ const NavDropdown = ({ label, links }: NavDropdownProps) => (
 );
 
 interface MobileTabLinkProps {
-
   /** Tab icon. */
   readonly icon: ReactNode;
 
@@ -86,12 +77,7 @@ interface MobileTabLinkProps {
   readonly active: boolean;
 }
 
-const MobileTabLink = ({
-  icon,
-  label,
-  to,
-  active,
-}: MobileTabLinkProps) => (
+const MobileTabLink = ({ icon, label, to, active }: MobileTabLinkProps) => (
   <Link
     to={to}
     aria-current={active ? 'page' : undefined}
@@ -142,12 +128,12 @@ const MobileTabBar = ({
   </div>
 );
 
-const NavShell = ({ isOverlay, children }: { isOverlay: boolean; children: ReactNode; }) => (
+const NavShell = ({ isOverlay, children }: { isOverlay: boolean; children: ReactNode }) => (
   <nav
     className={
-      isOverlay ?
-        'fixed inset-x-0 top-0 z-20 bg-gradient-to-b from-background/85 to-transparent' :
-        'relative z-20 border-b border-border bg-background'
+      isOverlay
+        ? 'fixed inset-x-0 top-0 z-20 bg-gradient-to-b from-background/85 to-transparent'
+        : 'relative z-20 border-b border-border bg-background'
     }
   >
     <div className="mx-auto flex h-14 max-w-screen-2xl items-center gap-8 px-4 md:h-auto md:px-8 md:py-4">

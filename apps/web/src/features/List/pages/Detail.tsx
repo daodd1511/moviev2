@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import { useState } from 'react';
@@ -23,7 +22,6 @@ import { IMAGE_BASE_URL } from '@/shared/constants';
 import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
 
 interface RemovableItemProps {
-
   /** Media item. */
   readonly media: Media;
 
@@ -33,9 +31,9 @@ interface RemovableItemProps {
 
 const RemovableItem = ({ media, onRemove }: RemovableItemProps) => {
   const imageUrl =
-    media.posterPath != null ?
-      `${IMAGE_BASE_URL}${PosterSizes.large}${media.posterPath}` :
-      '/images/no-image.png';
+    media.posterPath != null
+      ? `${IMAGE_BASE_URL}${PosterSizes.large}${media.posterPath}`
+      : '/images/no-image.png';
 
   return (
     <div className="group relative">
@@ -45,7 +43,7 @@ const RemovableItem = ({ media, onRemove }: RemovableItemProps) => {
       <button
         type="button"
         aria-label={`Remove ${media.title} from this list`}
-        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/70 text-foreground opacity-0 backdrop-blur-sm transition-opacity hover:bg-destructive hover:text-destructive-foreground group-hover:opacity-100 focus-visible:opacity-100 [@media(hover:none)]:opacity-100"
+        className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/70 text-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground focus-visible:opacity-100 [@media(hover:none)]:opacity-100"
         onClick={() => onRemove(media)}
       >
         <X className="h-4 w-4" />
@@ -64,7 +62,7 @@ const RemovableItem = ({ media, onRemove }: RemovableItemProps) => {
   );
 };
 
-const EmptyState = ({ label }: { label: string; }) => (
+const EmptyState = ({ label }: { label: string }) => (
   <p className="py-16 text-center text-muted-foreground">{label}</p>
 );
 
@@ -72,28 +70,26 @@ const ListDetailComponent = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { id } = useParams<{ id: string; }>();
-  const [isConfirmRemoveListModalOpen, setIsConfirmRemoveListModalOpen] =
-    useState(false);
-  const { data: user, isLoading: isUserLoading } = UserQueries.useProfile();
+  const { id } = useParams<{ id: string }>();
+  const [isConfirmRemoveListModalOpen, setIsConfirmRemoveListModalOpen] = useState(false);
+  const { data: user, isPending: isUserPending } = UserQueries.useProfile();
   const [activeTab, setActiveTab] = useState<Type>(Type.Movie);
   assertNonNull(id);
-  const { data, isLoading } = ListQueries.useById(id);
+  const { data, isPending } = ListQueries.useById(id);
 
-  const removeMediaMutation = useMutation(
-    (item: Media) =>
-      item.type === MediaType.Movie ?
-        ListService.removeMovie(id, item) :
-        ListService.removeTv(id, item),
-    {
-      async onSuccess() {
-        await queryClient.invalidateQueries(['listDetail']);
-        toast.success('Item removed from list');
-      },
+  const removeMediaMutation = useMutation({
+    mutationFn: (item: Media) =>
+      item.type === MediaType.Movie
+        ? ListService.removeMovie(id, item)
+        : ListService.removeTv(id, item),
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ['listDetail'] });
+      toast.success('Item removed from list');
     },
-  );
+  });
 
-  const removeListMutation = useMutation(() => ListService.remove(id), {
+  const removeListMutation = useMutation({
+    mutationFn: () => ListService.remove(id),
     onSuccess() {
       setIsConfirmRemoveListModalOpen(false);
       toast.success('List removed');
@@ -113,7 +109,7 @@ const ListDetailComponent = () => {
     removeListMutation.mutate();
   };
 
-  if (isLoading || isUserLoading) {
+  if (isPending || isUserPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 
@@ -134,8 +130,7 @@ const ListDetailComponent = () => {
         </div>
         <div className="flex w-full shrink-0 items-center justify-between gap-3 md:w-auto md:justify-start">
           <Link
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            to={`/u/${user.username}/lists/${data?.id ?? ''}`}
+            to={`/u/${user?.username ?? ''}/lists/${data?.id ?? ''}`}
             target="_blank"
             className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
           >
@@ -156,17 +151,17 @@ const ListDetailComponent = () => {
         description="Every title in this list will be removed. This action cannot be undone."
         confirmLabel="Delete list"
         destructive
-        isLoading={removeListMutation.isLoading}
+        isLoading={removeListMutation.isPending}
         onConfirm={onConfirmRemoveListButtonClick}
       />
 
-      <div className="flex gap-2 overflow-x-auto pb-7 pt-6 md:pb-10">
+      <div className="flex gap-2 overflow-x-auto pt-6 pb-7 md:pb-10">
         <button
           type="button"
           className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
-            activeTab === Type.Movie ?
-              'bg-primary text-primary-foreground' :
-              'text-muted-foreground hover:bg-accent hover:text-foreground'
+            activeTab === Type.Movie
+              ? 'bg-primary text-primary-foreground'
+              : 'text-muted-foreground hover:bg-accent hover:text-foreground'
           }`}
           onClick={() => setActiveTab(Type.Movie)}
         >
@@ -175,9 +170,9 @@ const ListDetailComponent = () => {
         <button
           type="button"
           className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
-            activeTab === Type.Tv ?
-              'bg-primary text-primary-foreground' :
-              'text-muted-foreground hover:bg-accent hover:text-foreground'
+            activeTab === Type.Tv
+              ? 'bg-primary text-primary-foreground'
+              : 'text-muted-foreground hover:bg-accent hover:text-foreground'
           }`}
           onClick={() => setActiveTab(Type.Tv)}
         >
@@ -193,13 +188,13 @@ const ListDetailComponent = () => {
       )}
 
       <div className="grid grid-cols-2 gap-x-3 gap-y-7 pb-10 sm:grid-cols-autoFit sm:place-content-evenly sm:gap-x-6 sm:gap-y-10">
-        {activeTab === Type.Movie ?
-          data?.movies.map((movie: Media) => (
-            <RemovableItem key={movie.id} media={movie} onRemove={onRemoveMediaButtonClick} />
-          )) :
-          data?.tvShows.map((tv: Media) => (
-            <RemovableItem key={tv.id} media={tv} onRemove={onRemoveMediaButtonClick} />
-          ))}
+        {activeTab === Type.Movie
+          ? data?.movies.map((movie: Media) => (
+              <RemovableItem key={movie.id} media={movie} onRemove={onRemoveMediaButtonClick} />
+            ))
+          : data?.tvShows.map((tv: Media) => (
+              <RemovableItem key={tv.id} media={tv} onRemove={onRemoveMediaButtonClick} />
+            ))}
       </div>
       <Footer />
     </div>

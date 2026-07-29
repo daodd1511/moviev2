@@ -3,7 +3,6 @@ import { TvDto } from '../../dtos/';
 import { Tv } from '@/models';
 
 export namespace TvMapper {
-
   /**
    * Maps TvDto to Tv model.
    * @param dto Tv dto.

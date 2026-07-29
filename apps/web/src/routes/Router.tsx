@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/promise-function-async */
 import { FC, lazy } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
@@ -17,12 +16,14 @@ import { castRoutes } from '@/features/Cast/routes';
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
     default: module.NotFound,
-  })));
+  })),
+);
 
 export const PublicList = lazy(() =>
   import('../features/List/pages/PublicList').then(module => ({
     default: module.PublicList,
-  })));
+  })),
+);
 
 const routes: RouteObject[] = [
   {
