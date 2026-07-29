@@ -5,10 +5,10 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 3 — in-progress (local gate green, PR not yet opened)
+- Current phase: 3 — done (PR #3, awaiting merge)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
-- Phase 3 — Authentication and account hardening: in-progress
+- Phase 3 — Authentication and account hardening: done
 - Phase 4 — Legacy list hardening: pending
 - Phase 5 — Web resilience: pending
 - Phase 6 — Browser smoke and authoritative CI: pending
@@ -114,7 +114,7 @@ Produces: `AuthService.register(input)`, `AuthService.login(input)`,
 - [x] `pnpm check:api`
 - [x] `pnpm test:unit`
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (`verify` job passed, PR #3)
 
 **Review checklist (user, at PR review):**
 
