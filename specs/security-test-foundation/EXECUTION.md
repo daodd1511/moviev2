@@ -5,11 +5,11 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 4 — in-progress (local gate green, PR not yet opened)
+- Current phase: 4 — done (PR #4, awaiting merge)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
 - Phase 3 — Authentication and account hardening: done
-- Phase 4 — Legacy list hardening: in-progress
+- Phase 4 — Legacy list hardening: done
 - Phase 5 — Web resilience: pending
 - Phase 6 — Browser smoke and authoritative CI: pending
 - Verification debt: none
@@ -150,7 +150,7 @@ and `DELETE /api/list/:id/items`.
 - [x] `pnpm check:api`
 - [x] `pnpm test:unit`
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (`verify` job passed, PR #4)
 
 **Review checklist (user, at PR review):**
 
