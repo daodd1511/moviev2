@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isAxiosError } from 'axios';
 
 import { ErrorField } from '../ErrorField';
 
@@ -13,6 +12,7 @@ import { loginSchema } from './formSetting';
 
 import { AuthService } from '@/api/services/authService';
 import { TokenService } from '@/api/services/tokenService';
+import { getApiErrorMessage } from '@/api/utils/getApiErrorMessage';
 import { Login } from '@/models/auth/login.model';
 import { isAuthAtom, tokenAtom } from '@/stores/atoms/authAtoms';
 import { userIdAtom } from '@/stores/atoms/userAtoms';
@@ -46,10 +46,7 @@ const LoginFormComponent = () => {
       navigate(redirectPath, { replace: true });
     },
     onError(error: unknown) {
-      const message = isAxiosError<{ message?: string }>(error)
-        ? error.response?.data.message
-        : undefined;
-      toast.error(message ?? 'Unable to sign in');
+      toast.error(getApiErrorMessage(error, 'Unable to sign in'));
     },
   });
 
