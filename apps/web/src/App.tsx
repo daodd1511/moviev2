@@ -10,6 +10,7 @@ import { Router } from './routes/Router';
 import { TokenService } from './api/services/tokenService';
 import { isAuthAtom } from './stores/atoms/authAtoms';
 import { Loader } from './shared/components';
+import { AppErrorBoundary } from './shared/components/AppErrorBoundary';
 
 const queryClient = new QueryClient();
 
@@ -22,11 +23,13 @@ export const App = () => {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer theme="dark" />
-      <HashRouter>
-        <Suspense fallback={<Loader className="min-h-svh" />}>
-          <Router />
-        </Suspense>
-      </HashRouter>
+      <AppErrorBoundary>
+        <HashRouter>
+          <Suspense fallback={<Loader className="min-h-svh" />}>
+            <Router />
+          </Suspense>
+        </HashRouter>
+      </AppErrorBoundary>
     </QueryClientProvider>
   );
 };
