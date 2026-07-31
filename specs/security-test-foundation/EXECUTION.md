@@ -5,12 +5,12 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 5 — in-progress (local gate green, PR not yet opened)
+- Current phase: 5 — done (PR #5, awaiting merge)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
 - Phase 3 — Authentication and account hardening: done
 - Phase 4 — Legacy list hardening: done
-- Phase 5 — Web resilience: in-progress
+- Phase 5 — Web resilience: done
 - Phase 6 — Browser smoke and authoritative CI: pending
 - Verification debt: none
 
@@ -188,7 +188,7 @@ token interception, login errors, and list-menu mutation feedback.
 - [x] `pnpm check:api`
 - [x] `pnpm test:unit` (verified stable across 7 consecutive full runs — see the localStorage amendment above)
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (`verify` job passed, PR #5)
 
 **Review checklist (user, at PR review):**
 
