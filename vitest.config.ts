@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { defineConfig } from 'vitest/config';
 
 // Vitest 4 dropped standalone `vitest.workspace.ts` support; `test.projects` on the
@@ -15,6 +16,11 @@ export default defineConfig({
         },
       },
       {
+        // Mirrors apps/web/vite.config.ts's `@` alias — a separate project config, so it
+        // isn't inherited automatically.
+        resolve: {
+          alias: { '@': path.resolve(__dirname, './apps/web/src') },
+        },
         test: {
           name: 'web',
           environment: 'jsdom',
