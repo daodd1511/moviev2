@@ -5,9 +5,9 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 1 — done (PR #1, awaiting merge)
+- Current phase: 2 — done (PR #2, awaiting merge)
 - Phase 1 — Test harness and application seam: done
-- Phase 2 — API boundary and observability: pending
+- Phase 2 — API boundary and observability: done
 - Phase 3 — Authentication and account hardening: pending
 - Phase 4 — Legacy list hardening: pending
 - Phase 5 — Web resilience: pending
@@ -61,22 +61,22 @@ Produces: `AppError`, `validate({ params, query, body })`, `notFoundHandler`,
 `errorHandler`, request IDs, `logger`, API error envelope
 `{ error: { code, message, requestId, details? } }`, and `/ready`.
 
-- [ ] Add `zod`, `express-rate-limit`, `pino`, and `pino-http` to `apps/api/package.json` and update `pnpm-lock.yaml`.
-- [ ] Add `apps/api/src/logger.js#logger` with redaction for authorization, cookie, password, and token fields.
-- [ ] Add `apps/api/src/errors/app-error.js#AppError`, `apps/api/src/middleware/request-id.middleware.js`, `apps/api/src/middleware/validate.middleware.js#validate`, and `apps/api/src/middleware/error.middleware.js` with the stable response envelope from PLAN.md → "Standardize API errors".
-- [ ] Update `apps/api/src/app.js` middleware order; enforce the `100kb` JSON limit and `CORS_ORIGINS` allowlist; add database-aware `GET /ready`; mount not-found and error handlers last.
-- [ ] Update `apps/api/src/router/router.js` and async controller dispatch so rejected route work reaches `errorHandler` instead of leaking or hanging.
-- [ ] Expand `apps/api/test/health.integration.test.js` for request-ID propagation/generation and readiness `200`/`503`; add `apps/api/test/error.integration.test.js` for not-found and redacted internal errors.
+- [x] Add `zod`, `express-rate-limit`, `pino`, and `pino-http` to `apps/api/package.json` and update `pnpm-lock.yaml`.
+- [x] Add `apps/api/src/logger.js#logger` with redaction for authorization, cookie, password, and token fields.
+- [x] Add `apps/api/src/errors/app-error.js#AppError`, `apps/api/src/middleware/request-id.middleware.js`, `apps/api/src/middleware/validate.middleware.js#validate`, and `apps/api/src/middleware/error.middleware.js` with the stable response envelope from PLAN.md → "Standardize API errors".
+- [x] Update `apps/api/src/app.js` middleware order; enforce the `100kb` JSON limit and `CORS_ORIGINS` allowlist; add database-aware `GET /ready`; mount not-found and error handlers last.
+- [x] Update `apps/api/src/router/router.js` and async controller dispatch so rejected route work reaches `errorHandler` instead of leaking or hanging (amended <2026-07-29>: added `apps/api/src/router/create-router.js#createRouter` — the wrapper had to live outside `router.js` because `router.js` imports `auth.routes.js`/`user.routes.js`/`list.routes.js`, and those importing a `createRouter` export back from `router.js` would be circular; `auth.routes.js`, `user.routes.js`, and `list.routes.js` now build their router via `createRouter()` instead of `express.Router()`).
+- [x] Expand `apps/api/test/health.integration.test.js` for request-ID propagation/generation and readiness `200`/`503`; add `apps/api/test/error.integration.test.js` for not-found and redacted internal errors (amended <2026-07-29>: added `getTestMongoUri()` to `apps/api/test/setup.js` and silenced its `logger` — both needed to exercise the `/ready` 503 path and keep test output readable, without weakening the redaction contract itself).
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm check:api`
+- [x] `pnpm test:unit`
+- [x] `pnpm build`
+- [x] CI green on the phase PR (`verify` job passed, PR #2)
 
 **Review checklist (user, at PR review):**
 

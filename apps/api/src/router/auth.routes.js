@@ -1,7 +1,7 @@
-import express from 'express';
 import AuthController from '../controller/auth.controller.js';
 import { checkDuplicateUsernameOrEmail } from '../middleware/auth.middleware.js';
-const authRouter = express.Router();
+import { createRouter } from './create-router.js';
+const authRouter = createRouter();
 authRouter.post('/register', checkDuplicateUsernameOrEmail, (req, res) => {
   AuthController.Register(req, res);
 });
