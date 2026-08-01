@@ -7,7 +7,6 @@ Written 2026-07-29 for the `moviev2` repository.
 Turn Flix from a catalog browser with basic lists into a secure personal media
 library with:
 
-- production-ready authentication and account management;
 - watch-state, rating, progress, date, and note tracking;
 - editable private, unlisted, and public collections;
 - complete movie, TV, and person search with functional discovery filters;
@@ -100,18 +99,6 @@ Collection collaborators have one role:
 Ownership transfer is explicit. A Collection always has exactly one owner.
 Likes and follows never grant edit access.
 
-### Secure sessions before account expansion
-
-Replace the 30-day bearer token stored in local storage with:
-
-- short-lived access tokens;
-- rotating refresh tokens in `HttpOnly`, `Secure`, `SameSite` cookies;
-- hashed refresh-token records with expiry and revocation;
-- logout-current-session and logout-all-sessions operations.
-
-Do not add password reset, email verification, or collaboration invitations
-on top of the current long-lived local-storage token.
-
 ### Validate at the API boundary
 
 Use Zod schemas for request parameters, query strings, and bodies. Return
@@ -148,14 +135,117 @@ handling there.
 Existing browser-side catalog calls may migrate incrementally. Do not block
 the security phase on a full catalog proxy rewrite.
 
+### Resolved implementation choices
+
+- Personal ratings are integers from `1` through `10`.
+- Unauthorized access to a private Collection returns `404`.
+- Legacy public-list identifiers must be preserved by migration; a collision or
+  unconvertible identifier blocks cutover instead of silently changing its URL.
+- Collection Items are embedded as an ordered array in each Collection so item
+  mutation and optimistic-concurrency version checks remain atomic.
+- Collaboration invitations target an existing username only.
+- Public follower and following identity lists default to private; users may
+  expose either list independently, while aggregate counts remain public.
+- Public and unlisted share URLs are served by the API as crawler-readable HTML
+  with Open Graph metadata and a redirect into the SPA.
+- Catalog caching uses an in-process bounded TTL cache; no Redis or new infrastructure
+  is introduced by this roadmap.
+- Release synchronization is a resumable CLI job invoked by the deployment scheduler,
+  not an in-process timer. Calendar dates use each user's IANA timezone, defaulting to UTC.
+
+### Implementation surfaces
+
+- Library API: `apps/api/src/model/library-entry.js`,
+  `dto/library-entry.dto.js`, `validation/library-entry.schema.js`,
+  `service/libraryEntryService.js`, `controller/library-entry.controller.js`,
+  `router/library-entry.routes.js`, and `test/library-entry.integration.test.js`.
+- Library web: `apps/web/src/models/library-entry.model.ts`,
+  `api/dtos/library-entry.dto.ts`, `api/mappers/library-entry.mapper.ts`,
+  `api/services/libraryEntryService.ts`, `stores/queries/libraryEntryQueries.ts`,
+  `shared/components/LibraryAction.tsx`, and `features/Library/`.
+- Collections API and migration: `apps/api/src/model/collection.js`,
+  `dto/collection.dto.js`, `validation/collection.schema.js`,
+  `service/collectionService.js`, `service/collectionCompatibilityService.js`,
+  `controller/collection.controller.js`, `router/collection.routes.js`,
+  `scripts/migrate-lists-to-collections.js`, `test/collection.integration.test.js`, and
+  `test/collection-migration.integration.test.js`.
+- Collections web: replace `features/List/`, `models/list.model.ts`,
+  `api/dtos/list.dto.ts`, `api/mappers/list.mapper.ts`, `api/services/listService.ts`,
+  and `stores/queries/listQueries.ts` with `features/Collection/`,
+  `models/collection.model.ts`, `api/dtos/collection.dto.ts`,
+  `api/mappers/collection.mapper.ts`, `api/services/collectionService.ts`, and
+  `stores/queries/collectionQueries.ts`, preserving legacy public-link routes during migration.
+- Catalog API: `apps/api/src/catalog/catalogProvider.js`,
+  `catalog/tmdbCatalogProvider.js`, `catalog/catalogCache.js`, `service/catalogService.js`,
+  `controller/catalog.controller.js`, `router/catalog.routes.js`, and catalog tests.
+- Discovery web: extend `features/Movie/`, `features/Tv/`, and
+  `shared/components/Filter/`; add `features/Search/`, `models/catalog-query.model.ts`,
+  `api/dtos/catalog.dto.ts`, `api/mappers/catalog.mapper.ts`,
+  `api/services/catalogService.ts`, and `stores/queries/catalogQueries.ts`.
+- Calendar and notifications API: `model/catalog-sync-state.js`, `model/notification.js`,
+  `service/releaseCalendarService.js`, `service/catalogSyncService.js`,
+  `service/notificationService.js`, `controller/calendar.controller.js`,
+  `controller/notification.controller.js`, `router/calendar.routes.js`,
+  `router/notification.routes.js`, and `jobs/sync-tracked-releases.js`.
+- Calendar and notifications web: `features/Calendar/`, `features/Notifications/`,
+  `models/notification.model.ts`, `api/dtos/notification.dto.ts`,
+  `api/mappers/notification.mapper.ts`, `api/services/calendarService.ts`,
+  `api/services/notificationService.ts`, `stores/queries/calendarQueries.ts`, and
+  `stores/queries/notificationQueries.ts`.
+- Collaboration: `apps/api/src/model/collection-invitation.js`,
+  `service/collectionCollaborationService.js`, Collection collaboration routes/tests,
+  and `apps/web/src/features/Collection/components/Collaborators.tsx`.
+- Social and sharing API: `model/follow.js`, `model/collection-like.js`,
+  `service/socialService.js`, `service/shareService.js`, `controller/social.controller.js`,
+  `controller/share.controller.js`, `router/social.routes.js`, and `router/share.routes.js`.
+- Social and sharing web: `features/Profile/`, `features/CollectionDiscovery/`,
+  `api/services/socialService.ts`, `stores/queries/socialQueries.ts`, and public
+  Collection/profile routes in `routes/Router.tsx`.
+- Final hardening: `tests/load/catalog.mjs`, `tests/load/library.mjs`,
+  `tests/load/collections.mjs`, `tests/load/notifications.mjs`,
+  `scripts/verify-mongo-backup.sh`, `tests/e2e/library.spec.ts`,
+  `tests/e2e/collection.spec.ts`, `tests/e2e/discovery-search.spec.ts`,
+  `tests/e2e/calendar.spec.ts`, `tests/e2e/notifications.spec.ts`,
+  `tests/e2e/collaboration.spec.ts`, `tests/e2e/social-sharing.spec.ts`,
+  `.github/workflows/ci.yml`, `docs/operations.md`, `docs/privacy.md`, and `docs/security.md`.
+
+### Phase interfaces
+
+- Library API: `LibraryEntryService.list(ownerId, filters)`,
+  `upsert(ownerId, input)`, `remove(ownerId, mediaType, tmdbId)` behind
+  `GET|PUT|DELETE /api/library/entries` and `toLibraryEntryDto(entry)`.
+- Library web: `LibraryEntryService.list(filters)`, `upsert(input)`, `remove(key)`;
+  `LibraryEntryQueries.useList(filters)`, `useUpsert()`, `useRemove()`; and
+  `<LibraryAction media={media} />`.
+- Collection API: `CollectionService.listForUser(userId)`, `getAccessible(viewerId, id)`,
+  `create(ownerId, input)`, `update(ownerId, id, input, version)`,
+  `addItem(actorId, id, item, version)`, `removeItem(actorId, id, itemKey, version)`,
+  `reorderItems(actorId, id, orderedItemKeys, version)`, and `remove(ownerId, id)` behind
+  `/api/collections`; `CollectionCompatibilityService.getLegacyPublic(username, legacyId)`
+  preserves `/api/public/:username/list/:listId` until final cleanup.
+- Catalog API: `CatalogProvider.discover(input)`, `search(input)`, `getMedia(input)`, and
+  `getReleaseSchedule(input)` implemented by `TmdbCatalogProvider`; HTTP routes live under
+  `/api/catalog` and return provider-neutral DTOs.
+- Calendar/sync API: `ReleaseCalendarService.list(userId, range, timezone)`,
+  `CatalogSyncService.run({ cursor, limit, dryRun })`, and
+  `NotificationService.list(userId, filters)`, `markRead(userId, id)`,
+  `updatePreferences(userId, input)` behind `/api/calendar` and `/api/notifications`.
+- Collaboration API: `CollectionCollaborationService.invite(actorId, collectionId, username, role)`,
+  `respond(userId, invitationId, decision)`, `revoke(actorId, invitationId)`,
+  `changeRole(actorId, collectionId, userId, role)`, `remove(actorId, collectionId, userId)`,
+  and `transferOwnership(ownerId, collectionId, userId)`.
+- Social API: `SocialService.follow(actorId, username)`, `unfollow(actorId, username)`,
+  `like(actorId, collectionId)`, `unlike(actorId, collectionId)`,
+  `getPublicProfile(username, viewerId)`, and `discoverCollections(input)`;
+  `ShareService.renderCollectionCard(publicId, origin)` returns crawler-readable HTML.
+
 ## Target domain model
 
 ### Account
 
-- identity and verified email;
+- identity and email;
 - password credentials;
 - profile;
-- sessions and refresh-token records;
 - notification preferences.
 
 ### Library Entry
@@ -224,7 +314,7 @@ No phase may delete, skip, or weaken a test to pass its gate.
 
 Required initial journeys:
 
-- register, verify, login, refresh, logout;
+- register, login, logout;
 - create and update a Library Entry;
 - create, edit, share, and delete a Collection;
 - search and filter catalog results;
@@ -241,10 +331,9 @@ Before scheduled jobs or social features:
 - migration and scheduled-job metrics;
 - error reporting for both applications.
 
-Do not log passwords, tokens, email-verification secrets, reset tokens, or
-private notes.
+Do not log passwords, tokens, or private notes.
 
-## Phase 0 — Security and test foundation
+## Phase 0 — Security and test foundation (done)
 
 ### API correctness
 
@@ -284,39 +373,6 @@ Hard gate:
 - anonymous, owner, and non-owner authorization cases are tested;
 - CI runs all new gates.
 
-## Phase 1 — Session and account lifecycle
-
-### Sessions
-
-- Implement short-lived access tokens and rotating refresh cookies.
-- Add session listing, current-session logout, and all-session logout.
-- Revoke refresh-token families on reuse detection.
-- Remove local-storage token persistence after the cookie migration is
-  complete.
-
-### Account flows
-
-- Email verification with expiring, single-use tokens.
-- Forgot-password and reset-password flows with single-use tokens.
-- Change password with current-password verification.
-- Edit username and profile fields with uniqueness checks.
-- Change email with re-verification.
-- Delete account with recent-authentication confirmation and a documented data
-  deletion policy.
-
-### UX
-
-- Expand Profile into account, security, sessions, and notification sections.
-- Preserve safe post-login redirects.
-- Provide explicit expired-link, invalid-link, and resend states.
-
-Hard gate:
-
-- refresh-token rotation, reuse detection, expiry, and revocation are
-  integration-tested;
-- verification and reset tokens are hashed at rest and single-use;
-- account deletion removes or anonymizes dependent data according to policy.
-
 ## Phase 2 — Personal Library
 
 ### Data model
@@ -338,7 +394,7 @@ Hard gate:
 
 ### Rules
 
-- Personal ratings use a single documented scale.
+- Personal ratings use integer values from `1` through `10`.
 - Completion dates cannot precede start dates.
 - TV progress cannot exceed known season/episode bounds when catalog data is
   available.
@@ -363,7 +419,8 @@ Hard gate:
 ### Migration
 
 - Backfill embedded lists into Collections.
-- Preserve stable public-link identifiers where possible.
+- Preserve every stable public-link identifier; block cutover on collisions or
+  unconvertible identifiers.
 - Migrate existing links to `unlisted`.
 - Compare per-user list/item counts before switching reads.
 - Remove the embedded list model only after production verification.
@@ -379,8 +436,7 @@ Hard gate:
 
 - migration dry-run and execution are idempotent;
 - existing public links continue to resolve;
-- private Collections return 404 or 403 according to the documented disclosure
-  policy;
+- private Collections return `404` to unauthorized callers;
 - concurrent reorder/edit conflicts do not silently lose data.
 
 ## Phase 4 — Discovery and search
@@ -453,7 +509,7 @@ Hard gate:
 
 ### Invitations and roles
 
-- Invite an existing user by username or verified email.
+- Invite an existing user by username.
 - Accept, decline, revoke, and expire invitations.
 - Enforce owner/editor/viewer permissions at the API boundary.
 - Support ownership transfer and collaborator removal.
@@ -491,7 +547,7 @@ Hard gate:
 - Like and unlike public Collections.
 - Add public Collection discovery and sorting.
 - Prevent likes on private or unlisted Collections.
-- Make unlike and account deletion clean up derived counts correctly.
+- Make unlike and Collection deletion clean up derived counts correctly.
 
 ### Sharing
 
@@ -505,7 +561,7 @@ No comments, public text reviews, or direct messages are introduced.
 Hard gate:
 
 - privacy-transition tests cover public → unlisted → private;
-- blocked/private users and deleted accounts disappear from social views;
+- profiles that disable public visibility disappear from social views;
 - derived follow/like counts reconcile from source records.
 
 ## Phase 8 — Final hardening and cleanup
