@@ -1,50 +1,44 @@
 import { verifyToken } from '../middleware/auth.middleware.js';
 import ListController from '../controller/list.controller.js';
+import { validate } from '../middleware/validate.middleware.js';
+import { listBodySchema, listIdParamsSchema, mediaSchema } from '../validation/list.schema.js';
 import { createRouter } from './create-router.js';
 
 const listRouter = createRouter();
-listRouter.get('/clear', verifyToken, (req, res) => {
-  ListController.clearAll(req, res);
-});
+listRouter.use(verifyToken);
 
-listRouter.get('/:id', verifyToken, (req, res) => {
-  ListController.getListById(req, res);
-});
+listRouter.get('/', ListController.getAll);
+listRouter.post('/', validate({ body: listBodySchema }), ListController.create);
+listRouter.delete('/', ListController.clearAll);
 
-listRouter.post('/', verifyToken, (req, res) => {
-  ListController.create(req, res);
-});
+listRouter.get('/:id', validate({ params: listIdParamsSchema }), ListController.getListById);
+listRouter.put(
+  '/:id',
+  validate({ params: listIdParamsSchema, body: listBodySchema }),
+  ListController.update,
+);
+listRouter.delete('/:id', validate({ params: listIdParamsSchema }), ListController.remove);
+listRouter.delete('/:id/items', validate({ params: listIdParamsSchema }), ListController.clear);
 
-listRouter.get('/', verifyToken, (req, res) => {
-  ListController.getAll(req, res);
-});
-
-listRouter.put('/:id', verifyToken, (req, res) => {
-  ListController.update(req, res);
-});
-
-listRouter.delete('/:id', verifyToken, (req, res) => {
-  ListController.remove(req, res);
-});
-
-listRouter.post('/:id/movie', verifyToken, (req, res) => {
-  ListController.addMovie(req, res);
-});
-
-listRouter.delete('/:id/movie', verifyToken, (req, res) => {
-  ListController.removeMovie(req, res);
-});
-
-listRouter.post('/:id/tv', verifyToken, (req, res) => {
-  ListController.addTv(req, res);
-});
-
-listRouter.delete('/:id/tv', verifyToken, (req, res) => {
-  ListController.removeTv(req, res);
-});
-
-listRouter.get('/:id/clear', verifyToken, (req, res) => {
-  ListController.clear(req, res);
-});
+listRouter.post(
+  '/:id/movie',
+  validate({ params: listIdParamsSchema, body: mediaSchema }),
+  ListController.addMovie,
+);
+listRouter.delete(
+  '/:id/movie',
+  validate({ params: listIdParamsSchema, body: mediaSchema }),
+  ListController.removeMovie,
+);
+listRouter.post(
+  '/:id/tv',
+  validate({ params: listIdParamsSchema, body: mediaSchema }),
+  ListController.addTv,
+);
+listRouter.delete(
+  '/:id/tv',
+  validate({ params: listIdParamsSchema, body: mediaSchema }),
+  ListController.removeTv,
+);
 
 export default listRouter;

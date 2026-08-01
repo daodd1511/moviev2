@@ -5,11 +5,11 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 3 — done (PR #3, awaiting merge)
+- Current phase: 4 — done (PR #4, awaiting merge)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
 - Phase 3 — Authentication and account hardening: done
-- Phase 4 — Legacy list hardening: pending
+- Phase 4 — Legacy list hardening: done
 - Phase 5 — Web resilience: pending
 - Phase 6 — Browser smoke and authoritative CI: pending
 - Verification debt: none
@@ -136,21 +136,21 @@ Consumes: `AppError`, `validate({ params, query, body })`, verified `req.userId`
 Produces: validated owner-scoped legacy ListService methods, `DELETE /api/list`,
 and `DELETE /api/list/:id/items`.
 
-- [ ] Add `apps/api/src/validation/list.schema.js` with the reusable 24-hex Mongo ID, strict username/list params, bounded list metadata, and strict movie/TV media payload schemas.
-- [ ] Apply validation and `next(error)` propagation in `apps/api/src/router/list.routes.js` and `apps/api/src/controller/list.controller.js` for every active private and public-list route.
-- [ ] Preserve the PLAN.md `ListService` signatures in `apps/api/src/service/listService.js`; replace document/reference equality checks with media-type-and-ID duplicate checks and map missing user/list/item cases to stable `AppError` codes.
-- [ ] Remove `GET /api/list/clear` and `GET /api/list/:id/clear`; add `DELETE /api/list` and `DELETE /api/list/:id/items` with owner scope.
-- [ ] Add `apps/api/test/list.integration.test.js` for owner/non-owner access, input validation, duplicate media, public-list not-found behavior, and rejected-GET/accepted-DELETE clear operations.
+- [x] Add `apps/api/src/validation/list.schema.js` with the reusable 24-hex Mongo ID, strict username/list params, bounded list metadata, and strict movie/TV media payload schemas (the media schema matches the web app's `Media` model exactly — `id`, `posterPath`, `releaseDate`, `title`, `voteAverage`, `type` — since that's the one shape actually persisted into a list's `movies`/`tvShows` arrays, whether via the dedicated add/remove routes or a full list update).
+- [x] Apply validation and `next(error)` propagation in `apps/api/src/router/list.routes.js` and `apps/api/src/controller/list.controller.js` for every active private and public-list route (amended <2026-07-29>: fixes `apps/api/src/router/user.routes.js`, touched in phase 3 — its `/profile` and public-list routes were wrapped in non-async lambdas like `(req, res) => { UserController.getProfile(req, res); }`, which don't return the inner promise to `createRouter`'s `wrapAsync`, so a thrown error became an unhandled rejection instead of reaching `errorHandler`. Found via this phase's `list.integration.test.js` timing out on the public-list not-found case. Fixed by passing the controller methods directly as handlers.).
+- [x] Preserve the PLAN.md `ListService` signatures in `apps/api/src/service/listService.js`; replace document/reference equality checks with media-type-and-ID duplicate checks and map missing user/list/item cases to stable `AppError` codes.
+- [x] Remove `GET /api/list/clear` and `GET /api/list/:id/clear`; add `DELETE /api/list` and `DELETE /api/list/:id/items` with owner scope.
+- [x] Add `apps/api/test/list.integration.test.js` for owner/non-owner access, input validation, duplicate media, public-list not-found behavior, and rejected-GET/accepted-DELETE clear operations (`GET /list/clear` now falls through to `GET /list/:id` with `id="clear"`, correctly 400s on Mongo-id validation rather than clearing anything; `GET /list/:id/clear` matches no route and 404s).
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm check:api`
+- [x] `pnpm test:unit`
+- [x] `pnpm build`
+- [x] CI green on the phase PR (`verify` job passed, PR #4)
 
 **Review checklist (user, at PR review):**
 
