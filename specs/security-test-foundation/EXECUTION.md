@@ -5,12 +5,12 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 4 — done (PR #4, awaiting merge)
+- Current phase: 5 — done (PR #5, awaiting merge)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
 - Phase 3 — Authentication and account hardening: done
 - Phase 4 — Legacy list hardening: done
-- Phase 5 — Web resilience: pending
+- Phase 5 — Web resilience: done
 - Phase 6 — Browser smoke and authoritative CI: pending
 - Verification debt: none
 
@@ -172,22 +172,23 @@ legacy token model.
 Produces: `AppErrorBoundary`, `reportError(error, context?)`, tested route guards,
 token interception, login errors, and list-menu mutation feedback.
 
-- [ ] Add `apps/web/src/shared/utils/reportError.ts#reportError` and `reportError.test.ts` with a structured console sink that excludes tokens and submitted credentials.
-- [ ] Add `apps/web/src/shared/components/AppErrorBoundary.tsx` and `AppErrorBoundary.test.tsx`; update `apps/web/src/App.tsx` to wrap route rendering with the safe reload/retry fallback.
-- [ ] Add `apps/web/src/routes/guards/AuthGuard.test.tsx` and `NoAuthGuard.test.tsx` for authenticated/anonymous navigation and safe redirects.
-- [ ] Add `apps/web/src/api/interceptors/token.interceptor.test.ts` for token attachment, excluded auth calls, unauthorized cleanup, and safe login redirect construction.
-- [ ] Update `apps/web/src/features/Auth/components/LoginForm/LoginForm.tsx` to read the stable API error envelope; add `LoginForm.test.tsx` for safe redirects, success, and failure feedback.
-- [ ] Update `apps/web/src/shared/components/List/Menu.tsx` to invalidate affected list queries and report media-specific success/failure; add `Menu.test.tsx` for movie/TV duplicate, mutation-success, and mutation-failure states.
+- [x] Add `apps/web/src/shared/utils/reportError.ts#reportError` and `reportError.test.ts` with a structured console sink that excludes tokens and submitted credentials (amended <2026-07-31>: `vitest.config.ts`, from phase 1, was missing the `@` path alias for the `web` project — it's declared in `apps/web/vite.config.ts`, a separate config Vitest doesn't inherit from. Every `@/...` import in a web test failed to resolve until this was added).
+- [x] Add `apps/web/src/shared/components/AppErrorBoundary.tsx` and `AppErrorBoundary.test.tsx`; update `apps/web/src/App.tsx` to wrap route rendering with the safe reload/retry fallback (amended <2026-07-31>: `AppErrorBoundary` gained an optional `onReload` prop, defaulting to `window.location.reload`, for the same reason as `tokenErrorInterceptor`'s `redirectTo` above — replacing `window.location` in a test, by any method (`Object.defineProperty`, `vi.stubGlobal`), invokes jsdom's real navigation setter and was observed corrupting shared window state across test files. Dependency injection avoids touching the global at all).
+- [x] Amended <2026-07-31>, no corresponding PLAN.md item: `apps/web/src/test/setup.ts` now installs its own in-memory `Storage` implementation over `globalThis.localStorage`. Root cause: running this project's Node-environment API tests in the same `vitest run` as these jsdom tests corrupts jsdom's real `window.localStorage` into an object with no working methods — Node 22.20 prints `` `--localstorage-file` was provided without a valid path `` (its own built-in Web Storage feature) and appears to hijack `localStorage` process-wide once triggered, including inside jsdom's separate global context. Confirmed via: `--project api` alone never triggers it; `--project web` alone never triggers it; only running both together does, consistently, regardless of Vitest pool/thread configuration (tried and reverted `pool: 'threads'`/`'forks'` per project — no effect). Root-caused to a Node/V8-level interaction, not project code; forcing a working `Storage` instance in `setup.ts` is the practical fix. Verified stable across 7 consecutive full `pnpm test:unit` runs after the fix (0 failures), vs. consistent failure before it.
+- [x] Add `apps/web/src/routes/guards/AuthGuard.test.tsx` and `NoAuthGuard.test.tsx` for authenticated/anonymous navigation and safe redirects.
+- [x] Add `apps/web/src/api/interceptors/token.interceptor.test.ts` for token attachment, excluded auth calls, unauthorized cleanup, and safe login redirect construction (amended <2026-07-31>: `tokenErrorInterceptor` gained an optional `redirectTo` parameter, defaulting to `window.location.replace`, so the redirect test doesn't have to stub `window.location` — see the `AppErrorBoundary`/`test/setup.ts` note below for why that matters here specifically).
+- [x] Update `apps/web/src/features/Auth/components/LoginForm/LoginForm.tsx` to read the stable API error envelope; add `LoginForm.test.tsx` for safe redirects, success, and failure feedback (amended <2026-07-31>: added `apps/web/src/api/utils/getApiErrorMessage.ts`, a small shared helper for extracting the safe message from the error envelope — reused by `Menu`'s mutation feedback below rather than duplicated).
+- [x] Update `apps/web/src/shared/components/List/Menu.tsx` to invalidate affected list queries and report media-specific success/failure; add `Menu.test.tsx` for movie/TV duplicate, mutation-success, and mutation-failure states (amended <2026-07-31>: extracted the mutation logic into `apps/web/src/shared/components/List/useAddToList.ts` — `Menu.test.tsx` tests the hook via `renderHook` rather than driving the Radix dropdown/submenu UI, which needs pointer-capture APIs jsdom doesn't implement; the Radix interaction itself is covered by the phase's manual review checklist).
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm check:api`
+- [x] `pnpm test:unit` (verified stable across 7 consecutive full runs — see the localStorage amendment above)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (`verify` job passed, PR #5)
 
 **Review checklist (user, at PR review):**
 

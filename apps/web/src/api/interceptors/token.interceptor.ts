@@ -37,8 +37,14 @@ export function shouldInterceptWithToken(config: AxiosRequestConfig): boolean {
 /**
  * Clear token and redirect to login if a request is unauthorized.
  * @param error Axios Error.
+ * @param redirectTo Performs the redirect; defaults to a real navigation. Overridable in
+ * tests so they don't have to stub `window.location` — assigning to it invokes jsdom's
+ * real navigation setter, which is flaky to reset between test files.
  */
-export function tokenErrorInterceptor(error: AxiosError): Promise<never> {
+export function tokenErrorInterceptor(
+  error: AxiosError,
+  redirectTo: (url: string) => void = url => window.location.replace(url),
+): Promise<never> {
   if (error.response?.status === 401) {
     TokenService.destroy();
 
@@ -52,7 +58,7 @@ export function tokenErrorInterceptor(error: AxiosError): Promise<never> {
       });
       const loginUrl = new URL(window.location.href);
       loginUrl.hash = `${LOGIN_ROUTE}?${searchParams.toString()}`;
-      window.location.replace(loginUrl);
+      redirectTo(loginUrl.toString());
     }
   }
   return Promise.reject(error);
