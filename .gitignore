@@ -25,3 +25,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Browser-test artifacts
+playwright-report/
+test-results/

@@ -1,117 +1,70 @@
 import ListService from '../service/listService.js';
 
 const getAll = async (req, res) => {
-  try {
-    const lists = await ListService.getAll(req.userId);
-    res.status(200).send(lists);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const lists = await ListService.getAll(req.userId);
+  res.status(200).json(lists);
 };
 
 const getListById = async (req, res) => {
-  try {
-    const list = await ListService.getListById(req.userId, req.params.id);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(404).send({ message: error.message });
-  }
+  const list = await ListService.getListById(req.userId, req.params.id);
+  res.status(200).json(list);
 };
 
 const getListByUsername = async (req, res) => {
-  try {
-    const list = await ListService.getListByUsername(req.params.username, req.params.listId);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(404).send({ message: error.message });
-  }
+  const list = await ListService.getListByUsername(req.params.username, req.params.listId);
+  res.status(200).json(list);
 };
 
 const create = async (req, res) => {
-  try {
-    const list = await ListService.create(req.userId, req.body);
-    res.status(201).send(list);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const list = await ListService.create(req.userId, req.body);
+  res.status(201).json(list);
 };
 
 const update = async (req, res) => {
-  try {
-    const list = await ListService.update(req.userId, req.params.id, req.body);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const list = await ListService.update(req.userId, req.params.id, req.body);
+  res.status(200).json(list);
 };
 
 const remove = async (req, res) => {
-  try {
-    await ListService.delete(req.userId, req.params.id);
-    res.status(200).send({ message: 'List deleted successfully' });
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  await ListService.delete(req.userId, req.params.id);
+  res.status(200).json({ message: 'List deleted successfully.' });
 };
 
 const addMovie = async (req, res) => {
-  try {
-    const list = await ListService.addMovie(req.userId, req.params.id, req.body);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const list = await ListService.addMovie(req.userId, req.params.id, req.body);
+  res.status(200).json(list);
 };
 
 const removeMovie = async (req, res) => {
-  try {
-    const list = await ListService.removeMovie(req.userId, req.params.id, req.body);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const list = await ListService.removeMovie(req.userId, req.params.id, req.body);
+  res.status(200).json(list);
 };
 
 const addTv = async (req, res) => {
-  try {
-    const list = await ListService.addTv(req.userId, req.params.id, req.body);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const list = await ListService.addTv(req.userId, req.params.id, req.body);
+  res.status(200).json(list);
 };
 
 const removeTv = async (req, res) => {
-  try {
-    const list = await ListService.removeTv(req.userId, req.params.id, req.body);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const list = await ListService.removeTv(req.userId, req.params.id, req.body);
+  res.status(200).json(list);
 };
 
 const clear = async (req, res) => {
-  try {
-    const list = await ListService.clear(req.userId, req.params.id);
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  const list = await ListService.clear(req.userId, req.params.id);
+  res.status(200).json(list);
 };
 
 const clearAll = async (req, res) => {
-  try {
-    const lists = await ListService.clearAll(req.userId);
-    res.status(200).send(lists);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
+  await ListService.clearAll(req.userId);
+  res.status(200).json({ message: 'All lists cleared.' });
 };
 
 const ListController = {
-  getListById,
-  create,
   getAll,
+  getListById,
+  getListByUsername,
+  create,
   update,
   remove,
   addMovie,
@@ -120,6 +73,5 @@ const ListController = {
   removeTv,
   clear,
   clearAll,
-  getListByUsername,
 };
 export default ListController;

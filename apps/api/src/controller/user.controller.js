@@ -1,27 +1,28 @@
 import UserService from '../service/userService.js';
+import { toPublicUser } from '../dto/user.dto.js';
+import { AppError } from '../errors/app-error.js';
 
-const getUserById = async (req, res) => {
-  try {
-    await UserService.getUserById(req.params.id || req.userId).then(user => {
-      res.status(200).send(user);
-    });
-  } catch (err) {
-    res.status(404).send({ message: 'User not found' });
+const getProfile = async (req, res) => {
+  const user = await UserService.getUserById(req.userId);
+  if (!user) {
+    throw new AppError({ status: 404, code: 'user_not_found', message: 'User not found.' });
   }
+  res.status(200).json(toPublicUser(user));
 };
-const updateUser = async (req, res) => {
-  await UserService.update(req.params.id, req.body).then(updatedUser => {
-    res.status(200).send(updatedUser);
-  });
+
+const updateProfile = async (req, res) => {
+  const user = await UserService.updateProfile(req.userId, req.body);
+  res.status(200).json(user);
 };
+
 const deleteUser = async (req, res) => {
-  await UserService.delete(req.params.id).then(newUsers => {
-    res.status(200).send(newUsers);
-  });
+  const newUsers = await UserService.delete(req.params.id);
+  res.status(200).send(newUsers);
 };
+
 const UserController = {
-  getUserById,
-  updateUser,
+  getProfile,
+  updateProfile,
   deleteUser,
 };
 export default UserController;
