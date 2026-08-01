@@ -5,13 +5,13 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 6 — in-progress (local gate passed; CI pending)
+- Current phase: 6 — done (PR #6, CI green; awaiting merge)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
 - Phase 3 — Authentication and account hardening: done
 - Phase 4 — Legacy list hardening: done
 - Phase 5 — Web resilience: done
-- Phase 6 — Browser smoke and authoritative CI: in-progress (local gate passed; CI pending)
+- Phase 6 — Browser smoke and authoritative CI: done (PR #6, CI green; awaiting merge)
 - Verification debt: none
 
 ## Phase 1 — Test harness and application seam
@@ -227,7 +227,7 @@ and CI enforcement for all local gates.
 - [x] `pnpm test:unit`
 - [x] `pnpm build`
 - [x] `pnpm test:e2e`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (`verify` passed in GitHub Actions run 30703326343)
 
 **Review checklist (user, at PR review):**
 
