@@ -5,13 +5,13 @@ Integration branch: `main`. Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 5 — done (PR #5, awaiting merge)
+- Current phase: 6 — in-progress (local gate passed; CI pending)
 - Phase 1 — Test harness and application seam: done
 - Phase 2 — API boundary and observability: done
 - Phase 3 — Authentication and account hardening: done
 - Phase 4 — Legacy list hardening: done
 - Phase 5 — Web resilience: done
-- Phase 6 — Browser smoke and authoritative CI: pending
+- Phase 6 — Browser smoke and authoritative CI: in-progress (local gate passed; CI pending)
 - Verification debt: none
 
 ## Phase 1 — Test harness and application seam
@@ -209,21 +209,24 @@ Consumes: root unit/integration commands, hardened API contracts, tested web aut
 Produces: `test:e2e`, Playwright Chromium configuration, anonymous/login smoke specs,
 and CI enforcement for all local gates.
 
-- [ ] Add `@playwright/test`, root `test:e2e` and `test:e2e:install` scripts, `playwright.config.ts`, and the resulting `pnpm-lock.yaml` changes.
-- [ ] Add `tests/e2e/anonymous-browse.spec.ts` with mocked catalog responses for default browse, quick search, and detail navigation.
-- [ ] Add `tests/e2e/login.spec.ts` with mocked backend responses for protected redirect, successful legacy-token login/return, and safe failed-login feedback.
-- [ ] Update `.github/workflows/ci.yml` to run frozen install, format, lint, project-wide typecheck, `pnpm check:api`, `pnpm test:unit`, web build, Chromium installation, and `pnpm test:e2e`; upload the Playwright report only on failure.
-- [ ] Update `.gitignore` only for generated Vitest coverage, Playwright report, and test-results directories while preserving unrelated user entries.
+- [x] Add `@playwright/test`, root `test:e2e` and `test:e2e:install` scripts, `playwright.config.ts`, and the resulting `pnpm-lock.yaml` changes.
+- [x] Add `tests/e2e/anonymous-browse.spec.ts` with mocked catalog responses for default browse, quick search, and detail navigation.
+- [x] Add `tests/e2e/login.spec.ts` with mocked backend responses for protected redirect, successful legacy-token login/return, and safe failed-login feedback.
+- [x] (amended 2026-08-01) Update `apps/web/src/routes/guards/AuthGuard.tsx` and `AuthGuard.test.tsx` so protected-route redirects include an encoded same-origin return path consumed by the existing `LoginForm` safe-redirect handling.
+- [x] (amended 2026-08-01) Update `apps/web/package.json` and `pnpm-lock.yaml` to a React-19-compatible `react-toastify` release after the failed-login browser smoke test exposed an invalid-component crash from version 9.1.1.
+- [x] (amended 2026-08-01) Update `apps/web/src/features/Auth/components/LoginForm/LoginForm.tsx` and `LoginForm.test.tsx` to render failed-login feedback inline through `role="alert"`, avoiding the browser-confirmed toast render crash while retaining safe API error messages.
+- [x] Update `.github/workflows/ci.yml` to run frozen install, format, lint, project-wide typecheck, `pnpm check:api`, `pnpm test:unit`, web build, Chromium installation, and `pnpm test:e2e`; upload the Playwright report only on failure.
+- [x] Update `.gitignore` only for generated Vitest coverage, Playwright report, and test-results directories while preserving unrelated user entries.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit`
-- [ ] `pnpm build`
-- [ ] `pnpm test:e2e`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck`
+- [x] `pnpm check:api`
+- [x] `pnpm test:unit`
+- [x] `pnpm build`
+- [x] `pnpm test:e2e`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
