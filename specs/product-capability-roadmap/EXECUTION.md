@@ -1,17 +1,17 @@
 # Product Capability Roadmap — Execution Plan
 
 Spec: [PLAN.md](PLAN.md). Rulebook: `specs/RULEBOOK.md`.
-Integration branch: `feature/product-capability-roadmap`. Branch model: sequential
-(user opted in): each phase branches from this feature branch only after its predecessor's
-PR merges, and every phase PR targets this feature branch.
+Integration branch: `feature/product-capability-roadmap`. Branch model: stacked
+(user directive 2026-08-01): each phase branches from its predecessor without waiting for
+merge, and targets that predecessor's branch until it merges into the feature branch.
 Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; remaining work begins at Phase 2.
 
 ## STATUS
 
-- Current phase: 2 — done (PR #8, CI green; awaiting merge)
+- Current phase: 3 — done (local gate passed; awaiting push/PR)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
-- Phase 3 — Library client data and actions: pending
+- Phase 3 — Library client data and actions: done (local gate passed; awaiting push/PR)
 - Phase 4 — Library views and editing: pending
 - Phase 5 — Collection model and migration compatibility: pending
 - Phase 6 — Collection API cutover: pending
@@ -59,25 +59,25 @@ Produces: `LibraryEntryService.list(ownerId, filters)`, `upsert(ownerId, input)`
 
 ## Phase 3 — Library client data and actions
 
-Branch: `product-capability-roadmap/phase-3-library-client` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-3-library-client` (off `product-capability-roadmap/phase-2-library-api`, stacked)
 
 Wire the Library contract through typed client boundaries before adding Library pages.
 
 Consumes: `GET|PUT|DELETE /api/library/entries` and its stable DTOs.
 Produces: `LibraryEntryService.list(filters)`, `upsert(input)`, `remove(key)`, `LibraryEntryQueries.useList(filters)`, `useUpsert()`, `useRemove()`, and `<LibraryAction media={media} />`.
 
-- [ ] Add `apps/web/src/models/library-entry.model.ts`, `apps/web/src/api/dtos/library-entry.dto.ts`, and `apps/web/src/api/mappers/library-entry.mapper.ts` with strict watch-state, rating, date, progress, and media-snapshot types.
-- [ ] Add `apps/web/src/api/services/libraryEntryService.ts` and `apps/web/src/stores/queries/libraryEntryQueries.ts` with canonical query keys, optimistic updates, rollback, and invalidation.
-- [ ] Add `apps/web/src/shared/components/LibraryAction.tsx` and integrate it into `shared/components/List/MediaListItem.tsx`, `shared/components/Recommend.tsx`, `shared/components/Search/components/SearchResult.tsx`, `features/Movie/components/Detail/components/Content.tsx`, and `features/Tv/components/Detail/components/Content.tsx`.
-- [ ] Add `apps/web/src/shared/components/LibraryAction.test.tsx` and `apps/web/src/stores/queries/libraryEntryQueries.test.tsx` for planned/upsert/remove success, rollback, and accessible status announcements.
+- [x] Add `apps/web/src/models/library-entry.model.ts`, `apps/web/src/api/dtos/library-entry.dto.ts`, and `apps/web/src/api/mappers/library-entry.mapper.ts` with strict watch-state, rating, date, progress, and media-snapshot types.
+- [x] Add `apps/web/src/api/services/libraryEntryService.ts` and `apps/web/src/stores/queries/libraryEntryQueries.ts` with canonical query keys, optimistic updates, rollback, and invalidation.
+- [x] Add `apps/web/src/shared/components/LibraryAction.tsx` and integrate it into `shared/components/List/MediaListItem.tsx`, `shared/components/Recommend.tsx`, `shared/components/Search/components/SearchResult.tsx`, `features/Movie/components/Detail/components/Content.tsx`, and `features/Tv/components/Detail/components/Content.tsx`.
+- [x] Add `apps/web/src/shared/components/LibraryAction.test.tsx` and `apps/web/src/stores/queries/libraryEntryQueries.test.tsx` for planned/upsert/remove success, rollback, and accessible status announcements.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: shared media action)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: shared media action)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
@@ -88,7 +88,7 @@ Produces: `LibraryEntryService.list(filters)`, `upsert(input)`, `remove(key)`, `
 
 ## Phase 4 — Library views and editing
 
-Branch: `product-capability-roadmap/phase-4-library-views` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-4-library-views` (off `product-capability-roadmap/phase-3-library-client`, stacked)
 
 Build filterable Library pages and rich editing on the stable client data layer.
 
@@ -116,7 +116,7 @@ Produces: authenticated `/user/library` routes and Library list/editor component
 
 ## Phase 5 — Collection model and migration compatibility
 
-Branch: `product-capability-roadmap/phase-5-collection-migration` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-5-collection-migration` (off `product-capability-roadmap/phase-4-library-views`, stacked)
 
 Establish durable Collection storage and reversible legacy-list migration before switching APIs or UI.
 
@@ -145,7 +145,7 @@ Produces: `Collection`, `CollectionCompatibilityService.getLegacyPublic(username
 
 ## Phase 6 — Collection API cutover
 
-Branch: `product-capability-roadmap/phase-6-collection-api` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-6-collection-api` (off `product-capability-roadmap/phase-5-collection-migration`, stacked)
 
 Switch Collection writes and canonical reads only after compatibility storage exists.
 
@@ -174,7 +174,7 @@ Produces: `CollectionService.listForUser`, `getAccessible`, `create`, `update`, 
 
 ## Phase 7 — Collection web cutover
 
-Branch: `product-capability-roadmap/phase-7-collection-web` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-7-collection-web` (off `product-capability-roadmap/phase-6-collection-api`, stacked)
 
 Move user-facing list behavior to canonical Collection language and mutation contracts.
 
@@ -203,7 +203,7 @@ Produces: canonical Collection models, services, queries, routes, pages, and mut
 
 ## Phase 8 — Catalog adapter
 
-Branch: `product-capability-roadmap/phase-8-catalog-adapter` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-8-catalog-adapter` (off `product-capability-roadmap/phase-7-collection-web`, stacked)
 
 Create the provider-neutral server boundary required by discovery, calendars, and scheduled synchronization.
 
@@ -230,7 +230,7 @@ Produces: `CatalogProvider.discover`, `search`, `getMedia`, `getReleaseSchedule`
 
 ## Phase 9 — Discovery and search
 
-Branch: `product-capability-roadmap/phase-9-discovery-search` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-9-discovery-search` (off `product-capability-roadmap/phase-8-catalog-adapter`, stacked)
 
 Build URL-addressable discovery and full search on the provider-neutral catalog API.
 
@@ -260,7 +260,7 @@ Produces: `CatalogService`, `CatalogQueries`, URL-backed catalog filters, and `/
 
 ## Phase 10 — Release sync and calendar
 
-Branch: `product-capability-roadmap/phase-10-release-calendar` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-10-release-calendar` (off `product-capability-roadmap/phase-9-discovery-search`, stacked)
 
 Derive calendar data and resumable refresh state before creating notifications from release events.
 
@@ -290,7 +290,7 @@ Produces: `ReleaseCalendarService.list`, `CatalogSyncService.run`, `/api/calenda
 
 ## Phase 11 — Notifications
 
-Branch: `product-capability-roadmap/phase-11-notifications` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-11-notifications` (off `product-capability-roadmap/phase-10-release-calendar`, stacked)
 
 Create deduplicated in-app delivery from the established release-sync event stream.
 
@@ -320,7 +320,7 @@ Produces: `NotificationService.list`, `markRead`, `updatePreferences`, `/api/not
 
 ## Phase 12 — Collection collaboration
 
-Branch: `product-capability-roadmap/phase-12-collaboration` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-12-collaboration` (off `product-capability-roadmap/phase-11-notifications`, stacked)
 
 Add username invitations and role enforcement on the versioned Collection boundary.
 
@@ -350,7 +350,7 @@ Produces: `CollectionCollaborationService.invite`, `respond`, `revoke`, `changeR
 
 ## Phase 13 — Public social API
 
-Branch: `product-capability-roadmap/phase-13-social-api` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-13-social-api` (off `product-capability-roadmap/phase-12-collaboration`, stacked)
 
 Create privacy-aware follow, like, public-profile, and Collection-discovery contracts before exposing social UI.
 
@@ -379,7 +379,7 @@ Produces: `SocialService.follow`, `unfollow`, `like`, `unlike`, `getPublicProfil
 
 ## Phase 14 — Public social UI and sharing
 
-Branch: `product-capability-roadmap/phase-14-social-sharing` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-14-social-sharing` (off `product-capability-roadmap/phase-13-social-api`, stacked)
 
 Expose social controls and crawler-readable Collection shares on the stable privacy contracts.
 
@@ -409,7 +409,7 @@ Produces: public profile/discovery UI and `ShareService.renderCollectionCard(pub
 
 ## Phase 15 — Final hardening and cleanup
 
-Branch: `product-capability-roadmap/phase-15-hardening` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-15-hardening` (off `product-capability-roadmap/phase-14-social-sharing`, stacked)
 
 Remove compatibility paths only after production-ready substitutes, migration evidence, and operational checks exist.
 

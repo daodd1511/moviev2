@@ -15,3 +15,4 @@ export * from './media.mapper';
 export * from './person/person.mapper';
 export * from './person/personCombinedCredits.mapper';
 export * from './search.mapper';
+export * from './library-entry.mapper';

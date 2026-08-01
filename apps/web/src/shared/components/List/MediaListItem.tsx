@@ -10,6 +10,7 @@ import { formatToYear } from '../../utils';
 import { Menu } from './Menu';
 
 import { Media } from '@/models';
+import { LibraryAction } from '@/shared/components/LibraryAction';
 import { PosterPlate } from '@/shared/components/ui/PosterPlate';
 
 interface Props {
@@ -44,12 +45,19 @@ const MediaListItemComponent = ({ media }: Props) => {
           </div>
         </PosterPlate>
       </Link>
-      <Menu
-        media={media}
-        triggerLabel="Open item menu"
-        className="absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/60 text-foreground opacity-0 shadow-[0_8px_20px_-10px_rgba(0,0,0,0.9)] backdrop-blur-sm transition-[opacity,background-color,border-color] group-hover:opacity-100 hover:border-foreground/25 hover:bg-background/80 focus-visible:opacity-100 data-[state=open]:border-foreground/30 data-[state=open]:bg-surface-raised data-[state=open]:opacity-100 sm:h-11 sm:w-11 [@media(hover:none)]:opacity-100"
-        trigger={<MoreHorizontal className="h-4 w-4" />}
-      />
+      <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 sm:gap-2 [@media(hover:none)]:opacity-100">
+        <LibraryAction
+          media={media}
+          iconOnly
+          className="h-9 w-9 rounded-full border border-foreground/15 bg-background/60 text-foreground shadow-[0_8px_20px_-10px_rgba(0,0,0,0.9)] backdrop-blur-sm hover:border-foreground/25 hover:bg-background/80 sm:h-11 sm:w-11"
+        />
+        <Menu
+          media={media}
+          triggerLabel="Open item menu"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/60 text-foreground shadow-[0_8px_20px_-10px_rgba(0,0,0,0.9)] backdrop-blur-sm hover:border-foreground/25 hover:bg-background/80 sm:h-11 sm:w-11"
+          trigger={<MoreHorizontal className="h-4 w-4" />}
+        />
+      </div>
     </div>
   );
 };

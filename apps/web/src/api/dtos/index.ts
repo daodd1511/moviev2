@@ -11,3 +11,4 @@ export * from './tv/episode.dto';
 export * from './cast.dto';
 export * from './person/person.dto';
 export * from './person/personCombinedCredits.dto';
+export * from './library-entry.dto';
