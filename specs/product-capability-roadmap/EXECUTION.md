@@ -40,12 +40,12 @@ Produces: `LibraryEntryService.list(ownerId, filters)`, `upsert(ownerId, input)`
 - [x] Add `apps/api/test/library-entry.integration.test.js` for idempotent upsert, filters, transitions, date/progress rejection, deletion, and cross-user `404` isolation.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: shared persisted/serialized shapes)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: shared persisted/serialized shapes)
+- [x] `pnpm test:e2e`
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
