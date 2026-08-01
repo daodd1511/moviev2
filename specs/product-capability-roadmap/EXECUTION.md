@@ -8,9 +8,9 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 2 — in-progress
+- Current phase: 2 — done (PR #8, CI green; awaiting merge)
 - Phase 0 — Security and test foundation: done
-- Phase 2 — Library API: in-progress
+- Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: pending
 - Phase 4 — Library views and editing: pending
 - Phase 5 — Collection model and migration compatibility: pending
@@ -47,7 +47,7 @@ Produces: `LibraryEntryService.list(ownerId, filters)`, `upsert(ownerId, input)`
 - [x] `pnpm test:unit` (full suite: shared persisted/serialized shapes)
 - [x] `pnpm test:e2e`
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (PR #8)
 
 - [x] (amended 2026-08-01) Remove Playwright from `package.json`, `pnpm-lock.yaml`, `.github/workflows/ci.yml`, `playwright.config.ts`, and `tests/e2e/`; rerun frozen install, format/lint, typecheck/API syntax, unit tests, and build without an E2E lane.
 
