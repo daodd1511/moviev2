@@ -16,14 +16,31 @@
     "lint": "oxlint apps && oxlint --type-aware apps/web/src",
     "lint:fix": "oxlint apps --fix && oxlint --type-aware apps/web/src --fix",
     "format": "oxfmt .",
-    "format:check": "oxfmt --check ."
+    "format:check": "oxfmt --check .",
+    "test": "pnpm test:unit",
+    "test:unit": "vitest run",
+    "test:api": "vitest run --project api",
+    "test:web": "vitest run --project web",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install --with-deps chromium",
+    "check:api": "find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \\;"
   },
   "volta": {
     "node": "22.20.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.62.0",
+    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@vitest/coverage-v8": "4.1.10",
+    "jsdom": "30.0.0",
+    "mongodb-memory-server": "11.2.0",
+    "msw": "2.15.0",
     "oxfmt": "0.60.0",
     "oxlint": "1.74.0",
-    "oxlint-tsgolint": "0.24.0"
+    "oxlint-tsgolint": "0.24.0",
+    "supertest": "7.2.2",
+    "vitest": "4.1.10"
   }
 }
