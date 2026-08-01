@@ -120,11 +120,7 @@ describe('Library Entry validation', () => {
   );
 
   it.each([
-    [
-      'fractional ratings',
-      buildLibraryEntryInput({ rating: 7.5 }),
-      'rating',
-    ],
+    ['fractional ratings', buildLibraryEntryInput({ rating: 7.5 }), 'rating'],
     [
       'completion dates before start dates',
       buildLibraryEntryInput({

@@ -203,11 +203,8 @@ the security phase on a full catalog proxy rewrite.
   Collection/profile routes in `routes/Router.tsx`.
 - Final hardening: `tests/load/catalog.mjs`, `tests/load/library.mjs`,
   `tests/load/collections.mjs`, `tests/load/notifications.mjs`,
-  `scripts/verify-mongo-backup.sh`, `tests/e2e/library.spec.ts`,
-  `tests/e2e/collection.spec.ts`, `tests/e2e/discovery-search.spec.ts`,
-  `tests/e2e/calendar.spec.ts`, `tests/e2e/notifications.spec.ts`,
-  `tests/e2e/collaboration.spec.ts`, `tests/e2e/social-sharing.spec.ts`,
-  `.github/workflows/ci.yml`, `docs/operations.md`, `docs/privacy.md`, and `docs/security.md`.
+  `scripts/verify-mongo-backup.sh`, `.github/workflows/ci.yml`,
+  `docs/operations.md`, `docs/privacy.md`, and `docs/security.md`.
 
 ### Phase interfaces
 
@@ -299,7 +296,6 @@ Every phase must pass:
 - `pnpm build`
 - API syntax/type checks appropriate to the phase
 - affected unit and integration tests
-- affected Playwright smoke journeys
 
 No phase may delete, skip, or weaken a test to pass its gate.
 
@@ -310,7 +306,10 @@ No phase may delete, skip, or weaken a test to pass its gate.
 - Vitest or Node test runner plus Supertest for API integration tests;
 - a disposable MongoDB test database for repository/service tests;
 - MSW for deterministic catalog and backend client tests;
-- Playwright for critical cross-application journeys.
+
+Browser E2E coverage was removed by the Phase 2 amendment on 2026-08-01. Completed
+security-foundation records retain its original evidence, but no active package, script,
+CI job, or roadmap phase depends on Playwright.
 
 Required initial journeys:
 

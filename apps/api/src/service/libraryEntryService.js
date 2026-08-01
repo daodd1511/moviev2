@@ -33,7 +33,11 @@ const upsertWithRetry = async (ownerId, input) => {
   } catch (error) {
     if (error?.code !== 11000) throw error;
 
-    return LibraryEntry.findOneAndUpdate(filter, { $set: update }, { new: true, runValidators: true });
+    return LibraryEntry.findOneAndUpdate(
+      filter,
+      { $set: update },
+      { new: true, runValidators: true },
+    );
   }
 };
 
