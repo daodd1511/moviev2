@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,6 +25,7 @@ const LoginFormComponent = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectPath = getSafeRedirectPath(searchParams.get('redirect'));
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [, setAuth] = useAtom(isAuthAtom);
   const [, setToken] = useAtom(tokenAtom);
   const [, setUserId] = useAtom(userIdAtom);
@@ -39,6 +39,7 @@ const LoginFormComponent = () => {
   const mutation = useMutation({
     mutationFn: ({ username, password }: Login) => AuthService.login({ username, password }),
     onSuccess(data) {
+      setErrorMessage(null);
       TokenService.save(data.accessToken);
       setToken(data.accessToken);
       setUserId(data.userId);
@@ -46,11 +47,12 @@ const LoginFormComponent = () => {
       navigate(redirectPath, { replace: true });
     },
     onError(error: unknown) {
-      toast.error(getApiErrorMessage(error, 'Unable to sign in'));
+      setErrorMessage(getApiErrorMessage(error, 'Unable to sign in'));
     },
   });
 
   const onSubmit = handleSubmit((loginData: Login) => {
+    setErrorMessage(null);
     mutation.mutate(loginData);
   });
   return (
@@ -108,6 +110,11 @@ const LoginFormComponent = () => {
           </Link>
         </div>
       </div>
+      {errorMessage !== null && (
+        <p role="alert" className="mt-5 text-sm text-destructive">
+          {errorMessage}
+        </p>
+      )}
     </form>
   );
 };

@@ -16,11 +16,6 @@ vi.mock('react-router-dom', async () => {
   return { ...actual, useNavigate: () => navigateMock };
 });
 
-vi.mock('react-toastify', async () => {
-  const actual = await vi.importActual<typeof import('react-toastify')>('react-toastify');
-  return { ...actual, toast: { ...actual.toast, error: vi.fn(), success: vi.fn() } };
-});
-
 const submitLogin = async (username: string, password: string) => {
   const user = userEvent.setup();
   await user.type(screen.getByLabelText(/username/i), username);
@@ -66,7 +61,6 @@ describe('LoginForm', () => {
   });
 
   it('shows the API error envelope message on failed login', async () => {
-    const { toast } = await import('react-toastify');
     server.use(
       http.post('*/auth/login', () =>
         HttpResponse.json(
@@ -85,17 +79,18 @@ describe('LoginForm', () => {
 
     await submitLogin('someuser', 'wrongpass');
 
-    await waitFor(() => expect(toast.error).toHaveBeenCalledWith('Invalid username or password.'));
+    await waitFor(() =>
+      expect(screen.getByRole('alert')).toHaveTextContent('Invalid username or password.'),
+    );
     expect(navigateMock).not.toHaveBeenCalled();
   });
 
   it('shows a fallback message when the failure has no error envelope', async () => {
-    const { toast } = await import('react-toastify');
     server.use(http.post('*/auth/login', () => HttpResponse.error()));
     renderApp(<LoginForm />, { route: '/auth/login' });
 
     await submitLogin('someuser', 'wrongpass');
 
-    await waitFor(() => expect(toast.error).toHaveBeenCalledWith('Unable to sign in'));
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('Unable to sign in'));
   });
 });
