@@ -8,9 +8,9 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 2 — pending
+- Current phase: 2 — in-progress
 - Phase 0 — Security and test foundation: done
-- Phase 2 — Library API: pending
+- Phase 2 — Library API: in-progress
 - Phase 3 — Library client data and actions: pending
 - Phase 4 — Library views and editing: pending
 - Phase 5 — Collection model and migration compatibility: pending
@@ -34,10 +34,10 @@ Create the private Library storage and HTTP contract that every Library UI consu
 
 Produces: `LibraryEntryService.list(ownerId, filters)`, `upsert(ownerId, input)`, `remove(ownerId, mediaType, tmdbId)`, `toLibraryEntryDto(entry)`, and `GET|PUT|DELETE /api/library/entries`.
 
-- [ ] Add `apps/api/src/model/library-entry.js` with the PLAN.md → "Library Entry" fields, integer `1..10` ratings, date/progress constraints, and unique `(ownerId, mediaType, tmdbId)` index.
-- [ ] Add `apps/api/src/dto/library-entry.dto.js`, `apps/api/src/validation/library-entry.schema.js`, and stable list/upsert/delete request and response DTOs.
-- [ ] Add `apps/api/src/service/libraryEntryService.js`, `apps/api/src/controller/library-entry.controller.js`, and `apps/api/src/router/library-entry.routes.js`; mount `/library/entries` in `apps/api/src/router/router.js` behind `verifyToken`.
-- [ ] Add `apps/api/test/library-entry.integration.test.js` for idempotent upsert, filters, transitions, date/progress rejection, deletion, and cross-user `404` isolation.
+- [x] Add `apps/api/src/model/library-entry.js` with the PLAN.md → "Library Entry" fields, integer `1..10` ratings, date/progress constraints, and unique `(ownerId, mediaType, tmdbId)` index.
+- [x] Add `apps/api/src/dto/library-entry.dto.js`, `apps/api/src/validation/library-entry.schema.js`, and stable list/upsert/delete request and response DTOs.
+- [x] Add `apps/api/src/service/libraryEntryService.js`, `apps/api/src/controller/library-entry.controller.js`, and `apps/api/src/router/library-entry.routes.js`; mount `/library/entries` in `apps/api/src/router/router.js` behind `verifyToken`.
+- [x] Add `apps/api/test/library-entry.integration.test.js` for idempotent upsert, filters, transitions, date/progress rejection, deletion, and cross-user `404` isolation.
 
 **Agent gate (hard):**
 - [ ] `pnpm install --frozen-lockfile`
