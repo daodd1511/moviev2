@@ -8,10 +8,10 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 3 — in-progress (CI formatting correction in progress)
+- Current phase: 3 — done (PR #9, CI green)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
-- Phase 3 — Library client data and actions: in-progress (CI formatting correction in progress)
+- Phase 3 — Library client data and actions: done (PR #9, CI green)
 - Phase 4 — Library views and editing: pending
 - Phase 5 — Collection model and migration compatibility: pending
 - Phase 6 — Collection API cutover: pending
@@ -79,7 +79,7 @@ Produces: `LibraryEntryService.list(filters)`, `upsert(input)`, `remove(key)`, `
 - [x] `pnpm typecheck && pnpm check:api`
 - [x] `pnpm test:unit` (full suite: shared media action)
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (PR #9)
 
 **Review checklist (user, at PR review):**
 
