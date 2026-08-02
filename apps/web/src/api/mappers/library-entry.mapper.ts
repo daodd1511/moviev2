@@ -1,4 +1,8 @@
-import { libraryEntryDtoSchema, libraryEntryListDtoSchema, LibraryEntryDto } from '../dtos/library-entry.dto';
+import {
+  libraryEntryDtoSchema,
+  libraryEntryListDtoSchema,
+  LibraryEntryDto,
+} from '../dtos/library-entry.dto';
 
 import { LibraryEntry, LibraryEntryInput } from '@/models/library-entry.model';
 import { Media } from '@/models/media.model';
@@ -20,7 +24,10 @@ export namespace LibraryEntryMapper {
   export const fromListDto = (dto: unknown): readonly LibraryEntry[] => {
     const result = libraryEntryListDtoSchema.safeParse(dto);
     if (!result.success) {
-      console.error('[LibraryEntryMapper] Invalid Library Entry list response.', result.error.issues);
+      console.error(
+        '[LibraryEntryMapper] Invalid Library Entry list response.',
+        result.error.issues,
+      );
       return [];
     }
     return result.data.entries;

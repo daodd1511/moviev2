@@ -16,7 +16,8 @@ const libraryEntryKeys = {
 const isMatchingEntry = (entry: LibraryEntry, filters: LibraryEntryFilters): boolean =>
   (filters.watchState === undefined || entry.watchState === filters.watchState) &&
   (filters.mediaType === undefined || entry.mediaType === filters.mediaType) &&
-  (filters.minRating === undefined || (entry.rating !== null && entry.rating >= filters.minRating)) &&
+  (filters.minRating === undefined ||
+    (entry.rating !== null && entry.rating >= filters.minRating)) &&
   (filters.maxRating === undefined || (entry.rating !== null && entry.rating <= filters.maxRating));
 
 const isSameEntry = (entry: LibraryEntry, key: LibraryEntryKey): boolean =>
@@ -24,7 +25,12 @@ const isSameEntry = (entry: LibraryEntry, key: LibraryEntryKey): boolean =>
 
 const makeOptimisticEntry = (input: LibraryEntryInput): LibraryEntry => {
   const now = new Date().toISOString();
-  return { id: `optimistic:${input.mediaType}:${input.tmdbId}`, ...input, createdAt: now, updatedAt: now };
+  return {
+    id: `optimistic:${input.mediaType}:${input.tmdbId}`,
+    ...input,
+    createdAt: now,
+    updatedAt: now,
+  };
 };
 
 type CachedList = readonly LibraryEntry[];
@@ -55,7 +61,9 @@ export namespace LibraryEntryQueries {
           const withoutExisting = entries.filter(entry => !isSameEntry(entry, input));
           queryClient.setQueryData<CachedList>(
             key,
-            isMatchingEntry(optimistic, filters) ? [...withoutExisting, optimistic] : withoutExisting,
+            isMatchingEntry(optimistic, filters)
+              ? [...withoutExisting, optimistic]
+              : withoutExisting,
           );
         }
         return previous;

@@ -8,10 +8,10 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 3 — done (local gate passed; awaiting push/PR)
+- Current phase: 3 — in-progress (CI formatting correction in progress)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
-- Phase 3 — Library client data and actions: done (local gate passed; awaiting push/PR)
+- Phase 3 — Library client data and actions: in-progress (CI formatting correction in progress)
 - Phase 4 — Library views and editing: pending
 - Phase 5 — Collection model and migration compatibility: pending
 - Phase 6 — Collection API cutover: pending
@@ -70,6 +70,7 @@ Produces: `LibraryEntryService.list(filters)`, `upsert(input)`, `remove(key)`, `
 - [x] Add `apps/web/src/api/services/libraryEntryService.ts` and `apps/web/src/stores/queries/libraryEntryQueries.ts` with canonical query keys, optimistic updates, rollback, and invalidation.
 - [x] Add `apps/web/src/shared/components/LibraryAction.tsx` and integrate it into `shared/components/List/MediaListItem.tsx`, `shared/components/Recommend.tsx`, `shared/components/Search/components/SearchResult.tsx`, `features/Movie/components/Detail/components/Content.tsx`, and `features/Tv/components/Detail/components/Content.tsx`.
 - [x] Add `apps/web/src/shared/components/LibraryAction.test.tsx` and `apps/web/src/stores/queries/libraryEntryQueries.test.tsx` for planned/upsert/remove success, rollback, and accessible status announcements.
+- [x] (amended 2026-08-02) Apply the project formatter to the Phase 3 client files reported by PR #9 CI.
 
 **Agent gate (hard):**
 

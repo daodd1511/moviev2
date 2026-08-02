@@ -27,7 +27,9 @@ const AuthenticatedLibraryAction = ({ media, className, iconOnly = false }: Prop
   const { data: entries = [], isPending } = LibraryEntryQueries.useList({});
   const upsert = LibraryEntryQueries.useUpsert();
   const remove = LibraryEntryQueries.useRemove();
-  const entry = entries.find(candidate => candidate.mediaType === media.type && candidate.tmdbId === media.id);
+  const entry = entries.find(
+    candidate => candidate.mediaType === media.type && candidate.tmdbId === media.id,
+  );
   const isMutating = upsert.isPending || remove.isPending;
   const isTracked = entry !== undefined;
   const label = isTracked ? 'Remove from Library' : 'Add to Library';
@@ -84,7 +86,12 @@ export const LibraryAction = ({ media, className, iconOnly = false }: Props) => 
   if (!isAuthenticated) {
     const redirect = encodeURIComponent(getRedirectPath(pathname, search));
     return (
-      <Button asChild variant="secondary" size={iconOnly ? 'icon' : 'default'} className={className}>
+      <Button
+        asChild
+        variant="secondary"
+        size={iconOnly ? 'icon' : 'default'}
+        className={className}
+      >
         <Link to={`/auth/login?redirect=${redirect}`} aria-label="Log in to add to Library">
           <BookmarkPlus aria-hidden="true" className="size-4" />
           {!iconOnly && <span>Add to Library</span>}

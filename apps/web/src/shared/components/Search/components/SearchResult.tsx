@@ -63,14 +63,16 @@ const SearchResultComponent = ({ searchResult, onSelect }: Props) => {
         </div>
       </Link>
       <LibraryAction
-        media={new Media({
-          id: searchResult.id,
-          posterPath: searchResult.posterPath,
-          releaseDate,
-          title,
-          voteAverage: searchResult.voteAverage,
-          type: searchResult.mediaType,
-        })}
+        media={
+          new Media({
+            id: searchResult.id,
+            posterPath: searchResult.posterPath,
+            releaseDate,
+            title,
+            voteAverage: searchResult.voteAverage,
+            type: searchResult.mediaType,
+          })
+        }
         iconOnly
         className="absolute top-4 right-4 h-8 w-8 sm:right-5"
       />
