@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { useState } from 'react';
-import { ListIcon, LogOut, User } from 'lucide-react';
+import { LibraryBig, ListIcon, LogOut, User } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -31,6 +31,12 @@ export const ProfileDropdown = () => {
           <User className="h-5 w-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem asChild>
+            <Link to="user/library">
+              <LibraryBig aria-hidden="true" />
+              Library
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link to="user/profile">
               <User aria-hidden="true" />

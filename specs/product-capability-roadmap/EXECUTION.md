@@ -8,11 +8,11 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 3 — done (PR #9, CI green)
+- Current phase: 4 — in-progress
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
-- Phase 4 — Library views and editing: pending
+- Phase 4 — Library views and editing: in-progress
 - Phase 5 — Collection model and migration compatibility: pending
 - Phase 6 — Collection API cutover: pending
 - Phase 7 — Collection web cutover: pending
@@ -96,9 +96,10 @@ Build filterable Library pages and rich editing on the stable client data layer.
 Consumes: `LibraryEntryQueries.useList(filters)`, `useUpsert()`, `useRemove()`, and Library model types.
 Produces: authenticated `/user/library` routes and Library list/editor components.
 
-- [ ] Add `apps/web/src/features/Library/routes.tsx`, `pages/LibraryPage.tsx`, `components/LibraryFilters.tsx`, `components/LibraryEntryCard.tsx`, and `components/LibraryEntryEditor.tsx` for state, media type, rating, recency, notes, dates, and TV progress.
-- [ ] Mount `libraryRoutes` from `apps/web/src/routes/Router.tsx`, link it from `shared/components/Navbar/ProfileDropdown.tsx`, and treat `planned` as the Watchlist route/filter.
-- [ ] Add `apps/web/src/features/Library/pages/LibraryPage.test.tsx` and `components/LibraryEntryEditor.test.tsx` for URL filters, integer rating validation, date ordering, catalog-bounded progress, mutation feedback, and keyboard use.
+- [x] Add `apps/web/src/features/Library/routes.tsx`, `pages/LibraryPage.tsx`, `components/LibraryFilters.tsx`, `components/LibraryEntryCard.tsx`, and `components/LibraryEntryEditor.tsx` for state, media type, rating, recency, notes, dates, and TV progress.
+- [x] Mount `libraryRoutes` from `apps/web/src/routes/Router.tsx`, link it from `shared/components/Navbar/ProfileDropdown.tsx`, and treat `planned` as the Watchlist route/filter.
+- [x] Add `apps/web/src/features/Library/pages/LibraryPage.test.tsx` and `components/LibraryEntryEditor.test.tsx` for URL filters, integer rating validation, date ordering, positive-integer TV progress validation, mutation feedback, and keyboard use.
+- [x] (amended 2026-08-02) Do not introduce catalog bounds for TV progress: Phase 2's Library contract exposes no season/episode totals, so validate positive integer coordinates until the catalog adapter phase can supply bounds.
 
 **Agent gate (hard):**
 
