@@ -21,6 +21,7 @@
     "test:unit": "vitest run",
     "test:api": "vitest run --project api",
     "test:web": "vitest run --project web",
+    "sync:tracked-releases": "pnpm --filter @movie/api sync:tracked-releases",
     "check:api": "find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \\;"
   },
   "volta": {

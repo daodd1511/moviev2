@@ -14,6 +14,7 @@ import { personRoutes } from '@/features/Person/routes';
 import { castRoutes } from '@/features/Cast/routes';
 import { libraryRoutes } from '@/features/Library/routes';
 import { searchRoutes } from '@/features/Search/routes';
+import { calendarRoutes } from '@/features/Calendar/routes';
 
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
@@ -43,7 +44,7 @@ const routes: RouteObject[] = [
       {
         path: '',
         element: <AuthGuard />,
-        children: [...userRoutes, ...collectionRoutes, ...libraryRoutes],
+        children: [...userRoutes, ...collectionRoutes, ...libraryRoutes, ...calendarRoutes],
       },
       {
         path: 'u/:username/collections/:collectionId',

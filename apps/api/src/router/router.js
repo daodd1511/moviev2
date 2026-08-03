@@ -5,6 +5,7 @@ import libraryEntryRouter from './library-entry.routes.js';
 import userRouter from './user.routes.js';
 import collectionRouter from './collection.routes.js';
 import catalogRouter from './catalog.routes.js';
+import calendarRouter from './calendar.routes.js';
 
 const router = express.Router();
 router.use('/auth', authRouter);
@@ -13,4 +14,5 @@ router.use('/list', listRouter);
 router.use('/library/entries', libraryEntryRouter);
 router.use('/collections', collectionRouter);
 router.use('/catalog', catalogRouter);
+router.use('/calendar', calendarRouter);
 export default router;

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index",
     "test": "vitest run --project api",
-    "dev": "nodemon index"
+    "dev": "nodemon index",
+    "sync:tracked-releases": "node src/jobs/sync-tracked-releases.js"
   },
   "author": "",
   "license": "ISC",
