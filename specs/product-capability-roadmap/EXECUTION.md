@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 12 — done (PR #18, CI green)
+- Current phase: 13 — local agent gate passed, PR not yet opened
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -21,7 +21,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 10 — Release sync and calendar: done (PR #16, CI green)
 - Phase 11 — Notifications: done (PR #17, CI green)
 - Phase 12 — Collection collaboration: done (PR #18, CI green)
-- Phase 13 — Public social API: pending
+- Phase 13 — Public social API: local agent gate passed, PR not yet opened
 - Phase 14 — Public social UI and sharing: pending
 - Phase 15 — Final hardening and cleanup: pending
 - Verification debt: none
@@ -367,18 +367,21 @@ Create privacy-aware follow, like, public-profile, and Collection-discovery cont
 Consumes: public Collection visibility and canonical Collection deletion.
 Produces: `SocialService.follow`, `unfollow`, `like`, `unlike`, `getPublicProfile`, `discoverCollections`, and social HTTP routes.
 
-- [ ] Add `apps/api/src/model/follow.js` and `model/collection-like.js` with unique source relationships and indexes; add public-profile opt-in plus independent follower/following visibility preferences to `model/user.js` and `dto/user.dto.js`.
-- [ ] Add `apps/api/src/service/socialService.js`, `controller/social.controller.js`, `validation/social.schema.js`, and `router/social.routes.js` for public profiles, follows, likes, counts, and public Collection discovery/sorting.
-- [ ] Update `apps/api/src/service/collectionService.js` deletion/visibility transitions to clean or hide likes and discovery records without exposing private/unlisted metadata.
-- [ ] Add `apps/api/test/social.integration.test.js` for uniqueness, opt-in/out, private identity lists, public counts, visibility transitions, deletion cleanup, authorization, and count reconciliation.
+- [x] Add `apps/api/src/model/follow.js` and `model/collection-like.js` with unique source relationships and indexes; add public-profile opt-in plus independent follower/following visibility preferences to `model/user.js` and `dto/user.dto.js`.
+- [x] (amended 2026-08-03) Extend `apps/api/src/validation/user.schema.js` and `service/userService.js`'s `updateProfile` to accept and dot-path-patch `social.*`, and add `middleware/auth.middleware.js`'s `optionalAuth`: the checklist's opt-in/prefs are unusable without a way to change them, and `getPublicProfile`'s `viewerId` parameter needs a non-rejecting auth path.
+- [x] Add `apps/api/src/service/socialService.js`, `controller/social.controller.js`, `validation/social.schema.js`, and `router/social.routes.js` for public profiles, follows, likes, counts, and public Collection discovery/sorting.
+- [x] (amended 2026-08-03) Add `likeCount` to `apps/api/src/model/collection.js` and `dto/collection.dto.js`, and mirror it in `apps/web/src/models/collection.model.ts`, `api/dtos/collection.dto.ts`, and `api/mappers/collection.mapper.ts`: discovery sorting needs a derived, indexable count, and the web Collection DTO is `.strict()` — omitting the mirror would have made every real Collection response fail client-side parsing.
+- [x] (amended 2026-08-03) Fix `apps/api/src/model/collection.js`'s `legacyPublicId` (drop `default: null`): discovered while testing this phase — MongoDB's sparse unique index only skips a genuinely absent field, not one explicitly set to `null`, so the prior default made every user's second Collection fail with a 500. Unrelated to Phase 13's plan but blocking, real, and now fixed; `dto/collection.dto.js` coerces the now-possibly-`undefined` value back to `null` so the API contract is unchanged.
+- [x] Update `apps/api/src/service/collectionService.js` deletion/visibility transitions to clean or hide likes and discovery records without exposing private/unlisted metadata.
+- [x] Add `apps/api/test/social.integration.test.js` for uniqueness, opt-in/out, private identity lists, public counts, visibility transitions, deletion cleanup, authorization, and count reconciliation.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: user and Collection public contracts)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: user and Collection public contracts)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
