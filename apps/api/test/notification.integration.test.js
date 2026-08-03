@@ -59,7 +59,9 @@ describe('Notification API', () => {
     const { user } = await createUser();
     const token = signAccessToken(user);
 
-    const defaults = await request(app).get('/api/notifications/preferences').set(bearerAuth(token));
+    const defaults = await request(app)
+      .get('/api/notifications/preferences')
+      .set(bearerAuth(token));
     expect(defaults.body).toEqual({ timezone: 'UTC', events: { release: true } });
 
     const updated = await request(app)

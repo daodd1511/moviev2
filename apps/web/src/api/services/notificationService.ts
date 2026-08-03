@@ -13,7 +13,8 @@ export namespace NotificationService {
   export const list = async (
     filters: NotificationFilters = {},
   ): Promise<readonly Notification[]> => {
-    const params = filters.unreadOnly === undefined ? {} : { unreadOnly: String(filters.unreadOnly) };
+    const params =
+      filters.unreadOnly === undefined ? {} : { unreadOnly: String(filters.unreadOnly) };
     const { data } = await backendApi.get<unknown>('/notifications', { params });
     return NotificationMapper.fromListDto(data);
   };

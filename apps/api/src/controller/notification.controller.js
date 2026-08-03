@@ -13,7 +13,10 @@ const toNotificationDto = notification => ({
   createdAt: notification.createdAt,
 });
 
-const toPreferencesDto = preference => ({ timezone: preference.timezone, events: preference.events });
+const toPreferencesDto = preference => ({
+  timezone: preference.timezone,
+  events: preference.events,
+});
 
 const list = async (req, res) => {
   const notifications = await NotificationService.list(req.userId, req.query);
@@ -34,7 +37,9 @@ const getPreferences = async (req, res) => {
 };
 
 const updatePreferences = async (req, res) => {
-  res.status(200).json(toPreferencesDto(await NotificationService.updatePreferences(req.userId, req.body)));
+  res
+    .status(200)
+    .json(toPreferencesDto(await NotificationService.updatePreferences(req.userId, req.body)));
 };
 
 const NotificationController = { list, markRead, getPreferences, updatePreferences };
