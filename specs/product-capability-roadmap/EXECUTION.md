@@ -159,6 +159,7 @@ Produces: `CollectionService.listForUser`, `getAccessible`, `create`, `update`, 
 - [x] Implement metadata, visibility, cover, duplicate, item-specific add/remove/reorder, optimistic-version conflict, and delete operations without whole-document client replacement.
 - [x] Update `apps/api/src/router/user.routes.js` public legacy-list resolution to use `CollectionCompatibilityService` while retaining `/api/user/list/:username/:listId`.
 - [x] Add `apps/api/test/collection.integration.test.js` for owner/non-owner access, unauthorized private `404`, unlisted links, item identity/order, conflicts, duplication, and mutation responses.
+- [x] (amended 2026-08-03) Preserve the legacy public endpoint's `user_not_found` response for an unknown username through `collectionCompatibilityService.js`.
 
 **Agent gate (hard):**
 
