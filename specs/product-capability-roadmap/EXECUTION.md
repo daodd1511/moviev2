@@ -8,13 +8,13 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 5 — done (PR #11, CI green)
+- Current phase: 6 — in-progress
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
 - Phase 4 — Library views and editing: done (PR #10, CI green)
 - Phase 5 — Collection model and migration compatibility: done (PR #11, CI green)
-- Phase 6 — Collection API cutover: pending
+- Phase 6 — Collection API cutover: in-progress
 - Phase 7 — Collection web cutover: pending
 - Phase 8 — Catalog adapter: pending
 - Phase 9 — Discovery and search: pending
@@ -155,10 +155,10 @@ Switch Collection writes and canonical reads only after compatibility storage ex
 Consumes: `Collection`, `CollectionCompatibilityService.getLegacyPublic(username, legacyId)`, and Collection DTO/schema contracts.
 Produces: `CollectionService.listForUser`, `getAccessible`, `create`, `update`, `addItem`, `removeItem`, `reorderItems`, `remove`, and `/api/collections`.
 
-- [ ] Add `apps/api/src/service/collectionService.js`, `apps/api/src/controller/collection.controller.js`, and `apps/api/src/router/collection.routes.js`; mount `/collections` in `apps/api/src/router/router.js`.
-- [ ] Implement metadata, visibility, cover, duplicate, item-specific add/remove/reorder, optimistic-version conflict, and delete operations without whole-document client replacement.
-- [ ] Update `apps/api/src/router/router.js` public legacy-list resolution to use `CollectionCompatibilityService` while retaining `/api/public/:username/list/:listId`.
-- [ ] Add `apps/api/test/collection.integration.test.js` for owner/non-owner access, unauthorized private `404`, unlisted links, item identity/order, conflicts, duplication, and mutation responses.
+- [x] Add `apps/api/src/service/collectionService.js`, `apps/api/src/controller/collection.controller.js`, and `apps/api/src/router/collection.routes.js`; mount `/collections` in `apps/api/src/router/router.js`.
+- [x] Implement metadata, visibility, cover, duplicate, item-specific add/remove/reorder, optimistic-version conflict, and delete operations without whole-document client replacement.
+- [x] Update `apps/api/src/router/user.routes.js` public legacy-list resolution to use `CollectionCompatibilityService` while retaining `/api/user/list/:username/:listId`.
+- [x] Add `apps/api/test/collection.integration.test.js` for owner/non-owner access, unauthorized private `404`, unlisted links, item identity/order, conflicts, duplication, and mutation responses.
 
 **Agent gate (hard):**
 
