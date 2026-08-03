@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { SearchService } from '@/api/services/searchService';
 import { Button } from '@/components/ui/button';
-import type { Collection, CollectionItem } from '@/models/collection.model';
+import type { Collection, CollectionItem, CollectionItemKey } from '@/models/collection.model';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { getApiErrorMessage } from '@/api/utils/getApiErrorMessage';
 import { IMAGE_BASE_URL } from '@/shared/constants';
@@ -15,7 +15,7 @@ interface CollectionItemsProps {
   readonly collection: Collection;
 }
 
-const itemKey = (item: CollectionItem): string => `${item.mediaType}:${item.tmdbId}`;
+const itemKey = (item: CollectionItemKey): string => `${item.mediaType}:${item.tmdbId}`;
 
 const itemFromSearchResult = (result: MovieSearch | TvSearch): CollectionItem => ({
   mediaType: result instanceof MovieSearch ? 'movie' : 'tv',
