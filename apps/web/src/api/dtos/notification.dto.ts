@@ -5,9 +5,10 @@ const nullableDateSchema = z.string().datetime().nullable();
 export const notificationDtoSchema = z
   .object({
     id: z.string().min(1),
-    eventType: z.literal('release'),
-    mediaType: z.enum(['movie', 'tv']),
-    tmdbId: z.number().int().positive(),
+    eventType: z.enum(['release', 'collection_invite']),
+    mediaType: z.enum(['movie', 'tv']).nullable(),
+    tmdbId: z.number().int().positive().nullable(),
+    collectionId: z.string().min(1).nullable(),
     title: z.string().min(1),
     channel: z.literal('in_app'),
     scheduledAt: nullableDateSchema,

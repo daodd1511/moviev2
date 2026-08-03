@@ -39,6 +39,8 @@ const scheduledAtFor = (releaseDate, timezone) => {
 const dedupeKeyFor = ({ mediaType, tmdbId, releaseDate }) =>
   `release:${mediaType}:${tmdbId}:${releaseDate.toISOString().slice(0, 10)}`;
 
+const invitationDedupeKeyFor = invitationId => `collection_invite:${invitationId}`;
+
 const NotificationService = {
   async list(userId, { unreadOnly } = {}) {
     const query = { recipientId: userId };
@@ -89,6 +91,33 @@ const NotificationService = {
             title,
             dedupeKey,
             scheduledAt,
+            deliveredAt: new Date(),
+          },
+        },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
+      );
+    } catch (error) {
+      if (error.code === 11000) return null;
+      throw error;
+    }
+  },
+
+  /** Creates one deduplicated in-app notification for a Collection invitation. Unlike
+   * release notifications this is a direct action taken on the recipient, so it is not
+   * gated by preferences. */
+  async notifyCollectionInvite({ recipientId, invitationId, collectionId, collectionName }) {
+    const dedupeKey = invitationDedupeKeyFor(invitationId);
+    try {
+      return await Notification.findOneAndUpdate(
+        { recipientId, dedupeKey },
+        {
+          $setOnInsert: {
+            recipientId,
+            eventType: 'collection_invite',
+            collectionId,
+            title: `Invitation to "${collectionName}"`,
+            dedupeKey,
+            scheduledAt: new Date(),
             deliveredAt: new Date(),
           },
         },

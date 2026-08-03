@@ -20,6 +20,7 @@ const notification = {
   eventType: 'release' as const,
   mediaType: 'movie' as const,
   tmdbId: 1,
+  collectionId: null,
   title: 'Tracked Movie',
   channel: 'in_app' as const,
   scheduledAt: '2026-02-01T00:00:00.000Z',

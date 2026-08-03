@@ -5,6 +5,7 @@ const toNotificationDto = notification => ({
   eventType: notification.eventType,
   mediaType: notification.mediaType,
   tmdbId: notification.tmdbId,
+  collectionId: notification.collectionId === null ? null : notification.collectionId.toString(),
   title: notification.title,
   channel: notification.channel,
   scheduledAt: notification.scheduledAt,

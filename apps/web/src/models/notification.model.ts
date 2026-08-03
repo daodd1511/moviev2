@@ -1,12 +1,13 @@
-export type NotificationEventType = 'release';
+export type NotificationEventType = 'release' | 'collection_invite';
 export type NotificationMediaType = 'movie' | 'tv';
 export type NotificationChannel = 'in_app';
 
 export interface Notification {
   readonly id: string;
   readonly eventType: NotificationEventType;
-  readonly mediaType: NotificationMediaType;
-  readonly tmdbId: number;
+  readonly mediaType: NotificationMediaType | null;
+  readonly tmdbId: number | null;
+  readonly collectionId: string | null;
   readonly title: string;
   readonly channel: NotificationChannel;
   readonly scheduledAt: string | null;
