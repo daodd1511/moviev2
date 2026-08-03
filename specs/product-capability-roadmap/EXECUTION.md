@@ -8,12 +8,12 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 5 — in-progress (local gate passed; awaiting push/PR)
+- Current phase: 5 — done (PR #11, CI green)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
 - Phase 4 — Library views and editing: done (PR #10, CI green)
-- Phase 5 — Collection model and migration compatibility: in-progress (local gate passed; awaiting push/PR)
+- Phase 5 — Collection model and migration compatibility: done (PR #11, CI green)
 - Phase 6 — Collection API cutover: pending
 - Phase 7 — Collection web cutover: pending
 - Phase 8 — Catalog adapter: pending
@@ -138,7 +138,7 @@ Produces: `Collection`, `CollectionCompatibilityService.getLegacyPublic(username
 - [x] `pnpm typecheck && pnpm check:api`
 - [x] `pnpm test:unit` (full suite: shared schema and migration)
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (PR #11)
 
 **Review checklist (user, at PR review):**
 
