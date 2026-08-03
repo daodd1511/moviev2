@@ -29,6 +29,8 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: Check API syntax
-        run: find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;
+        run: pnpm check:api
+      - name: Test
+        run: pnpm test:unit
       - name: Build web
         run: pnpm --filter @movie/web build
