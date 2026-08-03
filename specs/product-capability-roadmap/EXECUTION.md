@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 14 — done (PR #20, CI green)
+- Current phase: 15 — done (PR #21, CI green)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -23,7 +23,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 12 — Collection collaboration: done (PR #18, CI green)
 - Phase 13 — Public social API: done (PR #19, CI green)
 - Phase 14 — Public social UI and sharing: done (PR #20, CI green)
-- Phase 15 — Final hardening and cleanup: pending
+- Phase 15 — Final hardening and cleanup: done (PR #21, CI green)
 - Verification debt: none
 
 ## Phase 2 — Library API
@@ -444,7 +444,7 @@ Consumes: all canonical Library, Collection, catalog, calendar, notification, co
 - [x] `pnpm build`
 - [x] `pnpm load:test` against the documented disposable local stack — ran against a locally-spawned API process backed by a disposable `mongodb-memory-server` instance (never production); all four scripts passed (catalog-discover, library-upsert, collections-read, notifications-list)
 - [x] `scripts/verify-mongo-backup.sh` against an explicit disposable MongoDB URI — ran against two disposable `mongodb-memory-server` instances (source seeded, target empty); dump/restore/count-reconcile passed (source=5/target=5)
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (PR #21)
 
 **Review checklist (user, at PR review):**
 
