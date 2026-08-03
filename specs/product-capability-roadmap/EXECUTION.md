@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 11 — done (PR #17, CI green)
+- Current phase: 12 — local agent gate passed, PR not yet opened
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -20,7 +20,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 9 — Discovery and search: done (PR #15, CI green)
 - Phase 10 — Release sync and calendar: done (PR #16, CI green)
 - Phase 11 — Notifications: done (PR #17, CI green)
-- Phase 12 — Collection collaboration: pending
+- Phase 12 — Collection collaboration: local agent gate passed, PR not yet opened
 - Phase 13 — Public social API: pending
 - Phase 14 — Public social UI and sharing: pending
 - Phase 15 — Final hardening and cleanup: pending
@@ -338,16 +338,18 @@ Produces: `CollectionCollaborationService.invite`, `respond`, `revoke`, `changeR
 - [x] (amended 2026-08-03) Drop `immutable: true` from `apps/api/src/model/collection.js`'s `ownerId`: `transferOwnership` reassigns it, and Mongoose silently strips `$set` updates to immutable paths in `findOneAndUpdate`, so the field could never actually move without this.
 - [x] (amended 2026-08-03) Generalize `apps/api/src/model/notification.js` (`eventType` gains `'collection_invite'`; `mediaType`/`tmdbId` become nullable; add nullable `collectionId`) and `service/notificationService.js` (`notifyCollectionInvite`): invitation notifications share the Phase 11 Notification model/list/read/center, which has no media to reference. Mirrored on the web in `models/notification.model.ts` and `api/dtos/notification.dto.ts` so the existing `NotificationCenter` does not fail strict DTO parsing on a `collection_invite` row.
 - [x] Add `apps/api/test/collection-collaboration.integration.test.js` covering every role/operation pair, expiry/single response, stale version conflicts, owner preservation, and private activity redaction.
-- [ ] Add `apps/web/src/features/Collection/components/Collaborators.tsx`, invitation inbox/actions, role controls, transfer confirmation, and conflict reload/retry using canonical Collection queries.
-- [ ] Add `apps/web/src/features/Collection/components/Collaborators.test.tsx` for invite, accept/reject, edit authorization, transfer, and stale edits.
+- [x] Add `apps/web/src/features/Collection/components/Collaborators.tsx`, invitation inbox/actions, role controls, transfer confirmation, and conflict reload/retry using canonical Collection queries.
+- [x] (amended 2026-08-03) Extend `models/collection.model.ts`, `api/dtos/collection.dto.ts`, `api/mappers/collection.mapper.ts`, `api/services/collectionService.ts`, and `stores/queries/collectionQueries.ts` with invitation/collaborator types and calls, and add `id` to `stores/queries/userQueries.ts`'s `UserProfile`: `Collaborators.tsx` needs the current user's id to tell the owner apart from collaborators, and a typed invitation client — the checklist's "canonical Collection queries" already implied extending this file family rather than adding a parallel one.
+- [x] (amended 2026-08-03) Snapshot `collectionName` on `CollectionInvitation` (API model/service/controller) so the invitee's inbox can render a name without a second, inaccessible lookup of a private Collection they have not yet joined.
+- [x] Add `apps/web/src/features/Collection/components/Collaborators.test.tsx` for invite, accept/reject, edit authorization, transfer, and stale edits.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: Collection authorization surface)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: Collection authorization surface)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
