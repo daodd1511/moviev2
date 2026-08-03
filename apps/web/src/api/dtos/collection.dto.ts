@@ -45,6 +45,24 @@ export const collectionListDtoSchema = z
   .object({ collections: z.array(collectionDtoSchema) })
   .strict();
 
+export const collectionInvitationDtoSchema = z
+  .object({
+    id: z.string().min(1),
+    collectionId: z.string().min(1),
+    collectionName: z.string().min(1),
+    inviterId: z.string().min(1),
+    role: z.enum(['editor', 'viewer']),
+    status: z.enum(['pending', 'accepted', 'declined', 'revoked', 'expired']),
+    expiresAt: z.string(),
+    respondedAt: z.string().nullable(),
+    createdAt: z.string(),
+  })
+  .strict();
+
+export const collectionInvitationListDtoSchema = z
+  .object({ invitations: z.array(collectionInvitationDtoSchema) })
+  .strict();
+
 const legacyMediaDtoSchema = z
   .object({
     id: z.number().int().positive(),

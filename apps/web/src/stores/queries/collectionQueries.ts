@@ -9,6 +9,7 @@ export const collectionKeys = {
   detail: (id: string) => [...collectionKeys.all, 'detail', id] as const,
   public: (username: string, id: string) =>
     [...collectionKeys.all, 'public', username, id] as const,
+  invitations: () => [...collectionKeys.all, 'invitations'] as const,
 };
 
 const replaceCollection = (collections: readonly Collection[] | undefined, next: Collection) =>
@@ -130,6 +131,67 @@ export namespace CollectionQueries {
       onSettled() {
         invalidateCollections(queryClient);
       },
+    });
+  };
+
+  export const useInvitations = () =>
+    useQuery({
+      queryKey: collectionKeys.invitations(),
+      queryFn: CollectionService.listInvitations,
+    });
+
+  export const useInvite = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: CollectionService.inviteCollaborator,
+      onSuccess() {
+        void queryClient.invalidateQueries({ queryKey: collectionKeys.invitations() });
+      },
+    });
+  };
+
+  export const useRespondToInvitation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: CollectionService.respondToInvitation,
+      onSuccess() {
+        void queryClient.invalidateQueries({ queryKey: collectionKeys.invitations() });
+        invalidateCollections(queryClient);
+      },
+    });
+  };
+
+  export const useRevokeInvitation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: CollectionService.revokeInvitation,
+      onSuccess() {
+        void queryClient.invalidateQueries({ queryKey: collectionKeys.invitations() });
+      },
+    });
+  };
+
+  export const useChangeCollaboratorRole = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: CollectionService.changeCollaboratorRole,
+      onSuccess: collection => updateCache(queryClient, collection),
+    });
+  };
+
+  export const useRemoveCollaborator = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: CollectionService.removeCollaborator,
+      onSuccess: collection => updateCache(queryClient, collection),
+    });
+  };
+
+  export const useTransferOwnership = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: CollectionService.transferOwnership,
+      onSuccess: collection => updateCache(queryClient, collection),
     });
   };
 }

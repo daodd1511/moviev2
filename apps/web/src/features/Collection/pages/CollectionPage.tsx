@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { Collaborators } from '../components/Collaborators';
 import { CollectionForm } from '../components/CollectionForm';
 import { CollectionItems } from '../components/CollectionItems';
 
@@ -123,6 +124,11 @@ export const CollectionPage = () => {
         />
       </div>
       <CollectionItems collection={collection} />
+      <Collaborators
+        collection={collection}
+        currentUserId={user?.id}
+        onReload={() => void refetch()}
+      />
       <p className="mt-6 text-sm text-muted-foreground">
         A conflict reloads this Collection so you can retry with the latest version.
       </p>

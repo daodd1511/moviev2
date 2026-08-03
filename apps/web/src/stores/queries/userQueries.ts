@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { backendApi } from '@/api';
 
 interface UserProfile {
+  readonly id: string;
   readonly username: string;
 }
 

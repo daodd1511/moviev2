@@ -106,6 +106,7 @@ describe('Collection journeys', () => {
     let getCount = 0;
     let patchBody: unknown;
     server.use(
+      http.get('*/collections/invitations', () => HttpResponse.json({ invitations: [] })),
       http.get('*/collections/:id', () => {
         getCount += 1;
         return HttpResponse.json(
@@ -150,6 +151,7 @@ describe('Collection journeys', () => {
     let reorderBody: unknown;
     let deleteBody: unknown;
     server.use(
+      http.get('*/collections/invitations', () => HttpResponse.json({ invitations: [] })),
       http.get('*/collections/:id', () => HttpResponse.json(collection)),
       http.get('*/user/profile', () => HttpResponse.json(profile)),
       http.put('*/collections/:id/items/order', async ({ request }) => {

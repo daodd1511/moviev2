@@ -1,11 +1,18 @@
 import {
   collectionDtoSchema,
+  collectionInvitationDtoSchema,
+  collectionInvitationListDtoSchema,
   collectionListDtoSchema,
   legacyPublicListDtoSchema,
   type CollectionDto,
 } from '../dtos/collection.dto';
 
-import type { Collection, CollectionItem, CreateCollectionInput } from '@/models/collection.model';
+import type {
+  Collection,
+  CollectionInvitation,
+  CollectionItem,
+  CreateCollectionInput,
+} from '@/models/collection.model';
 import { Media } from '@/models/media.model';
 import { MediaType } from '@/shared/enums/mediaType';
 
@@ -86,4 +93,18 @@ export namespace CollectionMapper {
   };
 
   export const toCreateInput = (input: CreateCollectionInput): CreateCollectionInput => input;
+
+  export const fromInvitationDto = (dto: unknown): CollectionInvitation | null => {
+    const result = collectionInvitationDtoSchema.safeParse(dto);
+    if (result.success) return result.data;
+    logInvalid('Collection invitation', result.error.issues);
+    return null;
+  };
+
+  export const fromInvitationListDto = (dto: unknown): readonly CollectionInvitation[] => {
+    const result = collectionInvitationListDtoSchema.safeParse(dto);
+    if (result.success) return result.data.invitations;
+    logInvalid('Collection invitation list', result.error.issues);
+    return [];
+  };
 }

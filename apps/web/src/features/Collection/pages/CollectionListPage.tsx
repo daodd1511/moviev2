@@ -1,6 +1,8 @@
 import { ChevronRight, FolderHeart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { Collaborators } from '../components/Collaborators';
+
 import { Button } from '@/components/ui/button';
 import { Loader } from '@/shared/components';
 import { CollectionQueries } from '@/stores/queries/collectionQueries';
@@ -21,6 +23,7 @@ export const CollectionListPage = () => {
           <Link to="/collections/new">New Collection</Link>
         </Button>
       </div>
+      <Collaborators />
       {collections?.length === 0 ? (
         <div className="flex min-h-80 items-center justify-center border-y border-border text-center">
           <div>
