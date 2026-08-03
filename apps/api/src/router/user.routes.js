@@ -3,7 +3,7 @@ import UserController from '../controller/user.controller.js';
 import CollectionController from '../controller/collection.controller.js';
 import { validate } from '../middleware/validate.middleware.js';
 import { updateProfileSchema } from '../validation/user.schema.js';
-import { publicListParamsSchema } from '../validation/list.schema.js';
+import { legacyPublicCollectionParamsSchema } from '../validation/collection.schema.js';
 import { createRouter } from './create-router.js';
 
 const userRouter = createRouter();
@@ -18,7 +18,7 @@ userRouter.put(
 
 userRouter.get(
   '/list/:username/:listId',
-  validate({ params: publicListParamsSchema }),
+  validate({ params: legacyPublicCollectionParamsSchema }),
   CollectionController.getLegacyPublic,
 );
 

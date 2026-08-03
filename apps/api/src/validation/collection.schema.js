@@ -1,6 +1,13 @@
 import { z } from 'zod';
 
-import { mongoIdSchema } from './list.schema.js';
+import { mongoIdSchema } from './shared.schema.js';
+
+export const legacyPublicCollectionParamsSchema = z
+  .object({
+    username: z.string().trim().min(1).max(30),
+    listId: mongoIdSchema,
+  })
+  .strict();
 
 export const collectionVisibilitySchema = z.enum(['private', 'unlisted', 'public']);
 export const collectionItemSchema = z

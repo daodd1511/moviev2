@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { mongoIdSchema } from './list.schema.js';
+import { mongoIdSchema } from './shared.schema.js';
 
 export const usernameParamsSchema = z
   .object({ username: z.string().trim().min(1).max(50) })

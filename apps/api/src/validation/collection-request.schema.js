@@ -5,7 +5,7 @@ import {
   collectionItemSchema,
   collectionVisibilitySchema,
 } from './collection.schema.js';
-import { mongoIdSchema } from './list.schema.js';
+import { mongoIdSchema } from './shared.schema.js';
 
 export const collectionIdParamsSchema = z.object({ id: mongoIdSchema }).strict();
 export const collectionItemParamsSchema = z

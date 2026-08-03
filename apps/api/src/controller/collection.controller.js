@@ -71,9 +71,7 @@ const getLegacyPublic = async (req, res) => {
   );
   if (result === null)
     return res.status(404).json({ error: { code: 'list_not_found', message: 'List not found.' } });
-  res
-    .status(200)
-    .json(result.source === 'collection' ? toCollectionDto(result.value) : result.value);
+  res.status(200).json(toCollectionDto(result.value));
 };
 
 const CollectionController = {

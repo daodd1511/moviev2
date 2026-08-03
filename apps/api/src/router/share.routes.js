@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { validate } from '../middleware/validate.middleware.js';
 import ShareController from '../controller/share.controller.js';
-import { mongoIdSchema } from '../validation/list.schema.js';
+import { mongoIdSchema } from '../validation/shared.schema.js';
 import { createRouter } from './create-router.js';
 
 const shareCollectionParamsSchema = z
