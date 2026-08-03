@@ -7,6 +7,7 @@ import collectionRouter from './collection.routes.js';
 import catalogRouter from './catalog.routes.js';
 import calendarRouter from './calendar.routes.js';
 import notificationRouter from './notification.routes.js';
+import socialRouter from './social.routes.js';
 
 const router = express.Router();
 router.use('/auth', authRouter);
@@ -17,4 +18,5 @@ router.use('/collections', collectionRouter);
 router.use('/catalog', catalogRouter);
 router.use('/calendar', calendarRouter);
 router.use('/notifications', notificationRouter);
+router.use('/social', socialRouter);
 export default router;

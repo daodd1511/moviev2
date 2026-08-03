@@ -1,4 +1,5 @@
 import Collection from '../model/collection.js';
+import CollectionLike from '../model/collection-like.js';
 import { AppError } from '../errors/app-error.js';
 
 const notFound = () =>
@@ -81,14 +82,22 @@ const CollectionService = {
   },
 
   async update(ownerId, id, input, version) {
+    // Leaving public visibility hides the Collection from discovery, but its likes
+    // would otherwise persist invisibly and reappear (with a stale count) if it is
+    // ever made public again. Clear them so social state always matches visibility.
+    const leavesPublic = input.visibility !== undefined && input.visibility !== 'public';
+    const set = leavesPublic ? { ...input, likeCount: 0 } : input;
     const collection = await Collection.findOneAndUpdate(
       versionedOwnerFilter(ownerId, id, version),
-      { $set: input, $inc: { version: 1 } },
+      { $set: set, $inc: { version: 1 } },
       { new: true, runValidators: true },
     );
-    if (collection !== null) return collection;
-    await ownedOrThrow(ownerId, id);
-    throw conflict();
+    if (collection === null) {
+      await ownedOrThrow(ownerId, id);
+      throw conflict();
+    }
+    if (leavesPublic) await CollectionLike.deleteMany({ collectionId: id });
+    return collection;
   },
 
   async addItem(actorId, id, item, version) {
@@ -166,9 +175,11 @@ const CollectionService = {
     const collection = await Collection.findOneAndDelete(
       versionedOwnerFilter(ownerId, id, version),
     );
-    if (collection !== null) return;
-    await ownedOrThrow(ownerId, id);
-    throw conflict();
+    if (collection === null) {
+      await ownedOrThrow(ownerId, id);
+      throw conflict();
+    }
+    await CollectionLike.deleteMany({ collectionId: id });
   },
 };
 
