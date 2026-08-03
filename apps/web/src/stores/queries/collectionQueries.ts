@@ -1,15 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { CollectionService } from '@/api/services/collectionService';
-import type {
-  Collection,
-  CollectionItemMutationInput,
-  CollectionItemRemovalInput,
-  CollectionRemovalInput,
-  CollectionReorderInput,
-  CreateCollectionInput,
-  UpdateCollectionInput,
-} from '@/models/collection.model';
+import type { Collection } from '@/models/collection.model';
 
 export const collectionKeys = {
   all: ['collections'] as const,
