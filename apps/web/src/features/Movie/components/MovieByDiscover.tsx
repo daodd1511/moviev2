@@ -7,6 +7,7 @@ import { MOVIE_DISCOVER } from '@/shared/constants';
 import { CatalogQueries } from '@/stores/queries/catalogQueries';
 import { Media } from '@/models/media.model';
 import { MediaType } from '@/shared/enums/mediaType';
+import { CatalogFilters } from '@/shared/components/Filter/CatalogFilters';
 
 const MovieByDiscoverComponent = () => {
   const { discover } = useParams();
@@ -42,6 +43,7 @@ const MovieByDiscoverComponent = () => {
         activeValue={discover ?? 'popular'}
         options={MOVIE_DISCOVER}
       />
+      <CatalogFilters mediaType="movie" />
       <MediaList
         data={(data?.results ?? [])
           .filter(

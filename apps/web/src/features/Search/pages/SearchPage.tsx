@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { CatalogQueries } from '@/stores/queries/catalogQueries';
 import type { CatalogSearchType } from '@/models/catalog-query.model';
@@ -10,9 +11,28 @@ export const SearchPage = () => {
   const query = params.get('q')?.trim() ?? '';
   const type = validType(params.get('type'));
   const page = validPage(params.get('page'));
+  const [recent, setRecent] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('catalog-recent-searches') ?? '[]') as string[];
+    } catch {
+      return [];
+    }
+  });
   const { data, isPending, isError, refetch } = CatalogQueries.useSearch(query, type, page);
   const setParam = (next: Record<string, string>) =>
     setParams({ q: query, type, page: '1', ...next });
+  useEffect(() => {
+    if (query === '') return;
+    setRecent(current => {
+      const next = [query, ...current.filter(item => item !== query)].slice(0, 8);
+      localStorage.setItem('catalog-recent-searches', JSON.stringify(next));
+      return next;
+    });
+  }, [query]);
+  const clearRecent = () => {
+    setRecent([]);
+    localStorage.removeItem('catalog-recent-searches');
+  };
   if (query === '')
     return (
       <main className="px-4 py-8 md:px-8">
@@ -20,6 +40,28 @@ export const SearchPage = () => {
         <p className="mt-3 text-muted-foreground">
           Search for movies, TV, and people from the quick search dialog.
         </p>
+        {recent.length > 0 && (
+          <section className="mt-6">
+            <div className="flex items-center justify-between">
+              <h2 className="font-medium">Recent searches</h2>
+              <button type="button" onClick={clearRecent}>
+                Clear recent searches
+              </button>
+            </div>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {recent.map(item => (
+                <li key={item}>
+                  <Link
+                    className="rounded-full border px-3 py-1"
+                    to={`/search?q=${encodeURIComponent(item)}`}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </main>
     );
   return (
