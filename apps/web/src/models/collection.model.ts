@@ -29,6 +29,7 @@ export interface Collection {
   readonly items: readonly CollectionItem[];
   readonly collaborators: readonly CollectionCollaborator[];
   readonly cover: CollectionItemKey | null;
+  readonly likeCount: number;
   readonly version: number;
   readonly legacyPublicId: string | null;
   readonly createdAt: string;

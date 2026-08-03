@@ -71,6 +71,7 @@ export namespace CollectionMapper {
       ],
       collaborators: [],
       cover: null,
+      likeCount: 0,
       version: 0,
       legacyPublicId: legacy.data._id,
       createdAt,

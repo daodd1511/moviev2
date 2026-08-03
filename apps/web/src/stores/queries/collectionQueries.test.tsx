@@ -35,6 +35,7 @@ const collection: Collection = {
   ],
   collaborators: [{ userId: 'user-1', role: 'owner' }],
   cover: null,
+  likeCount: 0,
   version: 2,
   legacyPublicId: null,
   createdAt: '2026-08-03T00:00:00.000Z',

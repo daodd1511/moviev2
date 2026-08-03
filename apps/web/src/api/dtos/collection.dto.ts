@@ -34,6 +34,7 @@ export const collectionDtoSchema = z
         .strict(),
     ),
     cover: collectionItemKeySchema.nullable(),
+    likeCount: z.number().int().nonnegative(),
     version: z.number().int().nonnegative(),
     legacyPublicId: z.string().nullable(),
     createdAt: z.string(),
