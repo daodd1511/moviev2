@@ -3,7 +3,6 @@ import {
   collectionInvitationDtoSchema,
   collectionInvitationListDtoSchema,
   collectionListDtoSchema,
-  legacyPublicListDtoSchema,
   type CollectionDto,
 } from '../dtos/collection.dto';
 
@@ -35,48 +34,6 @@ export namespace CollectionMapper {
     if (result.success) return result.data.collections.map(fromCollectionDto);
     logInvalid('Collection list', result.error.issues);
     return [];
-  };
-
-  export const fromPublicDto = (dto: unknown): Collection | null => {
-    const canonical = fromDto(dto);
-    if (canonical !== null) return canonical;
-
-    const legacy = legacyPublicListDtoSchema.safeParse(dto);
-    if (!legacy.success) return null;
-    const createdAt = legacy.data.createAt ?? new Date(0).toISOString();
-    const updatedAt = legacy.data.updateAt ?? createdAt;
-    return {
-      id: legacy.data._id,
-      ownerId: '',
-      name: legacy.data.name,
-      description: legacy.data.description ?? null,
-      visibility: 'unlisted',
-      items: [
-        ...legacy.data.movies.map(item => ({
-          mediaType: 'movie' as const,
-          tmdbId: item.id,
-          title: item.title,
-          posterPath: item.posterPath,
-          releaseDate: item.releaseDate,
-          voteAverage: item.voteAverage,
-        })),
-        ...legacy.data.tvShows.map(item => ({
-          mediaType: 'tv' as const,
-          tmdbId: item.id,
-          title: item.title,
-          posterPath: item.posterPath,
-          releaseDate: item.releaseDate,
-          voteAverage: item.voteAverage,
-        })),
-      ],
-      collaborators: [],
-      cover: null,
-      likeCount: 0,
-      version: 0,
-      legacyPublicId: legacy.data._id,
-      createdAt,
-      updatedAt,
-    };
   };
 
   export const itemFromMedia = (media: Media): CollectionItem => {

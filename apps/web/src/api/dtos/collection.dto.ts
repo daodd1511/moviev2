@@ -64,27 +64,4 @@ export const collectionInvitationListDtoSchema = z
   .object({ invitations: z.array(collectionInvitationDtoSchema) })
   .strict();
 
-const legacyMediaDtoSchema = z
-  .object({
-    id: z.number().int().positive(),
-    title: z.string(),
-    posterPath: z.string().nullable(),
-    releaseDate: z.string(),
-    voteAverage: z.number().min(0).max(10),
-  })
-  .passthrough();
-
-export const legacyPublicListDtoSchema = z
-  .object({
-    _id: z.string().min(1),
-    name: z.string().min(1),
-    description: z.string().nullable().optional(),
-    movies: z.array(legacyMediaDtoSchema),
-    tvShows: z.array(legacyMediaDtoSchema),
-    createAt: z.string().optional(),
-    updateAt: z.string().optional(),
-  })
-  .passthrough();
-
 export type CollectionDto = z.infer<typeof collectionDtoSchema>;
-export type LegacyPublicListDto = z.infer<typeof legacyPublicListDtoSchema>;

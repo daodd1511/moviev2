@@ -100,7 +100,7 @@ export namespace CollectionService {
 
   export const getPublic = async (username: string, collectionId: string): Promise<Collection> => {
     const { data } = await backendApi.get<unknown>(`/user/list/${username}/${collectionId}`);
-    return requireCollection(CollectionMapper.fromPublicDto(data));
+    return requireCollection(CollectionMapper.fromDto(data));
   };
 
   export const listInvitations = async (): Promise<readonly CollectionInvitation[]> => {
