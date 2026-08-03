@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 11 — in-progress
+- Current phase: 11 — local agent gate passed, PR not yet opened
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -311,11 +311,11 @@ Produces: `NotificationService.list`, `markRead`, `updatePreferences`, `/api/not
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: job and persisted notification shapes)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: job and persisted notification shapes)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
