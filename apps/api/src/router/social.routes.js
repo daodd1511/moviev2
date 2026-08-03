@@ -15,6 +15,12 @@ socialRouter.get(
   validate({ query: discoverCollectionsQuerySchema }),
   SocialController.discoverCollections,
 );
+socialRouter.get(
+  '/collections/:id',
+  optionalAuth,
+  validate({ params: collectionIdParamsSchema }),
+  SocialController.getCollection,
+);
 socialRouter.post(
   '/collections/:id/like',
   verifyToken,

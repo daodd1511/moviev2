@@ -93,6 +93,35 @@ const SocialService = {
     return follows.map(follow => follow.followingId.username);
   },
 
+  /** Resolves a Collection for anonymous/public viewing by either its Mongo `_id` or its
+   * `legacyPublicId` — the two identifier shapes a share link can carry — so old and new
+   * links converge on the same lookup. Private Collections 404 like an unknown id. */
+  async getPublicCollection(publicId, viewerId) {
+    const collection = await Collection.findOne({
+      $or: [{ _id: publicId }, { legacyPublicId: publicId }],
+    }).populate('ownerId', 'username');
+    if (collection === null || collection.visibility === 'private') throw collectionNotFound();
+    const isLikedByViewer =
+      viewerId === undefined
+        ? false
+        : await CollectionLike.exists({ userId: viewerId, collectionId: collection._id }).then(
+            Boolean,
+          );
+    return {
+      id: collection._id.toString(),
+      ownerUsername: collection.ownerId.username,
+      name: collection.name,
+      description: collection.description,
+      visibility: collection.visibility,
+      cover: collection.cover,
+      items: collection.items,
+      itemCount: collection.items.length,
+      likeCount: collection.likeCount,
+      isLikedByViewer,
+      createdAt: collection.createdAt,
+    };
+  },
+
   async discoverCollections({ sort, page, limit }) {
     const sortSpec = sort === 'popular' ? { likeCount: -1, createdAt: -1 } : { createdAt: -1 };
     const collections = await Collection.find({ visibility: 'public' })

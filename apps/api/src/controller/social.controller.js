@@ -36,6 +36,10 @@ const discoverCollections = async (req, res) => {
   res.status(200).json({ collections: await SocialService.discoverCollections(req.query) });
 };
 
+const getCollection = async (req, res) => {
+  res.status(200).json(await SocialService.getPublicCollection(req.params.id, req.userId));
+};
+
 const SocialController = {
   follow,
   unfollow,
@@ -45,6 +49,7 @@ const SocialController = {
   like,
   unlike,
   discoverCollections,
+  getCollection,
 };
 
 export default SocialController;
