@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 10 — in-progress
+- Current phase: 10 — in-progress (local gate passed; awaiting push/PR)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -18,7 +18,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 7 — Collection web cutover: done (PR #13, CI green)
 - Phase 8 — Catalog adapter: done (PR #14, CI green)
 - Phase 9 — Discovery and search: done (PR #15, CI green)
-- Phase 10 — Release sync and calendar: in-progress
+- Phase 10 — Release sync and calendar: in-progress (local gate passed; awaiting push/PR)
 - Phase 11 — Notifications: pending
 - Phase 12 — Collection collaboration: pending
 - Phase 13 — Public social API: pending
@@ -271,19 +271,19 @@ Derive calendar data and resumable refresh state before creating notifications f
 Consumes: Library Entries and `CatalogProvider.getReleaseSchedule(input)`.
 Produces: `ReleaseCalendarService.list`, `CatalogSyncService.run`, `/api/calendar`, and the resumable `sync-tracked-releases` CLI job.
 
-- [ ] Add `apps/api/src/model/catalog-sync-state.js`, `service/releaseCalendarService.js`, `service/catalogSyncService.js`, `controller/calendar.controller.js`, `validation/calendar.schema.js`, `router/calendar.routes.js`, and `jobs/sync-tracked-releases.js` with cursor, dry-run, limit, audit metrics, rate-limit backoff, and UTC fallback.
-- [ ] Mount `/calendar` in `apps/api/src/router/router.js` and add the scheduler-invoked sync command to `apps/api/package.json` and root `package.json`.
-- [ ] Add `apps/api/test/calendar.integration.test.js` and `apps/api/test/catalog-sync.integration.test.js` for tracked-only refresh, resume, repeated runs, movie/episode dates, unknown dates, IANA timezones, and upstream backoff.
-- [ ] Add `apps/web/src/api/services/calendarService.ts`, `stores/queries/calendarQueries.ts`, and `features/Calendar/` month/agenda pages; mount the authenticated route and navigation entry.
-- [ ] Add `apps/web/src/features/Calendar/pages/CalendarPage.test.tsx` for month/agenda, timezone boundaries, unknown dates, and tracked-only entries.
+- [x] Add `apps/api/src/model/catalog-sync-state.js`, `service/releaseCalendarService.js`, `service/catalogSyncService.js`, `controller/calendar.controller.js`, `validation/calendar.schema.js`, `router/calendar.routes.js`, and `jobs/sync-tracked-releases.js` with cursor, dry-run, limit, audit metrics, rate-limit backoff, and UTC fallback.
+- [x] Mount `/calendar` in `apps/api/src/router/router.js` and add the scheduler-invoked sync command to `apps/api/package.json` and root `package.json`.
+- [x] Add `apps/api/test/calendar.integration.test.js` and `apps/api/test/catalog-sync.integration.test.js` for tracked-only refresh, resume, repeated runs, movie/episode dates, unknown dates, IANA timezones, and upstream backoff.
+- [x] Add `apps/web/src/api/services/calendarService.ts`, `stores/queries/calendarQueries.ts`, and `features/Calendar/` month/agenda pages; mount the authenticated route and navigation entry.
+- [x] Add `apps/web/src/features/Calendar/pages/CalendarPage.test.tsx` for month/agenda, timezone boundaries, unknown dates, and tracked-only entries.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: persisted sync and Library consumers)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: persisted sync and Library consumers)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
