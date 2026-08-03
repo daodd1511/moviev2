@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 8 — in-progress (local gate passed; awaiting push/PR)
+- Current phase: 8 — done (PR #14, CI green)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -16,7 +16,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 5 — Collection model and migration compatibility: done (PR #11, CI green)
 - Phase 6 — Collection API cutover: done (PR #12, CI green)
 - Phase 7 — Collection web cutover: done (PR #13, CI green)
-- Phase 8 — Catalog adapter: in-progress (local gate passed; awaiting push/PR)
+- Phase 8 — Catalog adapter: done (PR #14, CI green)
 - Phase 9 — Discovery and search: pending
 - Phase 10 — Release sync and calendar: pending
 - Phase 11 — Notifications: pending
@@ -224,7 +224,7 @@ Produces: `CatalogProvider.discover`, `search`, `getMedia`, `getReleaseSchedule`
 - [x] `pnpm typecheck && pnpm check:api`
 - [x] `pnpm test:unit` (full suite: shared catalog boundary)
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (PR #14)
 
 **Review checklist (user, at PR review):**
 
