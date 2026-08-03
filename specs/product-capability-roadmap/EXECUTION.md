@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 12 — local agent gate passed, PR not yet opened
+- Current phase: 12 — done (PR #18, CI green)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -20,7 +20,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 9 — Discovery and search: done (PR #15, CI green)
 - Phase 10 — Release sync and calendar: done (PR #16, CI green)
 - Phase 11 — Notifications: done (PR #17, CI green)
-- Phase 12 — Collection collaboration: local agent gate passed, PR not yet opened
+- Phase 12 — Collection collaboration: done (PR #18, CI green)
 - Phase 13 — Public social API: pending
 - Phase 14 — Public social UI and sharing: pending
 - Phase 15 — Final hardening and cleanup: pending
@@ -350,7 +350,7 @@ Produces: `CollectionCollaborationService.invite`, `respond`, `revoke`, `changeR
 - [x] `pnpm typecheck && pnpm check:api`
 - [x] `pnpm test:unit` (full suite: Collection authorization surface)
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (PR #18)
 
 **Review checklist (user, at PR review):**
 
