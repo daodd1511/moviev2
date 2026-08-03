@@ -20,6 +20,11 @@ const userSchema = new Schema({
   password: { type: String, nullable: false },
   gender: { type: String },
   lists: [listSchema],
+  social: {
+    publicProfile: { type: Boolean, default: false },
+    showFollowers: { type: Boolean, default: true },
+    showFollowing: { type: Boolean, default: true },
+  },
 });
 const User = mongoose.model('user', userSchema);
 export default User;

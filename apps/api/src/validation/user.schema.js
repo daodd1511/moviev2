@@ -11,5 +11,13 @@ export const updateProfileSchema = z
     last_name: optionalName,
     phone: z.number().int().positive().nullable().optional(),
     gender: z.string().trim().min(1).max(30).nullable().optional(),
+    social: z
+      .object({
+        publicProfile: z.boolean().optional(),
+        showFollowers: z.boolean().optional(),
+        showFollowing: z.boolean().optional(),
+      })
+      .strict()
+      .optional(),
   })
   .strict();

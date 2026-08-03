@@ -35,6 +35,30 @@ export const verifyToken = (req, res, next) => {
   });
 };
 
+/** Decodes a Bearer token into `req.userId` when present and valid, but never rejects
+ * the request — used by public endpoints (e.g. social profiles) that personalize their
+ * response for a signed-in viewer without requiring one. */
+export const optionalAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    next();
+    return;
+  }
+
+  const [scheme, token] = authHeader.split(' ');
+  if (scheme !== 'Bearer' || !token) {
+    next();
+    return;
+  }
+
+  jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
+    if (!err) {
+      req.userId = decoded.id;
+    }
+    next();
+  });
+};
+
 export const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   const { username, email } = req.body;
 
