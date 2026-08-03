@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 14 — local gate passed, awaiting push/PR
+- Current phase: 14 — done (PR #20, CI green)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -22,7 +22,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 11 — Notifications: done (PR #17, CI green)
 - Phase 12 — Collection collaboration: done (PR #18, CI green)
 - Phase 13 — Public social API: done (PR #19, CI green)
-- Phase 14 — Public social UI and sharing: local gate passed, awaiting push/PR
+- Phase 14 — Public social UI and sharing: done (PR #20, CI green)
 - Phase 15 — Final hardening and cleanup: pending
 - Verification debt: none
 
@@ -413,7 +413,7 @@ Produces: public profile/discovery UI, `SocialService.getPublicCollection(public
 - [x] `pnpm typecheck && pnpm check:api`
 - [x] `pnpm test:unit` (full suite: public privacy and proxy surfaces)
 - [x] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR (PR #20)
 
 **Review checklist (user, at PR review):**
 
