@@ -437,13 +437,13 @@ Consumes: all canonical Library, Collection, catalog, calendar, notification, co
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: compatibility removal)
-- [ ] `pnpm build`
-- [ ] `pnpm load:test` against the documented disposable local stack
-- [ ] `scripts/verify-mongo-backup.sh` against an explicit disposable MongoDB URI; if MongoDB Database Tools are unavailable, mark `[~]` with CI/operator substitute evidence per the rulebook
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: compatibility removal) — 33 files, 129 tests passed
+- [x] `pnpm build`
+- [x] `pnpm load:test` against the documented disposable local stack — ran against a locally-spawned API process backed by a disposable `mongodb-memory-server` instance (never production); all four scripts passed (catalog-discover, library-upsert, collections-read, notifications-list)
+- [x] `scripts/verify-mongo-backup.sh` against an explicit disposable MongoDB URI — ran against two disposable `mongodb-memory-server` instances (source seeded, target empty); dump/restore/count-reconcile passed (source=5/target=5)
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
