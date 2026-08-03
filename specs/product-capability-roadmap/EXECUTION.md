@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 9 — in-progress
+- Current phase: 9 — in-progress (local gate passed; awaiting push/PR)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -17,7 +17,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 6 — Collection API cutover: done (PR #12, CI green)
 - Phase 7 — Collection web cutover: done (PR #13, CI green)
 - Phase 8 — Catalog adapter: done (PR #14, CI green)
-- Phase 9 — Discovery and search: in-progress
+- Phase 9 — Discovery and search: in-progress (local gate passed; awaiting push/PR)
 - Phase 10 — Release sync and calendar: pending
 - Phase 11 — Notifications: pending
 - Phase 12 — Collection collaboration: pending
@@ -242,18 +242,18 @@ Consumes: `/api/catalog` provider-neutral discovery/search DTOs.
 Produces: `CatalogService`, `CatalogQueries`, URL-backed catalog filters, and `/search`.
 
 - [x] Add `apps/web/src/models/catalog-query.model.ts`, `api/dtos/catalog.dto.ts`, `api/mappers/catalog.mapper.ts`, `api/services/catalogService.ts`, and `stores/queries/catalogQueries.ts`.
-- [ ] Extend `apps/web/src/shared/components/Filter/`, `features/Movie/components/MovieByDiscover.tsx`, and `features/Tv/components/TvByDiscover.tsx` with URL-backed sort, genre, year/date, vote-count, rating, reset, invalid, empty, loading, and retry states.
-- [ ] Add `apps/web/src/features/Search/routes.tsx`, `pages/SearchPage.tsx`, and result/filter components for movie/TV/person tabs, counts, sorting, pagination, local recent searches, and empty-query trending.
-- [ ] Update `apps/web/src/shared/components/Search/Search.tsx` to remain quick search and link full results into `features/Search`; mount routes in `routes/Router.tsx`.
-- [ ] Add `apps/web/src/shared/components/Filter/Filter.test.tsx` and `apps/web/src/features/Search/pages/SearchPage.test.tsx` for URL round trips, history navigation, media tabs, deterministic pagination, retry, recent-search clearing, and command-dialog handoff.
+- [x] Extend `apps/web/src/shared/components/Filter/`, `features/Movie/components/MovieByDiscover.tsx`, and `features/Tv/components/TvByDiscover.tsx` with URL-backed sort, genre, year/date, vote-count, rating, reset, invalid, empty, loading, and retry states.
+- [x] Add `apps/web/src/features/Search/routes.tsx`, `pages/SearchPage.tsx`, and result/filter components for movie/TV/person tabs, counts, sorting, pagination, local recent searches, and empty-query trending.
+- [x] Update `apps/web/src/shared/components/Search/Search.tsx` to remain quick search and link full results into `features/Search`; mount routes in `routes/Router.tsx`.
+- [x] Add `apps/web/src/shared/components/Filter/Filter.test.tsx` and `apps/web/src/features/Search/pages/SearchPage.test.tsx` for URL round trips, history navigation, media tabs, deterministic pagination, retry, recent-search clearing, and command-dialog handoff.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: catalog query migration)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: catalog query migration)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
