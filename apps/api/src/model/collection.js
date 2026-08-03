@@ -32,7 +32,8 @@ const coverSchema = new Schema(
 
 const collectionSchema = new Schema(
   {
-    ownerId: { type: Schema.Types.ObjectId, required: true, ref: 'user', immutable: true },
+    // Not immutable: CollectionCollaborationService.transferOwnership reassigns it.
+    ownerId: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
     name: { type: String, required: true, trim: true, maxlength: 255 },
     description: { type: String, default: null, maxlength: 2000 },
     visibility: {

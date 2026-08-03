@@ -12,12 +12,43 @@ const conflict = () =>
 const sameItem = (left, right) =>
   left.mediaType === right.mediaType && left.tmdbId === right.tmdbId;
 
+const EDIT_ROLES = ['owner', 'editor'];
+
 const ownerFilter = (ownerId, id) => ({ _id: id, ownerId });
 const versionedOwnerFilter = (ownerId, id, version) => ({ ...ownerFilter(ownerId, id), version });
 
 const ownedOrThrow = async (ownerId, id) => {
   const collection = await Collection.findOne(ownerFilter(ownerId, id));
   if (collection === null) throw notFound();
+  return collection;
+};
+
+/** Filters to Collections the actor may add/remove/reorder items on: the owner, or a
+ * collaborator with the `editor` role. Metadata edits and deletion stay owner-only. */
+const editableFilter = (actorId, id) => ({
+  _id: id,
+  collaborators: { $elemMatch: { userId: actorId, role: { $in: EDIT_ROLES } } },
+});
+const versionedEditableFilter = (actorId, id, version) => ({
+  ...editableFilter(actorId, id),
+  version,
+});
+
+const forbidden = () =>
+  new AppError({
+    status: 403,
+    code: 'collection_forbidden',
+    message: 'You do not have permission to edit this Collection.',
+  });
+
+const editableOrThrow = async (actorId, id) => {
+  const collection = await Collection.findById(id);
+  if (collection === null) throw notFound();
+  const role = collection.collaborators.find(collaborator =>
+    collaborator.userId.equals(actorId),
+  )?.role;
+  if (role === undefined) throw notFound();
+  if (!EDIT_ROLES.includes(role)) throw forbidden();
   return collection;
 };
 
@@ -60,17 +91,17 @@ const CollectionService = {
     throw conflict();
   },
 
-  async addItem(ownerId, id, item, version) {
+  async addItem(actorId, id, item, version) {
     const collection = await Collection.findOneAndUpdate(
       {
-        ...versionedOwnerFilter(ownerId, id, version),
+        ...versionedEditableFilter(actorId, id, version),
         items: { $not: { $elemMatch: { mediaType: item.mediaType, tmdbId: item.tmdbId } } },
       },
       { $push: { items: item }, $inc: { version: 1 } },
       { new: true, runValidators: true },
     );
     if (collection !== null) return collection;
-    const current = await ownedOrThrow(ownerId, id);
+    const current = await editableOrThrow(actorId, id);
     if (current.version !== version) throw conflict();
     throw new AppError({
       status: 409,
@@ -79,14 +110,14 @@ const CollectionService = {
     });
   },
 
-  async removeItem(ownerId, id, itemKey, version) {
+  async removeItem(actorId, id, itemKey, version) {
     const collection = await Collection.findOneAndUpdate(
-      { ...versionedOwnerFilter(ownerId, id, version), items: { $elemMatch: itemKey } },
+      { ...versionedEditableFilter(actorId, id, version), items: { $elemMatch: itemKey } },
       { $pull: { items: itemKey }, $inc: { version: 1 } },
       { new: true },
     );
     if (collection !== null) return collection;
-    const current = await ownedOrThrow(ownerId, id);
+    const current = await editableOrThrow(actorId, id);
     if (current.version !== version) throw conflict();
     throw new AppError({
       status: 404,
@@ -95,8 +126,8 @@ const CollectionService = {
     });
   },
 
-  async reorderItems(ownerId, id, itemKeys, version) {
-    const current = await ownedOrThrow(ownerId, id);
+  async reorderItems(actorId, id, itemKeys, version) {
+    const current = await editableOrThrow(actorId, id);
     if (current.version !== version) throw conflict();
     if (
       itemKeys.length !== current.items.length ||
@@ -110,7 +141,7 @@ const CollectionService = {
     }
     const orderedItems = itemKeys.map(key => current.items.find(item => sameItem(item, key)));
     const collection = await Collection.findOneAndUpdate(
-      versionedOwnerFilter(ownerId, id, version),
+      versionedEditableFilter(actorId, id, version),
       { $set: { items: orderedItems }, $inc: { version: 1 } },
       { new: true, runValidators: true },
     );
