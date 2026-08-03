@@ -78,15 +78,19 @@ describe('LibraryEntryQueries.useRemove', () => {
   afterEach(() => server.resetHandlers());
 
   it('removes the matching title from the cached Library list', async () => {
-    server.use(http.delete('*/library/entries', () => new HttpResponse(null, { status: 204 })));
+    server.use(
+      http.delete(
+        '*/library/entries/:mediaType/:tmdbId',
+        () => new HttpResponse(null, { status: 204 }),
+      ),
+    );
     const { result, queryClient } = renderRemoveMutation();
     const queryKey = ['libraryEntries', 'list', {}] as const;
     queryClient.setQueryData(queryKey, [entry] as readonly LibraryEntry[]);
 
     result.current.mutate({ mediaType: 'movie', tmdbId: 42 });
 
-    await waitFor(() =>
-      expect(queryClient.getQueryData<readonly LibraryEntry[]>(queryKey)).toEqual([]),
-    );
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(queryClient.getQueryData<readonly LibraryEntry[]>(queryKey)).toEqual([]);
   });
 });

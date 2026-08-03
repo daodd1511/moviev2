@@ -129,6 +129,7 @@ Produces: `Collection`, `CollectionCompatibilityService.getLegacyPublic(username
 - [x] Add `apps/api/src/service/collectionCompatibilityService.js` for dual-read resolution of embedded lists and Collections without changing legacy writes yet.
 - [x] Add `apps/api/scripts/migrate-lists-to-collections.js` with dry-run, cursor resume, audit counts, sampled payload checks, mandatory identifier preservation, and collision-blocked cutover.
 - [x] Add `apps/api/test/collection-migration.integration.test.js` for idempotency, resume, counts, visibility=`unlisted`, item order, public-ID preservation, and rollback-safe legacy retention.
+- [x] (amended 2026-08-03) Correct `apps/web/src/stores/queries/libraryEntryQueries.test.tsx` DELETE mocking and wait for mutation success so the full shared suite verifies real removal.
 
 **Agent gate (hard):**
 
