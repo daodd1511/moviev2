@@ -46,13 +46,21 @@ const collectionSchema = new Schema(
     collaborators: { type: [collaboratorSchema], default: [] },
     cover: { type: coverSchema, default: null },
     version: { type: Number, required: true, default: 0, min: 0 },
-    legacyPublicId: { type: String, default: null, immutable: true },
+    // No `default: null`: a sparse unique index only skips documents where the field is
+    // truly absent, not documents where it's explicitly `null` — a default would make
+    // every non-migrated Collection collide with every other one on creation.
+    legacyPublicId: { type: String, immutable: true },
+    // Derived from CollectionLike; SocialService keeps it in sync on like/unlike, and
+    // CollectionService resets it when a Collection leaves public visibility or is deleted.
+    likeCount: { type: Number, required: true, default: 0, min: 0 },
   },
   { timestamps: true },
 );
 
 collectionSchema.index({ legacyPublicId: 1 }, { unique: true, sparse: true });
 collectionSchema.index({ ownerId: 1, updatedAt: -1 });
+collectionSchema.index({ visibility: 1, likeCount: -1 });
+collectionSchema.index({ visibility: 1, createdAt: -1 });
 
 const Collection = mongoose.model('collection', collectionSchema);
 

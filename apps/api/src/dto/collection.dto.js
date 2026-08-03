@@ -10,8 +10,9 @@ export const toCollectionDto = collection => ({
     role: collaborator.role,
   })),
   cover: collection.cover,
+  likeCount: collection.likeCount,
   version: collection.version,
-  legacyPublicId: collection.legacyPublicId,
+  legacyPublicId: collection.legacyPublicId ?? null,
   createdAt: collection.createdAt,
   updatedAt: collection.updatedAt,
 });
