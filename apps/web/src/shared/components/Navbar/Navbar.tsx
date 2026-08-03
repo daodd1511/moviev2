@@ -7,6 +7,7 @@ import { Search } from '../Search/Search';
 
 import { ProfileDropdown } from './ProfileDropdown';
 
+import { NotificationCenter } from '@/features/Notifications/components/NotificationCenter';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -173,7 +174,8 @@ const NavbarComponent = () => {
           </div>
         )}
         {isAuth && (
-          <div className="hidden md:block">
+          <div className="hidden items-center md:flex">
+            <NotificationCenter />
             <ProfileDropdown />
           </div>
         )}
