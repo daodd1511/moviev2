@@ -5,11 +5,7 @@ import {
   type CollectionDto,
 } from '../dtos/collection.dto';
 
-import type {
-  Collection,
-  CollectionItem,
-  CreateCollectionInput,
-} from '@/models/collection.model';
+import type { Collection, CollectionItem, CreateCollectionInput } from '@/models/collection.model';
 import { Media } from '@/models/media.model';
 import { MediaType } from '@/shared/enums/mediaType';
 

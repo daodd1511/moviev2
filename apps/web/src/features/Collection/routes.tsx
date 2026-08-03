@@ -1,8 +1,12 @@
 import { lazy } from 'react';
 import { Navigate, type RouteObject, useParams } from 'react-router-dom';
 
-const NewCollectionPage = lazy(() => import('./pages/NewCollectionPage').then(module => ({ default: module.NewCollectionPage })));
-const CollectionPage = lazy(() => import('./pages/CollectionPage').then(module => ({ default: module.CollectionPage })));
+const NewCollectionPage = lazy(() =>
+  import('./pages/NewCollectionPage').then(module => ({ default: module.NewCollectionPage })),
+);
+const CollectionPage = lazy(() =>
+  import('./pages/CollectionPage').then(module => ({ default: module.CollectionPage })),
+);
 
 const LegacyCollectionRedirect = () => {
   const { id = '' } = useParams<{ id: string }>();

@@ -24,7 +24,10 @@ export namespace CollectionService {
   };
 
   export const create = async (input: CreateCollectionInput): Promise<Collection> => {
-    const { data } = await backendApi.post<unknown>('/collections', CollectionMapper.toCreateInput(input));
+    const { data } = await backendApi.post<unknown>(
+      '/collections',
+      CollectionMapper.toCreateInput(input),
+    );
     return requireCollection(CollectionMapper.fromDto(data));
   };
 
@@ -33,17 +36,29 @@ export namespace CollectionService {
     return requireCollection(CollectionMapper.fromDto(data));
   };
 
-  export const update = async ({ id, version, ...input }: UpdateCollectionInput): Promise<Collection> => {
+  export const update = async ({
+    id,
+    version,
+    ...input
+  }: UpdateCollectionInput): Promise<Collection> => {
     const { data } = await backendApi.patch<unknown>(`/collections/${id}`, { ...input, version });
     return requireCollection(CollectionMapper.fromDto(data));
   };
 
-  export const addItem = async ({ id, version, item }: CollectionItemMutationInput): Promise<Collection> => {
+  export const addItem = async ({
+    id,
+    version,
+    item,
+  }: CollectionItemMutationInput): Promise<Collection> => {
     const { data } = await backendApi.post<unknown>(`/collections/${id}/items`, { item, version });
     return requireCollection(CollectionMapper.fromDto(data));
   };
 
-  export const removeItem = async ({ id, version, item }: CollectionItemRemovalInput): Promise<Collection> => {
+  export const removeItem = async ({
+    id,
+    version,
+    item,
+  }: CollectionItemRemovalInput): Promise<Collection> => {
     const { data } = await backendApi.delete<unknown>(
       `/collections/${id}/items/${item.mediaType}/${item.tmdbId}`,
       { data: { version } },
@@ -51,7 +66,11 @@ export namespace CollectionService {
     return requireCollection(CollectionMapper.fromDto(data));
   };
 
-  export const reorderItems = async ({ id, version, items }: CollectionReorderInput): Promise<Collection> => {
+  export const reorderItems = async ({
+    id,
+    version,
+    items,
+  }: CollectionReorderInput): Promise<Collection> => {
     const { data } = await backendApi.put<unknown>(`/collections/${id}/items/order`, {
       items,
       version,

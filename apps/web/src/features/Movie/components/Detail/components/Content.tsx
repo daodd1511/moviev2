@@ -101,7 +101,7 @@ const ContentComponent = ({ movie, credits }: Props) => {
             {trailers.length > 1 ? `Trailers · ${trailers.length}` : 'Watch Trailer'}
           </Button>
         )}
-          <CollectionMenu
+        <CollectionMenu
           media={MediaMapper.fromMovie(movie)}
           triggerLabel="Add to list"
           className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.08] text-foreground transition-colors hover:border-white/40 hover:bg-white/[0.16]"

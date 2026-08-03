@@ -15,13 +15,17 @@ export const collectionKeys = {
   all: ['collections'] as const,
   list: () => [...collectionKeys.all, 'list'] as const,
   detail: (id: string) => [...collectionKeys.all, 'detail', id] as const,
-  public: (username: string, id: string) => [...collectionKeys.all, 'public', username, id] as const,
+  public: (username: string, id: string) =>
+    [...collectionKeys.all, 'public', username, id] as const,
 };
 
 const replaceCollection = (collections: readonly Collection[] | undefined, next: Collection) =>
   collections?.map(collection => (collection.id === next.id ? next : collection));
 
-const updateCache = (queryClient: ReturnType<typeof useQueryClient>, collection: Collection): void => {
+const updateCache = (
+  queryClient: ReturnType<typeof useQueryClient>,
+  collection: Collection,
+): void => {
   queryClient.setQueryData(collectionKeys.detail(collection.id), collection);
   queryClient.setQueryData<readonly Collection[]>(collectionKeys.list(), current =>
     replaceCollection(current, collection),

@@ -4,7 +4,11 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
-import type { Collection, CollectionVisibility, CreateCollectionInput } from '@/models/collection.model';
+import type {
+  Collection,
+  CollectionVisibility,
+  CreateCollectionInput,
+} from '@/models/collection.model';
 import { TextField } from '@/shared/components/ui/TextField';
 
 const collectionFormSchema = z.object({
@@ -19,11 +23,23 @@ interface CollectionFormProps {
   readonly collection?: Collection;
   readonly isPending: boolean;
   readonly submitLabel: string;
-  readonly onSubmit: (input: Pick<CreateCollectionInput, 'name' | 'description' | 'visibility'>) => void;
+  readonly onSubmit: (
+    input: Pick<CreateCollectionInput, 'name' | 'description' | 'visibility'>,
+  ) => void;
 }
 
-export const CollectionForm = ({ collection, isPending, submitLabel, onSubmit }: CollectionFormProps) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CollectionFormValues>({
+export const CollectionForm = ({
+  collection,
+  isPending,
+  submitLabel,
+  onSubmit,
+}: CollectionFormProps) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CollectionFormValues>({
     resolver: zodResolver(collectionFormSchema),
     defaultValues: {
       name: collection?.name ?? '',
@@ -53,11 +69,16 @@ export const CollectionForm = ({ collection, isPending, submitLabel, onSubmit }:
       <div>
         <TextField label="Name" {...register('name')} />
         {errors.name?.message !== undefined && (
-          <p className="mt-1 text-sm text-destructive" role="alert">{errors.name.message}</p>
+          <p className="mt-1 text-sm text-destructive" role="alert">
+            {errors.name.message}
+          </p>
         )}
       </div>
       <div>
-        <label htmlFor="collection-description" className="mb-1.5 block text-sm font-medium text-muted-foreground">
+        <label
+          htmlFor="collection-description"
+          className="mb-1.5 block text-sm font-medium text-muted-foreground"
+        >
           Description
         </label>
         <textarea
@@ -67,7 +88,10 @@ export const CollectionForm = ({ collection, isPending, submitLabel, onSubmit }:
         />
       </div>
       <div>
-        <label htmlFor="collection-visibility" className="mb-1.5 block text-sm font-medium text-muted-foreground">
+        <label
+          htmlFor="collection-visibility"
+          className="mb-1.5 block text-sm font-medium text-muted-foreground"
+        >
           Visibility
         </label>
         <select
@@ -81,7 +105,9 @@ export const CollectionForm = ({ collection, isPending, submitLabel, onSubmit }:
         </select>
       </div>
       <div>
-        <Button type="submit" disabled={isPending}>{submitLabel}</Button>
+        <Button type="submit" disabled={isPending}>
+          {submitLabel}
+        </Button>
       </div>
     </form>
   );

@@ -16,8 +16,22 @@ const collection: Collection = {
   description: null,
   visibility: 'private',
   items: [
-    { mediaType: 'movie', tmdbId: 1, title: 'First', posterPath: null, releaseDate: '2020-01-01', voteAverage: 8 },
-    { mediaType: 'tv', tmdbId: 2, title: 'Second', posterPath: null, releaseDate: '2021-01-01', voteAverage: 7 },
+    {
+      mediaType: 'movie',
+      tmdbId: 1,
+      title: 'First',
+      posterPath: null,
+      releaseDate: '2020-01-01',
+      voteAverage: 8,
+    },
+    {
+      mediaType: 'tv',
+      tmdbId: 2,
+      title: 'Second',
+      posterPath: null,
+      releaseDate: '2021-01-01',
+      voteAverage: 7,
+    },
   ],
   collaborators: [{ userId: 'user-1', role: 'owner' }],
   cover: null,
@@ -29,7 +43,9 @@ const collection: Collection = {
 
 const renderMutation = <T,>(useMutation: () => T) => {
   const queryClient = new QueryClient({ defaultOptions: { mutations: { retry: false } } });
-  const wrapper = ({ children }: PropsWithChildren) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  const wrapper = ({ children }: PropsWithChildren) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
   return { ...renderHook(useMutation, { wrapper }), queryClient };
 };
 
@@ -45,7 +61,9 @@ describe('CollectionQueries', () => {
 
     result.current.mutate({ id: collection.id, version: collection.version, name: edited.name });
 
-    await waitFor(() => expect(queryClient.getQueryData(collectionKeys.detail(collection.id))).toEqual(edited));
+    await waitFor(() =>
+      expect(queryClient.getQueryData(collectionKeys.detail(collection.id))).toEqual(edited),
+    );
     expect(queryClient.getQueryData(collectionKeys.list())).toEqual([edited]);
   });
 
@@ -69,7 +87,10 @@ describe('CollectionQueries', () => {
     await waitFor(() => expect(result.current.data).toEqual(reordered));
     expect(requestBody).toEqual({
       version: 2,
-      items: [{ mediaType: 'tv', tmdbId: 2 }, { mediaType: 'movie', tmdbId: 1 }],
+      items: [
+        { mediaType: 'tv', tmdbId: 2 },
+        { mediaType: 'movie', tmdbId: 1 },
+      ],
     });
   });
 });

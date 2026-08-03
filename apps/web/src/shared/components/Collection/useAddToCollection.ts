@@ -25,7 +25,11 @@ export const useAddToCollection = (media: Media) => {
   });
 
   const addToCollection = (collection: Collection): void => {
-    if (collection.items.some(candidate => candidate.mediaType === item.mediaType && candidate.tmdbId === item.tmdbId)) {
+    if (
+      collection.items.some(
+        candidate => candidate.mediaType === item.mediaType && candidate.tmdbId === item.tmdbId,
+      )
+    ) {
       toast.error('This title is already in the Collection.');
       return;
     }

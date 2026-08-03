@@ -16,7 +16,8 @@ import { CollectionQueries } from '@/stores/queries/collectionQueries';
 import { UserQueries } from '@/stores/queries/userQueries';
 
 const isVersionConflict = (error: unknown): boolean =>
-  isAxiosError<ApiErrorEnvelope>(error) && error.response?.data.error.code === 'collection_version_conflict';
+  isAxiosError<ApiErrorEnvelope>(error) &&
+  error.response?.data.error.code === 'collection_version_conflict';
 
 export const CollectionPage = () => {
   const { id = '' } = useParams<{ id: string }>();
@@ -28,7 +29,9 @@ export const CollectionPage = () => {
   const duplicate = CollectionQueries.useDuplicate();
   const remove = CollectionQueries.useRemove();
 
-  const handleUpdate = (values: Pick<CreateCollectionInput, 'name' | 'description' | 'visibility'>): void => {
+  const handleUpdate = (
+    values: Pick<CreateCollectionInput, 'name' | 'description' | 'visibility'>,
+  ): void => {
     if (collection === undefined) return;
     update.mutate(
       { ...values, id: collection.id, version: collection.version },
@@ -49,7 +52,8 @@ export const CollectionPage = () => {
         toast.success('Collection duplicated.');
         navigate(`/collections/${copy.id}`);
       },
-      onError: error => toast.error(getApiErrorMessage(error, 'Could not duplicate the Collection.')),
+      onError: error =>
+        toast.error(getApiErrorMessage(error, 'Could not duplicate the Collection.')),
     });
   };
 
@@ -94,7 +98,12 @@ export const CollectionPage = () => {
           <Button type="button" variant="outline" onClick={() => void handleCopyLink()}>
             <Copy aria-hidden="true" className="size-4" /> Copy link
           </Button>
-          <Button type="button" variant="outline" disabled={duplicate.isPending} onClick={handleDuplicate}>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={duplicate.isPending}
+            onClick={handleDuplicate}
+          >
             Duplicate
           </Button>
           <Button type="button" variant="outline" onClick={() => void refetch()}>
@@ -106,14 +115,22 @@ export const CollectionPage = () => {
         </div>
       </div>
       <div className="mt-8 max-w-2xl">
-        <CollectionForm collection={collection} submitLabel="Save changes" isPending={update.isPending} onSubmit={handleUpdate} />
+        <CollectionForm
+          collection={collection}
+          submitLabel="Save changes"
+          isPending={update.isPending}
+          onSubmit={handleUpdate}
+        />
       </div>
       <CollectionItems collection={collection} />
       <p className="mt-6 text-sm text-muted-foreground">
         A conflict reloads this Collection so you can retry with the latest version.
       </p>
       <p className="mt-3 text-sm">
-        <Link className="text-primary hover:underline" to={`/u/${user?.username ?? ''}/collections/${collection.id}`}>
+        <Link
+          className="text-primary hover:underline"
+          to={`/u/${user?.username ?? ''}/collections/${collection.id}`}
+        >
           Open public Collection view
         </Link>
       </p>

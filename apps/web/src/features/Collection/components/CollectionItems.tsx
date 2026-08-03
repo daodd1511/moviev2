@@ -64,7 +64,9 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
   };
 
   const handleMove = (item: CollectionItem, direction: -1 | 1): void => {
-    const currentIndex = collection.items.findIndex(candidate => itemKey(candidate) === itemKey(item));
+    const currentIndex = collection.items.findIndex(
+      candidate => itemKey(candidate) === itemKey(item),
+    );
     const nextIndex = currentIndex + direction;
     if (nextIndex < 0 || nextIndex >= collection.items.length) return;
     const nextItems = [...collection.items];
@@ -77,14 +79,19 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
         items: nextItems.map(({ mediaType, tmdbId }) => ({ mediaType, tmdbId })),
       },
       {
-        onError: error => toast.error(getApiErrorMessage(error, 'Could not reorder the Collection.')),
+        onError: error =>
+          toast.error(getApiErrorMessage(error, 'Could not reorder the Collection.')),
       },
     );
   };
 
   const handleCover = (item: CollectionItem): void => {
     update.mutate(
-      { id: collection.id, version: collection.version, cover: { mediaType: item.mediaType, tmdbId: item.tmdbId } },
+      {
+        id: collection.id,
+        version: collection.version,
+        cover: { mediaType: item.mediaType, tmdbId: item.tmdbId },
+      },
       {
         onSuccess: () => toast.success(`Set “${item.title}” as the cover.`),
         onError: error => toast.error(getApiErrorMessage(error, 'Could not update the cover.')),
@@ -93,10 +100,17 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
   };
 
   return (
-    <section aria-labelledby="collection-items-heading" className="mt-10 border-t border-border pt-8">
-      <h2 id="collection-items-heading" className="text-xl font-semibold">Titles</h2>
+    <section
+      aria-labelledby="collection-items-heading"
+      className="mt-10 border-t border-border pt-8"
+    >
+      <h2 id="collection-items-heading" className="text-xl font-semibold">
+        Titles
+      </h2>
       <div className="mt-4 flex gap-2">
-        <label className="sr-only" htmlFor="collection-title-search">Search titles</label>
+        <label className="sr-only" htmlFor="collection-title-search">
+          Search titles
+        </label>
         <input
           id="collection-title-search"
           value={query}
@@ -138,10 +152,16 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
               item.posterPath === null
                 ? '/images/no-image.png'
                 : `${IMAGE_BASE_URL}${PosterSizes.small}${item.posterPath}`;
-            const isCover = collection.cover !== null && itemKey(collection.cover) === itemKey(item);
+            const isCover =
+              collection.cover !== null && itemKey(collection.cover) === itemKey(item);
             return (
               <li key={itemKey(item)} className="flex gap-3 rounded-lg border border-border p-3">
-                <img src={imageUrl} alt="" className="h-20 w-14 rounded object-cover" loading="lazy" />
+                <img
+                  src={imageUrl}
+                  alt=""
+                  className="h-20 w-14 rounded object-cover"
+                  loading="lazy"
+                />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium">{item.title}</p>
                   <p className="text-sm text-muted-foreground">
@@ -168,10 +188,22 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
                     >
                       Move down
                     </Button>
-                    <Button type="button" size="sm" variant="outline" disabled={isCover || update.isPending} onClick={() => handleCover(item)}>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      disabled={isCover || update.isPending}
+                      onClick={() => handleCover(item)}
+                    >
                       {isCover ? 'Cover' : 'Set cover'}
                     </Button>
-                    <Button type="button" size="sm" variant="destructive" disabled={removeItem.isPending} onClick={() => handleRemove(item)}>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="destructive"
+                      disabled={removeItem.isPending}
+                      onClick={() => handleRemove(item)}
+                    >
                       <Trash2 aria-hidden="true" className="size-4" /> Remove
                     </Button>
                   </div>

@@ -28,7 +28,12 @@ interface CollectionMenuProps {
   readonly className?: string;
 }
 
-export const CollectionMenu = ({ media, trigger, triggerLabel, className }: CollectionMenuProps) => {
+export const CollectionMenu = ({
+  media,
+  trigger,
+  triggerLabel,
+  className,
+}: CollectionMenuProps) => {
   const [isCollectionMenuOpen, setIsCollectionMenuOpen] = useState(false);
   const [isAuth] = useAtom(isAuthAtom);
   const { data: collections, isPending } = CollectionQueries.useAll(isCollectionMenuOpen);
@@ -36,23 +41,37 @@ export const CollectionMenu = ({ media, trigger, triggerLabel, className }: Coll
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger aria-label={triggerLabel} className={className}>{trigger}</DropdownMenuTrigger>
+      <DropdownMenuTrigger aria-label={triggerLabel} className={className}>
+        {trigger}
+      </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {!isAuth && <DropdownMenuItem asChild><Link to="/auth/login">Login</Link></DropdownMenuItem>}
+        {!isAuth && (
+          <DropdownMenuItem asChild>
+            <Link to="/auth/login">Login</Link>
+          </DropdownMenuItem>
+        )}
         {isAuth && (
           <DropdownMenuSub open={isCollectionMenuOpen} onOpenChange={setIsCollectionMenuOpen}>
             <DropdownMenuSubTrigger onPointerEnter={() => setIsCollectionMenuOpen(true)}>
               <FolderPlus aria-hidden="true" /> Add to Collection
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <DropdownMenuItem asChild><Link to="/collections/new"><Plus aria-hidden="true" /> Create Collection</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/collections/new">
+                  <Plus aria-hidden="true" /> Create Collection
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel>Your Collections</DropdownMenuLabel>
-              {isPending ? <Loader /> : collections?.map(collection => (
-                <DropdownMenuItem key={collection.id} onClick={() => addToCollection(collection)}>
-                  <Bookmark aria-hidden="true" /> {collection.name}
-                </DropdownMenuItem>
-              ))}
+              {isPending ? (
+                <Loader />
+              ) : (
+                collections?.map(collection => (
+                  <DropdownMenuItem key={collection.id} onClick={() => addToCollection(collection)}>
+                    <Bookmark aria-hidden="true" /> {collection.name}
+                  </DropdownMenuItem>
+                ))
+              )}
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         )}
