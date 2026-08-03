@@ -3,7 +3,7 @@ import { List as ListIcon, Play, Star } from 'lucide-react';
 
 import { MovieDetail, Credits, Video } from '@/models';
 import { formatToYear } from '@/shared/utils';
-import { Menu } from '@/shared/components/List/Menu';
+import { CollectionMenu } from '@/shared/components/Collection/Menu';
 import { MediaMapper } from '@/api/mappers/media.mapper';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/shared/components/ui/Chip';
@@ -101,7 +101,7 @@ const ContentComponent = ({ movie, credits }: Props) => {
             {trailers.length > 1 ? `Trailers · ${trailers.length}` : 'Watch Trailer'}
           </Button>
         )}
-        <Menu
+          <CollectionMenu
           media={MediaMapper.fromMovie(movie)}
           triggerLabel="Add to list"
           className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.08] text-foreground transition-colors hover:border-white/40 hover:bg-white/[0.16]"

@@ -7,9 +7,8 @@ import { IMAGE_BASE_URL } from '../../constants';
 import { PosterSizes } from '../../enums';
 import { formatToYear } from '../../utils';
 
-import { Menu } from './Menu';
-
 import { Media } from '@/models';
+import { CollectionMenu } from '@/shared/components/Collection/Menu';
 import { LibraryAction } from '@/shared/components/LibraryAction';
 import { PosterPlate } from '@/shared/components/ui/PosterPlate';
 
@@ -51,7 +50,7 @@ const MediaListItemComponent = ({ media }: Props) => {
           iconOnly
           className="h-9 w-9 rounded-full border border-foreground/15 bg-background/60 text-foreground shadow-[0_8px_20px_-10px_rgba(0,0,0,0.9)] backdrop-blur-sm hover:border-foreground/25 hover:bg-background/80 sm:h-11 sm:w-11"
         />
-        <Menu
+        <CollectionMenu
           media={media}
           triggerLabel="Open item menu"
           className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/15 bg-background/60 text-foreground shadow-[0_8px_20px_-10px_rgba(0,0,0,0.9)] backdrop-blur-sm hover:border-foreground/25 hover:bg-background/80 sm:h-11 sm:w-11"

@@ -114,9 +114,9 @@ const MobileTabBar = ({
     />
     <MobileTabLink
       icon={<ListVideo className="size-5" aria-hidden="true" />}
-      label="Lists"
-      to={isAuth ? '/user/lists' : '/auth/login'}
-      active={pathname.startsWith('/user/lists') || pathname.startsWith('/list')}
+      label="Collections"
+      to={isAuth ? '/user/collections' : '/auth/login'}
+      active={pathname.startsWith('/user/collections') || pathname.startsWith('/collections')}
     />
     <Search mobileTab />
     <MobileTabLink
