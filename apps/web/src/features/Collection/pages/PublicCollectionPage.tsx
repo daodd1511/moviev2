@@ -1,32 +1,70 @@
-import { Film } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import { Film, Heart, LoaderCircle } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
 import { Loader } from '@/shared/components';
 import { NotFound } from '@/shared/components/NotFound';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { PosterSizes } from '@/shared/enums';
-import { CollectionQueries } from '@/stores/queries/collectionQueries';
+import { isAuthAtom } from '@/stores/atoms/authAtoms';
+import { SocialQueries } from '@/stores/queries/socialQueries';
+
+const LikeButton = ({ collectionId }: { readonly collectionId: string }) => {
+  const [isAuthenticated] = useAtom(isAuthAtom);
+  const { data: collection } = SocialQueries.useCollection(collectionId);
+  const like = SocialQueries.useLike();
+  const unlike = SocialQueries.useUnlike();
+
+  if (!isAuthenticated || collection === undefined) return null;
+
+  const isPending = like.isPending || unlike.isPending;
+  const handleClick = () => {
+    if (collection.isLikedByViewer) unlike.mutate(collectionId);
+    else like.mutate(collectionId);
+  };
+
+  return (
+    <Button
+      type="button"
+      variant={collection.isLikedByViewer ? 'outline' : 'default'}
+      onClick={handleClick}
+      disabled={isPending}
+      aria-pressed={collection.isLikedByViewer}
+    >
+      {isPending ? (
+        <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />
+      ) : (
+        <Heart aria-hidden="true" className="size-4" />
+      )}
+      <span>
+        {collection.isLikedByViewer ? 'Liked' : 'Like'} · {collection.likeCount}
+      </span>
+    </Button>
+  );
+};
 
 export const PublicCollectionPage = () => {
-  const { username = '', collectionId = '' } = useParams<{
-    username: string;
-    collectionId: string;
-  }>();
-  const {
-    data: collection,
-    isPending,
-    isError,
-  } = CollectionQueries.usePublic(username, collectionId);
+  const { collectionId = '' } = useParams<{ collectionId: string }>();
+  const { data: collection, isPending, isError } = SocialQueries.useCollection(collectionId);
 
   if (isPending) return <Loader className="min-h-[60vh]" />;
   if (isError || collection === undefined) return <NotFound />;
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
-      <p className="text-sm font-medium text-primary">
-        {collection.visibility === 'public' ? 'Public Collection' : 'Shared Collection'}
-      </p>
-      <h1 className="mt-1 text-2xl font-semibold md:text-3xl">{collection.name}</h1>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-primary">
+            {collection.visibility === 'public' ? 'Public Collection' : 'Shared Collection'}
+          </p>
+          <h1 className="mt-1 text-2xl font-semibold md:text-3xl">{collection.name}</h1>
+          <Link to={`/u/${collection.ownerUsername}`} className="text-sm hover:underline">
+            by @{collection.ownerUsername}
+          </Link>
+        </div>
+        <LikeButton collectionId={collection.id} />
+      </div>
       {collection.description !== null && (
         <p className="mt-3 max-w-2xl text-muted-foreground">{collection.description}</p>
       )}
