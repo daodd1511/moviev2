@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 13 — done (PR #19, CI green)
+- Current phase: 14 — local gate passed, awaiting push/PR
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -22,7 +22,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 11 — Notifications: done (PR #17, CI green)
 - Phase 12 — Collection collaboration: done (PR #18, CI green)
 - Phase 13 — Public social API: done (PR #19, CI green)
-- Phase 14 — Public social UI and sharing: pending
+- Phase 14 — Public social UI and sharing: local gate passed, awaiting push/PR
 - Phase 15 — Final hardening and cleanup: pending
 - Verification debt: none
 
@@ -397,21 +397,22 @@ Branch: `product-capability-roadmap/phase-14-social-sharing` (off `product-capab
 Expose social controls and crawler-readable Collection shares on the stable privacy contracts.
 
 Consumes: social HTTP routes, public profiles, public Collection discovery, and stable public IDs.
-Produces: public profile/discovery UI and `ShareService.renderCollectionCard(publicId, origin)` crawler HTML.
+Produces: public profile/discovery UI, `SocialService.getPublicCollection(publicId, viewerId)` behind `GET /api/social/collections/:id`, and `ShareService.renderCollectionCard(publicId, origin)` crawler HTML.
 
-- [ ] Add `apps/web/src/api/services/socialService.ts`, `stores/queries/socialQueries.ts`, `features/Profile/`, and `features/CollectionDiscovery/` for opt-in, privacy settings, follow/unfollow, like/unlike, counts, sorting, and empty/error states.
-- [ ] Update `apps/web/src/routes/Router.tsx` with canonical public profile and Collection discovery/detail routes while retaining legacy public Collection redirects.
-- [ ] Add `apps/api/src/service/shareService.js`, `controller/share.controller.js`, and `router/share.routes.js`; serve escaped Open Graph HTML for public/unlisted Collections and `404` with no metadata for private Collections.
-- [ ] Update `apps/web/nginx.conf` to proxy canonical share URLs to the API and redirect human browsers into the SPA without changing crawler canonical URLs.
-- [ ] Add `apps/api/test/share.integration.test.js`, `apps/web/src/features/Profile/pages/PublicProfilePage.test.tsx`, and `apps/web/src/features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` for injection safety, follows, likes, discovery, canonical links, metadata, and privacy transitions.
+- [x] Add `apps/web/src/api/services/socialService.ts`, `stores/queries/socialQueries.ts`, `features/Profile/`, and `features/CollectionDiscovery/` for opt-in, privacy settings, follow/unfollow, like/unlike, counts, sorting, and empty/error states.
+- [x] Update `apps/web/src/routes/Router.tsx` with canonical public profile and Collection discovery/detail routes while retaining legacy public Collection redirects.
+- [x] Add `apps/api/src/service/shareService.js`, `controller/share.controller.js`, and `router/share.routes.js`; serve escaped Open Graph HTML for public/unlisted Collections and `404` with no metadata for private Collections.
+- [x] Update `apps/web/nginx.conf` to proxy canonical share URLs to the API and redirect human browsers into the SPA without changing crawler canonical URLs.
+- [x] Add `apps/api/test/share.integration.test.js`, `apps/web/src/features/Profile/pages/PublicProfilePage.test.tsx`, and `apps/web/src/features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` for injection safety, follows, likes, discovery, canonical links, metadata, and privacy transitions.
+- [x] (amended 2026-08-04) Add `GET /api/social/collections/:id` (`SocialService.getPublicCollection`, `SocialController.getCollection`) resolving by Mongo `_id` or `legacyPublicId`. Necessary because no anonymous fetch-by-id endpoint existed for Collections before this phase — the only prior public read was the legacy, `legacyPublicId`-only `/user/list/:username/:listId` route — and both the canonical public detail page and `ShareService.renderCollectionCard` need one.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: public privacy and proxy surfaces)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: public privacy and proxy surfaces)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
