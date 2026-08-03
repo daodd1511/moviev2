@@ -13,6 +13,9 @@ const collectionInvitationSchema = new Schema(
     inviterId: { type: Schema.Types.ObjectId, required: true, ref: 'user', immutable: true },
     inviteeId: { type: Schema.Types.ObjectId, required: true, ref: 'user', immutable: true },
     role: { type: String, required: true, enum: ['editor', 'viewer'], immutable: true },
+    // Snapshot at invite time so the invitee's inbox can render a name without a
+    // second, potentially-inaccessible, lookup of the private Collection.
+    collectionName: { type: String, required: true, trim: true, maxlength: 255, immutable: true },
     status: {
       type: String,
       required: true,

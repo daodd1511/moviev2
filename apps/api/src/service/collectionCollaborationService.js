@@ -63,6 +63,7 @@ const CollectionCollaborationService = {
         inviterId: actorId,
         inviteeId: invitee._id,
         role,
+        collectionName: collection.name,
         expiresAt: new Date(Date.now() + INVITATION_TTL_MS),
       });
     } catch (error) {

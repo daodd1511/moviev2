@@ -4,6 +4,7 @@ import CollectionCollaborationService from '../service/collectionCollaborationSe
 const toInvitationDto = invitation => ({
   id: invitation._id.toString(),
   collectionId: invitation.collectionId.toString(),
+  collectionName: invitation.collectionName,
   inviterId: invitation.inviterId.toString(),
   role: invitation.role,
   status: invitation.status,

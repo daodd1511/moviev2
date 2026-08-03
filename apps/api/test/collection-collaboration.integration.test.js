@@ -58,6 +58,7 @@ describe('Collection collaboration', () => {
     );
     expect(invitation.status).toBe(201);
     expect(invitation.body.status).toBe('pending');
+    expect(invitation.body.collectionName).toBe('Shared');
 
     const notified = await Notification.findOne({ recipientId: editor._id });
     expect(notified?.eventType).toBe('collection_invite');
