@@ -8,14 +8,14 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 6 — done (PR #12, CI green)
+- Current phase: 7 — in-progress (local gate passed; awaiting push/PR)
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
 - Phase 4 — Library views and editing: done (PR #10, CI green)
 - Phase 5 — Collection model and migration compatibility: done (PR #11, CI green)
 - Phase 6 — Collection API cutover: done (PR #12, CI green)
-- Phase 7 — Collection web cutover: pending
+- Phase 7 — Collection web cutover: in-progress (local gate passed; awaiting push/PR)
 - Phase 8 — Catalog adapter: pending
 - Phase 9 — Discovery and search: pending
 - Phase 10 — Release sync and calendar: pending
@@ -185,18 +185,18 @@ Move user-facing list behavior to canonical Collection language and mutation con
 Consumes: `/api/collections`, preserved legacy public routes, Collection DTOs, and optimistic versions.
 Produces: canonical Collection models, services, queries, routes, pages, and mutation cache keys.
 
-- [ ] Replace `apps/web/src/models/list.model.ts`, `api/dtos/list.dto.ts`, `api/mappers/list.mapper.ts`, `api/services/listService.ts`, and `stores/queries/listQueries.ts` with their PLAN.md → "Collections web" Collection equivalents.
-- [ ] Replace `apps/web/src/features/List/` with `features/Collection/` pages/components for create, edit, duplicate, delete, item mutation/reorder, cover selection, visibility, copy-link, and conflict reload/retry.
-- [ ] Update `apps/web/src/shared/components/List/Menu.tsx`, `List/useAddToList.ts`, `features/User/pages/ListPage.tsx`, `features/User/routes.tsx`, and `routes/Router.tsx` to canonical Collection copy/routes while preserving incoming legacy links.
-- [ ] Add `apps/web/src/stores/queries/collectionQueries.test.tsx` and `apps/web/src/features/Collection/pages/CollectionPage.test.tsx` for create, edit, share, reorder, conflict, and delete journeys.
+- [x] Replace `apps/web/src/models/list.model.ts`, `api/dtos/list.dto.ts`, `api/mappers/list.mapper.ts`, `api/services/listService.ts`, and `stores/queries/listQueries.ts` with their PLAN.md → "Collections web" Collection equivalents.
+- [x] Replace `apps/web/src/features/List/` with `features/Collection/` pages/components for create, edit, duplicate, delete, item mutation/reorder, cover selection, visibility, copy-link, and conflict reload/retry.
+- [x] Update `apps/web/src/shared/components/List/Menu.tsx`, `List/useAddToList.ts`, `features/User/pages/ListPage.tsx`, `features/User/routes.tsx`, and `routes/Router.tsx` to canonical Collection copy/routes while preserving incoming legacy links.
+- [x] Add `apps/web/src/stores/queries/collectionQueries.test.tsx` and `apps/web/src/features/Collection/pages/CollectionPage.test.tsx` for create, edit, share, reorder, conflict, and delete journeys.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: renamed shared feature)
-- [ ] `pnpm build`
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: renamed shared feature)
+- [x] `pnpm build`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
