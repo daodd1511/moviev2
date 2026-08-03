@@ -1,33 +1,36 @@
 import { memo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { DiscoverTabs, Loader, MediaList } from '@/shared/components';
 import { TV_DISCOVER } from '@/shared/constants';
-import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
-import { TvQueries } from '@/stores/queries/tvQueries';
+import { CatalogQueries } from '@/stores/queries/catalogQueries';
+import { Media } from '@/models/media.model';
+import { MediaType } from '@/shared/enums/mediaType';
 
 const TvByDiscoverComponent = () => {
   const { discover } = useParams();
+  const [params] = useSearchParams();
   const title = TV_DISCOVER.find(item => item.value === discover)?.name ?? 'Discover';
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending, isError, error } =
-    TvQueries.useInfiniteListByDiscover(discover);
-
-  const { observerElement } = useInfiniteScroll(
-    {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.5,
-    },
-    () => void fetchNextPage(),
-    hasNextPage,
-  );
+  const { data, isPending, isError, error, refetch } = CatalogQueries.useDiscover({
+    mediaType: 'tv',
+    page: Number(params.get('page')) || 1,
+    sort_by: params.get('sort') ?? undefined,
+    with_genres: params.get('genres') ?? undefined,
+  });
 
   if (isPending) {
     return <Loader className="min-h-[60vh]" />;
   }
 
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div>
+        <p role="alert">Error: {error.message}</p>
+        <button type="button" onClick={() => void refetch()}>
+          Retry
+        </button>
+      </div>
+    );
   }
   return (
     <div className="px-4 py-8 md:px-8 md:py-12">
@@ -38,12 +41,24 @@ const TvByDiscoverComponent = () => {
         activeValue={discover ?? 'popular'}
         options={TV_DISCOVER}
       />
-      {data.pages.map(tvPage => (
-        <MediaList key={tvPage.page} data={tvPage.results} />
-      ))}
-      <div className="loader" ref={observerElement}>
-        {hasNextPage !== undefined && isFetchingNextPage && <Loader />}
-      </div>
+      <MediaList
+        data={(data?.results ?? [])
+          .filter(
+            (item): item is Extract<typeof item, { mediaType: 'movie' | 'tv' }> =>
+              item.mediaType !== 'person',
+          )
+          .map(
+            item =>
+              new Media({
+                id: item.id,
+                title: item.title,
+                posterPath: item.posterPath,
+                releaseDate: item.releaseDate,
+                voteAverage: item.voteAverage,
+                type: MediaType.Tv,
+              }),
+          )}
+      />
     </div>
   );
 };
