@@ -333,9 +333,11 @@ Add username invitations and role enforcement on the versioned Collection bounda
 Consumes: `CollectionService`, Collection optimistic versions, and notification delivery.
 Produces: `CollectionCollaborationService.invite`, `respond`, `revoke`, `changeRole`, `remove`, `transferOwnership`, and collaborator UI.
 
-- [ ] Add `apps/api/src/model/collection-invitation.js`, `service/collectionCollaborationService.js`, collaboration schemas/controllers/routes under `/api/collections`, and invitation notification events.
-- [ ] Enforce owner/editor/viewer permissions, username-only invite lookup, expiry, accept/decline/revoke, ownership transfer, collaborator removal, and exactly-one-owner invariants at the API boundary.
-- [ ] Add `apps/api/test/collection-collaboration.integration.test.js` covering every role/operation pair, expiry/single response, stale version conflicts, owner preservation, and private activity redaction.
+- [x] Add `apps/api/src/model/collection-invitation.js`, `service/collectionCollaborationService.js`, collaboration schemas/controllers/routes under `/api/collections`, and invitation notification events.
+- [x] Enforce owner/editor/viewer permissions, username-only invite lookup, expiry, accept/decline/revoke, ownership transfer, collaborator removal, and exactly-one-owner invariants at the API boundary.
+- [x] (amended 2026-08-03) Drop `immutable: true` from `apps/api/src/model/collection.js`'s `ownerId`: `transferOwnership` reassigns it, and Mongoose silently strips `$set` updates to immutable paths in `findOneAndUpdate`, so the field could never actually move without this.
+- [x] (amended 2026-08-03) Generalize `apps/api/src/model/notification.js` (`eventType` gains `'collection_invite'`; `mediaType`/`tmdbId` become nullable; add nullable `collectionId`) and `service/notificationService.js` (`notifyCollectionInvite`): invitation notifications share the Phase 11 Notification model/list/read/center, which has no media to reference. Mirrored on the web in `models/notification.model.ts` and `api/dtos/notification.dto.ts` so the existing `NotificationCenter` does not fail strict DTO parsing on a `collection_invite` row.
+- [x] Add `apps/api/test/collection-collaboration.integration.test.js` covering every role/operation pair, expiry/single response, stale version conflicts, owner preservation, and private activity redaction.
 - [ ] Add `apps/web/src/features/Collection/components/Collaborators.tsx`, invitation inbox/actions, role controls, transfer confirmation, and conflict reload/retry using canonical Collection queries.
 - [ ] Add `apps/web/src/features/Collection/components/Collaborators.test.tsx` for invite, accept/reject, edit authorization, transfer, and stale edits.
 
