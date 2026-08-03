@@ -1,6 +1,8 @@
 import CatalogSyncState from '../model/catalog-sync-state.js';
 import LibraryEntry from '../model/library-entry.js';
 import CatalogService from './catalogService.js';
+import NotificationService from './notificationService.js';
+const TRACKED_WATCH_STATES = ['planned', 'watching'];
 const toRelease = (entry, media) => ({
   ownerId: entry.ownerId,
   mediaType: entry.mediaType,
@@ -16,7 +18,17 @@ const CatalogSyncService = {
     const releases = [];
     for (const entry of entries) {
       const media = await CatalogService.getMedia({ mediaType: entry.mediaType, id: entry.tmdbId });
-      releases.push(toRelease(entry, media));
+      const release = toRelease(entry, media);
+      releases.push(release);
+      if (!dryRun && TRACKED_WATCH_STATES.includes(entry.watchState)) {
+        await NotificationService.notifyRelease({
+          recipientId: release.ownerId,
+          mediaType: release.mediaType,
+          tmdbId: release.tmdbId,
+          title: release.title,
+          releaseDate: release.releaseDate,
+        });
+      }
     }
     const nextCursor = entries.at(-1)?._id?.toString() ?? null;
     const audit = { scanned: entries.length, updated: releases.length };
