@@ -8,7 +8,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 10 — done (PR #16, CI green)
+- Current phase: 11 — in-progress
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
@@ -19,7 +19,7 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 - Phase 8 — Catalog adapter: done (PR #14, CI green)
 - Phase 9 — Discovery and search: done (PR #15, CI green)
 - Phase 10 — Release sync and calendar: done (PR #16, CI green)
-- Phase 11 — Notifications: pending
+- Phase 11 — Notifications: in-progress
 - Phase 12 — Collection collaboration: pending
 - Phase 13 — Public social API: pending
 - Phase 14 — Public social UI and sharing: pending
@@ -301,7 +301,8 @@ Create deduplicated in-app delivery from the established release-sync event stre
 Consumes: `CatalogSyncService.run`, release schedule events, Library ownership, and user IANA timezone.
 Produces: `NotificationService.list`, `markRead`, `updatePreferences`, `/api/notifications`, and notification-center queries/components.
 
-- [ ] Add `apps/api/src/model/notification.js`, `service/notificationService.js`, `controller/notification.controller.js`, `validation/notification.schema.js`, and `router/notification.routes.js` with event preferences, deduplication key, scheduled/delivered/read state, and private audit fields.
+- [x] Add `apps/api/src/model/notification.js`, `service/notificationService.js`, `controller/notification.controller.js`, `validation/notification.schema.js`, and `router/notification.routes.js` with event preferences, deduplication key, scheduled/delivered/read state, and private audit fields.
+- [x] (amended 2026-08-03) Add `apps/api/src/model/notification-preference.js`: `updatePreferences(userId, input)` needs a per-user store for timezone and per-event opt-in that the `notification.js` model (one row per delivered notification) cannot hold; mount it via `NotificationService.getPreferences`/`updatePreferences`.
 - [ ] Update `apps/api/src/service/catalogSyncService.js` and `jobs/sync-tracked-releases.js` to create idempotent in-app notifications only for opted-in tracked media; mount `/notifications` in `router/router.js`.
 - [ ] Add `apps/api/test/notification.integration.test.js` and `apps/api/test/notification-sync.integration.test.js` for repeated sync, preferences, ownership, read state, timezone scheduling, and exclusion of tokens/private notes from logs.
 - [ ] Add `apps/web/src/models/notification.model.ts`, DTO/mapper/service/query files from PLAN.md → "Calendar and notifications web", plus `features/Notifications/` center, unread indicator, and preferences UI.
