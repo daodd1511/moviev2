@@ -8,12 +8,12 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 4 — done (PR #10, CI green)
+- Current phase: 5 — in-progress
 - Phase 0 — Security and test foundation: done
 - Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
 - Phase 3 — Library client data and actions: done (PR #9, CI green)
 - Phase 4 — Library views and editing: done (PR #10, CI green)
-- Phase 5 — Collection model and migration compatibility: pending
+- Phase 5 — Collection model and migration compatibility: in-progress
 - Phase 6 — Collection API cutover: pending
 - Phase 7 — Collection web cutover: pending
 - Phase 8 — Catalog adapter: pending
@@ -124,11 +124,11 @@ Establish durable Collection storage and reversible legacy-list migration before
 
 Produces: `Collection`, `CollectionCompatibilityService.getLegacyPublic(username, legacyId)`, and resumable `migrate-lists-to-collections` dry-run/execute modes.
 
-- [ ] Add `apps/api/src/model/collection.js` with owner, visibility, embedded ordered items, owner collaborator, cover, timestamps, optimistic version, and preserved `legacyPublicId` uniqueness.
-- [ ] Add `apps/api/src/dto/collection.dto.js` and `apps/api/src/validation/collection.schema.js` with private-by-default visibility, item identity, ordering, and version contracts.
-- [ ] Add `apps/api/src/service/collectionCompatibilityService.js` for dual-read resolution of embedded lists and Collections without changing legacy writes yet.
-- [ ] Add `apps/api/scripts/migrate-lists-to-collections.js` with dry-run, cursor resume, audit counts, sampled payload checks, mandatory identifier preservation, and collision-blocked cutover.
-- [ ] Add `apps/api/test/collection-migration.integration.test.js` for idempotency, resume, counts, visibility=`unlisted`, item order, public-ID preservation, and rollback-safe legacy retention.
+- [x] Add `apps/api/src/model/collection.js` with owner, visibility, embedded ordered items, owner collaborator, cover, timestamps, optimistic version, and preserved `legacyPublicId` uniqueness.
+- [x] Add `apps/api/src/dto/collection.dto.js` and `apps/api/src/validation/collection.schema.js` with private-by-default visibility, item identity, ordering, and version contracts.
+- [x] Add `apps/api/src/service/collectionCompatibilityService.js` for dual-read resolution of embedded lists and Collections without changing legacy writes yet.
+- [x] Add `apps/api/scripts/migrate-lists-to-collections.js` with dry-run, cursor resume, audit counts, sampled payload checks, mandatory identifier preservation, and collision-blocked cutover.
+- [x] Add `apps/api/test/collection-migration.integration.test.js` for idempotency, resume, counts, visibility=`unlisted`, item order, public-ID preservation, and rollback-safe legacy retention.
 
 **Agent gate (hard):**
 
