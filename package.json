@@ -22,7 +22,8 @@
     "test:api": "vitest run --project api",
     "test:web": "vitest run --project web",
     "sync:tracked-releases": "pnpm --filter @movie/api sync:tracked-releases",
-    "check:api": "find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \\;"
+    "check:api": "find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \\;",
+    "load:test": "node tests/load/catalog.mjs && node tests/load/library.mjs && node tests/load/collections.mjs && node tests/load/notifications.mjs"
   },
   "volta": {
     "node": "22.20.0"
