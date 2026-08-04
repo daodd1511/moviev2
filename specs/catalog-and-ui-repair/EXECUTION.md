@@ -135,11 +135,11 @@ Consumes: `shared/hooks/useInfiniteScroll.ts` wiring pattern (Phase 3).
 Produces: `CatalogQueries.useInfiniteSearch(query, type)`,
 `SocialQueries.useInfiniteDiscovery({ sort, limit })`.
 
-- [ ] Add `useInfiniteSearch` to `stores/queries/catalogQueries.ts`
-- [ ] Replace the prev/next pager in `features/Search/pages/SearchPage.tsx` with `useInfiniteSearch` + `useInfiniteScroll`, and drop `page` from its search params
-- [ ] Add `useInfiniteDiscovery` to `stores/queries/socialQueries.ts`
-- [ ] Replace the hardcoded `page: 1` in `features/CollectionDiscovery/pages/CollectionDiscoveryPage.tsx` with `useInfiniteDiscovery` + `useInfiniteScroll`
-- [ ] Update `features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` and `features/Search/pages/SearchPage.test.tsx` for the paged shape
+- [x] Add `useInfiniteSearch` to `stores/queries/catalogQueries.ts` — **(amended 2026-08-04)**: removed `useSearch`, left with zero callers by this change (`SearchPage.tsx` was its only importer)
+- [x] Replace the prev/next pager in `features/Search/pages/SearchPage.tsx` with `useInfiniteSearch` + `useInfiniteScroll`, and drop `page` from its search params
+- [x] Add `useInfiniteDiscovery` to `stores/queries/socialQueries.ts` — **(amended 2026-08-04)**: removed `useDiscovery`, left with zero callers (`CollectionDiscoveryPage.tsx` was its only importer); the discovery endpoint returns a flat array with no total count, so `getNextPageParam` infers "has more" from a full-vs-short page against `limit`
+- [x] Replace the hardcoded `page: 1` in `features/CollectionDiscovery/pages/CollectionDiscoveryPage.tsx` with `useInfiniteDiscovery` + `useInfiniteScroll`
+- [x] Update `features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` and `features/Search/pages/SearchPage.test.tsx` for the paged shape — added a fake `IntersectionObserver` in each to trigger the scroll callback directly and assert a second page renders, rather than only checking the existing assertions still pass
 
 **Agent gate (hard):**
 

@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useInfiniteScroll } from '@/shared/hooks';
 import { SocialQueries } from '@/stores/queries/socialQueries';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 import type { CollectionDiscoverySort, PublicCollectionSummary } from '@/models/social.model';
@@ -54,11 +55,14 @@ export const CollectionDiscoveryPage = () => {
   const sortId = useId();
   const [searchParams, setSearchParams] = useSearchParams();
   const sort = sortFromParams(searchParams);
-  const {
-    data: collections = [],
-    isPending,
-    isError,
-  } = SocialQueries.useDiscovery({ sort, page: 1, limit: DISCOVERY_LIMIT });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError } =
+    SocialQueries.useInfiniteDiscovery({ sort, limit: DISCOVERY_LIMIT });
+  const collections = data?.pages.flat() ?? [];
+  const { observerElement } = useInfiniteScroll(
+    { root: null, rootMargin: '0px', threshold: 0.5 },
+    () => void fetchNextPage(),
+    hasNextPage,
+  );
 
   const handleSortChange = (value: string) =>
     setSearchParams(value === 'popular' ? { sort: 'popular' } : {});
@@ -130,6 +134,7 @@ export const CollectionDiscoveryPage = () => {
           ))}
         </ul>
       )}
+      <div ref={observerElement}>{hasNextPage === true && isFetchingNextPage && <Loader />}</div>
     </main>
   );
 };

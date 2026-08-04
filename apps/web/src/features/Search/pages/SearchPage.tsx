@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { CatalogQueries } from '@/stores/queries/catalogQueries';
 import type { CatalogSearchType } from '@/models/catalog-query.model';
+import { Loader } from '@/shared/components';
+import { useInfiniteScroll } from '@/shared/hooks';
 
 const validType = (value: string | null): CatalogSearchType =>
   value === 'movie' || value === 'tv' || value === 'person' ? value : 'multi';
-const validPage = (value: string | null): number => Math.max(1, Number(value) || 1);
 export const SearchPage = () => {
   const [params, setParams] = useSearchParams();
   const query = params.get('q')?.trim() ?? '';
   const type = validType(params.get('type'));
-  const page = validPage(params.get('page'));
   const [recent, setRecent] = useState<string[]>(() => {
     try {
       return JSON.parse(localStorage.getItem('catalog-recent-searches') ?? '[]') as string[];
@@ -18,9 +18,14 @@ export const SearchPage = () => {
       return [];
     }
   });
-  const { data, isPending, isError, refetch } = CatalogQueries.useSearch(query, type, page);
-  const setParam = (next: Record<string, string>) =>
-    setParams({ q: query, type, page: '1', ...next });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, refetch } =
+    CatalogQueries.useInfiniteSearch(query, type);
+  const { observerElement } = useInfiniteScroll(
+    { root: null, rootMargin: '0px', threshold: 0.5 },
+    () => void fetchNextPage(),
+    hasNextPage,
+  );
+  const setParam = (next: Record<string, string>) => setParams({ q: query, type, ...next });
   useEffect(() => {
     if (query === '') return;
     setRecent(current => {
@@ -64,6 +69,7 @@ export const SearchPage = () => {
         )}
       </main>
     );
+  const results = data?.pages.flatMap(page => page.results) ?? [];
   return (
     <main className="px-4 py-8 md:px-8">
       <h1 className="text-2xl font-semibold">Search results for “{query}”</h1>
@@ -98,14 +104,14 @@ export const SearchPage = () => {
           </button>
         </div>
       )}
-      {data !== undefined && !isPending && !isError && (
+      {!isPending && !isError && (
         <>
-          <p className="mt-6 text-sm text-muted-foreground">{data.results.length} results</p>
-          {data.results.length === 0 ? (
+          <p className="mt-6 text-sm text-muted-foreground">{results.length} results</p>
+          {results.length === 0 ? (
             <p className="mt-8">No results found.</p>
           ) : (
             <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-              {data.results.map(result => (
+              {results.map(result => (
                 <li
                   key={`${result.mediaType}:${result.id}`}
                   className="rounded border border-border p-3"
@@ -125,25 +131,9 @@ export const SearchPage = () => {
               ))}
             </ul>
           )}
-          {data.totalPages > 1 && (
-            <nav className="mt-8 flex gap-3" aria-label="Search pages">
-              <button
-                type="button"
-                disabled={page === 1}
-                onClick={() => setParam({ page: String(page - 1) })}
-              >
-                Previous
-              </button>
-              <span>Page {page}</span>
-              <button
-                type="button"
-                disabled={page >= data.totalPages}
-                onClick={() => setParam({ page: String(page + 1) })}
-              >
-                Next
-              </button>
-            </nav>
-          )}
+          <div ref={observerElement}>
+            {hasNextPage === true && isFetchingNextPage && <Loader />}
+          </div>
         </>
       )}
     </main>
