@@ -34,7 +34,7 @@ Produces: shadcn primitives at `@/components/ui/{checkbox,switch,field,tabs,card
 - [x] Convert `features/CollectionDiscovery/pages/CollectionDiscoveryPage.tsx` (4) to `@/components/ui/{select,label}`
 - [x] Convert `features/User/pages/ProfilePage.tsx` (3) to `@/components/ui/{label,checkbox}` — no test file exists for this page
 - [x] Convert `features/Collection/components/CollectionItems.tsx` (1) to `@/components/ui/input`
-- [ ] Convert `features/Collection/components/CollectionForm.tsx` to shadcn `field` (`Field`/`FieldLabel`/`FieldError`) **(amended 2026-08-04, see above)**, keeping its existing `useForm`/`zodResolver` wiring
+- [x] Convert `features/Collection/components/CollectionForm.tsx` to shadcn `field` (`Field`/`FieldLabel`/`FieldError`) **(amended 2026-08-04, see above)**, keeping its existing `useForm`/`zodResolver` wiring — **(amended 2026-08-04)**: the visibility `Select` isn't a native form control, so it's wrapped in RHF's `Controller` rather than `register()`. Updated `CollectionPage.test.tsx`'s `user.selectOptions(...)` call to click-trigger-then-click-option.
 - [ ] Delete `shared/components/ui/TextField.tsx` and its remaining importers' references
 - [ ] Delete `shared/components/Filter/{index,Sort,Genre}.tsx` and `stores/atoms/queryParamsAtom.ts` (zero live importers; per PLAN.md → "Resolved implementation choices")
 - [ ] Delete `MovieQueries.useGenres` and `TvQueries.useGenres` in `stores/queries/{movieQueries,tvQueries}.ts`, orphaned by the previous item
