@@ -8,8 +8,7 @@ import type {
 
 export const catalogKeys = {
   discover: (input: CatalogDiscoverInput) => ['catalog', 'discover', input] as const,
-  search: (query: string, type: CatalogSearchType, page: number) =>
-    ['catalog', 'search', query, type, page] as const,
+  search: (query: string, type: CatalogSearchType) => ['catalog', 'search', query, type] as const,
   genres: (mediaType: CatalogMediaType) => ['catalog', 'genres', mediaType] as const,
 };
 
@@ -22,10 +21,13 @@ export const CatalogQueries = {
       getNextPageParam: lastPage =>
         lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
     }),
-  useSearch: (query: string, type: CatalogSearchType, page: number) =>
-    useQuery({
-      queryKey: catalogKeys.search(query, type, page),
-      queryFn: () => CatalogService.search(query, type, page),
+  useInfiniteSearch: (query: string, type: CatalogSearchType) =>
+    useInfiniteQuery({
+      queryKey: catalogKeys.search(query, type),
+      queryFn: ({ pageParam }) => CatalogService.search(query, type, pageParam),
+      initialPageParam: 1,
+      getNextPageParam: lastPage =>
+        lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
       enabled: query.trim().length > 0,
     }),
   useGenres: (mediaType: CatalogMediaType) =>

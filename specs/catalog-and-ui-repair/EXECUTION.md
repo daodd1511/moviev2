@@ -6,11 +6,11 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 3 — done (PR #25, CI green, awaiting user merge)
+- Current phase: 4 — done (PR #26, CI green, awaiting user merge)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
-- Phase 4 — Infinite scroll: search and Collection discovery: pending
+- Phase 4 — Infinite scroll: search and Collection discovery: done (PR #26, CI green, awaiting user merge)
 - Phase 5 — Trailer presentation: pending
 - Phase 6 — Collection UI: pending
 - Verification debt: none
@@ -135,19 +135,19 @@ Consumes: `shared/hooks/useInfiniteScroll.ts` wiring pattern (Phase 3).
 Produces: `CatalogQueries.useInfiniteSearch(query, type)`,
 `SocialQueries.useInfiniteDiscovery({ sort, limit })`.
 
-- [ ] Add `useInfiniteSearch` to `stores/queries/catalogQueries.ts`
-- [ ] Replace the prev/next pager in `features/Search/pages/SearchPage.tsx` with `useInfiniteSearch` + `useInfiniteScroll`, and drop `page` from its search params
-- [ ] Add `useInfiniteDiscovery` to `stores/queries/socialQueries.ts`
-- [ ] Replace the hardcoded `page: 1` in `features/CollectionDiscovery/pages/CollectionDiscoveryPage.tsx` with `useInfiniteDiscovery` + `useInfiniteScroll`
-- [ ] Update `features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` and `features/Search/pages/SearchPage.test.tsx` for the paged shape
+- [x] Add `useInfiniteSearch` to `stores/queries/catalogQueries.ts` — **(amended 2026-08-04)**: removed `useSearch`, left with zero callers by this change (`SearchPage.tsx` was its only importer)
+- [x] Replace the prev/next pager in `features/Search/pages/SearchPage.tsx` with `useInfiniteSearch` + `useInfiniteScroll`, and drop `page` from its search params
+- [x] Add `useInfiniteDiscovery` to `stores/queries/socialQueries.ts` — **(amended 2026-08-04)**: removed `useDiscovery`, left with zero callers (`CollectionDiscoveryPage.tsx` was its only importer); the discovery endpoint returns a flat array with no total count, so `getNextPageParam` infers "has more" from a full-vs-short page against `limit`
+- [x] Replace the hardcoded `page: 1` in `features/CollectionDiscovery/pages/CollectionDiscoveryPage.tsx` with `useInfiniteDiscovery` + `useInfiniteScroll`
+- [x] Update `features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` and `features/Search/pages/SearchPage.test.tsx` for the paged shape — added a fake `IntersectionObserver` in each to trigger the scroll callback directly and assert a second page renders, rather than only checking the existing assertions still pass
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm exec vitest related --run <changed files from the phase diff>`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean after fixing the test fakes' `IntersectionObserver` type gap (see items above)
+- [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — **(amended 2026-08-04)**: run from `apps/web` (or without `--project web`) picks up the wrong environment (no jsdom) and fails every test with `document is not defined`; the flag and root-relative paths are required. Corrected command run against this phase's 6 changed files: 4 test files / 14 tests passing
+- [x] `pnpm build` — succeeds
+- [x] CI green on the phase PR — PR #26, `verify` check passed
 
 **Review checklist (user, at PR review):**
 
@@ -203,7 +203,7 @@ Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm exec vitest related --run <changed files from the phase diff>`
+- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — **(amended 2026-08-04)**: run from `apps/web` (or without `--project web`) picks up the wrong environment (no jsdom) and fails every test with `document is not defined`; the flag and root-relative paths are required
 - [ ] `pnpm build`
 - [ ] CI green on the phase PR
 

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { Provider as JotaiProvider } from 'jotai';
 import { http, HttpResponse } from 'msw';
 import { MemoryRouter } from 'react-router-dom';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { CollectionDiscoveryPage } from './CollectionDiscoveryPage';
 
@@ -101,5 +101,51 @@ describe('CollectionDiscoveryPage', () => {
 
     await screen.findByRole('link', { name: 'Weekend films' });
     expect(screen.queryByRole('button', { name: 'Like Weekend films' })).not.toBeInTheDocument();
+  });
+
+  it('loads a second page when the observer reports the sentinel is visible', async () => {
+    const observerRef: { current: IntersectionObserverCallback | null } = { current: null };
+    class FakeIntersectionObserver implements IntersectionObserver {
+      readonly root = null;
+      readonly rootMargin = '';
+      readonly thresholds: readonly number[] = [];
+      readonly scrollMargin = '';
+      constructor(callback: IntersectionObserverCallback) {
+        observerRef.current = callback;
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+      takeRecords(): IntersectionObserverEntry[] {
+        return [];
+      }
+    }
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver);
+
+    const DISCOVERY_LIMIT = 24;
+    const firstPage = Array.from({ length: DISCOVERY_LIMIT }, (_, index) => ({
+      ...collections[0],
+      id: `collection-${index}`,
+      name: `Collection ${index}`,
+    }));
+    const secondPage = [{ ...collections[0], id: 'collection-last', name: 'Last collection' }];
+    server.use(
+      http.get('*/social/collections', ({ request }) => {
+        const page = new URL(request.url).searchParams.get('page');
+        return HttpResponse.json({ collections: page === '2' ? secondPage : firstPage });
+      }),
+    );
+
+    renderPage(false);
+    await screen.findByRole('link', { name: 'Collection 0' });
+    expect(screen.queryByRole('link', { name: 'Last collection' })).not.toBeInTheDocument();
+
+    observerRef.current?.(
+      [{ isIntersecting: true } as IntersectionObserverEntry],
+      {} as IntersectionObserver,
+    );
+
+    await screen.findByRole('link', { name: 'Last collection' });
+    vi.unstubAllGlobals();
   });
 });

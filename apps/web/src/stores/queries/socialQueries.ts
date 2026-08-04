@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { SocialService } from '@/api/services/socialService';
 import type {
@@ -12,7 +12,8 @@ export const socialKeys = {
   profile: (username: string) => [...socialKeys.all, 'profile', username] as const,
   followers: (username: string) => [...socialKeys.all, 'followers', username] as const,
   following: (username: string) => [...socialKeys.all, 'following', username] as const,
-  discovery: (input: DiscoverCollectionsInput) => [...socialKeys.all, 'discovery', input] as const,
+  discovery: (input: Omit<DiscoverCollectionsInput, 'page'>) =>
+    [...socialKeys.all, 'discovery', input] as const,
   collection: (id: string) => [...socialKeys.all, 'collection', id] as const,
 };
 
@@ -38,10 +39,13 @@ export namespace SocialQueries {
       enabled,
     });
 
-  export const useDiscovery = (input: DiscoverCollectionsInput) =>
-    useQuery({
+  export const useInfiniteDiscovery = (input: Omit<DiscoverCollectionsInput, 'page'>) =>
+    useInfiniteQuery({
       queryKey: socialKeys.discovery(input),
-      queryFn: () => SocialService.discoverCollections(input),
+      queryFn: ({ pageParam }) => SocialService.discoverCollections({ ...input, page: pageParam }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length < input.limit ? undefined : allPages.length + 1,
     });
 
   export const useCollection = (id: string) =>
