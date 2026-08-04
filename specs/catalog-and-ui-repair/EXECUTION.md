@@ -6,8 +6,8 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 1 — done (local gate passed, awaiting push/PR)
-- Phase 1 — shadcn migration: done (local gate passed, awaiting push/PR)
+- Current phase: 1 — done (PR #23, CI green, awaiting user merge)
+- Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: pending
 - Phase 3 — Catalog web: categories, infinite scroll, filters: pending
 - Phase 4 — Infinite scroll: search and Collection discovery: pending
@@ -46,7 +46,7 @@ Produces: shadcn primitives at `@/components/ui/{checkbox,switch,field,tabs,card
 - [x] `pnpm typecheck` (project-wide) — clean
 - [x] `pnpm test:unit` — full suite; 32 files / 128 tests passing (api + web)
 - [x] `pnpm build` — succeeds
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR — PR #23, `verify` check passed
 
 **Review checklist (user, at PR review):**
 
