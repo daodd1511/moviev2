@@ -33,7 +33,7 @@ Produces: shadcn primitives at `@/components/ui/{checkbox,switch,field,tabs,card
 - [x] Convert `features/Collection/components/Collaborators.tsx` (6) to `@/components/ui/{select,label,input}` — **(amended 2026-08-04)**: jsdom has no `hasPointerCapture`/`setPointerCapture`/`releasePointerCapture`/`scrollIntoView`, which Radix `Select` calls unconditionally on open; added a shared polyfill to `apps/web/src/test/setup.ts` rather than per-test, since every future shadcn `Select` usage needs it. `Collaborators.test.tsx`'s `user.selectOptions(...)` calls (native-select-only) replaced with click-trigger-then-click-option.
 - [x] Convert `features/CollectionDiscovery/pages/CollectionDiscoveryPage.tsx` (4) to `@/components/ui/{select,label}`
 - [x] Convert `features/User/pages/ProfilePage.tsx` (3) to `@/components/ui/{label,checkbox}` — no test file exists for this page
-- [ ] Convert `features/Collection/components/CollectionItems.tsx` (1) to `@/components/ui/input`
+- [x] Convert `features/Collection/components/CollectionItems.tsx` (1) to `@/components/ui/input`
 - [ ] Convert `features/Collection/components/CollectionForm.tsx` to shadcn `field` (`Field`/`FieldLabel`/`FieldError`) **(amended 2026-08-04, see above)**, keeping its existing `useForm`/`zodResolver` wiring
 - [ ] Delete `shared/components/ui/TextField.tsx` and its remaining importers' references
 - [ ] Delete `shared/components/Filter/{index,Sort,Genre}.tsx` and `stores/atoms/queryParamsAtom.ts` (zero live importers; per PLAN.md → "Resolved implementation choices")
