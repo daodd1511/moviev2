@@ -158,11 +158,14 @@ locking exists to protect.
 ### Collections show artwork
 
 `cover: CollectionItemKey | null` is on the model and accepted by
-`UpdateCollectionInput`; nothing writes it, and `CollectionListPage` renders no
-artwork despite every item carrying `posterPath`.
+`UpdateCollectionInput`. **Correction (2026-08-04, discovered during Phase 1):**
+`CollectionItems.tsx` already has a working "Set cover" action (`handleCover` →
+`CollectionQueries.useUpdate`, commit `ae4aa4e`, predates this spec) — the write
+path is done. `CollectionListPage` still renders no artwork despite every item
+carrying `posterPath`; that half is still missing.
 
-A "Set as cover" action writes it. When `cover` is null, fall back to a mosaic of
-the first four item posters, or the first item's poster below four items. Cards
+When `cover` is null, fall back to a mosaic of the first four item posters, or
+the first item's poster below four items, on `CollectionListPage`'s cards. Cards
 always show art, and no Collection needs manual attention to look right.
 
 ### Resolved implementation choices

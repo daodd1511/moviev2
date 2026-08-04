@@ -184,8 +184,7 @@ Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 
 - [ ] Remove the `Version {n}` subtitle, the `Reload` button, and the conflict paragraph from `features/Collection/pages/CollectionPage.tsx`; retitle away from "Edit Collection"
 - [ ] Replace the conflict toast in `handleUpdate`/`handleDelete` with an input-preserving message: refetch, keep form values, report that the Collection changed elsewhere and was not saved — no auto-retry (per PLAN.md → "Optimistic locking stops leaking into the Collection UI")
-- [ ] Add a "Set as cover" action per item in `features/Collection/components/CollectionItems.tsx`, writing `cover` through `CollectionQueries.useUpdate`
-- [ ] Add a cover renderer to `features/Collection/pages/CollectionListPage.tsx`: `collection.cover`, else a mosaic of the first four item posters, else the first item's poster
+- [ ] Add a cover renderer to `features/Collection/pages/CollectionListPage.tsx`: `collection.cover`, else a mosaic of the first four item posters, else the first item's poster — **(amended 2026-08-04, discovered during Phase 1)**: the write side ("Set as cover" in `CollectionItems.tsx`, `handleCover` → `CollectionQueries.useUpdate`) already exists from commit `ae4aa4e`, predating this spec; PLAN.md → "Collections show artwork" corrected. Only the display half remains.
 - [ ] Replace the manual search button in `CollectionItems` with a debounced `@/components/ui/command` palette over `SearchService.multi`
 - [ ] Render `collection.visibility` as a `badge` with human copy and show `collection.likeCount` on `CollectionListPage` cards
 - [ ] Update `features/Collection/pages/CollectionPage.test.tsx` for the removed version surface and the new conflict message
