@@ -29,6 +29,7 @@ export interface CatalogPage {
 }
 export interface CatalogDiscoverInput {
   readonly mediaType: CatalogMediaType;
+  readonly category?: string;
   readonly page: number;
   readonly sort_by?: string;
   readonly with_genres?: string;
@@ -37,4 +38,9 @@ export interface CatalogDiscoverInput {
   readonly 'primary_release_date.lte'?: string;
   readonly 'first_air_date.gte'?: string;
   readonly 'first_air_date.lte'?: string;
+}
+
+export interface CatalogGenre {
+  readonly id: number;
+  readonly name: string;
 }

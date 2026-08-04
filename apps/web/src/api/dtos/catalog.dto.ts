@@ -19,3 +19,6 @@ export const catalogPageDtoSchema = z.object({
   totalPages: z.number().int().positive(),
   results: z.array(z.union([media, person])),
 });
+export const catalogGenreDtoSchema = z.array(
+  z.object({ id: z.number().int().positive(), name: z.string() }),
+);
