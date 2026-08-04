@@ -6,13 +6,13 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 6 — done (local gate passed, awaiting push/PR)
+- Current phase: 6 — done (PR #28, CI green, awaiting user merge). **This was the final phase.**
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
 - Phase 4 — Infinite scroll: search and Collection discovery: done (PR #26, CI green, awaiting user merge)
 - Phase 5 — Trailer presentation: done (PR #27, CI green, awaiting user merge)
-- Phase 6 — Collection UI (final phase): done (local gate passed, awaiting push/PR)
+- Phase 6 — Collection UI (final phase): done (PR #28, CI green, awaiting user merge)
 - Verification debt: none
 
 ## Phase 1 — shadcn migration
@@ -206,7 +206,7 @@ Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 - [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — **(amended 2026-08-04)**: run from `apps/web` (or without `--project web`) picks up the wrong environment (no jsdom) and fails every test with `document is not defined`; the flag and root-relative paths are required. Corrected command run against this phase's 5 changed files: 1 test file / 3 tests passing
 - [x] `pnpm build` — succeeds
 - [x] Full spec check (final phase): `pnpm test:unit` — 34 files / 136 tests passing across the whole accumulated spec diff
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR — PR #28, `verify` check passed (after a formatting fix pushed to the same PR)
 
 **Review checklist (user, at PR review):**
 
