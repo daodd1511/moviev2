@@ -8,22 +8,26 @@ Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; rem
 
 ## STATUS
 
-- Current phase: 15 — done (PR #21, CI green)
+- Roadmap: all phases (2–15) merged into `feature/product-capability-roadmap` on
+  2026-08-04. All 14 stacked phase branches (phase-2 through phase-15) deleted, local
+  and remote. `feature/product-capability-roadmap` has not yet been merged into `main`
+  — no PR exists for that yet; it's a separate step.
+- Current phase: 15 — done and merged (PR #21, CI green)
 - Phase 0 — Security and test foundation: done
-- Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
-- Phase 3 — Library client data and actions: done (PR #9, CI green)
-- Phase 4 — Library views and editing: done (PR #10, CI green)
-- Phase 5 — Collection model and migration compatibility: done (PR #11, CI green)
-- Phase 6 — Collection API cutover: done (PR #12, CI green)
-- Phase 7 — Collection web cutover: done (PR #13, CI green)
-- Phase 8 — Catalog adapter: done (PR #14, CI green)
-- Phase 9 — Discovery and search: done (PR #15, CI green)
-- Phase 10 — Release sync and calendar: done (PR #16, CI green)
-- Phase 11 — Notifications: done (PR #17, CI green)
-- Phase 12 — Collection collaboration: done (PR #18, CI green)
-- Phase 13 — Public social API: done (PR #19, CI green)
-- Phase 14 — Public social UI and sharing: done (PR #20, CI green)
-- Phase 15 — Final hardening and cleanup: done (PR #21, CI green)
+- Phase 2 — Library API: done and merged (PR #8, CI green)
+- Phase 3 — Library client data and actions: done and merged (PR #9, CI green)
+- Phase 4 — Library views and editing: done and merged (PR #10, CI green)
+- Phase 5 — Collection model and migration compatibility: done and merged (PR #11, CI green)
+- Phase 6 — Collection API cutover: done and merged (PR #12, CI green)
+- Phase 7 — Collection web cutover: done and merged (PR #13, CI green)
+- Phase 8 — Catalog adapter: done and merged (PR #14, CI green)
+- Phase 9 — Discovery and search: done and merged (PR #15, CI green)
+- Phase 10 — Release sync and calendar: done and merged (PR #16, CI green)
+- Phase 11 — Notifications: done and merged (PR #17, CI green)
+- Phase 12 — Collection collaboration: done and merged (PR #18, CI green)
+- Phase 13 — Public social API: done and merged (PR #19, CI green)
+- Phase 14 — Public social UI and sharing: done and merged (PR #20, CI green)
+- Phase 15 — Final hardening and cleanup: done and merged (PR #21, CI green)
 - Verification debt: none
 
 ## Phase 2 — Library API
