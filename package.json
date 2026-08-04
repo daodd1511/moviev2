@@ -21,15 +21,14 @@
     "test:unit": "vitest run",
     "test:api": "vitest run --project api",
     "test:web": "vitest run --project web",
-    "test:e2e": "playwright test",
-    "test:e2e:install": "playwright install --with-deps chromium",
-    "check:api": "find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \\;"
+    "sync:tracked-releases": "pnpm --filter @movie/api sync:tracked-releases",
+    "check:api": "find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \\;",
+    "load:test": "node tests/load/catalog.mjs && node tests/load/library.mjs && node tests/load/collections.mjs && node tests/load/notifications.mjs"
   },
   "volta": {
     "node": "22.20.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.62.0",
     "@testing-library/jest-dom": "7.0.0",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",

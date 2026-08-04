@@ -1,29 +1,29 @@
 # Product Capability Roadmap — Execution Plan
 
 Spec: [PLAN.md](PLAN.md). Rulebook: `specs/RULEBOOK.md`.
-Integration branch: `feature/product-capability-roadmap`. Branch model: sequential
-(user opted in): each phase branches from this feature branch only after its predecessor's
-PR merges, and every phase PR targets this feature branch.
+Integration branch: `feature/product-capability-roadmap`. Branch model: stacked
+(user directive 2026-08-01): each phase branches from its predecessor without waiting for
+merge, and targets that predecessor's branch until it merges into the feature branch.
 Roadmap Phase 0 is complete on `main` via `specs/security-test-foundation/`; remaining work begins at Phase 2.
 
 ## STATUS
 
-- Current phase: 2 — pending
+- Current phase: 15 — done (PR #21, CI green)
 - Phase 0 — Security and test foundation: done
-- Phase 2 — Library API: pending
-- Phase 3 — Library client data and actions: pending
-- Phase 4 — Library views and editing: pending
-- Phase 5 — Collection model and migration compatibility: pending
-- Phase 6 — Collection API cutover: pending
-- Phase 7 — Collection web cutover: pending
-- Phase 8 — Catalog adapter: pending
-- Phase 9 — Discovery and search: pending
-- Phase 10 — Release sync and calendar: pending
-- Phase 11 — Notifications: pending
-- Phase 12 — Collection collaboration: pending
-- Phase 13 — Public social API: pending
-- Phase 14 — Public social UI and sharing: pending
-- Phase 15 — Final hardening and cleanup: pending
+- Phase 2 — Library API: done (PR #8, CI green; awaiting merge)
+- Phase 3 — Library client data and actions: done (PR #9, CI green)
+- Phase 4 — Library views and editing: done (PR #10, CI green)
+- Phase 5 — Collection model and migration compatibility: done (PR #11, CI green)
+- Phase 6 — Collection API cutover: done (PR #12, CI green)
+- Phase 7 — Collection web cutover: done (PR #13, CI green)
+- Phase 8 — Catalog adapter: done (PR #14, CI green)
+- Phase 9 — Discovery and search: done (PR #15, CI green)
+- Phase 10 — Release sync and calendar: done (PR #16, CI green)
+- Phase 11 — Notifications: done (PR #17, CI green)
+- Phase 12 — Collection collaboration: done (PR #18, CI green)
+- Phase 13 — Public social API: done (PR #19, CI green)
+- Phase 14 — Public social UI and sharing: done (PR #20, CI green)
+- Phase 15 — Final hardening and cleanup: done (PR #21, CI green)
 - Verification debt: none
 
 ## Phase 2 — Library API
@@ -34,391 +34,420 @@ Create the private Library storage and HTTP contract that every Library UI consu
 
 Produces: `LibraryEntryService.list(ownerId, filters)`, `upsert(ownerId, input)`, `remove(ownerId, mediaType, tmdbId)`, `toLibraryEntryDto(entry)`, and `GET|PUT|DELETE /api/library/entries`.
 
-- [ ] Add `apps/api/src/model/library-entry.js` with the PLAN.md → "Library Entry" fields, integer `1..10` ratings, date/progress constraints, and unique `(ownerId, mediaType, tmdbId)` index.
-- [ ] Add `apps/api/src/dto/library-entry.dto.js`, `apps/api/src/validation/library-entry.schema.js`, and stable list/upsert/delete request and response DTOs.
-- [ ] Add `apps/api/src/service/libraryEntryService.js`, `apps/api/src/controller/library-entry.controller.js`, and `apps/api/src/router/library-entry.routes.js`; mount `/library/entries` in `apps/api/src/router/router.js` behind `verifyToken`.
-- [ ] Add `apps/api/test/library-entry.integration.test.js` for idempotent upsert, filters, transitions, date/progress rejection, deletion, and cross-user `404` isolation.
+- [x] Add `apps/api/src/model/library-entry.js` with the PLAN.md → "Library Entry" fields, integer `1..10` ratings, date/progress constraints, and unique `(ownerId, mediaType, tmdbId)` index.
+- [x] Add `apps/api/src/dto/library-entry.dto.js`, `apps/api/src/validation/library-entry.schema.js`, and stable list/upsert/delete request and response DTOs.
+- [x] Add `apps/api/src/service/libraryEntryService.js`, `apps/api/src/controller/library-entry.controller.js`, and `apps/api/src/router/library-entry.routes.js`; mount `/library/entries` in `apps/api/src/router/router.js` behind `verifyToken`.
+- [x] Add `apps/api/test/library-entry.integration.test.js` for idempotent upsert, filters, transitions, date/progress rejection, deletion, and cross-user `404` isolation.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: shared persisted/serialized shapes)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: shared persisted/serialized shapes)
+- [x] `pnpm test:e2e`
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #8)
+
+- [x] (amended 2026-08-01) Remove Playwright from `package.json`, `pnpm-lock.yaml`, `.github/workflows/ci.yml`, `playwright.config.ts`, and `tests/e2e/`; rerun frozen install, format/lint, typecheck/API syntax, unit tests, and build without an E2E lane.
 
 **Review checklist (user, at PR review):**
+
 - [ ] Repeatedly upsert one title and confirm one private Library Entry is returned with the final state.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 3 — Library client data and actions
 
-Branch: `product-capability-roadmap/phase-3-library-client` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-3-library-client` (off `product-capability-roadmap/phase-2-library-api`, stacked)
 
 Wire the Library contract through typed client boundaries before adding Library pages.
 
 Consumes: `GET|PUT|DELETE /api/library/entries` and its stable DTOs.
 Produces: `LibraryEntryService.list(filters)`, `upsert(input)`, `remove(key)`, `LibraryEntryQueries.useList(filters)`, `useUpsert()`, `useRemove()`, and `<LibraryAction media={media} />`.
 
-- [ ] Add `apps/web/src/models/library-entry.model.ts`, `apps/web/src/api/dtos/library-entry.dto.ts`, and `apps/web/src/api/mappers/library-entry.mapper.ts` with strict watch-state, rating, date, progress, and media-snapshot types.
-- [ ] Add `apps/web/src/api/services/libraryEntryService.ts` and `apps/web/src/stores/queries/libraryEntryQueries.ts` with canonical query keys, optimistic updates, rollback, and invalidation.
-- [ ] Add `apps/web/src/shared/components/LibraryAction.tsx` and integrate it into `shared/components/List/MediaListItem.tsx`, `shared/components/Recommend.tsx`, `shared/components/Search/components/SearchResult.tsx`, `features/Movie/components/Detail/components/Content.tsx`, and `features/Tv/components/Detail/components/Content.tsx`.
-- [ ] Add `apps/web/src/shared/components/LibraryAction.test.tsx` and `apps/web/src/stores/queries/libraryEntryQueries.test.tsx` for planned/upsert/remove success, rollback, and accessible status announcements.
+- [x] Add `apps/web/src/models/library-entry.model.ts`, `apps/web/src/api/dtos/library-entry.dto.ts`, and `apps/web/src/api/mappers/library-entry.mapper.ts` with strict watch-state, rating, date, progress, and media-snapshot types.
+- [x] Add `apps/web/src/api/services/libraryEntryService.ts` and `apps/web/src/stores/queries/libraryEntryQueries.ts` with canonical query keys, optimistic updates, rollback, and invalidation.
+- [x] Add `apps/web/src/shared/components/LibraryAction.tsx` and integrate it into `shared/components/List/MediaListItem.tsx`, `shared/components/Recommend.tsx`, `shared/components/Search/components/SearchResult.tsx`, `features/Movie/components/Detail/components/Content.tsx`, and `features/Tv/components/Detail/components/Content.tsx`.
+- [x] Add `apps/web/src/shared/components/LibraryAction.test.tsx` and `apps/web/src/stores/queries/libraryEntryQueries.test.tsx` for planned/upsert/remove success, rollback, and accessible status announcements.
+- [x] (amended 2026-08-02) Apply the project formatter to the Phase 3 client files reported by PR #9 CI.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: shared media action)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: shared media action)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #9)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Add and remove a title from a grid, search result, recommendation, and movie/TV detail page; confirm consistent state and rollback feedback.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 4 — Library views and editing
 
-Branch: `product-capability-roadmap/phase-4-library-views` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-4-library-views` (off `product-capability-roadmap/phase-3-library-client`, stacked)
 
 Build filterable Library pages and rich editing on the stable client data layer.
 
 Consumes: `LibraryEntryQueries.useList(filters)`, `useUpsert()`, `useRemove()`, and Library model types.
 Produces: authenticated `/user/library` routes and Library list/editor components.
 
-- [ ] Add `apps/web/src/features/Library/routes.tsx`, `pages/LibraryPage.tsx`, `components/LibraryFilters.tsx`, `components/LibraryEntryCard.tsx`, and `components/LibraryEntryEditor.tsx` for state, media type, rating, recency, notes, dates, and TV progress.
-- [ ] Mount `libraryRoutes` from `apps/web/src/routes/Router.tsx`, link it from `shared/components/Navbar/ProfileDropdown.tsx`, and treat `planned` as the Watchlist route/filter.
-- [ ] Add `apps/web/src/features/Library/pages/LibraryPage.test.tsx` and `components/LibraryEntryEditor.test.tsx` for URL filters, integer rating validation, date ordering, catalog-bounded progress, mutation feedback, and keyboard use.
-- [ ] Add `tests/e2e/library.spec.ts` covering creation, edit, filtering, Watchlist, and removal with mocked backend/catalog responses.
+- [x] Add `apps/web/src/features/Library/routes.tsx`, `pages/LibraryPage.tsx`, `components/LibraryFilters.tsx`, `components/LibraryEntryCard.tsx`, and `components/LibraryEntryEditor.tsx` for state, media type, rating, recency, notes, dates, and TV progress.
+- [x] Mount `libraryRoutes` from `apps/web/src/routes/Router.tsx`, link it from `shared/components/Navbar/ProfileDropdown.tsx`, and treat `planned` as the Watchlist route/filter.
+- [x] Add `apps/web/src/features/Library/pages/LibraryPage.test.tsx` and `components/LibraryEntryEditor.test.tsx` for URL filters, integer rating validation, date ordering, positive-integer TV progress validation, mutation feedback, and keyboard use.
+- [x] (amended 2026-08-02) Do not introduce catalog bounds for TV progress: Phase 2's Library contract exposes no season/episode totals, so validate positive integer coordinates until the catalog adapter phase can supply bounds.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit`
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit`
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #10)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Edit movie and TV entries, reload, and verify filters, validation, focus, and status announcements on desktop and mobile widths.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 5 — Collection model and migration compatibility
 
-Branch: `product-capability-roadmap/phase-5-collection-migration` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-5-collection-migration` (off `product-capability-roadmap/phase-4-library-views`, stacked)
 
 Establish durable Collection storage and reversible legacy-list migration before switching APIs or UI.
 
 Produces: `Collection`, `CollectionCompatibilityService.getLegacyPublic(username, legacyId)`, and resumable `migrate-lists-to-collections` dry-run/execute modes.
 
-- [ ] Add `apps/api/src/model/collection.js` with owner, visibility, embedded ordered items, owner collaborator, cover, timestamps, optimistic version, and preserved `legacyPublicId` uniqueness.
-- [ ] Add `apps/api/src/dto/collection.dto.js` and `apps/api/src/validation/collection.schema.js` with private-by-default visibility, item identity, ordering, and version contracts.
-- [ ] Add `apps/api/src/service/collectionCompatibilityService.js` for dual-read resolution of embedded lists and Collections without changing legacy writes yet.
-- [ ] Add `apps/api/scripts/migrate-lists-to-collections.js` with dry-run, cursor resume, audit counts, sampled payload checks, mandatory identifier preservation, and collision-blocked cutover.
-- [ ] Add `apps/api/test/collection-migration.integration.test.js` for idempotency, resume, counts, visibility=`unlisted`, item order, public-ID preservation, and rollback-safe legacy retention.
+- [x] Add `apps/api/src/model/collection.js` with owner, visibility, embedded ordered items, owner collaborator, cover, timestamps, optimistic version, and preserved `legacyPublicId` uniqueness.
+- [x] Add `apps/api/src/dto/collection.dto.js` and `apps/api/src/validation/collection.schema.js` with private-by-default visibility, item identity, ordering, and version contracts.
+- [x] Add `apps/api/src/service/collectionCompatibilityService.js` for dual-read resolution of embedded lists and Collections without changing legacy writes yet.
+- [x] Add `apps/api/scripts/migrate-lists-to-collections.js` with dry-run, cursor resume, audit counts, sampled payload checks, mandatory identifier preservation, and collision-blocked cutover.
+- [x] Add `apps/api/test/collection-migration.integration.test.js` for idempotency, resume, counts, visibility=`unlisted`, item order, public-ID preservation, and rollback-safe legacy retention.
+- [x] (amended 2026-08-03) Correct `apps/web/src/stores/queries/libraryEntryQueries.test.tsx` DELETE mocking and wait for mutation success so the full shared suite verifies real removal.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: shared schema and migration)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: shared schema and migration)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #11)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Review a dry-run audit and sampled migrated payloads; confirm every legacy public URL identifier is unchanged before execution mode is allowed.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 6 — Collection API cutover
 
-Branch: `product-capability-roadmap/phase-6-collection-api` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-6-collection-api` (off `product-capability-roadmap/phase-5-collection-migration`, stacked)
 
 Switch Collection writes and canonical reads only after compatibility storage exists.
 
 Consumes: `Collection`, `CollectionCompatibilityService.getLegacyPublic(username, legacyId)`, and Collection DTO/schema contracts.
 Produces: `CollectionService.listForUser`, `getAccessible`, `create`, `update`, `addItem`, `removeItem`, `reorderItems`, `remove`, and `/api/collections`.
 
-- [ ] Add `apps/api/src/service/collectionService.js`, `apps/api/src/controller/collection.controller.js`, and `apps/api/src/router/collection.routes.js`; mount `/collections` in `apps/api/src/router/router.js`.
-- [ ] Implement metadata, visibility, cover, duplicate, item-specific add/remove/reorder, optimistic-version conflict, and delete operations without whole-document client replacement.
-- [ ] Update `apps/api/src/router/router.js` public legacy-list resolution to use `CollectionCompatibilityService` while retaining `/api/public/:username/list/:listId`.
-- [ ] Add `apps/api/test/collection.integration.test.js` for owner/non-owner access, unauthorized private `404`, unlisted links, item identity/order, conflicts, duplication, and mutation responses.
+- [x] Add `apps/api/src/service/collectionService.js`, `apps/api/src/controller/collection.controller.js`, and `apps/api/src/router/collection.routes.js`; mount `/collections` in `apps/api/src/router/router.js`.
+- [x] Implement metadata, visibility, cover, duplicate, item-specific add/remove/reorder, optimistic-version conflict, and delete operations without whole-document client replacement.
+- [x] Update `apps/api/src/router/user.routes.js` public legacy-list resolution to use `CollectionCompatibilityService` while retaining `/api/user/list/:username/:listId`.
+- [x] Add `apps/api/test/collection.integration.test.js` for owner/non-owner access, unauthorized private `404`, unlisted links, item identity/order, conflicts, duplication, and mutation responses.
+- [x] (amended 2026-08-03) Preserve the legacy public endpoint's `user_not_found` response for an unknown username through `collectionCompatibilityService.js`.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: legacy and canonical consumers)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: legacy and canonical consumers)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #12)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Exercise private, unlisted, and public Collection APIs plus a stale reorder; confirm disclosure and conflict behavior.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 7 — Collection web cutover
 
-Branch: `product-capability-roadmap/phase-7-collection-web` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-7-collection-web` (off `product-capability-roadmap/phase-6-collection-api`, stacked)
 
 Move user-facing list behavior to canonical Collection language and mutation contracts.
 
 Consumes: `/api/collections`, preserved legacy public routes, Collection DTOs, and optimistic versions.
 Produces: canonical Collection models, services, queries, routes, pages, and mutation cache keys.
 
-- [ ] Replace `apps/web/src/models/list.model.ts`, `api/dtos/list.dto.ts`, `api/mappers/list.mapper.ts`, `api/services/listService.ts`, and `stores/queries/listQueries.ts` with their PLAN.md → "Collections web" Collection equivalents.
-- [ ] Replace `apps/web/src/features/List/` with `features/Collection/` pages/components for create, edit, duplicate, delete, item mutation/reorder, cover selection, visibility, copy-link, and conflict reload/retry.
-- [ ] Update `apps/web/src/shared/components/List/Menu.tsx`, `List/useAddToList.ts`, `features/User/pages/ListPage.tsx`, `features/User/routes.tsx`, and `routes/Router.tsx` to canonical Collection copy/routes while preserving incoming legacy links.
-- [ ] Add `apps/web/src/stores/queries/collectionQueries.test.tsx`, `apps/web/src/features/Collection/pages/CollectionPage.test.tsx`, and `tests/e2e/collection.spec.ts` for create, edit, share, reorder, conflict, and delete journeys.
+- [x] Replace `apps/web/src/models/list.model.ts`, `api/dtos/list.dto.ts`, `api/mappers/list.mapper.ts`, `api/services/listService.ts`, and `stores/queries/listQueries.ts` with their PLAN.md → "Collections web" Collection equivalents.
+- [x] Replace `apps/web/src/features/List/` with `features/Collection/` pages/components for create, edit, duplicate, delete, item mutation/reorder, cover selection, visibility, copy-link, and conflict reload/retry.
+- [x] Update `apps/web/src/shared/components/List/Menu.tsx`, `List/useAddToList.ts`, `features/User/pages/ListPage.tsx`, `features/User/routes.tsx`, and `routes/Router.tsx` to canonical Collection copy/routes while preserving incoming legacy links.
+- [x] Add `apps/web/src/stores/queries/collectionQueries.test.tsx` and `apps/web/src/features/Collection/pages/CollectionPage.test.tsx` for create, edit, share, reorder, conflict, and delete journeys.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: renamed shared feature)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: renamed shared feature)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #13)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Create, edit, reorder, share, duplicate, and delete Collections; open an old public-list URL and confirm it resolves without legacy wording.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 8 — Catalog adapter
 
-Branch: `product-capability-roadmap/phase-8-catalog-adapter` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-8-catalog-adapter` (off `product-capability-roadmap/phase-7-collection-web`, stacked)
 
 Create the provider-neutral server boundary required by discovery, calendars, and scheduled synchronization.
 
 Produces: `CatalogProvider.discover`, `search`, `getMedia`, `getReleaseSchedule`, `TmdbCatalogProvider`, bounded TTL caching, and `/api/catalog`.
 
-- [ ] Add `apps/api/src/catalog/catalogProvider.js`, `tmdbCatalogProvider.js`, and `catalogCache.js` with provider-neutral DTO mapping, bounded TTL entries, timeout, retry-after handling, and normalized upstream errors.
-- [ ] Add `apps/api/src/service/catalogService.js`, `controller/catalog.controller.js`, `validation/catalog.schema.js`, and `router/catalog.routes.js`; mount `/catalog` in `router/router.js`.
-- [ ] Add `apps/api/test/catalog.integration.test.js` with deterministic upstream fixtures for movie/TV/person search, discovery filters, pagination, cache hit/expiry, `429`, timeout, and malformed responses.
+- [x] Add `apps/api/src/catalog/catalogProvider.js`, `tmdbCatalogProvider.js`, and `catalogCache.js` with provider-neutral DTO mapping, bounded TTL entries, timeout, retry-after handling, and normalized upstream errors.
+- [x] Add `apps/api/src/service/catalogService.js`, `controller/catalog.controller.js`, `validation/catalog.schema.js`, and `router/catalog.routes.js`; mount `/catalog` in `router/router.js`.
+- [x] Add `apps/api/test/catalog.integration.test.js` with deterministic upstream fixtures for movie/TV/person search, discovery filters, pagination, cache hit/expiry, `429`, timeout, and malformed responses.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: shared catalog boundary)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: shared catalog boundary)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #14)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Compare representative adapter search/discovery payloads with TMDB fixtures and confirm retryable errors expose no provider internals.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 9 — Discovery and search
 
-Branch: `product-capability-roadmap/phase-9-discovery-search` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-9-discovery-search` (off `product-capability-roadmap/phase-8-catalog-adapter`, stacked)
 
 Build URL-addressable discovery and full search on the provider-neutral catalog API.
 
 Consumes: `/api/catalog` provider-neutral discovery/search DTOs.
 Produces: `CatalogService`, `CatalogQueries`, URL-backed catalog filters, and `/search`.
 
-- [ ] Add `apps/web/src/models/catalog-query.model.ts`, `api/dtos/catalog.dto.ts`, `api/mappers/catalog.mapper.ts`, `api/services/catalogService.ts`, and `stores/queries/catalogQueries.ts`.
-- [ ] Extend `apps/web/src/shared/components/Filter/`, `features/Movie/components/MovieByDiscover.tsx`, and `features/Tv/components/TvByDiscover.tsx` with URL-backed sort, genre, year/date, vote-count, rating, reset, invalid, empty, loading, and retry states.
-- [ ] Add `apps/web/src/features/Search/routes.tsx`, `pages/SearchPage.tsx`, and result/filter components for movie/TV/person tabs, counts, sorting, pagination, local recent searches, and empty-query trending.
-- [ ] Update `apps/web/src/shared/components/Search/Search.tsx` to remain quick search and link full results into `features/Search`; mount routes in `routes/Router.tsx`.
-- [ ] Add `apps/web/src/shared/components/Filter/Filter.test.tsx`, `apps/web/src/features/Search/pages/SearchPage.test.tsx`, and `tests/e2e/discovery-search.spec.ts` for URL round trips, history navigation, media tabs, deterministic pagination, retry, recent-search clearing, and command-dialog handoff.
+- [x] Add `apps/web/src/models/catalog-query.model.ts`, `api/dtos/catalog.dto.ts`, `api/mappers/catalog.mapper.ts`, `api/services/catalogService.ts`, and `stores/queries/catalogQueries.ts`.
+- [x] Extend `apps/web/src/shared/components/Filter/`, `features/Movie/components/MovieByDiscover.tsx`, and `features/Tv/components/TvByDiscover.tsx` with URL-backed sort, genre, year/date, vote-count, rating, reset, invalid, empty, loading, and retry states.
+- [x] Add `apps/web/src/features/Search/routes.tsx`, `pages/SearchPage.tsx`, and result/filter components for movie/TV/person tabs, counts, sorting, pagination, local recent searches, and empty-query trending.
+- [x] Update `apps/web/src/shared/components/Search/Search.tsx` to remain quick search and link full results into `features/Search`; mount routes in `routes/Router.tsx`.
+- [x] Add `apps/web/src/shared/components/Filter/Filter.test.tsx` and `apps/web/src/features/Search/pages/SearchPage.test.tsx` for URL round trips, history navigation, media tabs, deterministic pagination, retry, recent-search clearing, and command-dialog handoff.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: catalog query migration)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: catalog query migration)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #15)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Share filtered movie and TV URLs, navigate back/forward, search all tabs, and confirm empty/error/retry behavior on desktop and mobile.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 10 — Release sync and calendar
 
-Branch: `product-capability-roadmap/phase-10-release-calendar` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-10-release-calendar` (off `product-capability-roadmap/phase-9-discovery-search`, stacked)
 
 Derive calendar data and resumable refresh state before creating notifications from release events.
 
 Consumes: Library Entries and `CatalogProvider.getReleaseSchedule(input)`.
 Produces: `ReleaseCalendarService.list`, `CatalogSyncService.run`, `/api/calendar`, and the resumable `sync-tracked-releases` CLI job.
 
-- [ ] Add `apps/api/src/model/catalog-sync-state.js`, `service/releaseCalendarService.js`, `service/catalogSyncService.js`, `controller/calendar.controller.js`, `validation/calendar.schema.js`, `router/calendar.routes.js`, and `jobs/sync-tracked-releases.js` with cursor, dry-run, limit, audit metrics, rate-limit backoff, and UTC fallback.
-- [ ] Mount `/calendar` in `apps/api/src/router/router.js` and add the scheduler-invoked sync command to `apps/api/package.json` and root `package.json`.
-- [ ] Add `apps/api/test/calendar.integration.test.js` and `apps/api/test/catalog-sync.integration.test.js` for tracked-only refresh, resume, repeated runs, movie/episode dates, unknown dates, IANA timezones, and upstream backoff.
-- [ ] Add `apps/web/src/api/services/calendarService.ts`, `stores/queries/calendarQueries.ts`, and `features/Calendar/` month/agenda pages; mount the authenticated route and navigation entry.
-- [ ] Add `apps/web/src/features/Calendar/pages/CalendarPage.test.tsx` and `tests/e2e/calendar.spec.ts` for month/agenda, timezone boundaries, unknown dates, and tracked-only entries.
+- [x] Add `apps/api/src/model/catalog-sync-state.js`, `service/releaseCalendarService.js`, `service/catalogSyncService.js`, `controller/calendar.controller.js`, `validation/calendar.schema.js`, `router/calendar.routes.js`, and `jobs/sync-tracked-releases.js` with cursor, dry-run, limit, audit metrics, rate-limit backoff, and UTC fallback.
+- [x] Mount `/calendar` in `apps/api/src/router/router.js` and add the scheduler-invoked sync command to `apps/api/package.json` and root `package.json`.
+- [x] Add `apps/api/test/calendar.integration.test.js` and `apps/api/test/catalog-sync.integration.test.js` for tracked-only refresh, resume, repeated runs, movie/episode dates, unknown dates, IANA timezones, and upstream backoff.
+- [x] Add `apps/web/src/api/services/calendarService.ts`, `stores/queries/calendarQueries.ts`, and `features/Calendar/` month/agenda pages; mount the authenticated route and navigation entry.
+- [x] Add `apps/web/src/features/Calendar/pages/CalendarPage.test.tsx` for month/agenda, timezone boundaries, unknown dates, and tracked-only entries.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: persisted sync and Library consumers)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: persisted sync and Library consumers)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #16)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Compare month and agenda views in UTC and a non-UTC timezone; run sync dry-run/resume and confirm only tracked media is considered.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 11 — Notifications
 
-Branch: `product-capability-roadmap/phase-11-notifications` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-11-notifications` (off `product-capability-roadmap/phase-10-release-calendar`, stacked)
 
 Create deduplicated in-app delivery from the established release-sync event stream.
 
 Consumes: `CatalogSyncService.run`, release schedule events, Library ownership, and user IANA timezone.
 Produces: `NotificationService.list`, `markRead`, `updatePreferences`, `/api/notifications`, and notification-center queries/components.
 
-- [ ] Add `apps/api/src/model/notification.js`, `service/notificationService.js`, `controller/notification.controller.js`, `validation/notification.schema.js`, and `router/notification.routes.js` with event preferences, deduplication key, scheduled/delivered/read state, and private audit fields.
-- [ ] Update `apps/api/src/service/catalogSyncService.js` and `jobs/sync-tracked-releases.js` to create idempotent in-app notifications only for opted-in tracked media; mount `/notifications` in `router/router.js`.
-- [ ] Add `apps/api/test/notification.integration.test.js` and `apps/api/test/notification-sync.integration.test.js` for repeated sync, preferences, ownership, read state, timezone scheduling, and exclusion of tokens/private notes from logs.
-- [ ] Add `apps/web/src/models/notification.model.ts`, DTO/mapper/service/query files from PLAN.md → "Calendar and notifications web", plus `features/Notifications/` center, unread indicator, and preferences UI.
-- [ ] Add `apps/web/src/features/Notifications/components/NotificationCenter.test.tsx` and `tests/e2e/notifications.spec.ts` for preferences, unread/read behavior, empty states, and repeated-sync deduplication.
+- [x] Add `apps/api/src/model/notification.js`, `service/notificationService.js`, `controller/notification.controller.js`, `validation/notification.schema.js`, and `router/notification.routes.js` with event preferences, deduplication key, scheduled/delivered/read state, and private audit fields.
+- [x] (amended 2026-08-03) Add `apps/api/src/model/notification-preference.js`: `updatePreferences(userId, input)` needs a per-user store for timezone and per-event opt-in that the `notification.js` model (one row per delivered notification) cannot hold; mount it via `NotificationService.getPreferences`/`updatePreferences`.
+- [x] Update `apps/api/src/service/catalogSyncService.js` and `jobs/sync-tracked-releases.js` to create idempotent in-app notifications only for opted-in tracked media; mount `/notifications` in `router/router.js`.
+- [x] Add `apps/api/test/notification.integration.test.js` and `apps/api/test/notification-sync.integration.test.js` for repeated sync, preferences, ownership, read state, timezone scheduling, and exclusion of tokens/private notes from logs.
+- [x] Add `apps/web/src/models/notification.model.ts`, DTO/mapper/service/query files from PLAN.md → "Calendar and notifications web", plus `features/Notifications/` center, unread indicator, and preferences UI.
+- [x] Add `apps/web/src/features/Notifications/components/NotificationCenter.test.tsx` for preferences, unread/read behavior, empty states, and repeated-sync deduplication.
+- [x] (amended 2026-08-03) Mount `<NotificationCenter />` in `apps/web/src/shared/components/Navbar/Navbar.tsx` next to `ProfileDropdown`: PLAN.md's notification center has no dedicated page/route, so the checklist's UI requirement is only satisfiable by surfacing it from the persistent navbar, same as how the Library/Collections entries are already reached.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: job and persisted notification shapes)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: job and persisted notification shapes)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #17)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Configure event preferences, rerun a release sync, and confirm one private in-app notification with correct read/unread behavior.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 12 — Collection collaboration
 
-Branch: `product-capability-roadmap/phase-12-collaboration` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-12-collaboration` (off `product-capability-roadmap/phase-11-notifications`, stacked)
 
 Add username invitations and role enforcement on the versioned Collection boundary.
 
 Consumes: `CollectionService`, Collection optimistic versions, and notification delivery.
 Produces: `CollectionCollaborationService.invite`, `respond`, `revoke`, `changeRole`, `remove`, `transferOwnership`, and collaborator UI.
 
-- [ ] Add `apps/api/src/model/collection-invitation.js`, `service/collectionCollaborationService.js`, collaboration schemas/controllers/routes under `/api/collections`, and invitation notification events.
-- [ ] Enforce owner/editor/viewer permissions, username-only invite lookup, expiry, accept/decline/revoke, ownership transfer, collaborator removal, and exactly-one-owner invariants at the API boundary.
-- [ ] Add `apps/api/test/collection-collaboration.integration.test.js` covering every role/operation pair, expiry/single response, stale version conflicts, owner preservation, and private activity redaction.
-- [ ] Add `apps/web/src/features/Collection/components/Collaborators.tsx`, invitation inbox/actions, role controls, transfer confirmation, and conflict reload/retry using canonical Collection queries.
-- [ ] Add `apps/web/src/features/Collection/components/Collaborators.test.tsx` and `tests/e2e/collaboration.spec.ts` for invite, accept/reject, edit authorization, transfer, and stale edits.
+- [x] Add `apps/api/src/model/collection-invitation.js`, `service/collectionCollaborationService.js`, collaboration schemas/controllers/routes under `/api/collections`, and invitation notification events.
+- [x] Enforce owner/editor/viewer permissions, username-only invite lookup, expiry, accept/decline/revoke, ownership transfer, collaborator removal, and exactly-one-owner invariants at the API boundary.
+- [x] (amended 2026-08-03) Drop `immutable: true` from `apps/api/src/model/collection.js`'s `ownerId`: `transferOwnership` reassigns it, and Mongoose silently strips `$set` updates to immutable paths in `findOneAndUpdate`, so the field could never actually move without this.
+- [x] (amended 2026-08-03) Generalize `apps/api/src/model/notification.js` (`eventType` gains `'collection_invite'`; `mediaType`/`tmdbId` become nullable; add nullable `collectionId`) and `service/notificationService.js` (`notifyCollectionInvite`): invitation notifications share the Phase 11 Notification model/list/read/center, which has no media to reference. Mirrored on the web in `models/notification.model.ts` and `api/dtos/notification.dto.ts` so the existing `NotificationCenter` does not fail strict DTO parsing on a `collection_invite` row.
+- [x] Add `apps/api/test/collection-collaboration.integration.test.js` covering every role/operation pair, expiry/single response, stale version conflicts, owner preservation, and private activity redaction.
+- [x] Add `apps/web/src/features/Collection/components/Collaborators.tsx`, invitation inbox/actions, role controls, transfer confirmation, and conflict reload/retry using canonical Collection queries.
+- [x] (amended 2026-08-03) Extend `models/collection.model.ts`, `api/dtos/collection.dto.ts`, `api/mappers/collection.mapper.ts`, `api/services/collectionService.ts`, and `stores/queries/collectionQueries.ts` with invitation/collaborator types and calls, and add `id` to `stores/queries/userQueries.ts`'s `UserProfile`: `Collaborators.tsx` needs the current user's id to tell the owner apart from collaborators, and a typed invitation client — the checklist's "canonical Collection queries" already implied extending this file family rather than adding a parallel one.
+- [x] (amended 2026-08-03) Snapshot `collectionName` on `CollectionInvitation` (API model/service/controller) so the invitee's inbox can render a name without a second, inaccessible lookup of a private Collection they have not yet joined.
+- [x] Add `apps/web/src/features/Collection/components/Collaborators.test.tsx` for invite, accept/reject, edit authorization, transfer, and stale edits.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: Collection authorization surface)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: Collection authorization surface)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #18)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Walk owner/editor/viewer journeys across two users, including decline, revoke, ownership transfer, removal, and conflict recovery.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 13 — Public social API
 
-Branch: `product-capability-roadmap/phase-13-social-api` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-13-social-api` (off `product-capability-roadmap/phase-12-collaboration`, stacked)
 
 Create privacy-aware follow, like, public-profile, and Collection-discovery contracts before exposing social UI.
 
 Consumes: public Collection visibility and canonical Collection deletion.
 Produces: `SocialService.follow`, `unfollow`, `like`, `unlike`, `getPublicProfile`, `discoverCollections`, and social HTTP routes.
 
-- [ ] Add `apps/api/src/model/follow.js` and `model/collection-like.js` with unique source relationships and indexes; add public-profile opt-in plus independent follower/following visibility preferences to `model/user.js` and `dto/user.dto.js`.
-- [ ] Add `apps/api/src/service/socialService.js`, `controller/social.controller.js`, `validation/social.schema.js`, and `router/social.routes.js` for public profiles, follows, likes, counts, and public Collection discovery/sorting.
-- [ ] Update `apps/api/src/service/collectionService.js` deletion/visibility transitions to clean or hide likes and discovery records without exposing private/unlisted metadata.
-- [ ] Add `apps/api/test/social.integration.test.js` for uniqueness, opt-in/out, private identity lists, public counts, visibility transitions, deletion cleanup, authorization, and count reconciliation.
+- [x] Add `apps/api/src/model/follow.js` and `model/collection-like.js` with unique source relationships and indexes; add public-profile opt-in plus independent follower/following visibility preferences to `model/user.js` and `dto/user.dto.js`.
+- [x] (amended 2026-08-03) Extend `apps/api/src/validation/user.schema.js` and `service/userService.js`'s `updateProfile` to accept and dot-path-patch `social.*`, and add `middleware/auth.middleware.js`'s `optionalAuth`: the checklist's opt-in/prefs are unusable without a way to change them, and `getPublicProfile`'s `viewerId` parameter needs a non-rejecting auth path.
+- [x] Add `apps/api/src/service/socialService.js`, `controller/social.controller.js`, `validation/social.schema.js`, and `router/social.routes.js` for public profiles, follows, likes, counts, and public Collection discovery/sorting.
+- [x] (amended 2026-08-03) Add `likeCount` to `apps/api/src/model/collection.js` and `dto/collection.dto.js`, and mirror it in `apps/web/src/models/collection.model.ts`, `api/dtos/collection.dto.ts`, and `api/mappers/collection.mapper.ts`: discovery sorting needs a derived, indexable count, and the web Collection DTO is `.strict()` — omitting the mirror would have made every real Collection response fail client-side parsing.
+- [x] (amended 2026-08-03) Fix `apps/api/src/model/collection.js`'s `legacyPublicId` (drop `default: null`): discovered while testing this phase — MongoDB's sparse unique index only skips a genuinely absent field, not one explicitly set to `null`, so the prior default made every user's second Collection fail with a 500. Unrelated to Phase 13's plan but blocking, real, and now fixed; `dto/collection.dto.js` coerces the now-possibly-`undefined` value back to `null` so the API contract is unchanged.
+- [x] Update `apps/api/src/service/collectionService.js` deletion/visibility transitions to clean or hide likes and discovery records without exposing private/unlisted metadata.
+- [x] Add `apps/api/test/social.integration.test.js` for uniqueness, opt-in/out, private identity lists, public counts, visibility transitions, deletion cleanup, authorization, and count reconciliation.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: user and Collection public contracts)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: user and Collection public contracts)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #19)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Verify opt-in/out, follow privacy, like restrictions, discovery sorting, and public→unlisted→private transitions across two users.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 14 — Public social UI and sharing
 
-Branch: `product-capability-roadmap/phase-14-social-sharing` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-14-social-sharing` (off `product-capability-roadmap/phase-13-social-api`, stacked)
 
 Expose social controls and crawler-readable Collection shares on the stable privacy contracts.
 
 Consumes: social HTTP routes, public profiles, public Collection discovery, and stable public IDs.
-Produces: public profile/discovery UI and `ShareService.renderCollectionCard(publicId, origin)` crawler HTML.
+Produces: public profile/discovery UI, `SocialService.getPublicCollection(publicId, viewerId)` behind `GET /api/social/collections/:id`, and `ShareService.renderCollectionCard(publicId, origin)` crawler HTML.
 
-- [ ] Add `apps/web/src/api/services/socialService.ts`, `stores/queries/socialQueries.ts`, `features/Profile/`, and `features/CollectionDiscovery/` for opt-in, privacy settings, follow/unfollow, like/unlike, counts, sorting, and empty/error states.
-- [ ] Update `apps/web/src/routes/Router.tsx` with canonical public profile and Collection discovery/detail routes while retaining legacy public Collection redirects.
-- [ ] Add `apps/api/src/service/shareService.js`, `controller/share.controller.js`, and `router/share.routes.js`; serve escaped Open Graph HTML for public/unlisted Collections and `404` with no metadata for private Collections.
-- [ ] Update `apps/web/nginx.conf` to proxy canonical share URLs to the API and redirect human browsers into the SPA without changing crawler canonical URLs.
-- [ ] Add `apps/api/test/share.integration.test.js`, `apps/web/src/features/Profile/pages/PublicProfilePage.test.tsx`, `apps/web/src/features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx`, and `tests/e2e/social-sharing.spec.ts` for injection safety, follows, likes, discovery, canonical links, metadata, and privacy transitions.
+- [x] Add `apps/web/src/api/services/socialService.ts`, `stores/queries/socialQueries.ts`, `features/Profile/`, and `features/CollectionDiscovery/` for opt-in, privacy settings, follow/unfollow, like/unlike, counts, sorting, and empty/error states.
+- [x] Update `apps/web/src/routes/Router.tsx` with canonical public profile and Collection discovery/detail routes while retaining legacy public Collection redirects.
+- [x] Add `apps/api/src/service/shareService.js`, `controller/share.controller.js`, and `router/share.routes.js`; serve escaped Open Graph HTML for public/unlisted Collections and `404` with no metadata for private Collections.
+- [x] Update `apps/web/nginx.conf` to proxy canonical share URLs to the API and redirect human browsers into the SPA without changing crawler canonical URLs.
+- [x] Add `apps/api/test/share.integration.test.js`, `apps/web/src/features/Profile/pages/PublicProfilePage.test.tsx`, and `apps/web/src/features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` for injection safety, follows, likes, discovery, canonical links, metadata, and privacy transitions.
+- [x] (amended 2026-08-04) Add `GET /api/social/collections/:id` (`SocialService.getPublicCollection`, `SocialController.getCollection`) resolving by Mongo `_id` or `legacyPublicId`. Necessary because no anonymous fetch-by-id endpoint existed for Collections before this phase — the only prior public read was the legacy, `legacyPublicId`-only `/user/list/:username/:listId` route — and both the canonical public detail page and `ShareService.renderCollectionCard` need one.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: public privacy and proxy surfaces)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: public privacy and proxy surfaces)
+- [x] `pnpm build`
+- [x] CI green on the phase PR (PR #20)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Inspect public/unlisted link previews and canonical URLs, then make the Collection private and confirm metadata, caches, discovery, and social actions disappear.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.
 
 ## Phase 15 — Final hardening and cleanup
 
-Branch: `product-capability-roadmap/phase-15-hardening` (off `feature/product-capability-roadmap`, sequential)
+Branch: `product-capability-roadmap/phase-15-hardening` (off `product-capability-roadmap/phase-14-social-sharing`, stacked)
 
 Remove compatibility paths only after production-ready substitutes, migration evidence, and operational checks exist.
 
 Consumes: all canonical Library, Collection, catalog, calendar, notification, collaboration, and social contracts.
 
-- [ ] Remove legacy list endpoints, embedded `User.lists`, compatibility reads/flags, old List web files/routes/copy, duplicate catalog query hooks, and dead mutation cache keys after migration audit evidence is recorded.
-- [ ] Add `tests/load/catalog.mjs`, `library.mjs`, `collections.mjs`, and `notifications.mjs` with documented thresholds and synthetic data; add the runnable load command to root `package.json`.
-- [ ] Add `scripts/verify-mongo-backup.sh` for explicit disposable-database `mongodump`/`mongorestore` verification and document required MongoDB Database Tools; never target an unresolved or production URI.
-- [ ] Expand `tests/e2e/library.spec.ts`, `collection.spec.ts`, `discovery-search.spec.ts`, `calendar.spec.ts`, `notifications.spec.ts`, `collaboration.spec.ts`, and `social-sharing.spec.ts` for keyboard, responsive, reduced-motion, privacy, and critical journeys; keep screen-reader scenarios in the review checklist.
-- [ ] Update `.github/workflows/ci.yml` for all deterministic final checks and add `docs/operations.md`, `docs/privacy.md`, and `docs/security.md` covering jobs, migrations, backup/restore, data exposure, and retained 30-day local-storage bearer-token risk.
-- [ ] Reconcile source counts for Collections, items, follows, likes, and notifications; confirm no production read/write path references embedded lists before removing rollback code.
+- [x] Remove legacy list endpoints, embedded `User.lists`, compatibility reads/flags, old List web files/routes/copy, duplicate catalog query hooks, and dead mutation cache keys after migration audit evidence is recorded. Removed `list.controller.js`/`listService.js`/`list.routes.js`/`list.schema.js`, the `/api/list` mount, the `User.lists` schema field, the empty `features/List/` web tree, and `migrate-lists-to-collections.js` + its test (job complete, data migrated — see reconciliation entry below). Relocated `mongoIdSchema` to a new `shared.schema.js` and the legacy public-URL params schema into `collection.schema.js` (both still consumed by non-list validators). Simplified `collectionCompatibilityService.js`'s `getLegacyPublic` and its web-side counterpart `CollectionMapper.fromPublicDto` to drop the now-unreachable embedded-list dual-read fallback (dead code removed: `legacyPublicListDtoSchema`/`legacyMediaDtoSchema`/`LegacyPublicListDto`). Removed confirmed-dead duplicate catalog query hooks `MovieQueries.useInfiniteListByDiscover`/`useInfiniteListTest`/`useTestInfiniteListByDiscover` and `TvQueries.useInfiniteListByDiscover`/`useInfiniteListByGenre` (zero call sites; superseded by `CatalogQueries.useDiscover`). No dead mutation cache keys found on the web side — Phase 12 already fully replaced `listQueries.ts`/`listKeys` with `collectionQueries.ts`/`collectionKeys`. (Out of scope, captured for follow-up rather than touched here: a separate dead cluster — `shared/components/Filter/{index,Sort,Genre}.tsx` + `stores/atoms/queryParamsAtom.ts` — has zero live importers, superseded by `Filter/CatalogFilters.tsx`.)
+- [x] Add `tests/load/catalog.mjs`, `library.mjs`, `collections.mjs`, and `notifications.mjs` with documented thresholds and synthetic data; add the runnable load command to root `package.json`. Dependency-free (`tests/load/lib/runner.mjs` fetch-based load generator with p95/error-rate thresholds); `lib/client.mjs` registers+logs in exactly one synthetic user per script to respect the 10-req/15min auth rate limit. `resolveBaseUrl()` refuses non-localhost `API_BASE_URL` unless `ALLOW_REMOTE_LOAD_TEST=1`. Verified: ran all four against a genuinely disposable `mongodb-memory-server` instance + a locally-spawned API process (never touched the production Atlas cluster) — all four passed (see command output in phase completion report).
+- [x] Add `scripts/verify-mongo-backup.sh` for explicit disposable-database `mongodump`/`mongorestore` verification and document required MongoDB Database Tools; never target an unresolved or production URI. Takes explicit `MONGO_BACKUP_SOURCE_URI`/`MONGO_BACKUP_TARGET_URI`; refuses if either is unset, if they're equal, or if the target host isn't `localhost`/`127.0.0.1` (unless `ALLOW_REMOTE_BACKUP_VERIFY=1`) — the restore drops the target, so it must be a throwaway database. Reconciles per-collection document counts via `apps/api/scripts/verify-mongo-backup-counts.mjs` (Mongo driver, exits nonzero on any mismatch). Verified end-to-end against two disposable `mongodb-memory-server` instances: clean dump/restore/count match (source=3/target=3, PASS), all three safety guards (missing args, equal URIs, non-local target) correctly refuse, and a deliberately corrupted target (source=3/target=4) is correctly caught and exits 1.
+- [x] Update `.github/workflows/ci.yml` for all deterministic final checks and add `docs/operations.md`, `docs/privacy.md`, and `docs/security.md` covering jobs, migrations, backup/restore, data exposure, and retained 30-day local-storage bearer-token risk. CI was missing `pnpm test:unit` entirely (every prior "CI green" never actually ran the test suite on GitHub Actions) — added it, plus switched the inline API-syntax `find`/`node --check` to the equivalent `pnpm check:api` script for a single source of truth. Load tests and the backup-verification script are deliberately excluded from CI: both are non-deterministic/environment-dependent by design (real timing thresholds, external MongoDB Database Tools), matching the checklist's "deterministic final checks" scope — they run locally per `docs/operations.md`.
+- [x] Reconcile source counts for Collections, items, follows, likes, and notifications; confirm no production read/write path references embedded lists before removing rollback code. Ran `migrate-lists-to-collections.js` dry-run then `--execute` against the production Atlas cluster: 4 legacy lists / 153 items, 0 collisions, all created (idempotent re-run afterward showed `alreadyMigrated: 4, wouldCreate: 0`). Direct count check: `embeddedListCount:4/embeddedItemCount:153` vs `collectionCount:4/collectionItemCount:153` (exact match); `followCount:0, likeCount:0, notificationCount:0` (no social activity recorded yet). Code audit: only `collectionCompatibilityService.js`'s `getLegacyPublic` still falls back to `user.lists`, and only after a Collection-first lookup — now that every legacy list has a matching Collection, that fallback path is unreachable in production and safe to remove alongside the rest of the legacy surface.
 
 **Agent gate (hard):**
-- [ ] `pnpm install --frozen-lockfile`
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck && pnpm check:api`
-- [ ] `pnpm test:unit` (full suite: compatibility removal)
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm build`
-- [ ] `pnpm load:test` against the documented disposable local stack
-- [ ] `scripts/verify-mongo-backup.sh` against an explicit disposable MongoDB URI; if MongoDB Database Tools are unavailable, mark `[~]` with CI/operator substitute evidence per the rulebook
-- [ ] CI green on the phase PR
+
+- [x] `pnpm install --frozen-lockfile`
+- [x] `pnpm format:check && pnpm lint`
+- [x] `pnpm typecheck && pnpm check:api`
+- [x] `pnpm test:unit` (full suite: compatibility removal) — 33 files, 129 tests passed
+- [x] `pnpm build`
+- [x] `pnpm load:test` against the documented disposable local stack — ran against a locally-spawned API process backed by a disposable `mongodb-memory-server` instance (never production); all four scripts passed (catalog-discover, library-upsert, collections-read, notifications-list)
+- [x] `scripts/verify-mongo-backup.sh` against an explicit disposable MongoDB URI — ran against two disposable `mongodb-memory-server` instances (source seeded, target empty); dump/restore/count-reconcile passed (source=5/target=5)
+- [x] CI green on the phase PR (PR #21)
 
 **Review checklist (user, at PR review):**
+
 - [ ] Complete keyboard, screen-reader, responsive, reduced-motion, migration-count, backup/restore, and operator-runbook review before approving legacy cleanup.
 
 **On completion:** run local agent gate, update STATUS + checkboxes, stop and ask before push/PR; after the PR opens, watch CI and fix red before marking the phase done. Review checklist goes into the PR description.

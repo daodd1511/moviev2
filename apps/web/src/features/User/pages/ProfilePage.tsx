@@ -1,11 +1,67 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { LogOut } from 'lucide-react';
 
 import { Loader } from '@/shared/components';
-import { UserQueries } from '@/stores/queries/userQueries';
+import { UpdateSocialSettingsInput, UserQueries } from '@/stores/queries/userQueries';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
 import { useLogout } from '@/shared/hooks';
+
+const SocialSettings = () => {
+  const { data, isPending } = UserQueries.useProfile();
+  const updateSettings = UserQueries.useUpdateSocialSettings();
+
+  if (isPending || data === undefined) return null;
+
+  const handleToggle =
+    (key: keyof UpdateSocialSettingsInput) => (event: ChangeEvent<HTMLInputElement>) => {
+      updateSettings.mutate({ [key]: event.target.checked });
+    };
+
+  return (
+    <div className="mt-8 border-t border-border pt-6">
+      <h2 className="text-lg font-medium">Public profile</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Control what other Flix users can see about you.
+      </p>
+      <div className="mt-4 flex flex-col gap-3">
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={data.social.publicProfile}
+            onChange={handleToggle('publicProfile')}
+            disabled={updateSettings.isPending}
+            className="size-4"
+          />
+          Make my profile public
+        </label>
+        <label className="flex items-center gap-3 text-sm text-muted-foreground">
+          <input
+            type="checkbox"
+            checked={data.social.showFollowers}
+            onChange={handleToggle('showFollowers')}
+            disabled={updateSettings.isPending || !data.social.publicProfile}
+            className="size-4"
+          />
+          Show my followers list
+        </label>
+        <label className="flex items-center gap-3 text-sm text-muted-foreground">
+          <input
+            type="checkbox"
+            checked={data.social.showFollowing}
+            onChange={handleToggle('showFollowing')}
+            disabled={updateSettings.isPending || !data.social.publicProfile}
+            className="size-4"
+          />
+          Show who I follow
+        </label>
+      </div>
+      <p className="sr-only" aria-live="polite" role="status">
+        {updateSettings.isPending ? 'Saving…' : updateSettings.isSuccess ? 'Saved.' : ''}
+      </p>
+    </div>
+  );
+};
 
 export const ProfilePage = () => {
   const [isConfirmLogoutOpen, setIsConfirmLogoutOpen] = useState(false);
@@ -21,6 +77,8 @@ export const ProfilePage = () => {
       <p className="mt-2 text-muted-foreground">
         Hello <span className="text-foreground">{data?.username}</span>
       </p>
+
+      <SocialSettings />
 
       <div className="mt-8 border-t border-border pt-6">
         <Button

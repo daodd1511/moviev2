@@ -7,6 +7,7 @@ import { errorHandler, notFoundHandler } from './middleware/error.middleware.js'
 import { requestId } from './middleware/request-id.middleware.js';
 import { verifyToken } from './middleware/auth.middleware.js';
 import router from './router/router.js';
+import shareRouter from './router/share.routes.js';
 
 const parseCorsOrigins = () =>
   (process.env.CORS_ORIGINS ?? 'http://localhost:3000')
@@ -47,6 +48,7 @@ export const createApp = ({ logger = defaultLogger } = {}) => {
   });
 
   app.use('/api', router);
+  app.use('/', shareRouter);
   app.get('/', verifyToken, (req, res) => {
     res.send('Hello from movie backend');
   });

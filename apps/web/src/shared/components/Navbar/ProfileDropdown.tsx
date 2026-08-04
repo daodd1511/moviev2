@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { useState } from 'react';
-import { ListIcon, LogOut, User } from 'lucide-react';
+import { FolderHeart, LibraryBig, LogOut, User } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -32,15 +32,21 @@ export const ProfileDropdown = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem asChild>
+            <Link to="user/library">
+              <LibraryBig aria-hidden="true" />
+              Library
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link to="user/profile">
               <User aria-hidden="true" />
               Profile
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link to="user/lists">
-              <ListIcon aria-hidden="true" />
-              Lists
+            <Link to="user/collections">
+              <FolderHeart aria-hidden="true" />
+              Collections
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem variant="destructive" onClick={onLogoutButtonClick}>
@@ -54,7 +60,7 @@ export const ProfileDropdown = () => {
         onOpenChange={setIsConfirmLogoutModalOpen}
         icon={<LogOut aria-hidden="true" className="size-5" />}
         title="Sign out of Flix?"
-        description="You will need to sign in again to manage your lists and account."
+        description="You will need to sign in again to manage your Collections and account."
         confirmLabel="Sign out"
         isLoading={isLoggingOut}
         onConfirm={onConfirmButtonClick}

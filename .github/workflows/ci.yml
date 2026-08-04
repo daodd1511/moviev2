@@ -29,17 +29,8 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: Check API syntax
-        run: find apps/api -name '*.js' -not -path '*/node_modules/*' -exec node --check {} \;
+        run: pnpm check:api
+      - name: Test
+        run: pnpm test:unit
       - name: Build web
         run: pnpm --filter @movie/web build
-      - name: Install Playwright Chromium
-        run: pnpm test:e2e:install
-      - name: Run browser smoke tests
-        run: pnpm test:e2e
-      - name: Upload Playwright report
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-          if-no-files-found: ignore

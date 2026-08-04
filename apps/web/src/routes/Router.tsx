@@ -9,9 +9,14 @@ import { tvRoutes } from '@/features/Tv/routes';
 import { userRoutes } from '@/features/User/routes';
 import { authRoutes } from '@/features/Auth/routes';
 import { WithoutNavbar, WithNavbar } from '@/shared/components/Navbar/';
-import { listRoutes } from '@/features/List/routes';
+import { collectionRoutes } from '@/features/Collection/routes';
 import { personRoutes } from '@/features/Person/routes';
 import { castRoutes } from '@/features/Cast/routes';
+import { libraryRoutes } from '@/features/Library/routes';
+import { searchRoutes } from '@/features/Search/routes';
+import { calendarRoutes } from '@/features/Calendar/routes';
+import { profileRoutes } from '@/features/Profile/routes';
+import { collectionDiscoveryRoutes } from '@/features/CollectionDiscovery/routes';
 
 export const NotFound = lazy(() =>
   import('../shared/components/NotFound').then(module => ({
@@ -19,9 +24,9 @@ export const NotFound = lazy(() =>
   })),
 );
 
-export const PublicList = lazy(() =>
-  import('../features/List/pages/PublicList').then(module => ({
-    default: module.PublicList,
+export const PublicCollection = lazy(() =>
+  import('../features/Collection/pages/PublicCollectionPage').then(module => ({
+    default: module.PublicCollectionPage,
   })),
 );
 
@@ -37,14 +42,21 @@ const routes: RouteObject[] = [
       ...tvRoutes,
       ...personRoutes,
       ...castRoutes,
+      ...searchRoutes,
+      ...collectionDiscoveryRoutes,
+      ...profileRoutes,
       {
         path: '',
         element: <AuthGuard />,
-        children: [...userRoutes, ...listRoutes],
+        children: [...userRoutes, ...collectionRoutes, ...libraryRoutes, ...calendarRoutes],
       },
       {
-        path: 'u/:username/lists/:listId',
-        element: <PublicList />,
+        path: 'u/:username/collections/:collectionId',
+        element: <PublicCollection />,
+      },
+      {
+        path: 'u/:username/lists/:collectionId',
+        element: <PublicCollection />,
       },
     ],
   },

@@ -7,6 +7,7 @@ import { Search } from '../Search/Search';
 
 import { ProfileDropdown } from './ProfileDropdown';
 
+import { NotificationCenter } from '@/features/Notifications/components/NotificationCenter';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -114,9 +115,9 @@ const MobileTabBar = ({
     />
     <MobileTabLink
       icon={<ListVideo className="size-5" aria-hidden="true" />}
-      label="Lists"
-      to={isAuth ? '/user/lists' : '/auth/login'}
-      active={pathname.startsWith('/user/lists') || pathname.startsWith('/list')}
+      label="Collections"
+      to={isAuth ? '/user/collections' : '/auth/login'}
+      active={pathname.startsWith('/user/collections') || pathname.startsWith('/collections')}
     />
     <Search mobileTab />
     <MobileTabLink
@@ -173,7 +174,8 @@ const NavbarComponent = () => {
           </div>
         )}
         {isAuth && (
-          <div className="hidden md:block">
+          <div className="hidden items-center md:flex">
+            <NotificationCenter />
             <ProfileDropdown />
           </div>
         )}

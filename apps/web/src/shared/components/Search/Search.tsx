@@ -1,6 +1,7 @@
 import { ChangeEvent, memo, useEffect, useState } from 'react';
 import { Search as SearchIcon, X } from 'lucide-react';
 
+import { Link } from 'react-router-dom';
 import { SearchResult } from './components/SearchResult';
 
 import { Loader } from '@/shared/components';
@@ -151,6 +152,13 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
                   />
                 ))}
               </div>
+              <Link
+                to={`/search?q=${encodeURIComponent(normalizedQuery)}`}
+                className="block border-t border-foreground/10 px-5 py-3 text-center text-sm font-medium text-primary hover:underline"
+                onClick={handleResultSelect}
+              >
+                View all results
+              </Link>
             </div>
           )}
         </div>

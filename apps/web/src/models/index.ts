@@ -1,6 +1,5 @@
 export * from './cast.model';
 export * from './genre.model';
-export * from './list.model';
 export * from './media.model';
 export * from './movie/movie.model';
 export * from './movie/movieDetail.model';
@@ -13,3 +12,5 @@ export * from './tv/season.model';
 export * from './tv/tv.model';
 export * from './tv/tvDetail.model';
 export * from './video.model';
+export * from './library-entry.model';
+export * from './collection.model';

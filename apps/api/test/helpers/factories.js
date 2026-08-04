@@ -39,3 +39,26 @@ export const buildMedia = (overrides = {}) => {
     ...overrides,
   };
 };
+
+/** Builds a valid Personal Library upsert payload. */
+export const buildLibraryEntryInput = (overrides = {}) => {
+  mediaSequence += 1;
+  return {
+    mediaType: 'movie',
+    tmdbId: mediaSequence,
+    watchState: 'planned',
+    rating: null,
+    notes: null,
+    startedAt: null,
+    completedAt: null,
+    lastWatchedAt: null,
+    tvProgress: null,
+    mediaSnapshot: {
+      title: `Library Media ${mediaSequence}`,
+      posterPath: `/library-poster-${mediaSequence}.jpg`,
+      releaseDate: '2020-01-01T00:00:00.000Z',
+      voteAverage: 7.5,
+    },
+    ...overrides,
+  };
+};

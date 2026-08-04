@@ -19,7 +19,15 @@ UserService.getUserByUsername = async username => {
 // changes stay out of scope, and the target user is always the authenticated `userId`,
 // never a value from the request body.
 UserService.updateProfile = async (userId, input) => {
-  const updated = await User.findByIdAndUpdate(userId, input, { new: true }).select('-password');
+  // `social` is a partial patch (e.g. only `publicProfile`); a plain `$set: { social }`
+  // would replace the whole nested object and silently reset the untouched fields
+  // (showFollowers/showFollowing) to their schema defaults. Dot-path `$set` updates
+  // only the given keys.
+  const { social, ...update } = input;
+  if (social) {
+    for (const [key, value] of Object.entries(social)) update[`social.${key}`] = value;
+  }
+  const updated = await User.findByIdAndUpdate(userId, update, { new: true }).select('-password');
   if (!updated) {
     throw new AppError({ status: 404, code: 'user_not_found', message: 'User not found.' });
   }
