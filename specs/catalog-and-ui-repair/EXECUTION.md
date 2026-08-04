@@ -6,9 +6,9 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 1 — done (PR #23, CI green, awaiting user merge)
+- Current phase: 2 — done (local gate passed, awaiting push/PR)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
-- Phase 2 — Catalog API: categories and genres: pending
+- Phase 2 — Catalog API: categories and genres: done (local gate passed, awaiting push/PR)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: pending
 - Phase 4 — Infinite scroll: search and Collection discovery: pending
 - Phase 5 — Trailer presentation: pending
@@ -76,11 +76,11 @@ Produces: `CatalogProvider.discover({ mediaType, category?, page, ...filters })`
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit` — full suite; this phase changes the shared `CatalogProvider` interface
-- [ ] `pnpm build`
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean
+- [x] `pnpm check:api` — clean
+- [x] `pnpm test:unit` — full suite; 32 files / 131 tests passing
+- [x] `pnpm build` — succeeds
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
