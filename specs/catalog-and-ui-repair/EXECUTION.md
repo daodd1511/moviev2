@@ -23,10 +23,10 @@ Branch: `catalog-and-ui-repair/phase-1-shadcn-migration` (off
 Pure refactor with no behavior change; every later phase builds on the resulting component
 vocabulary, so it lands first (per PLAN.md → "The migration lands before the catalog work").
 
-Produces: shadcn primitives at `@/components/ui/{checkbox,switch,form,tabs,card,badge,skeleton,slider,separator}`;
+Produces: shadcn primitives at `@/components/ui/{checkbox,switch,field,tabs,card,badge,skeleton,slider,separator}`;
 `shared/components/ui/TextField.tsx` removed.
 
-- [ ] Install missing primitives with `pnpm dlx shadcn@latest add checkbox switch form tabs card badge skeleton slider separator`; commit the generated files in `apps/web/src/components/ui/` unmodified, with `pnpm-lock.yaml` and `apps/web/package.json` in the same commit if the CLI adds dependencies
+- [x] Install missing primitives with `pnpm dlx shadcn@latest add checkbox switch tabs card badge skeleton slider separator field`; commit the generated files in `apps/web/src/components/ui/` unmodified, with `pnpm-lock.yaml` and `apps/web/package.json` in the same commit if the CLI adds dependencies — **(amended 2026-08-04)**: `radix-nova` (this project's shadcn style) has no `form.tsx` (`FormField`/`FormItem`/`FormMessage`) registry entry — it ships `field.tsx` (`FieldSet`/`FieldLabel`/`FieldError`) instead, which takes an `errors` array shaped like RHF's `formState.errors` and needs no `Controller` wrapper. Installed `field` in place of `form`; no new dependencies were added. Commit `7a40580`.
 - [ ] Convert `features/Library/components/LibraryFilters.tsx` (16 raw elements) to `@/components/ui/{select,label,input}`
 - [ ] Convert `features/Library/components/LibraryEntryEditor.tsx` (16) to `@/components/ui/{select,label,input,textarea}`
 - [ ] Convert `shared/components/Filter/CatalogFilters.tsx` (9) to `@/components/ui/{select,label,input}` — behavior unchanged here; Phase 3 rewrites it
@@ -34,7 +34,7 @@ Produces: shadcn primitives at `@/components/ui/{checkbox,switch,form,tabs,card,
 - [ ] Convert `features/CollectionDiscovery/pages/CollectionDiscoveryPage.tsx` (4) to `@/components/ui/{select,label}`
 - [ ] Convert `features/User/pages/ProfilePage.tsx` (3) to `@/components/ui/{label,input,checkbox}`
 - [ ] Convert `features/Collection/components/CollectionItems.tsx` (1) to `@/components/ui/input`
-- [ ] Convert `features/Collection/components/CollectionForm.tsx` to shadcn `form` (`FormField`/`FormItem`/`FormMessage`), keeping its existing `useForm`/`zodResolver` wiring
+- [ ] Convert `features/Collection/components/CollectionForm.tsx` to shadcn `field` (`Field`/`FieldLabel`/`FieldError`) **(amended 2026-08-04, see above)**, keeping its existing `useForm`/`zodResolver` wiring
 - [ ] Delete `shared/components/ui/TextField.tsx` and its remaining importers' references
 - [ ] Delete `shared/components/Filter/{index,Sort,Genre}.tsx` and `stores/atoms/queryParamsAtom.ts` (zero live importers; per PLAN.md → "Resolved implementation choices")
 - [ ] Delete `MovieQueries.useGenres` and `TvQueries.useGenres` in `stores/queries/{movieQueries,tvQueries}.ts`, orphaned by the previous item
@@ -180,7 +180,7 @@ Web-only; `cover` is already complete on the API write path (`model/collection.j
 `validation/collection.schema.js`, `dto/collection.dto.js`), so nothing here needs a server
 change. Kept as one phase because its four chunks share the same three files.
 
-Consumes: `@/components/ui/{form,badge,card,command}` (Phase 1).
+Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 
 - [ ] Remove the `Version {n}` subtitle, the `Reload` button, and the conflict paragraph from `features/Collection/pages/CollectionPage.tsx`; retitle away from "Edit Collection"
 - [ ] Replace the conflict toast in `handleUpdate`/`handleDelete` with an input-preserving message: refetch, keep form values, report that the Collection changed elsewhere and was not saved — no auto-retry (per PLAN.md → "Optimistic locking stops leaking into the Collection UI")

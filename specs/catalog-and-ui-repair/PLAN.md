@@ -124,11 +124,15 @@ Process, binding on the migration phase: run
 and customize in a separate later commit. Do not hand-write a component the
 registry ships.
 
-The migration also adopts shadcn `form` (`FormField`/`FormItem`/`FormMessage`)
-and retires the bespoke `shared/components/ui/TextField.tsx`.
-`react-hook-form@7.83`, `@hookform/resolvers`, and `zod` are already dependencies
-and `CollectionForm` already uses `useForm`/`zodResolver`, so this converts
-existing wiring rather than introducing a form library.
+The migration also adopts shadcn `field` (`Field`/`FieldLabel`/`FieldError`) —
+this project's style (`radix-nova`) ships `field` rather than the classic `form`
+(`FormField`/`FormItem`/`FormMessage`); `FieldError` accepts an `errors` array
+shaped like React Hook Form's `formState.errors`, so `register()` plugs in
+directly without a `Controller` wrapper — and retires the bespoke
+`shared/components/ui/TextField.tsx`. `react-hook-form@7.83`,
+`@hookform/resolvers`, and `zod` are already dependencies and `CollectionForm`
+already uses `useForm`/`zodResolver`, so this converts existing wiring rather
+than introducing a form library.
 
 ### The migration lands before the catalog work
 
@@ -265,7 +269,7 @@ touches them:
 
 Install missing components through the shadcn CLI and commit them unmodified
 before any customization. Convert the eight raw-element files. Adopt shadcn
-`form` in `CollectionForm` and retire `TextField`. Delete the dead
+`field` in `CollectionForm` and retire `TextField`. Delete the dead
 `Filter`/`Sort`/`Genre`/`queryParamsAtom` cluster. Create `docs/BACKLOG.md` and
 seed it with the deferred items from this plan's non-goals.
 
