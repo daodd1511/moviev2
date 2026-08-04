@@ -36,13 +36,14 @@ describe('SearchPage', () => {
   afterEach(() => server.resetHandlers());
 
   it('scrolls to a second page and round-trips the result-type tab through URL state', async () => {
-    let observerCallback: IntersectionObserverCallback | null = null;
+    const observerRef: { current: IntersectionObserverCallback | null } = { current: null };
     class FakeIntersectionObserver implements IntersectionObserver {
       readonly root = null;
       readonly rootMargin = '';
       readonly thresholds: readonly number[] = [];
+      readonly scrollMargin = '';
       constructor(callback: IntersectionObserverCallback) {
-        observerCallback = callback;
+        observerRef.current = callback;
       }
       observe() {}
       unobserve() {}
@@ -69,7 +70,7 @@ describe('SearchPage', () => {
     expect(await screen.findByText('Fixture')).toBeInTheDocument();
     expect(screen.queryByText('Fixture page 2')).not.toBeInTheDocument();
 
-    observerCallback?.(
+    observerRef.current?.(
       [{ isIntersecting: true } as IntersectionObserverEntry],
       {} as IntersectionObserver,
     );

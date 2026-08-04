@@ -104,13 +104,14 @@ describe('CollectionDiscoveryPage', () => {
   });
 
   it('loads a second page when the observer reports the sentinel is visible', async () => {
-    let observerCallback: IntersectionObserverCallback | null = null;
+    const observerRef: { current: IntersectionObserverCallback | null } = { current: null };
     class FakeIntersectionObserver implements IntersectionObserver {
       readonly root = null;
       readonly rootMargin = '';
       readonly thresholds: readonly number[] = [];
+      readonly scrollMargin = '';
       constructor(callback: IntersectionObserverCallback) {
-        observerCallback = callback;
+        observerRef.current = callback;
       }
       observe() {}
       unobserve() {}
@@ -139,7 +140,7 @@ describe('CollectionDiscoveryPage', () => {
     await screen.findByRole('link', { name: 'Collection 0' });
     expect(screen.queryByRole('link', { name: 'Last collection' })).not.toBeInTheDocument();
 
-    observerCallback?.(
+    observerRef.current?.(
       [{ isIntersecting: true } as IntersectionObserverEntry],
       {} as IntersectionObserver,
     );
