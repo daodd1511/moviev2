@@ -74,7 +74,9 @@ const ContentComponent = ({ tv }: Props) => {
             onClick={() => setIsWatchTrailer(true)}
           >
             <Play className="h-4 w-4" />
-            {trailers.length > 1 ? `Trailers · ${trailers.length}` : 'Watch Trailer'}
+            {trailers.length > 1
+              ? `Watch Trailers · ${trailers.length} available`
+              : 'Watch Trailer'}
           </Button>
         )}
         <CollectionMenu

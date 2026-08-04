@@ -6,12 +6,12 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 4 — done (PR #26, CI green, awaiting user merge)
+- Current phase: 5 — done (PR #27, CI green, awaiting user merge)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
 - Phase 4 — Infinite scroll: search and Collection discovery: done (PR #26, CI green, awaiting user merge)
-- Phase 5 — Trailer presentation: pending
+- Phase 5 — Trailer presentation: done (PR #27, CI green, awaiting user merge)
 - Phase 6 — Collection UI: pending
 - Verification debt: none
 
@@ -163,18 +163,18 @@ Self-contained presentation change on the detail pages; no data or query work.
 
 Produces: `formatMediumDate(date: string): string` from `shared/utils/formatDate.ts`.
 
-- [ ] Add `formatMediumDate` to `shared/utils/formatDate.ts` returning `Aug 3, 2026`, using that module's existing `toLocaleDateString` idiom — not a direct `Intl.DateTimeFormat` call (per PLAN.md → "Resolved implementation choices")
-- [ ] Change the trailer button label in `features/Movie/components/Detail/components/Content.tsx` and `features/Tv/components/Detail/components/Content.tsx` from `Trailers · N` to `Watch Trailer` / `Watch Trailers · N available`
-- [ ] Render `formatMediumDate(trailer.publishedAt)` beside the official/unofficial label on each sidebar row in `shared/components/ui/TrailerDialog.tsx`
-- [ ] Add a unit test for `formatMediumDate`
+- [x] Add `formatMediumDate` to `shared/utils/formatDate.ts` returning `Aug 3, 2026`, using that module's existing `toLocaleDateString` idiom — not a direct `Intl.DateTimeFormat` call (per PLAN.md → "Resolved implementation choices")
+- [x] Change the trailer button label in `features/Movie/components/Detail/components/Content.tsx` and `features/Tv/components/Detail/components/Content.tsx` from `Trailers · N` to `Watch Trailer` / `Watch Trailers · N available`
+- [x] Render `formatMediumDate(trailer.publishedAt)` beside the official/unofficial label on each sidebar row in `shared/components/ui/TrailerDialog.tsx`
+- [x] Add a unit test for `formatMediumDate`
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm test:unit` — full suite; `shared/utils/formatDate.ts` is a shared utility
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean
+- [x] `pnpm test:unit` — full suite; 34 files / 136 tests passing
+- [x] `pnpm build` — succeeds
+- [x] CI green on the phase PR — PR #27, `verify` check passed
 
 **Review checklist (user, at PR review):**
 
