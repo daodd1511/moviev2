@@ -64,7 +64,11 @@ export const CollectionForm = ({
       description: collection?.description ?? '',
       visibility: collection?.visibility ?? 'private',
     });
-  }, [collection, reset]);
+    // Reset only when switching to a different Collection (or its initial load), not on
+    // every refetch of the same one — a version-conflict refetch must not wipe input the
+    // user hasn't saved yet.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collection?.id, reset]);
 
   const handleFormSubmit = handleSubmit(values => {
     onSubmit({

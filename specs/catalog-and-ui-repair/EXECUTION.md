@@ -6,13 +6,13 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 5 — done (PR #27, CI green, awaiting user merge)
+- Current phase: 6 — done (PR #28, CI green, awaiting user merge). **This was the final phase.**
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
 - Phase 4 — Infinite scroll: search and Collection discovery: done (PR #26, CI green, awaiting user merge)
 - Phase 5 — Trailer presentation: done (PR #27, CI green, awaiting user merge)
-- Phase 6 — Collection UI: pending
+- Phase 6 — Collection UI (final phase): done (PR #28, CI green, awaiting user merge)
 - Verification debt: none
 
 ## Phase 1 — shadcn migration
@@ -192,20 +192,21 @@ change. Kept as one phase because its four chunks share the same three files.
 
 Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 
-- [ ] Remove the `Version {n}` subtitle, the `Reload` button, and the conflict paragraph from `features/Collection/pages/CollectionPage.tsx`; retitle away from "Edit Collection"
-- [ ] Replace the conflict toast in `handleUpdate`/`handleDelete` with an input-preserving message: refetch, keep form values, report that the Collection changed elsewhere and was not saved — no auto-retry (per PLAN.md → "Optimistic locking stops leaking into the Collection UI")
-- [ ] Add a cover renderer to `features/Collection/pages/CollectionListPage.tsx`: `collection.cover`, else a mosaic of the first four item posters, else the first item's poster — **(amended 2026-08-04, discovered during Phase 1)**: the write side ("Set as cover" in `CollectionItems.tsx`, `handleCover` → `CollectionQueries.useUpdate`) already exists from commit `ae4aa4e`, predating this spec; PLAN.md → "Collections show artwork" corrected. Only the display half remains.
-- [ ] Replace the manual search button in `CollectionItems` with a debounced `@/components/ui/command` palette over `SearchService.multi`
-- [ ] Render `collection.visibility` as a `badge` with human copy and show `collection.likeCount` on `CollectionListPage` cards
-- [ ] Update `features/Collection/pages/CollectionPage.test.tsx` for the removed version surface and the new conflict message
+- [x] Remove the `Version {n}` subtitle, the `Reload` button, and the conflict paragraph from `features/Collection/pages/CollectionPage.tsx`; retitle away from "Edit Collection" — retitled to the Collection's own name (`<h1>{collection.name}</h1>`), with a new "Details" subheading over the form section
+- [x] Replace the conflict toast in `handleUpdate`/`handleDelete` with an input-preserving message: refetch, keep form values, report that the Collection changed elsewhere and was not saved — no auto-retry (per PLAN.md → "Optimistic locking stops leaking into the Collection UI") — **(amended 2026-08-04)**: `CollectionForm.tsx`'s reset-on-`collection`-change `useEffect` keyed on the whole `collection` object, so the conflict's own `refetch()` would trigger it and wipe the user's unsaved input — the exact thing this item requires preserving. Changed the dependency to `collection?.id`, so it resets only when switching to a different Collection, not on a same-Collection refetch.
+- [x] Add a cover renderer to `features/Collection/pages/CollectionListPage.tsx`: `collection.cover`, else a mosaic of the first four item posters, else the first item's poster — **(amended 2026-08-04, discovered during Phase 1)**: the write side ("Set as cover" in `CollectionItems.tsx`, `handleCover` → `CollectionQueries.useUpdate`) already exists from commit `ae4aa4e`, predating this spec; PLAN.md → "Collections show artwork" corrected. Only the display half remains.
+- [x] Replace the manual search button in `CollectionItems` with a debounced `@/components/ui/command` palette over `SearchService.multi`
+- [x] Render `collection.visibility` as a `badge` with human copy and show `collection.likeCount` on `CollectionListPage` cards
+- [x] Update `features/Collection/pages/CollectionPage.test.tsx` for the removed version surface and the new conflict message — **(amended 2026-08-04)**: the existing conflict test asserted the old auto-retry behavior directly (`toHaveValue('Server edit')` — the form _should_ get overwritten). Rewrote it to assert the opposite: the field keeps the user's unsaved input after the conflict's refetch. `ToastContainer` isn't mounted in this test's wrapper, so the conflict message itself isn't DOM-observable here; the input-preservation behavior is the correct testable proxy.
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — **(amended 2026-08-04)**: run from `apps/web` (or without `--project web`) picks up the wrong environment (no jsdom) and fails every test with `document is not defined`; the flag and root-relative paths are required
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean
+- [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — **(amended 2026-08-04)**: run from `apps/web` (or without `--project web`) picks up the wrong environment (no jsdom) and fails every test with `document is not defined`; the flag and root-relative paths are required. Corrected command run against this phase's 5 changed files: 1 test file / 3 tests passing
+- [x] `pnpm build` — succeeds
+- [x] Full spec check (final phase): `pnpm test:unit` — 34 files / 136 tests passing across the whole accumulated spec diff
+- [x] CI green on the phase PR — PR #28, `verify` check passed (after a formatting fix pushed to the same PR)
 
 **Review checklist (user, at PR review):**
 

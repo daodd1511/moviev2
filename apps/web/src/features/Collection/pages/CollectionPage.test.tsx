@@ -103,7 +103,7 @@ describe('Collection journeys', () => {
     );
   });
 
-  it('reloads after a stale edit conflict and submits the canonical version', async () => {
+  it('preserves unsaved input after a stale edit conflict instead of overwriting it', async () => {
     const user = userEvent.setup();
     let getCount = 0;
     let patchBody: unknown;
@@ -132,7 +132,7 @@ describe('Collection journeys', () => {
     );
     renderPage();
 
-    await screen.findByRole('heading', { name: 'Edit Collection' });
+    await screen.findByRole('heading', { name: 'Weekend films' });
     await user.clear(screen.getByLabelText('Name'));
     await user.type(screen.getByLabelText('Name'), 'My edited Collection');
     await user.click(screen.getByRole('button', { name: 'Save changes' }));
@@ -145,7 +145,9 @@ describe('Collection journeys', () => {
         version: 2,
       }),
     );
-    await waitFor(() => expect(screen.getByLabelText('Name')).toHaveValue('Server edit'));
+    await waitFor(() => expect(getCount).toBe(2));
+    expect(screen.getByLabelText('Name')).toHaveValue('My edited Collection');
+    expect(screen.queryByText(/version/i)).not.toBeInTheDocument();
   });
 
   it('reorders titles and deletes the Collection with optimistic version values', async () => {
@@ -171,7 +173,7 @@ describe('Collection journeys', () => {
     );
     renderPage();
 
-    await screen.findByRole('heading', { name: 'Edit Collection' });
+    await screen.findByRole('heading', { name: 'Weekend films' });
     await user.click(screen.getByRole('button', { name: 'Move First down' }));
     await waitFor(() =>
       expect(reorderBody).toEqual({
@@ -182,7 +184,11 @@ describe('Collection journeys', () => {
         ],
       }),
     );
-    await screen.findByText('Version 3');
+    // Confirms the reorder mutation's response (version 3) landed before deleting, so
+    // deleteBody below reflects it rather than the stale pre-reorder version.
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Move First down' })).toBeDisabled(),
+    );
     await user.click(screen.getByRole('button', { name: 'Delete' }));
     await user.click(screen.getByRole('button', { name: 'Delete Collection' }));
     await waitFor(() => expect(deleteBody).toEqual({ version: 3 }));
