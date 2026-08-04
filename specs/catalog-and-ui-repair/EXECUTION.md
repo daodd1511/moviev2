@@ -6,10 +6,10 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 3 — done (local gate passed, awaiting push/PR)
+- Current phase: 3 — done (PR #25, CI green, awaiting user merge)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
-- Phase 3 — Catalog web: categories, infinite scroll, filters: done (local gate passed, awaiting push/PR)
+- Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
 - Phase 4 — Infinite scroll: search and Collection discovery: pending
 - Phase 5 — Trailer presentation: pending
 - Phase 6 — Collection UI: pending
@@ -115,7 +115,7 @@ Produces: `CatalogQueries.useInfiniteDiscover(input)`, `CatalogQueries.useGenres
 - [x] `pnpm typecheck` (project-wide) — clean
 - [x] `pnpm test:unit` — full suite; 33 files / 134 tests passing
 - [x] `pnpm build` — succeeds
-- [ ] CI green on the phase PR
+- [x] CI green on the phase PR — PR #25, `verify` check passed
 
 **Review checklist (user, at PR review):**
 
