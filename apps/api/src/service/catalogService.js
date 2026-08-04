@@ -31,6 +31,7 @@ const CatalogService = {
   discover: input => cached('discover', input),
   getMedia: input => cached('getMedia', input),
   getReleaseSchedule: input => cached('getReleaseSchedule', input),
+  getGenres: input => cached('getGenres', input),
   configureForTesting({ nextProvider, nextCache }) {
     provider = nextProvider;
     cache = nextCache;

@@ -6,9 +6,9 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 1 — done (PR #23, CI green, awaiting user merge)
+- Current phase: 2 — done (PR #24, CI green, awaiting user merge)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
-- Phase 2 — Catalog API: categories and genres: pending
+- Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: pending
 - Phase 4 — Infinite scroll: search and Collection discovery: pending
 - Phase 5 — Trailer presentation: pending
@@ -66,22 +66,22 @@ Produces: `CatalogProvider.discover({ mediaType, category?, page, ...filters })`
 `CatalogProvider.getGenres({ mediaType })`, `GET /api/catalog/genres?mediaType=`,
 `GET /api/catalog/discover?category=`.
 
-- [ ] Add optional `category` to `catalogDiscoverSchema` in `apps/api/src/validation/catalog.schema.js`, validated against `mediaType` with `superRefine` — movie accepts `popular|top_rated|upcoming|now_playing`, tv accepts `popular|top_rated|on_the_air|airing_today`; a flat enum would admit `mediaType=movie&category=on_the_air`
-- [ ] Add `catalogGenresSchema` (`{ mediaType }`, `.strict()`) to the same file
-- [ ] Declare `getGenres` on `apps/api/src/catalog/catalogProvider.js`
-- [ ] In `apps/api/src/catalog/tmdbCatalogProvider.js`, branch `discover` to `/${type}/${category}` when `category` is present and `/discover/${type}` otherwise; add `getGenres` calling `/genre/${type}/list`
-- [ ] Add `getGenres: input => cached('getGenres', input)` to `apps/api/src/service/catalogService.js`
-- [ ] Add `CatalogController.getGenres` in `apps/api/src/controller/catalog.controller.js` and route `GET /genres` in `apps/api/src/router/catalog.routes.js` — unauthenticated, matching the other catalog routes
-- [ ] Extend `apps/api/test/catalog.integration.test.js`: category routes to the named TMDB endpoint, `/discover` when absent, mismatched category+mediaType rejected 400, genres returned, and `CatalogCache` keying two categories separately
+- [x] Add optional `category` to `catalogDiscoverSchema` in `apps/api/src/validation/catalog.schema.js`, validated against `mediaType` with `superRefine` — movie accepts `popular|top_rated|upcoming|now_playing`, tv accepts `popular|top_rated|on_the_air|airing_today`; a flat enum would admit `mediaType=movie&category=on_the_air`
+- [x] Add `catalogGenresSchema` (`{ mediaType }`, `.strict()`) to the same file
+- [x] Declare `getGenres` on `apps/api/src/catalog/catalogProvider.js`
+- [x] In `apps/api/src/catalog/tmdbCatalogProvider.js`, branch `discover` to `/${type}/${category}` when `category` is present and `/discover/${type}` otherwise; add `getGenres` calling `/genre/${type}/list`
+- [x] Add `getGenres: input => cached('getGenres', input)` to `apps/api/src/service/catalogService.js`
+- [x] Add `CatalogController.getGenres` in `apps/api/src/controller/catalog.controller.js` and route `GET /genres` in `apps/api/src/router/catalog.routes.js` — unauthenticated, matching the other catalog routes — **(amended 2026-08-04)**: `/genres` registered before the `/:mediaType/:id` catch-all, or "genres" would be swallowed as a `:mediaType` param
+- [x] Extend `apps/api/test/catalog.integration.test.js`: category routes to the named TMDB endpoint, `/discover` when absent, mismatched category+mediaType rejected 400, genres returned, and `CatalogCache` keying two categories separately
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm check:api`
-- [ ] `pnpm test:unit` — full suite; this phase changes the shared `CatalogProvider` interface
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean
+- [x] `pnpm check:api` — clean
+- [x] `pnpm test:unit` — full suite; 32 files / 131 tests passing
+- [x] `pnpm build` — succeeds
+- [x] CI green on the phase PR — PR #24, `verify` check passed
 
 **Review checklist (user, at PR review):**
 

@@ -24,4 +24,8 @@ export class CatalogProvider {
   async getReleaseSchedule(_input) {
     throw new Error('CatalogProvider.getReleaseSchedule must be implemented.');
   }
+
+  async getGenres(_input) {
+    throw new Error('CatalogProvider.getGenres must be implemented.');
+  }
 }
