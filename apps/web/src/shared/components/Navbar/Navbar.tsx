@@ -29,12 +29,14 @@ const MovieLinks: readonly NavLink[] = [
   { label: 'Popular', to: '/movie/discover/popular' },
   { label: 'Top Rated', to: '/movie/discover/top_rated' },
   { label: 'Upcoming', to: '/movie/discover/upcoming' },
+  { label: 'Discover', to: '/movie/discover/discover' },
 ];
 
 const TvLinks: readonly NavLink[] = [
   { label: 'Popular', to: '/tv/discover/popular' },
   { label: 'Top Rated', to: '/tv/discover/top_rated' },
   { label: 'On The Air', to: '/tv/discover/on_the_air' },
+  { label: 'Discover', to: '/tv/discover/discover' },
 ];
 
 /** Detail routes (`/movie/123`, `/tv/123`) render a full-bleed hero; the nav floats over it. */

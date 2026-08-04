@@ -1,7 +1,9 @@
 import { backendApi } from '..';
-import { fromCatalogPageDto } from '../mappers/catalog.mapper';
+import { fromCatalogGenreDto, fromCatalogPageDto } from '../mappers/catalog.mapper';
 import type {
   CatalogDiscoverInput,
+  CatalogGenre,
+  CatalogMediaType,
   CatalogPage,
   CatalogSearchType,
 } from '@/models/catalog-query.model';
@@ -21,4 +23,11 @@ export const CatalogService = {
     ),
   discover: async (input: CatalogDiscoverInput) =>
     page((await backendApi.get<unknown>('/catalog/discover', { params: input })).data),
+  getGenres: async (mediaType: CatalogMediaType): Promise<readonly CatalogGenre[]> => {
+    const result = fromCatalogGenreDto(
+      (await backendApi.get<unknown>('/catalog/genres', { params: { mediaType } })).data,
+    );
+    if (result === null) throw new Error('The Catalog genre response was invalid.');
+    return result;
+  },
 };

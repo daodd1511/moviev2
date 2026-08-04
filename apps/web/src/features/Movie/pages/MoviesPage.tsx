@@ -1,5 +1,5 @@
 import { memo, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { ChevronUp } from 'lucide-react';
 
 import { MovieByDiscover } from '../components';
@@ -10,12 +10,16 @@ import { useScrollThreshold } from '@/shared/hooks';
 const SCROLL_THRESHOLD = 800;
 
 const MoviesComponent = () => {
-  const params = useParams();
+  const { discover } = useParams();
+  const [searchParams] = useSearchParams();
   const showTopBtn = useScrollThreshold(SCROLL_THRESHOLD);
 
   useEffect(() => {
     goToTop();
-  }, [params]);
+    // Reset scroll only when the category or filters change, not on every render or
+    // when a page loads further results from infinite scroll (page is not in the URL).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discover, searchParams.toString()]);
   return (
     <div className="relative">
       <MovieByDiscover />

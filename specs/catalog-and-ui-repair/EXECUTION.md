@@ -6,10 +6,10 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 2 — done (PR #24, CI green, awaiting user merge)
+- Current phase: 3 — done (PR #25, CI green, awaiting user merge)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
-- Phase 3 — Catalog web: categories, infinite scroll, filters: pending
+- Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
 - Phase 4 — Infinite scroll: search and Collection discovery: pending
 - Phase 5 — Trailer presentation: pending
 - Phase 6 — Collection UI: pending
@@ -99,23 +99,23 @@ Consumes: `GET /api/catalog/discover?category=`, `GET /api/catalog/genres` (Phas
 `@/components/ui/{select,label,input,slider,tabs}` (Phase 1).
 Produces: `CatalogQueries.useInfiniteDiscover(input)`, `CatalogQueries.useGenres(mediaType)`.
 
-- [ ] Add `category` and a `Genre` shape to `models/catalog-query.model.ts`, `api/dtos/catalog.dto.ts`, and `api/mappers/catalog.mapper.ts`
-- [ ] Add `getGenres(mediaType)` and `category` passthrough to `api/services/catalogService.ts`
-- [ ] Replace `CatalogQueries.useDiscover` with `useInfiniteDiscover` (`useInfiniteQuery`, `getNextPageParam` from `page`/`totalPages`) and add `useGenres` in `stores/queries/catalogQueries.ts`
-- [ ] Add `{ name: 'Discover', value: 'discover' }` to `MOVIE_DISCOVER` and `TV_DISCOVER` in `shared/constants/discover.ts`
-- [ ] Rewrite `shared/components/Filter/CatalogFilters.tsx`: genre multi-select fed by `useGenres`, `year` → `primary_release_date.gte`/`.lte` (movie) or `first_air_date.gte`/`.lte` (tv), `rating` → `vote_average.gte`; drop the `page` deletion, now dead
-- [ ] In `features/Movie/components/MovieByDiscover.tsx` and `features/Tv/components/TvByDiscover.tsx`: pass `category` from the route param, render `CatalogFilters` only when it is `discover`, wire `shared/hooks/useInfiniteScroll.ts` to `fetchNextPage`, and render `data.pages`
-- [ ] Remove `?page=` handling from both components
-- [ ] Replace the unconditional `goToTop()` in `features/Movie/pages/MoviesPage.tsx` and `features/Tv/pages/TVsPage.tsx` with scroll restoration that only resets on category or filter change
-- [ ] Add component tests for category switching and filter-visibility-by-tab
+- [x] Add `category` and a `Genre` shape to `models/catalog-query.model.ts`, `api/dtos/catalog.dto.ts`, and `api/mappers/catalog.mapper.ts`
+- [x] Add `getGenres(mediaType)` and `category` passthrough to `api/services/catalogService.ts`
+- [x] Replace `CatalogQueries.useDiscover` with `useInfiniteDiscover` (`useInfiniteQuery`, `getNextPageParam` from `page`/`totalPages`) and add `useGenres` in `stores/queries/catalogQueries.ts`
+- [x] Add `{ name: 'Discover', value: 'discover' }` to `MOVIE_DISCOVER` and `TV_DISCOVER` in `shared/constants/discover.ts` — **(amended 2026-08-04)**: also added a matching "Discover" entry to `shared/components/Navbar/Navbar.tsx`'s `MovieLinks`/`TvLinks` — those are a separate hardcoded array (not derived from `MOVIE_DISCOVER`/`TV_DISCOVER`) that backs the desktop dropdown; without this, Discover would only be reachable through the mobile-only `DiscoverTabs` strip
+- [x] Rewrite `shared/components/Filter/CatalogFilters.tsx`: genre multi-select fed by `useGenres`, `year` → `primary_release_date.gte`/`.lte` (movie) or `first_air_date.gte`/`.lte` (tv), `rating` → `vote_average.gte`; drop the `page` deletion, now dead — year/rating write the API field names directly as URL keys, so `MovieByDiscover`/`TvByDiscover` pass them through unchanged rather than re-translating
+- [x] In `features/Movie/components/MovieByDiscover.tsx` and `features/Tv/components/TvByDiscover.tsx`: pass `category` from the route param, render `CatalogFilters` only when it is `discover`, wire `shared/hooks/useInfiniteScroll.ts` to `fetchNextPage`, and render `data.pages`
+- [x] Remove `?page=` handling from both components
+- [x] Replace the unconditional `goToTop()` in `features/Movie/pages/MoviesPage.tsx` and `features/Tv/pages/TVsPage.tsx` with scroll restoration that only resets on category or filter change — **(amended 2026-08-04)**: the prior effect depended on `useParams()`'s object (a new reference every render), so it fired on every render, not just route changes; now depends on `discover` and `searchParams.toString()`
+- [x] Add component tests for category switching and filter-visibility-by-tab — **(amended 2026-08-04)**: added a shared `IntersectionObserver` stub to `apps/web/src/test/setup.ts`, jsdom implements none; `useInfiniteScroll` constructs one unconditionally on mount
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm test:unit` — full suite; this phase changes shared catalog models, mappers, and constants
-- [ ] `pnpm build`
-- [ ] CI green on the phase PR
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean
+- [x] `pnpm test:unit` — full suite; 33 files / 134 tests passing
+- [x] `pnpm build` — succeeds
+- [x] CI green on the phase PR — PR #25, `verify` check passed
 
 **Review checklist (user, at PR review):**
 

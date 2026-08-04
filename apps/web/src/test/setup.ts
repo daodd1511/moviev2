@@ -56,6 +56,17 @@ if (!Element.prototype.scrollIntoView) {
   Element.prototype.scrollIntoView = () => {};
 }
 
+// jsdom has no IntersectionObserver; useInfiniteScroll constructs one unconditionally on
+// mount. A no-op stub is sufficient since these tests assert on request/render behavior,
+// not on scroll-triggered pagination itself.
+if (!globalThis.IntersectionObserver) {
+  globalThis.IntersectionObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof IntersectionObserver;
+}
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 
 afterEach(() => {
