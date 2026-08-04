@@ -13,8 +13,9 @@ import { FormValues, registerSchema } from './formSetting';
 import { AuthService } from '@/api/services/authService';
 import { ThreeDots } from '@/shared/components/styles';
 import { Register } from '@/models/auth';
-import { TextField } from '@/shared/components/ui/TextField';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const RegisterFormComponent = () => {
   const navigate = useNavigate();
@@ -62,21 +63,29 @@ const RegisterFormComponent = () => {
       </div>
       <div className="space-y-5">
         <div>
-          <TextField
-            label="Email"
+          <Label htmlFor="register-email" className="mb-1.5">
+            Email
+          </Label>
+          <Input
+            id="register-email"
             type="email"
             placeholder="johndoe@gmail.com"
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            aria-invalid={errors.email?.message !== undefined}
             {...register('email')}
           />
           {errors.email?.message !== undefined && <ErrorField error={errors.email?.message} />}
         </div>
         <div>
-          <TextField
-            label="Username"
+          <Label htmlFor="register-username" className="mb-1.5">
+            Username
+          </Label>
+          <Input
+            id="register-username"
             type="text"
             placeholder="Enter your username"
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            aria-invalid={errors.username?.message !== undefined}
             {...register('username')}
           />
           {errors.username?.message !== undefined && (
@@ -84,11 +93,15 @@ const RegisterFormComponent = () => {
           )}
         </div>
         <div>
-          <TextField
-            label="Password"
+          <Label htmlFor="register-password" className="mb-1.5">
+            Password
+          </Label>
+          <Input
+            id="register-password"
             type="password"
             placeholder="Enter your password"
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            aria-invalid={errors.password?.message !== undefined}
             {...register('password')}
           />
           {errors.password?.message !== undefined && (
@@ -96,11 +109,15 @@ const RegisterFormComponent = () => {
           )}
         </div>
         <div>
-          <TextField
-            label="Confirm Password"
+          <Label htmlFor="register-confirm-password" className="mb-1.5">
+            Confirm Password
+          </Label>
+          <Input
+            id="register-confirm-password"
             type="password"
             placeholder="Confirm your password"
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            aria-invalid={errors.confirmPassword?.message !== undefined}
             {...register('confirmPassword')}
           />
           {errors.confirmPassword?.message !== undefined && (
