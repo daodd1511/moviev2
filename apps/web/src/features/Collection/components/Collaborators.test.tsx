@@ -104,7 +104,8 @@ describe('Collaborators', () => {
     );
     const { rerender } = renderCollaborators();
 
-    await user.selectOptions(await screen.findByLabelText('Role for editor-1'), 'viewer');
+    await user.click(await screen.findByLabelText('Role for editor-1'));
+    await user.click(await screen.findByRole('option', { name: 'Viewer' }));
     await waitFor(() => expect(patchBody).toEqual({ role: 'viewer' }));
 
     rerender(
@@ -162,7 +163,8 @@ describe('Collaborators', () => {
     );
     renderCollaborators({ onReload: () => (reloaded = true) });
 
-    await user.selectOptions(await screen.findByLabelText('Role for editor-1'), 'viewer');
+    await user.click(await screen.findByLabelText('Role for editor-1'));
+    await user.click(await screen.findByRole('option', { name: 'Viewer' }));
     await waitFor(() => expect(reloaded).toBe(true));
   });
 });
