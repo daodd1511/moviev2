@@ -19,7 +19,7 @@ half-built surfaces the capability roadmap left behind:
 
 `72dc650 feat(discovery): add catalog search client` replaced
 `MovieQueries.useInfiniteListByDiscover(discover)` — a `useInfiniteQuery` that
-consumed the category path param *and* drove `useInfiniteScroll` — with
+consumed the category path param _and_ drove `useInfiniteScroll` — with
 `CatalogQueries.useDiscover({ mediaType, page, sort_by, with_genres })`, which
 takes no category and fetches one page. Category browsing and infinite scroll
 were the same code, and one commit removed both. `946314b` later deleted the

@@ -54,7 +54,10 @@ export const LibraryFilters = ({ filters, onChange }: Props) => {
     <section aria-label="Library filters" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <div className="grid gap-1.5">
         <Label htmlFor="library-filter-status">Status</Label>
-        <Select value={filters.watchState ?? ALL_WATCH_STATES} onValueChange={handleWatchStateChange}>
+        <Select
+          value={filters.watchState ?? ALL_WATCH_STATES}
+          onValueChange={handleWatchStateChange}
+        >
           <SelectTrigger id="library-filter-status">
             <SelectValue />
           </SelectTrigger>

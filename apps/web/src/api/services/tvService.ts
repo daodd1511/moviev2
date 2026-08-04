@@ -1,15 +1,7 @@
 import { api } from '..';
-import {
-  PaginationDto,
-  GenreResponseDto,
-  EpisodeDto,
-  TvDetailDto,
-  TvDto,
-  CreditsDto,
-} from '../dtos';
+import { PaginationDto, EpisodeDto, TvDetailDto, TvDto, CreditsDto } from '../dtos';
 import {
   PaginationMapper,
-  GenreMapper,
   EpisodeMapper,
   TvDetailMapper,
   TvMapper,
@@ -19,7 +11,7 @@ import {
 
 import { MediaMapper } from '../mappers/media.mapper';
 
-import { Episode, Genre, Pagination, TvDetail, Tv, Media, Credits } from '@/models';
+import { Episode, Pagination, TvDetail, Tv, Media, Credits } from '@/models';
 
 export namespace TvService {
   export const getTvs = async (
@@ -31,12 +23,6 @@ export namespace TvService {
     );
     const tvs = PaginationMapper.fromDto(response.data, tvDto => MediaMapper.fromTvDto(tvDto));
     return tvs;
-  };
-
-  export const getGenres = async (): Promise<readonly Genre[]> => {
-    const response = await api.get<GenreResponseDto>('/genre/tv/list');
-    const genres = response.data.genres.map(genreDto => GenreMapper.fromDto(genreDto));
-    return genres;
   };
 
   export const getTvsByGenre = async (genreId: number, page: number): Promise<Pagination<Tv>> => {

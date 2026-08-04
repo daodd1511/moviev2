@@ -1,12 +1,6 @@
 import { api } from '..';
-import { PaginationDto, MovieDto, GenreResponseDto, MovieDetailDto, CreditsDto } from '../dtos';
-import {
-  PaginationMapper,
-  MovieMapper,
-  GenreMapper,
-  MovieDetailMapper,
-  CrewMapper,
-} from '../mappers';
+import { PaginationDto, MovieDto, MovieDetailDto, CreditsDto } from '../dtos';
+import { PaginationMapper, MovieMapper, MovieDetailMapper, CrewMapper } from '../mappers';
 
 import { MovieQueryParamsMapper } from '../mappers/movie/movieQueryParams.mapper';
 
@@ -14,7 +8,7 @@ import { MediaMapper } from '../mappers/media.mapper';
 
 import { CastMapper } from '../mappers/cast.mapper';
 
-import { Movie, Genre, Pagination, MovieDetail, Media, Credits } from '@/models';
+import { Movie, Pagination, MovieDetail, Media, Credits } from '@/models';
 import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 
 export namespace MovieService {
@@ -43,12 +37,6 @@ export namespace MovieService {
       MediaMapper.fromMovieDto(movieDto),
     );
     return movies;
-  };
-
-  export const getGenres = async (): Promise<readonly Genre[]> => {
-    const response = await api.get<GenreResponseDto>('/genre/movie/list');
-    const genres = response.data.genres.map(genreDto => GenreMapper.fromDto(genreDto));
-    return genres;
   };
 
   export const getMovieDetail = async (movieId: number | undefined): Promise<MovieDetail> => {

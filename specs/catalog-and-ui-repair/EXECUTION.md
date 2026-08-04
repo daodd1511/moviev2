@@ -36,11 +36,12 @@ Produces: shadcn primitives at `@/components/ui/{checkbox,switch,field,tabs,card
 - [x] Convert `features/Collection/components/CollectionItems.tsx` (1) to `@/components/ui/input`
 - [x] Convert `features/Collection/components/CollectionForm.tsx` to shadcn `field` (`Field`/`FieldLabel`/`FieldError`) **(amended 2026-08-04, see above)**, keeping its existing `useForm`/`zodResolver` wiring — **(amended 2026-08-04)**: the visibility `Select` isn't a native form control, so it's wrapped in RHF's `Controller` rather than `register()`. Updated `CollectionPage.test.tsx`'s `user.selectOptions(...)` call to click-trigger-then-click-option.
 - [x] Delete `shared/components/ui/TextField.tsx` and its remaining importers' references — **(amended 2026-08-04)**: `LoginForm.tsx` and `RegisterForm.tsx` (Auth) also imported it, outside the original 8-file scan; converted to inline `Label`+`Input`, keeping their existing `ErrorField` error-rendering pattern rather than adopting `Field`/`FieldError` there
-- [ ] Delete `shared/components/Filter/{index,Sort,Genre}.tsx` and `stores/atoms/queryParamsAtom.ts` (zero live importers; per PLAN.md → "Resolved implementation choices")
-- [ ] Delete `MovieQueries.useGenres` and `TvQueries.useGenres` in `stores/queries/{movieQueries,tvQueries}.ts`, orphaned by the previous item
-- [ ] Create `docs/BACKLOG.md` and seed it with PLAN.md's non-goals: DnD reorder, Library/Collection-items server pagination, the `shared/components/ui` sweep
+- [x] Delete `shared/components/Filter/{index,Sort,Genre}.tsx` and `stores/atoms/queryParamsAtom.ts` (zero live importers; per PLAN.md → "Resolved implementation choices") — also deleted the now-orphaned `Filter/Filter.test.tsx`
+- [x] Delete `MovieQueries.useGenres` and `TvQueries.useGenres` in `stores/queries/{movieQueries,tvQueries}.ts`, orphaned by the previous item — **(amended 2026-08-04)**: also deleted `MovieService.getGenres`/`TvService.getGenres`, left with zero callers by this deletion. Left `MovieService.getTestMovies`/`TvService.getTvsByGenre` alone — they were already zero-caller before this item (their hooks were dropped in Phase 15), out of this item's scope; flagged for `docs/BACKLOG.md`
+- [x] Create `docs/BACKLOG.md` and seed it with PLAN.md's non-goals: DnD reorder, Library/Collection-items server pagination, the `shared/components/ui` sweep — also seeded with the `getTestMovies`/`getTvsByGenre` dead-code finding from the previous item
 
 **Agent gate (hard):**
+
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
 - [ ] `pnpm test:unit` — full suite; this phase deletes shared components and atoms, so the import graph understates the blast radius
@@ -48,6 +49,7 @@ Produces: shadcn primitives at `@/components/ui/{checkbox,switch,field,tabs,card
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
+
 - [ ] Library filters, Library entry editor, and Profile settings still apply and persist their values
 - [ ] Collection create and edit forms still show validation errors on invalid input
 - [ ] No visual regression against `DESIGN.md` tokens on the converted screens
@@ -73,6 +75,7 @@ Produces: `CatalogProvider.discover({ mediaType, category?, page, ...filters })`
 - [ ] Extend `apps/api/test/catalog.integration.test.js`: category routes to the named TMDB endpoint, `/discover` when absent, mismatched category+mediaType rejected 400, genres returned, and `CatalogCache` keying two categories separately
 
 **Agent gate (hard):**
+
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
 - [ ] `pnpm check:api`
@@ -81,6 +84,7 @@ Produces: `CatalogProvider.discover({ mediaType, category?, page, ...filters })`
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
+
 - [ ] `curl '<api>/api/catalog/discover?mediaType=movie&category=top_rated'` returns different titles than `category=popular`
 - [ ] `curl '<api>/api/catalog/genres?mediaType=tv'` returns a genre list
 
@@ -106,6 +110,7 @@ Produces: `CatalogQueries.useInfiniteDiscover(input)`, `CatalogQueries.useGenres
 - [ ] Add component tests for category switching and filter-visibility-by-tab
 
 **Agent gate (hard):**
+
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
 - [ ] `pnpm test:unit` — full suite; this phase changes shared catalog models, mappers, and constants
@@ -113,6 +118,7 @@ Produces: `CatalogQueries.useInfiniteDiscover(input)`, `CatalogQueries.useGenres
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
+
 - [ ] Switching Popular → Top Rated → Upcoming changes the grid contents, not only the heading
 - [ ] Scrolling a catalog grid past the first page loads more titles
 - [ ] Filters appear only on the Discover tab; genre, year, and minimum rating each narrow results
@@ -136,6 +142,7 @@ Produces: `CatalogQueries.useInfiniteSearch(query, type)`,
 - [ ] Update `features/CollectionDiscovery/pages/CollectionDiscoveryPage.test.tsx` and `features/Search/pages/SearchPage.test.tsx` for the paged shape
 
 **Agent gate (hard):**
+
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
 - [ ] `pnpm exec vitest related --run <changed files from the phase diff>`
@@ -143,6 +150,7 @@ Produces: `CatalogQueries.useInfiniteSearch(query, type)`,
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
+
 - [ ] Searching and scrolling loads further results with no pager buttons
 - [ ] Collection discovery loads past its first 20 results
 
@@ -161,6 +169,7 @@ Produces: `formatMediumDate(date: string): string` from `shared/utils/formatDate
 - [ ] Add a unit test for `formatMediumDate`
 
 **Agent gate (hard):**
+
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
 - [ ] `pnpm test:unit` — full suite; `shared/utils/formatDate.ts` is a shared utility
@@ -168,6 +177,7 @@ Produces: `formatMediumDate(date: string): string` from `shared/utils/formatDate
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
+
 - [ ] A title with one trailer reads `Watch Trailer`; a title with several reads `Watch Trailers · N available`
 - [ ] The dialog sidebar shows a readable publish date per trailer and switching between them still works
 
@@ -190,6 +200,7 @@ Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 - [ ] Update `features/Collection/pages/CollectionPage.test.tsx` for the removed version surface and the new conflict message
 
 **Agent gate (hard):**
+
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
 - [ ] `pnpm exec vitest related --run <changed files from the phase diff>`
@@ -197,6 +208,7 @@ Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
+
 - [ ] Collection cards show artwork; a Collection with 4+ items shows a mosaic
 - [ ] "Set as cover" changes the card artwork
 - [ ] Editing the same Collection in two tabs shows the conflict message and preserves typed input
