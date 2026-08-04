@@ -163,10 +163,10 @@ Self-contained presentation change on the detail pages; no data or query work.
 
 Produces: `formatMediumDate(date: string): string` from `shared/utils/formatDate.ts`.
 
-- [ ] Add `formatMediumDate` to `shared/utils/formatDate.ts` returning `Aug 3, 2026`, using that module's existing `toLocaleDateString` idiom — not a direct `Intl.DateTimeFormat` call (per PLAN.md → "Resolved implementation choices")
-- [ ] Change the trailer button label in `features/Movie/components/Detail/components/Content.tsx` and `features/Tv/components/Detail/components/Content.tsx` from `Trailers · N` to `Watch Trailer` / `Watch Trailers · N available`
-- [ ] Render `formatMediumDate(trailer.publishedAt)` beside the official/unofficial label on each sidebar row in `shared/components/ui/TrailerDialog.tsx`
-- [ ] Add a unit test for `formatMediumDate`
+- [x] Add `formatMediumDate` to `shared/utils/formatDate.ts` returning `Aug 3, 2026`, using that module's existing `toLocaleDateString` idiom — not a direct `Intl.DateTimeFormat` call (per PLAN.md → "Resolved implementation choices")
+- [x] Change the trailer button label in `features/Movie/components/Detail/components/Content.tsx` and `features/Tv/components/Detail/components/Content.tsx` from `Trailers · N` to `Watch Trailer` / `Watch Trailers · N available`
+- [x] Render `formatMediumDate(trailer.publishedAt)` beside the official/unofficial label on each sidebar row in `shared/components/ui/TrailerDialog.tsx`
+- [x] Add a unit test for `formatMediumDate`
 
 **Agent gate (hard):**
 

@@ -4,6 +4,7 @@ import { Play, X } from 'lucide-react';
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Video } from '@/models';
 import { cn } from '@/lib/utils';
+import { formatMediumDate } from '@/shared/utils/formatDate';
 
 interface Props {
   /** Dialog visibility. */
@@ -111,7 +112,8 @@ export const TrailerDialog = ({ open, onOpenChange, title, trailers }: Props) =>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium">{trailer.name}</span>
                         <span className="mt-0.5 block text-xs text-muted-foreground">
-                          {trailer.official ? 'Official trailer' : 'Trailer'}
+                          {trailer.official ? 'Official trailer' : 'Trailer'} ·{' '}
+                          {formatMediumDate(trailer.publishedAt)}
                         </span>
                       </span>
                     </button>
