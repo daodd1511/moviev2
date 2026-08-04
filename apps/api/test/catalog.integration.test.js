@@ -25,11 +25,14 @@ const person = {
   popularity: 4,
 };
 
+const genre = { id: 28, name: 'Action' };
+
 const provider = (overrides = {}) => ({
   search: vi.fn(async () => ({ page: 1, totalPages: 1, results: [media, person] })),
   discover: vi.fn(async () => ({ page: 1, totalPages: 1, results: [media] })),
   getMedia: vi.fn(async () => media),
   getReleaseSchedule: vi.fn(async () => ({ page: 1, totalPages: 1, results: [media] })),
+  getGenres: vi.fn(async () => [genre]),
   ...overrides,
 });
 
@@ -130,5 +133,71 @@ describe('Catalog API', () => {
       code: 'catalog_timeout',
       status: 504,
     });
+  });
+
+  it('routes a category to the provider and rejects a mismatched category/mediaType pair', async () => {
+    const fakeProvider = provider();
+    CatalogService.configureForTesting({
+      nextProvider: fakeProvider,
+      nextCache: new CatalogCache(),
+    });
+    const app = createApp();
+
+    const categorized = await request(app)
+      .get('/api/catalog/discover')
+      .query({ mediaType: 'tv', category: 'on_the_air', page: 1 });
+    expect(categorized.status).toBe(200);
+    expect(fakeProvider.discover).toHaveBeenCalledWith({
+      mediaType: 'tv',
+      category: 'on_the_air',
+      page: 1,
+    });
+
+    const mismatched = await request(app)
+      .get('/api/catalog/discover')
+      .query({ mediaType: 'movie', category: 'on_the_air' });
+    expect(mismatched.status).toBe(400);
+    expect(mismatched.body.error.code).toBe('validation_error');
+  });
+
+  it('calls the TMDB category endpoint when a category is given and /discover otherwise', async () => {
+    const provider = new TmdbCatalogProvider({
+      apiKey: 'test',
+      fetchImpl: vi.fn(async () => Response.json({ page: 1, total_pages: 1, results: [] })),
+    });
+
+    await provider.discover({ mediaType: 'movie', category: 'top_rated', page: 1 });
+    expect(provider.fetchImpl).toHaveBeenLastCalledWith(
+      expect.stringContaining('/movie/top_rated?'),
+      expect.anything(),
+    );
+
+    await provider.discover({ mediaType: 'movie', page: 1 });
+    expect(provider.fetchImpl).toHaveBeenLastCalledWith(
+      expect.stringContaining('/discover/movie?'),
+      expect.anything(),
+    );
+  });
+
+  it('returns genres and keys the cache separately per category', async () => {
+    const fakeProvider = provider();
+    const cache = new CatalogCache();
+    CatalogService.configureForTesting({ nextProvider: fakeProvider, nextCache: cache });
+    const app = createApp();
+
+    const genres = await request(app).get('/api/catalog/genres').query({ mediaType: 'movie' });
+    expect(genres.status).toBe(200);
+    expect(genres.body).toEqual([genre]);
+    expect(fakeProvider.getGenres).toHaveBeenCalledWith({ mediaType: 'movie' });
+
+    await request(app)
+      .get('/api/catalog/discover')
+      .query({ mediaType: 'movie', category: 'popular' });
+    await request(app)
+      .get('/api/catalog/discover')
+      .query({ mediaType: 'movie', category: 'top_rated' });
+    await request(app).get('/api/catalog/discover').query({ mediaType: 'movie' });
+
+    expect(fakeProvider.discover).toHaveBeenCalledTimes(3);
   });
 });

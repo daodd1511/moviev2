@@ -131,8 +131,9 @@ export class TmdbCatalogProvider extends CatalogProvider {
     };
   }
 
-  async discover({ mediaType: type, page = 1, ...filters }) {
-    const data = await this.request(`/discover/${type}`, { page, ...filters });
+  async discover({ mediaType: type, category, page = 1, ...filters }) {
+    const path = category === undefined ? `/discover/${type}` : `/${type}/${category}`;
+    const data = await this.request(path, { page, ...filters });
     if (!Array.isArray(data.results))
       throw new CatalogProviderError({
         code: 'catalog_upstream_invalid',
@@ -147,6 +148,16 @@ export class TmdbCatalogProvider extends CatalogProvider {
 
   async getMedia({ mediaType: type, id }) {
     return mapMedia(await this.request(`/${type}/${id}`), type);
+  }
+
+  async getGenres({ mediaType: type }) {
+    const data = await this.request(`/genre/${type}/list`);
+    if (!Array.isArray(data.genres))
+      throw new CatalogProviderError({
+        code: 'catalog_upstream_invalid',
+        message: 'Catalog data was invalid.',
+      });
+    return data.genres.map(genre => ({ id: genre.id, name: genre.name }));
   }
 
   async getReleaseSchedule({ mediaType: type, from, to, page = 1 }) {

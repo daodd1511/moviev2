@@ -2,6 +2,7 @@ import CatalogController from '../controller/catalog.controller.js';
 import { validate } from '../middleware/validate.middleware.js';
 import {
   catalogDiscoverSchema,
+  catalogGenresSchema,
   catalogMediaParamsSchema,
   catalogScheduleSchema,
   catalogSearchSchema,
@@ -20,6 +21,7 @@ catalogRouter.get(
   validate({ query: catalogScheduleSchema }),
   CatalogController.getReleaseSchedule,
 );
+catalogRouter.get('/genres', validate({ query: catalogGenresSchema }), CatalogController.getGenres);
 catalogRouter.get(
   '/:mediaType/:id',
   validate({ params: catalogMediaParamsSchema }),
