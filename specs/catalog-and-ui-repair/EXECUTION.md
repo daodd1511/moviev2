@@ -6,12 +6,12 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 4 — done (PR #26, CI green, awaiting user merge)
+- Current phase: 5 — done (local gate passed, awaiting push/PR)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
 - Phase 4 — Infinite scroll: search and Collection discovery: done (PR #26, CI green, awaiting user merge)
-- Phase 5 — Trailer presentation: pending
+- Phase 5 — Trailer presentation: done (local gate passed, awaiting push/PR)
 - Phase 6 — Collection UI: pending
 - Verification debt: none
 
@@ -170,10 +170,10 @@ Produces: `formatMediumDate(date: string): string` from `shared/utils/formatDate
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm test:unit` — full suite; `shared/utils/formatDate.ts` is a shared utility
-- [ ] `pnpm build`
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean
+- [x] `pnpm test:unit` — full suite; 34 files / 136 tests passing
+- [x] `pnpm build` — succeeds
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
