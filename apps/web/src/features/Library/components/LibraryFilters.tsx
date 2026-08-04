@@ -3,11 +3,23 @@ import {
   LibraryMediaType,
   LibraryWatchState,
 } from '@/models/library-entry.model';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface Props {
   readonly filters: LibraryEntryFilters;
   readonly onChange: (filters: LibraryEntryFilters) => void;
 }
+
+const ALL_WATCH_STATES = 'all';
+const ALL_MEDIA_TYPES = 'all';
+const ANY_RATING = 'any';
 
 const watchStates: readonly { readonly value: LibraryWatchState; readonly label: string }[] = [
   { value: 'planned', label: 'Watchlist' },
@@ -25,81 +37,84 @@ const mediaTypes: readonly { readonly value: LibraryMediaType; readonly label: s
 export const LibraryFilters = ({ filters, onChange }: Props) => {
   const update = (next: Partial<LibraryEntryFilters>) => onChange({ ...filters, ...next });
 
-  const handleWatchStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    update({
-      watchState: event.target.value === '' ? undefined : (event.target.value as LibraryWatchState),
-    });
+  const handleWatchStateChange = (value: string) => {
+    update({ watchState: value === ALL_WATCH_STATES ? undefined : (value as LibraryWatchState) });
   };
-  const handleMediaTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    update({
-      mediaType: event.target.value === '' ? undefined : (event.target.value as LibraryMediaType),
-    });
+  const handleMediaTypeChange = (value: string) => {
+    update({ mediaType: value === ALL_MEDIA_TYPES ? undefined : (value as LibraryMediaType) });
   };
-  const handleRatingChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    update({ minRating: event.target.value === '' ? undefined : Number(event.target.value) });
+  const handleRatingChange = (value: string) => {
+    update({ minRating: value === ANY_RATING ? undefined : Number(value) });
   };
-  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    update({ sort: event.target.value === 'lastWatchedAt' ? 'lastWatchedAt' : 'updatedAt' });
+  const handleSortChange = (value: string) => {
+    update({ sort: value === 'lastWatchedAt' ? 'lastWatchedAt' : 'updatedAt' });
   };
 
   return (
     <section aria-label="Library filters" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      <label className="grid gap-1.5 text-sm font-medium">
-        Status
-        <select
-          value={filters.watchState ?? ''}
-          onChange={handleWatchStateChange}
-          className="rounded-lg border border-input bg-transparent px-3 py-2"
+      <div className="grid gap-1.5">
+        <Label htmlFor="library-filter-status">Status</Label>
+        <Select value={filters.watchState ?? ALL_WATCH_STATES} onValueChange={handleWatchStateChange}>
+          <SelectTrigger id="library-filter-status">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_WATCH_STATES}>All statuses</SelectItem>
+            {watchStates.map(state => (
+              <SelectItem key={state.value} value={state.value}>
+                {state.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="grid gap-1.5">
+        <Label htmlFor="library-filter-type">Type</Label>
+        <Select value={filters.mediaType ?? ALL_MEDIA_TYPES} onValueChange={handleMediaTypeChange}>
+          <SelectTrigger id="library-filter-type">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_MEDIA_TYPES}>Movies and TV</SelectItem>
+            {mediaTypes.map(type => (
+              <SelectItem key={type.value} value={type.value}>
+                {type.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="grid gap-1.5">
+        <Label htmlFor="library-filter-rating">Rating</Label>
+        <Select
+          value={filters.minRating === undefined ? ANY_RATING : String(filters.minRating)}
+          onValueChange={handleRatingChange}
         >
-          <option value="">All statuses</option>
-          {watchStates.map(state => (
-            <option key={state.value} value={state.value}>
-              {state.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium">
-        Type
-        <select
-          value={filters.mediaType ?? ''}
-          onChange={handleMediaTypeChange}
-          className="rounded-lg border border-input bg-transparent px-3 py-2"
-        >
-          <option value="">Movies and TV</option>
-          {mediaTypes.map(type => (
-            <option key={type.value} value={type.value}>
-              {type.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium">
-        Rating
-        <select
-          value={filters.minRating ?? ''}
-          onChange={handleRatingChange}
-          className="rounded-lg border border-input bg-transparent px-3 py-2"
-        >
-          <option value="">Any rating</option>
-          {Array.from({ length: 10 }, (_, index) => index + 1).map(rating => (
-            <option key={rating} value={rating}>
-              {rating}+
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium">
-        Sort
-        <select
-          value={filters.sort ?? 'updatedAt'}
-          onChange={handleSortChange}
-          className="rounded-lg border border-input bg-transparent px-3 py-2"
-        >
-          <option value="updatedAt">Recently updated</option>
-          <option value="lastWatchedAt">Recently watched</option>
-        </select>
-      </label>
+          <SelectTrigger id="library-filter-rating">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ANY_RATING}>Any rating</SelectItem>
+            {Array.from({ length: 10 }, (_, index) => index + 1).map(rating => (
+              <SelectItem key={rating} value={String(rating)}>
+                {rating}+
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="grid gap-1.5">
+        <Label htmlFor="library-filter-sort">Sort</Label>
+        <Select value={filters.sort ?? 'updatedAt'} onValueChange={handleSortChange}>
+          <SelectTrigger id="library-filter-sort">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="updatedAt">Recently updated</SelectItem>
+            <SelectItem value="lastWatchedAt">Recently watched</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </section>
   );
 };

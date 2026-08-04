@@ -27,9 +27,9 @@ describe('LibraryPage', () => {
     renderPage('/user/library?state=planned&type=tv&rating=8&sort=lastWatchedAt');
 
     expect(await screen.findByRole('heading', { name: 'No matching titles' })).toBeInTheDocument();
-    expect(screen.getByLabelText('Status')).toHaveValue('planned');
-    expect(screen.getByLabelText('Type')).toHaveValue('tv');
-    expect(screen.getByLabelText('Rating')).toHaveValue('8');
-    expect(screen.getByLabelText('Sort')).toHaveValue('lastWatchedAt');
+    expect(screen.getByLabelText('Status')).toHaveTextContent('Watchlist');
+    expect(screen.getByLabelText('Type')).toHaveTextContent('TV shows');
+    expect(screen.getByLabelText('Rating')).toHaveTextContent('8+');
+    expect(screen.getByLabelText('Sort')).toHaveTextContent('Recently watched');
   });
 });

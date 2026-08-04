@@ -1,12 +1,30 @@
 import { FormEvent, useId, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { LibraryEntry, LibraryEntryInput, LibraryWatchState } from '@/models/library-entry.model';
 import { LibraryEntryQueries } from '@/stores/queries/libraryEntryQueries';
 
 interface Props {
   readonly entry: LibraryEntry;
 }
+
+const watchStates: readonly { readonly value: LibraryWatchState; readonly label: string }[] = [
+  { value: 'planned', label: 'Watchlist' },
+  { value: 'watching', label: 'Watching' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'paused', label: 'Paused' },
+  { value: 'dropped', label: 'Dropped' },
+];
 
 const toDateInputValue = (value: string | null): string => value?.slice(0, 10) ?? '';
 const toIsoDate = (value: string): string | null =>
@@ -17,6 +35,14 @@ const isDateOrderValid = (startedAt: string | null, completedAt: string | null):
 
 export const LibraryEntryEditor = ({ entry }: Props) => {
   const notesId = useId();
+  const statusId = useId();
+  const ratingId = useId();
+  const startedAtId = useId();
+  const completedAtId = useId();
+  const lastWatchedAtId = useId();
+  const seasonId = useId();
+  const episodeId = useId();
+  const watchedEpisodeCountId = useId();
   const [watchState, setWatchState] = useState<LibraryWatchState>(entry.watchState);
   const [rating, setRating] = useState(entry.rating?.toString() ?? '');
   const [notes, setNotes] = useState(entry.notes ?? '');
@@ -92,106 +118,105 @@ export const LibraryEntryEditor = ({ entry }: Props) => {
       aria-label={`Edit ${entry.mediaSnapshot.title}`}
     >
       <div className="grid gap-3 sm:grid-cols-2">
-        <label className="grid gap-1 text-sm">
-          Status
-          <select
+        <div className="grid gap-1">
+          <Label htmlFor={statusId}>Status</Label>
+          <Select
             value={watchState}
-            onChange={event => setWatchState(event.target.value as LibraryWatchState)}
-            className="rounded-lg border border-input bg-transparent px-3 py-2"
+            onValueChange={value => setWatchState(value as LibraryWatchState)}
           >
-            <option value="planned">Watchlist</option>
-            <option value="watching">Watching</option>
-            <option value="completed">Completed</option>
-            <option value="paused">Paused</option>
-            <option value="dropped">Dropped</option>
-          </select>
-        </label>
-        <label className="grid gap-1 text-sm">
-          Rating (1–10)
-          <input
+            <SelectTrigger id={statusId}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {watchStates.map(state => (
+                <SelectItem key={state.value} value={state.value}>
+                  {state.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="grid gap-1">
+          <Label htmlFor={ratingId}>Rating (1–10)</Label>
+          <Input
+            id={ratingId}
             type="number"
             min="1"
             max="10"
             step="1"
             value={rating}
             onChange={event => setRating(event.target.value)}
-            className="rounded-lg border border-input bg-transparent px-3 py-2"
           />
-        </label>
-        <label className="grid gap-1 text-sm">
-          Started
-          <input
+        </div>
+        <div className="grid gap-1">
+          <Label htmlFor={startedAtId}>Started</Label>
+          <Input
+            id={startedAtId}
             type="date"
             value={startedAt}
             onChange={event => setStartedAt(event.target.value)}
-            className="rounded-lg border border-input bg-transparent px-3 py-2"
           />
-        </label>
-        <label className="grid gap-1 text-sm">
-          Completed
-          <input
+        </div>
+        <div className="grid gap-1">
+          <Label htmlFor={completedAtId}>Completed</Label>
+          <Input
+            id={completedAtId}
             type="date"
             value={completedAt}
             onChange={event => setCompletedAt(event.target.value)}
-            className="rounded-lg border border-input bg-transparent px-3 py-2"
           />
-        </label>
-        <label className="grid gap-1 text-sm">
-          Last watched
-          <input
+        </div>
+        <div className="grid gap-1">
+          <Label htmlFor={lastWatchedAtId}>Last watched</Label>
+          <Input
+            id={lastWatchedAtId}
             type="date"
             value={lastWatchedAt}
             onChange={event => setLastWatchedAt(event.target.value)}
-            className="rounded-lg border border-input bg-transparent px-3 py-2"
           />
-        </label>
+        </div>
       </div>
       {entry.mediaType === 'tv' && (
         <div className="grid gap-3 sm:grid-cols-3">
-          <label className="grid gap-1 text-sm">
-            Season
-            <input
+          <div className="grid gap-1">
+            <Label htmlFor={seasonId}>Season</Label>
+            <Input
+              id={seasonId}
               type="number"
               min="1"
               step="1"
               value={season}
               onChange={event => setSeason(event.target.value)}
-              className="rounded-lg border border-input bg-transparent px-3 py-2"
             />
-          </label>
-          <label className="grid gap-1 text-sm">
-            Episode
-            <input
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor={episodeId}>Episode</Label>
+            <Input
+              id={episodeId}
               type="number"
               min="1"
               step="1"
               value={episode}
               onChange={event => setEpisode(event.target.value)}
-              className="rounded-lg border border-input bg-transparent px-3 py-2"
             />
-          </label>
-          <label className="grid gap-1 text-sm">
-            Episodes watched
-            <input
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor={watchedEpisodeCountId}>Episodes watched</Label>
+            <Input
+              id={watchedEpisodeCountId}
               type="number"
               min="1"
               step="1"
               value={watchedEpisodeCount}
               onChange={event => setWatchedEpisodeCount(event.target.value)}
-              className="rounded-lg border border-input bg-transparent px-3 py-2"
             />
-          </label>
+          </div>
         </div>
       )}
-      <label htmlFor={notesId} className="grid gap-1 text-sm">
-        Notes
-        <textarea
-          id={notesId}
-          value={notes}
-          onChange={event => setNotes(event.target.value)}
-          className="min-h-20 rounded-lg border border-input bg-transparent px-3 py-2"
-        />
-      </label>
+      <div className="grid gap-1">
+        <Label htmlFor={notesId}>Notes</Label>
+        <Textarea id={notesId} value={notes} onChange={event => setNotes(event.target.value)} />
+      </div>
       {error !== null && (
         <p role="alert" className="text-sm text-destructive">
           {error}
