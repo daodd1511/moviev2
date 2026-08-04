@@ -6,11 +6,11 @@ catalog regression never reached `main`). Branch model: stacked (default).
 
 ## STATUS
 
-- Current phase: 3 — done (PR #25, CI green, awaiting user merge)
+- Current phase: 4 — done (local gate passed, awaiting push/PR)
 - Phase 1 — shadcn migration: done (PR #23, CI green, awaiting user merge)
 - Phase 2 — Catalog API: categories and genres: done (PR #24, CI green, awaiting user merge)
 - Phase 3 — Catalog web: categories, infinite scroll, filters: done (PR #25, CI green, awaiting user merge)
-- Phase 4 — Infinite scroll: search and Collection discovery: pending
+- Phase 4 — Infinite scroll: search and Collection discovery: done (local gate passed, awaiting push/PR)
 - Phase 5 — Trailer presentation: pending
 - Phase 6 — Collection UI: pending
 - Verification debt: none
@@ -143,10 +143,10 @@ Produces: `CatalogQueries.useInfiniteSearch(query, type)`,
 
 **Agent gate (hard):**
 
-- [ ] `pnpm format:check && pnpm lint`
-- [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm exec vitest related --run <changed files from the phase diff>`
-- [ ] `pnpm build`
+- [x] `pnpm format:check && pnpm lint` — clean
+- [x] `pnpm typecheck` (project-wide) — clean after fixing the test fakes' `IntersectionObserver` type gap (see items above)
+- [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — **(amended 2026-08-04)**: run from `apps/web` (or without `--project web`) picks up the wrong environment (no jsdom) and fails every test with `document is not defined`; the flag and root-relative paths are required. Corrected command run against this phase's 6 changed files: 4 test files / 14 tests passing
+- [x] `pnpm build` — succeeds
 - [ ] CI green on the phase PR
 
 **Review checklist (user, at PR review):**
@@ -203,7 +203,7 @@ Consumes: `@/components/ui/{field,badge,card,command}` (Phase 1).
 
 - [ ] `pnpm format:check && pnpm lint`
 - [ ] `pnpm typecheck` (project-wide)
-- [ ] `pnpm exec vitest related --run <changed files from the phase diff>`
+- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — **(amended 2026-08-04)**: run from `apps/web` (or without `--project web`) picks up the wrong environment (no jsdom) and fails every test with `document is not defined`; the flag and root-relative paths are required
 - [ ] `pnpm build`
 - [ ] CI green on the phase PR
 
