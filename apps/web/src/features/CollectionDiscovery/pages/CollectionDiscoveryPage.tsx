@@ -1,9 +1,18 @@
+import { useId } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { Compass, Heart, LoaderCircle } from 'lucide-react';
 
 import { Loader } from '@/shared/components';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { SocialQueries } from '@/stores/queries/socialQueries';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 import type { CollectionDiscoverySort, PublicCollectionSummary } from '@/models/social.model';
@@ -42,6 +51,7 @@ const LikeButton = ({ collection }: LikeButtonProps) => {
 };
 
 export const CollectionDiscoveryPage = () => {
+  const sortId = useId();
   const [searchParams, setSearchParams] = useSearchParams();
   const sort = sortFromParams(searchParams);
   const {
@@ -50,8 +60,8 @@ export const CollectionDiscoveryPage = () => {
     isError,
   } = SocialQueries.useDiscovery({ sort, page: 1, limit: DISCOVERY_LIMIT });
 
-  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
-    setSearchParams(event.target.value === 'popular' ? { sort: 'popular' } : {});
+  const handleSortChange = (value: string) =>
+    setSearchParams(value === 'popular' ? { sort: 'popular' } : {});
 
   return (
     <main className="px-4 py-8 md:px-8 md:py-12">
@@ -63,17 +73,18 @@ export const CollectionDiscoveryPage = () => {
             Browse Collections other Flix users have made public.
           </p>
         </div>
-        <label className="grid gap-1.5 text-sm font-medium">
-          Sort by
-          <select
-            value={sort}
-            onChange={handleSortChange}
-            className="rounded-md border border-input bg-background px-3 py-2 text-sm"
-          >
-            <option value="newest">Newest</option>
-            <option value="popular">Most liked</option>
-          </select>
-        </label>
+        <div className="grid gap-1.5">
+          <Label htmlFor={sortId}>Sort by</Label>
+          <Select value={sort} onValueChange={handleSortChange}>
+            <SelectTrigger id={sortId}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newest">Newest</SelectItem>
+              <SelectItem value="popular">Most liked</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </header>
 
       {isPending ? (
