@@ -3,9 +3,68 @@ import { Link } from 'react-router-dom';
 
 import { Collaborators } from '../components/Collaborators';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Loader } from '@/shared/components';
+import { IMAGE_BASE_URL } from '@/shared/constants';
+import { PosterSizes } from '@/shared/enums';
+import type { Collection, CollectionItem, CollectionVisibility } from '@/models/collection.model';
 import { CollectionQueries } from '@/stores/queries/collectionQueries';
+
+const itemKey = (item: { readonly mediaType: string; readonly tmdbId: number }): string =>
+  `${item.mediaType}:${item.tmdbId}`;
+
+const posterUrl = (item: CollectionItem): string | null =>
+  item.posterPath === null ? null : `${IMAGE_BASE_URL}${PosterSizes.small}${item.posterPath}`;
+
+const VISIBILITY_LABEL: Record<CollectionVisibility, string> = {
+  private: 'Private',
+  unlisted: 'Unlisted',
+  public: 'Public',
+};
+
+const VISIBILITY_VARIANT: Record<CollectionVisibility, 'outline' | 'secondary' | 'default'> = {
+  private: 'outline',
+  unlisted: 'secondary',
+  public: 'default',
+};
+
+const CoverArt = ({ collection }: { readonly collection: Collection }) => {
+  const coverItem =
+    collection.cover === null
+      ? undefined
+      : collection.items.find(item => itemKey(item) === itemKey(collection.cover!));
+
+  if (coverItem !== undefined) {
+    const url = posterUrl(coverItem);
+    if (url !== null) return <img src={url} alt="" className="size-full object-cover" />;
+  }
+
+  if (collection.items.length >= 4) {
+    return (
+      <div className="grid size-full grid-cols-2 gap-px">
+        {collection.items.slice(0, 4).map(item => {
+          const url = posterUrl(item);
+          return url === null ? (
+            <div key={itemKey(item)} className="bg-surface" />
+          ) : (
+            <img key={itemKey(item)} src={url} alt="" className="size-full object-cover" />
+          );
+        })}
+      </div>
+    );
+  }
+
+  const firstItem = collection.items[0];
+  const firstUrl = firstItem === undefined ? null : posterUrl(firstItem);
+  if (firstUrl !== null) return <img src={firstUrl} alt="" className="size-full object-cover" />;
+
+  return (
+    <div className="flex size-full items-center justify-center bg-surface">
+      <FolderHeart className="size-6 text-muted-foreground" aria-hidden="true" />
+    </div>
+  );
+};
 
 export const CollectionListPage = () => {
   const { data: collections, isPending } = CollectionQueries.useAll();
@@ -40,10 +99,18 @@ export const CollectionListPage = () => {
             <Link
               key={collection.id}
               to={`/collections/${collection.id}`}
-              className="group flex min-h-32 items-center rounded-lg border border-border bg-card/70 p-5 hover:border-foreground/20 hover:bg-card"
+              className="group flex items-center gap-4 rounded-lg border border-border bg-card/70 p-4 hover:border-foreground/20 hover:bg-card"
             >
+              <div className="size-20 shrink-0 overflow-hidden rounded-md bg-surface">
+                <CoverArt collection={collection} />
+              </div>
               <div className="min-w-0 flex-1">
-                <h2 className="truncate text-lg font-semibold">{collection.name}</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="truncate text-lg font-semibold">{collection.name}</h2>
+                  <Badge variant={VISIBILITY_VARIANT[collection.visibility]}>
+                    {VISIBILITY_LABEL[collection.visibility]}
+                  </Badge>
+                </div>
                 {collection.description !== null && (
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
                     {collection.description}
@@ -51,7 +118,7 @@ export const CollectionListPage = () => {
                 )}
                 <p className="mt-3 text-xs font-medium text-primary">
                   {collection.items.length} title{collection.items.length === 1 ? '' : 's'} ·{' '}
-                  {collection.visibility}
+                  {collection.likeCount} like{collection.likeCount === 1 ? '' : 's'}
                 </p>
               </div>
               <ChevronRight

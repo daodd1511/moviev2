@@ -1,16 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 import { SearchService } from '@/api/services/searchService';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
 import type { Collection, CollectionItem, CollectionItemKey } from '@/models/collection.model';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { getApiErrorMessage } from '@/api/utils/getApiErrorMessage';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { PosterSizes } from '@/shared/enums';
+import { useDebounce } from '@/shared/hooks';
 import { CollectionQueries } from '@/stores/queries/collectionQueries';
 
 interface CollectionItemsProps {
@@ -30,20 +37,37 @@ const itemFromSearchResult = (result: MovieSearch | TvSearch): CollectionItem =>
 
 export const CollectionItems = ({ collection }: CollectionItemsProps) => {
   const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 300);
   const [results, setResults] = useState<readonly (MovieSearch | TvSearch)[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const addItem = CollectionQueries.useAddItem();
   const removeItem = CollectionQueries.useRemoveItem();
   const reorder = CollectionQueries.useReorder();
   const update = CollectionQueries.useUpdate();
 
-  const handleSearch = async (): Promise<void> => {
-    if (query.trim() === '') return;
-    try {
-      setResults(await SearchService.multi(query.trim()));
-    } catch (error) {
-      toast.error(getApiErrorMessage(error, 'Could not search for titles.'));
+  useEffect(() => {
+    const trimmed = debouncedQuery.trim();
+    if (trimmed === '') {
+      setResults([]);
+      setIsSearching(false);
+      return;
     }
-  };
+    let cancelled = false;
+    setIsSearching(true);
+    SearchService.multi(trimmed)
+      .then(data => {
+        if (!cancelled) setResults(data);
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) toast.error(getApiErrorMessage(error, 'Could not search for titles.'));
+      })
+      .finally(() => {
+        if (!cancelled) setIsSearching(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedQuery]);
 
   const handleAdd = (item: CollectionItem): void => {
     addItem.mutate(
@@ -109,42 +133,51 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
       <h2 id="collection-items-heading" className="text-xl font-semibold">
         Titles
       </h2>
-      <div className="mt-4 flex gap-2">
-        <Label className="sr-only" htmlFor="collection-title-search">
-          Search titles
-        </Label>
-        <Input
-          id="collection-title-search"
+      <Command shouldFilter={false} className="mt-4 rounded-lg border border-border">
+        <CommandInput
           value={query}
-          onChange={event => setQuery(event.target.value)}
-          className="h-10 flex-1"
+          onValueChange={setQuery}
           placeholder="Search titles to add"
+          aria-label="Search titles to add"
         />
-        <Button type="button" variant="outline" onClick={() => void handleSearch()}>
-          Search
-        </Button>
-      </div>
-      {results.length > 0 && (
-        <ul className="mt-3 divide-y rounded-md border border-border">
-          {results.map(result => {
-            const item = itemFromSearchResult(result);
-            const exists = collection.items.some(candidate => itemKey(candidate) === itemKey(item));
-            return (
-              <li key={itemKey(item)} className="flex items-center gap-3 p-3">
-                <span className="min-w-0 flex-1 truncate">{item.title}</span>
-                <Button
-                  type="button"
-                  size="sm"
-                  disabled={exists || addItem.isPending}
-                  onClick={() => handleAdd(item)}
-                >
-                  <Plus aria-hidden="true" className="size-4" /> {exists ? 'Added' : 'Add'}
-                </Button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+        {query.trim() !== '' && (
+          <CommandList>
+            {isSearching ? (
+              <CommandEmpty>Searching…</CommandEmpty>
+            ) : results.length === 0 ? (
+              <CommandEmpty>No titles found.</CommandEmpty>
+            ) : (
+              <CommandGroup>
+                {results.map(result => {
+                  const item = itemFromSearchResult(result);
+                  const exists = collection.items.some(
+                    candidate => itemKey(candidate) === itemKey(item),
+                  );
+                  return (
+                    <CommandItem
+                      key={itemKey(item)}
+                      value={itemKey(item)}
+                      disabled={exists || addItem.isPending}
+                      onSelect={() => handleAdd(item)}
+                    >
+                      <span className="min-w-0 flex-1 truncate">{item.title}</span>
+                      <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
+                        {exists ? (
+                          'Added'
+                        ) : (
+                          <>
+                            <Plus aria-hidden="true" className="size-3.5" /> Add
+                          </>
+                        )}
+                      </span>
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+            )}
+          </CommandList>
+        )}
+      </Command>
       {collection.items.length === 0 ? (
         <p className="py-12 text-center text-muted-foreground">No titles in this Collection yet.</p>
       ) : (
