@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 
 import { SearchService } from '@/api/services/searchService';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import type { Collection, CollectionItem, CollectionItemKey } from '@/models/collection.model';
 import { MovieSearch, TvSearch } from '@/models/search.model';
 import { getApiErrorMessage } from '@/api/utils/getApiErrorMessage';
@@ -108,14 +110,14 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
         Titles
       </h2>
       <div className="mt-4 flex gap-2">
-        <label className="sr-only" htmlFor="collection-title-search">
+        <Label className="sr-only" htmlFor="collection-title-search">
           Search titles
-        </label>
-        <input
+        </Label>
+        <Input
           id="collection-title-search"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          className="h-10 flex-1 rounded-md border border-input bg-background px-3"
+          className="h-10 flex-1"
           placeholder="Search titles to add"
         />
         <Button type="button" variant="outline" onClick={() => void handleSearch()}>

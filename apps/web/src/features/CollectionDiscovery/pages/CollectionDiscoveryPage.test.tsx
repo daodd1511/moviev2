@@ -74,7 +74,8 @@ describe('CollectionDiscoveryPage', () => {
     expect(screen.getByText('by @riley')).toBeInTheDocument();
     expect(screen.getByText('3 titles · 5 likes')).toBeInTheDocument();
 
-    await user.selectOptions(screen.getByLabelText('Sort by'), 'popular');
+    await user.click(screen.getByLabelText('Sort by'));
+    await user.click(await screen.findByRole('option', { name: 'Most liked' }));
     await waitFor(() => expect(lastSort).toBe('popular'));
   });
 

@@ -88,7 +88,8 @@ describe('Collection journeys', () => {
     renderPage('/collections/new');
 
     await user.type(screen.getByLabelText('Name'), 'Road trip');
-    await user.selectOptions(screen.getByLabelText('Visibility'), 'private');
+    await user.click(screen.getByLabelText('Visibility'));
+    await user.click(await screen.findByRole('option', { name: 'Private' }));
     await user.click(screen.getByRole('button', { name: 'Create Collection' }));
 
     await waitFor(() =>

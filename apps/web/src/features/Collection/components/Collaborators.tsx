@@ -1,12 +1,20 @@
 import { isAxiosError } from 'axios';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { getApiErrorMessage, type ApiErrorEnvelope } from '@/api/utils/getApiErrorMessage';
 import type { CollaboratorRole, Collection, CollectionInvitation } from '@/models/collection.model';
 import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
-import { TextField } from '@/shared/components/ui/TextField';
 import { CollectionQueries } from '@/stores/queries/collectionQueries';
 
 const isVersionConflict = (error: unknown): boolean =>
@@ -25,6 +33,7 @@ interface CollaboratorsProps {
 }
 
 export const Collaborators = ({ collection, currentUserId, onReload }: CollaboratorsProps) => {
+  const usernameId = useId();
   const [username, setUsername] = useState('');
   const [role, setRole] = useState<CollaboratorRole>('editor');
   const [transferTarget, setTransferTarget] = useState<string | null>(null);
@@ -175,20 +184,24 @@ export const Collaborators = ({ collection, currentUserId, onReload }: Collabora
                 <span>{collaborator.userId === currentUserId ? 'You' : collaborator.userId}</span>
                 {isOwner && collaborator.role !== 'owner' ? (
                   <div className="flex items-center gap-2">
-                    <select
-                      aria-label={`Role for ${collaborator.userId}`}
+                    <Select
                       value={collaborator.role}
-                      onChange={event =>
-                        handleChangeRole(
-                          collaborator.userId,
-                          event.target.value as CollaboratorRole,
-                        )
+                      onValueChange={value =>
+                        handleChangeRole(collaborator.userId, value as CollaboratorRole)
                       }
-                      className="h-9 rounded-lg border border-foreground/15 bg-foreground/[0.06] px-3 text-sm"
                     >
-                      <option value="editor">Editor</option>
-                      <option value="viewer">Viewer</option>
-                    </select>
+                      <SelectTrigger
+                        aria-label={`Role for ${collaborator.userId}`}
+                        size="sm"
+                        className="w-28"
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="editor">Editor</SelectItem>
+                        <SelectItem value="viewer">Viewer</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <Button
                       type="button"
                       size="sm"
@@ -217,20 +230,23 @@ export const Collaborators = ({ collection, currentUserId, onReload }: Collabora
 
           {isOwner && (
             <form className="mt-4 flex flex-wrap items-end gap-2" onSubmit={handleInvite}>
-              <TextField
-                label="Invite by username"
-                value={username}
-                onChange={event => setUsername(event.target.value)}
-              />
-              <select
-                aria-label="Invitation role"
-                value={role}
-                onChange={event => setRole(event.target.value as CollaboratorRole)}
-                className="h-9 rounded-lg border border-foreground/15 bg-foreground/[0.06] px-3 text-sm"
-              >
-                <option value="editor">Editor</option>
-                <option value="viewer">Viewer</option>
-              </select>
+              <div className="grid gap-1.5">
+                <Label htmlFor={usernameId}>Invite by username</Label>
+                <Input
+                  id={usernameId}
+                  value={username}
+                  onChange={event => setUsername(event.target.value)}
+                />
+              </div>
+              <Select value={role} onValueChange={value => setRole(value as CollaboratorRole)}>
+                <SelectTrigger aria-label="Invitation role" className="w-28">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="editor">Editor</SelectItem>
+                  <SelectItem value="viewer">Viewer</SelectItem>
+                </SelectContent>
+              </Select>
               <Button type="submit" disabled={invite.isPending}>
                 Invite
               </Button>

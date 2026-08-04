@@ -1,15 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import type {
   Collection,
   CollectionVisibility,
   CreateCollectionInput,
 } from '@/models/collection.model';
-import { TextField } from '@/shared/components/ui/TextField';
 
 const collectionFormSchema = z.object({
   name: z.string().trim().min(1, 'A Collection name is required.').max(255),
@@ -36,6 +45,7 @@ export const CollectionForm = ({
 }: CollectionFormProps) => {
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
@@ -66,44 +76,44 @@ export const CollectionForm = ({
 
   return (
     <form className="grid gap-4" noValidate onSubmit={event => void handleFormSubmit(event)}>
-      <div>
-        <TextField label="Name" {...register('name')} />
-        {errors.name?.message !== undefined && (
-          <p className="mt-1 text-sm text-destructive" role="alert">
-            {errors.name.message}
-          </p>
-        )}
-      </div>
-      <div>
-        <label
-          htmlFor="collection-description"
-          className="mb-1.5 block text-sm font-medium text-muted-foreground"
-        >
-          Description
-        </label>
-        <textarea
+      <Field data-invalid={errors.name !== undefined}>
+        <FieldLabel htmlFor="collection-name">Name</FieldLabel>
+        <Input
+          id="collection-name"
+          aria-invalid={errors.name !== undefined}
+          {...register('name')}
+        />
+        <FieldError errors={[errors.name]} />
+      </Field>
+      <Field data-invalid={errors.description !== undefined}>
+        <FieldLabel htmlFor="collection-description">Description</FieldLabel>
+        <Textarea
           id="collection-description"
-          className="min-h-24 w-full rounded-md border border-input bg-white/[0.08] px-4 py-2 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+          aria-invalid={errors.description !== undefined}
           {...register('description')}
         />
-      </div>
-      <div>
-        <label
-          htmlFor="collection-visibility"
-          className="mb-1.5 block text-sm font-medium text-muted-foreground"
-        >
-          Visibility
-        </label>
-        <select
-          id="collection-visibility"
-          className="h-10 rounded-md border border-input bg-background px-3 text-foreground"
-          {...register('visibility')}
-        >
-          <option value="private">Private</option>
-          <option value="unlisted">Unlisted</option>
-          <option value="public">Public</option>
-        </select>
-      </div>
+        <FieldError errors={[errors.description]} />
+      </Field>
+      <Field data-invalid={errors.visibility !== undefined}>
+        <FieldLabel htmlFor="collection-visibility">Visibility</FieldLabel>
+        <Controller
+          control={control}
+          name="visibility"
+          render={({ field }) => (
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger id="collection-visibility">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="private">Private</SelectItem>
+                <SelectItem value="unlisted">Unlisted</SelectItem>
+                <SelectItem value="public">Public</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        <FieldError errors={[errors.visibility]} />
+      </Field>
       <div>
         <Button type="submit" disabled={isPending}>
           {submitLabel}

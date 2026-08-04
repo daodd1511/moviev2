@@ -15,8 +15,9 @@ import { getApiErrorMessage } from '@/api/utils/getApiErrorMessage';
 import { Login } from '@/models/auth/login.model';
 import { isAuthAtom, tokenAtom } from '@/stores/atoms/authAtoms';
 import { userIdAtom } from '@/stores/atoms/userAtoms';
-import { TextField } from '@/shared/components/ui/TextField';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const getSafeRedirectPath = (redirectPath: string | null): string =>
   redirectPath?.startsWith('/') === true && !redirectPath.startsWith('//') ? redirectPath : '/';
@@ -71,11 +72,15 @@ const LoginFormComponent = () => {
       </div>
       <div className="space-y-6">
         <div>
-          <TextField
-            label="Username"
+          <Label htmlFor="login-username" className="mb-1.5">
+            Username
+          </Label>
+          <Input
+            id="login-username"
             type="text"
             placeholder="Enter your username"
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            aria-invalid={errors.username?.message !== undefined}
             {...register('username')}
           />
           {errors.username?.message !== undefined && (
@@ -83,11 +88,15 @@ const LoginFormComponent = () => {
           )}
         </div>
         <div>
-          <TextField
-            label="Password"
+          <Label htmlFor="login-password" className="mb-1.5">
+            Password
+          </Label>
+          <Input
+            id="login-password"
             type="password"
             placeholder="Enter your password"
             className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            aria-invalid={errors.password?.message !== undefined}
             {...register('password')}
           />
           {errors.password?.message !== undefined && (

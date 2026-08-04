@@ -41,6 +41,21 @@ Object.defineProperty(globalThis, 'localStorage', {
   value: new MemoryStorage(),
 });
 
+// jsdom implements neither the pointer-capture nor scrollIntoView APIs; Radix's Select
+// (and other pointer-driven primitives) call them unconditionally when opening/navigating.
+if (!Element.prototype.hasPointerCapture) {
+  Element.prototype.hasPointerCapture = () => false;
+}
+if (!Element.prototype.setPointerCapture) {
+  Element.prototype.setPointerCapture = () => {};
+}
+if (!Element.prototype.releasePointerCapture) {
+  Element.prototype.releasePointerCapture = () => {};
+}
+if (!Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = () => {};
+}
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 
 afterEach(() => {

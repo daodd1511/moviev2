@@ -1,22 +1,26 @@
-import { ChangeEvent, useState } from 'react';
+import { useId, useState } from 'react';
 import { LogOut } from 'lucide-react';
 
 import { Loader } from '@/shared/components';
 import { UpdateSocialSettingsInput, UserQueries } from '@/stores/queries/userQueries';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
 import { useLogout } from '@/shared/hooks';
 
 const SocialSettings = () => {
+  const publicProfileId = useId();
+  const showFollowersId = useId();
+  const showFollowingId = useId();
   const { data, isPending } = UserQueries.useProfile();
   const updateSettings = UserQueries.useUpdateSocialSettings();
 
   if (isPending || data === undefined) return null;
 
-  const handleToggle =
-    (key: keyof UpdateSocialSettingsInput) => (event: ChangeEvent<HTMLInputElement>) => {
-      updateSettings.mutate({ [key]: event.target.checked });
-    };
+  const handleToggle = (key: keyof UpdateSocialSettingsInput) => (checked: boolean) => {
+    updateSettings.mutate({ [key]: checked });
+  };
 
   return (
     <div className="mt-8 border-t border-border pt-6">
@@ -25,36 +29,39 @@ const SocialSettings = () => {
         Control what other Flix users can see about you.
       </p>
       <div className="mt-4 flex flex-col gap-3">
-        <label className="flex items-center gap-3 text-sm">
-          <input
-            type="checkbox"
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id={publicProfileId}
             checked={data.social.publicProfile}
-            onChange={handleToggle('publicProfile')}
+            onCheckedChange={handleToggle('publicProfile')}
             disabled={updateSettings.isPending}
-            className="size-4"
           />
-          Make my profile public
-        </label>
-        <label className="flex items-center gap-3 text-sm text-muted-foreground">
-          <input
-            type="checkbox"
+          <Label htmlFor={publicProfileId} className="text-sm font-normal">
+            Make my profile public
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id={showFollowersId}
             checked={data.social.showFollowers}
-            onChange={handleToggle('showFollowers')}
+            onCheckedChange={handleToggle('showFollowers')}
             disabled={updateSettings.isPending || !data.social.publicProfile}
-            className="size-4"
           />
-          Show my followers list
-        </label>
-        <label className="flex items-center gap-3 text-sm text-muted-foreground">
-          <input
-            type="checkbox"
+          <Label htmlFor={showFollowersId} className="text-sm font-normal text-muted-foreground">
+            Show my followers list
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id={showFollowingId}
             checked={data.social.showFollowing}
-            onChange={handleToggle('showFollowing')}
+            onCheckedChange={handleToggle('showFollowing')}
             disabled={updateSettings.isPending || !data.social.publicProfile}
-            className="size-4"
           />
-          Show who I follow
-        </label>
+          <Label htmlFor={showFollowingId} className="text-sm font-normal text-muted-foreground">
+            Show who I follow
+          </Label>
+        </div>
       </div>
       <p className="sr-only" aria-live="polite" role="status">
         {updateSettings.isPending ? 'Saving…' : updateSettings.isSuccess ? 'Saved.' : ''}
