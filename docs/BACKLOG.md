@@ -14,6 +14,10 @@ into a `specs/<feature>/` plan.
       `border-input bg-transparent dark:bg-input/30`, while `SelectTrigger`/`DatePicker`/
       `NumberField` use `border-foreground/15 bg-foreground/[0.06]` — unify on one before
       more forms land (2026-08-05)
+- [ ] Catalog category and filter changes swap the whole page for a full-height `Loader`
+      because `isPending` short-circuits the render; now that categories are an on-page
+      rail, keep the header, rail, and filters mounted and load only the results grid
+      (2026-08-05)
 
 ## Features
 
@@ -24,6 +28,10 @@ into a `specs/<feature>/` plan.
 - [ ] Server-side pagination for the Library (`GET /api/library/entries`) and for
       Collection items — neither paginates today; not broken at current data volumes,
       but will be at scale (2026-08-04)
+- [ ] Genre pages: a browsable route per genre for movies and TV, beyond the multi-select
+      genre filter on the catalog Discover tab (2026-08-05)
+- [ ] TV season detail with per-episode ratings, IMDb-style — episode list per season with
+      each episode's rating, air date, and still (2026-08-05)
 
 ## Ideas
 
