@@ -68,7 +68,7 @@ export const CollectionDiscoveryPage = () => {
     setSearchParams(value === 'popular' ? { sort: 'popular' } : {});
 
   return (
-    <main className="px-4 py-8 md:px-8 md:py-12">
+    <main className="page-shell">
       <header className="mb-7 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">Discover</p>

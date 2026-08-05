@@ -62,12 +62,14 @@ export const LibraryPage = () => {
 
   if (isPending) return <Loader className="min-h-[60vh]" />;
   return (
-    <main className="px-4 py-8 md:px-8 md:py-12">
+    <main className="page-shell">
       <header className="mb-7">
-        <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">
+        <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
           Your library
         </p>
-        <h1 className="mt-1 text-3xl font-semibold">Library</h1>
+        <h1 className="mt-2 text-3xl leading-tight font-light tracking-tight md:text-4xl">
+          Library
+        </h1>
         <p className="mt-2 text-muted-foreground">
           Track your watchlist, notes, ratings, and progress.
         </p>
