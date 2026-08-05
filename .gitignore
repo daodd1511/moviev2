@@ -25,7 +25,14 @@ dist-ssr
 *.sln
 *.sw?
 .env
+# Local variants (.env.local, .env.bak, ...) carry real secrets; .env.example
+# is the tracked template and must stay visible.
+.env.*
+!.env.example
 .understand-anything
+
+# Wrangler build/deploy state for tools/tmdb-proxy
+.wrangler/
 
 # Browser-test artifacts
 playwright-report/
