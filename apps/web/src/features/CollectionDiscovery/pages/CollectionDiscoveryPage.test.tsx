@@ -72,7 +72,9 @@ describe('CollectionDiscoveryPage', () => {
     const link = await screen.findByRole('link', { name: 'Weekend films' });
     expect(link).toHaveAttribute('href', '/u/riley/collections/collection-1');
     expect(screen.getByText('by @riley')).toBeInTheDocument();
-    expect(screen.getByText('3 titles · 5 likes')).toBeInTheDocument();
+    expect(screen.getByText('3 titles')).toBeInTheDocument();
+    // Like count sits with the heart control rather than in the count line.
+    expect(screen.getByText('5')).toBeInTheDocument();
 
     await user.click(screen.getByLabelText('Sort by'));
     await user.click(await screen.findByRole('option', { name: 'Most liked' }));
