@@ -10,6 +10,10 @@ into a `specs/<feature>/` plan.
       `TvService.getTvsByGenre` (`apps/web/src/api/services/tvService.ts`) have zero
       callers — their hooks were dropped in the product-capability-roadmap's Phase 15
       cleanup, but the service methods themselves were missed (2026-08-04)
+- [ ] Form controls run on two different fill/border systems: `Input`/`Textarea` use
+      `border-input bg-transparent dark:bg-input/30`, while `SelectTrigger`/`DatePicker`/
+      `NumberField` use `border-foreground/15 bg-foreground/[0.06]` — unify on one before
+      more forms land (2026-08-05)
 
 ## Features
 
