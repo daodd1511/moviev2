@@ -200,11 +200,11 @@ export const LibraryEntryEditor = ({ entry, onSaved, onCancel }: Props) => {
       </p>
       <DialogFooter className="mt-5 sm:items-center">
         {onCancel !== undefined && (
-          <Button type="button" variant="outline" size="lg" onClick={onCancel}>
+          <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
         )}
-        <Button type="submit" size="lg" disabled={upsert.isPending}>
+        <Button type="submit" disabled={upsert.isPending}>
           Save changes
         </Button>
       </DialogFooter>
