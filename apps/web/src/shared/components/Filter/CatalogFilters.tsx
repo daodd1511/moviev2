@@ -2,8 +2,7 @@ import { useId } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Field, FieldLabel } from '@/components/ui/field';
 import {
   Select,
   SelectContent,
@@ -11,11 +10,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { ComboBox } from '@/shared/components/ui/ComboBox';
 import { MultiSelect } from '@/shared/components/ui/MultiSelect';
 import type { CatalogMediaType } from '@/models/catalog-query.model';
 import { CatalogQueries } from '@/stores/queries/catalogQueries';
 
 const DEFAULT_SORT = 'default';
+const ANY_RATING = 'any';
+const RATING_STEPS = [9, 8, 7, 6, 5] as const;
+const EARLIEST_YEAR = 1900;
+
+/** Release years offered by the Year filter, newest first. */
+const YEAR_OPTIONS = Array.from(
+  { length: new Date().getFullYear() - EARLIEST_YEAR + 1 },
+  (_, index) => String(new Date().getFullYear() - index),
+).map(year => ({ value: year, label: year }));
 
 export const CatalogFilters = ({ mediaType }: { readonly mediaType: CatalogMediaType }) => {
   const sortId = useId();
@@ -48,60 +57,92 @@ export const CatalogFilters = ({ mediaType }: { readonly mediaType: CatalogMedia
   const reset = () => setParams({});
 
   const selectedGenres = (params.get('genres') ?? '').split(',').filter(Boolean);
+  const hasFilters = [...params.keys()].length > 0;
 
   return (
-    <section aria-label={`${mediaType} catalog filters`} className="mt-5 flex flex-wrap gap-3">
-      <div className="grid gap-1.5">
-        <Label htmlFor={sortId}>Sort</Label>
-        <Select
-          value={params.get('sort') ?? DEFAULT_SORT}
-          onValueChange={value => setValue('sort', value === DEFAULT_SORT ? '' : value)}
+    <section
+      aria-label={`${mediaType} catalog filters`}
+      className="mt-6 rounded-xl border border-foreground/10 bg-surface/40 p-5"
+    >
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+          Refine
+        </h2>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          disabled={!hasFilters}
+          className="text-muted-foreground hover:text-foreground"
+          onClick={reset}
         >
-          <SelectTrigger id={sortId}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={DEFAULT_SORT}>Default</SelectItem>
-            <SelectItem value="popularity.desc">Popularity</SelectItem>
-            <SelectItem value="vote_average.desc">Rating</SelectItem>
-            <SelectItem value="primary_release_date.desc">Newest</SelectItem>
-          </SelectContent>
-        </Select>
+          Reset filters
+        </Button>
       </div>
-      <div className="grid w-48 gap-1.5">
-        <Label id={genresId}>Genres</Label>
-        <MultiSelect
-          labelledBy={genresId}
-          options={genres.map(genre => ({ value: String(genre.id), label: genre.name }))}
-          selected={selectedGenres}
-          onChange={values => setValue('genres', values.join(','))}
-          placeholder="Any genre"
-        />
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Field>
+          <FieldLabel htmlFor={sortId}>Sort</FieldLabel>
+          <Select
+            value={params.get('sort') ?? DEFAULT_SORT}
+            onValueChange={value => setValue('sort', value === DEFAULT_SORT ? '' : value)}
+          >
+            <SelectTrigger id={sortId}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={DEFAULT_SORT}>Default</SelectItem>
+              <SelectItem value="popularity.desc">Popularity</SelectItem>
+              <SelectItem value="vote_average.desc">Rating</SelectItem>
+              <SelectItem value="primary_release_date.desc">Newest</SelectItem>
+            </SelectContent>
+          </Select>
+        </Field>
+
+        <Field>
+          <FieldLabel id={genresId}>Genres</FieldLabel>
+          <MultiSelect
+            labelledBy={genresId}
+            options={genres.map(genre => ({ value: String(genre.id), label: genre.name }))}
+            selected={selectedGenres}
+            onChange={values => setValue('genres', values.join(','))}
+            placeholder="Any genre"
+          />
+        </Field>
+
+        <Field>
+          <FieldLabel id={yearId}>Year</FieldLabel>
+          <ComboBox
+            labelledBy={yearId}
+            options={YEAR_OPTIONS}
+            value={(params.get(dateGteKey) ?? '').slice(0, 4) || null}
+            onChange={year => setYear(year ?? '')}
+            placeholder="Any year"
+            searchPlaceholder="Search years…"
+            emptyMessage="No matching years."
+          />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor={ratingId}>Minimum rating</FieldLabel>
+          <Select
+            value={params.get('vote_average.gte') ?? ANY_RATING}
+            onValueChange={value => setValue('vote_average.gte', value === ANY_RATING ? '' : value)}
+          >
+            <SelectTrigger id={ratingId}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={ANY_RATING}>Any rating</SelectItem>
+              {RATING_STEPS.map(step => (
+                <SelectItem key={step} value={String(step)}>
+                  {step}+
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
       </div>
-      <div className="grid gap-1.5">
-        <Label htmlFor={yearId}>Year</Label>
-        <Input
-          id={yearId}
-          type="number"
-          value={(params.get(dateGteKey) ?? '').slice(0, 4)}
-          onChange={event => setYear(event.target.value)}
-        />
-      </div>
-      <div className="grid gap-1.5">
-        <Label htmlFor={ratingId}>Minimum rating</Label>
-        <Input
-          id={ratingId}
-          type="number"
-          min="0"
-          max="10"
-          step="1"
-          value={params.get('vote_average.gte') ?? ''}
-          onChange={event => setValue('vote_average.gte', event.target.value)}
-        />
-      </div>
-      <Button type="button" variant="outline" onClick={reset} className="self-end">
-        Reset filters
-      </Button>
     </section>
   );
 };

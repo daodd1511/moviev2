@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
 import { DiscoverTabs, Loader } from '@/shared/components';
 import { MediaList } from '@/shared/components/';
 import { MOVIE_DISCOVER } from '@/shared/constants';
@@ -71,29 +72,54 @@ const MovieByDiscoverComponent = () => {
 
   if (isError) {
     return (
-      <div>
-        <p role="alert">Error: {error.message}</p>
-        <button type="button" onClick={() => void refetch()}>
-          Retry
-        </button>
-      </div>
+      <main className="page-shell">
+        <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-5 py-4">
+          <p role="alert" className="text-sm text-destructive">
+            Could not load this catalog: {error.message}
+          </p>
+          <Button type="button" variant="outline" className="mt-4" onClick={() => void refetch()}>
+            Retry
+          </Button>
+        </div>
+      </main>
     );
   }
+  const items = toMedia(data.pages.flatMap(page => page.results));
+
   return (
-    <div className="px-4 py-8 md:px-8 md:py-12">
-      <h1 className="pb-6 text-2xl font-semibold md:pb-10">{title} Movies</h1>
-      <DiscoverTabs
-        label="Movie categories"
-        basePath="/movie/discover"
-        activeValue={discover ?? 'popular'}
-        options={MOVIE_DISCOVER}
-      />
+    <main className="page-shell">
+      <header className="border-b border-foreground/10 pb-6">
+        <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+          Movies
+        </p>
+        <h1 className="mt-2 text-3xl leading-tight font-light tracking-tight md:text-4xl">
+          {title} Movies
+        </h1>
+      </header>
+
+      <div className="mt-6">
+        <DiscoverTabs
+          label="Movie categories"
+          basePath="/movie/discover"
+          activeValue={discover ?? 'popular'}
+          options={MOVIE_DISCOVER}
+        />
+      </div>
+
       {isDiscoverMode && <CatalogFilters mediaType="movie" />}
-      {data.pages.map((moviePage, index) => (
-        <MediaList key={index} data={toMedia(moviePage.results)} />
-      ))}
+
+      {items.length === 0 ? (
+        <p className="mt-8 rounded-xl border border-dashed border-foreground/15 py-16 text-center text-sm text-muted-foreground">
+          Nothing matches these filters yet.
+        </p>
+      ) : (
+        <div className="mt-8">
+          <MediaList data={items} />
+        </div>
+      )}
+
       <div ref={observerElement}>{hasNextPage === true && isFetchingNextPage && <Loader />}</div>
-    </div>
+    </main>
   );
 };
 
