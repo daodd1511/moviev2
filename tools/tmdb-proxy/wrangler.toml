@@ -1,0 +1,10 @@
+name = "tmdb-proxy"
+main = "src/worker.js"
+compatibility_date = "2026-08-05"
+
+# Keep the Worker off a route/custom domain: the generated *.workers.dev URL is
+# all the API needs, and a custom domain would sit on DNS that may be blocked.
+workers_dev = true
+
+# PROXY_SECRET is optional and set with `wrangler secret put PROXY_SECRET`,
+# never committed here. See README.md.

@@ -43,7 +43,7 @@ export class TmdbCatalogProvider extends CatalogProvider {
   constructor({
     fetchImpl = fetch,
     apiKey = process.env.TMDB_API_KEY,
-    baseUrl = defaultBaseUrl,
+    baseUrl = process.env.TMDB_BASE_URL || defaultBaseUrl,
     timeoutMs = 5_000,
   } = {}) {
     super();
