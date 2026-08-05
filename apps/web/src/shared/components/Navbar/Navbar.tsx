@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import { memo, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, Film, ListVideo, Tv, UserRound } from 'lucide-react';
+import { Film, ListVideo, Tv, UserRound } from 'lucide-react';
 
 import { Search } from '../Search/Search';
 
@@ -9,12 +9,6 @@ import { ProfileDropdown } from './ProfileDropdown';
 
 import { NotificationCenter } from '@/features/Notifications/components/NotificationCenter';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { isAuthAtom } from '@/stores/atoms/authAtoms';
 
 interface NavLink {
@@ -23,47 +17,31 @@ interface NavLink {
 
   /** Link target. */
   readonly to: string;
+
+  /** Route prefix that marks this section as current. */
+  readonly section: string;
 }
 
-const MovieLinks: readonly NavLink[] = [
-  { label: 'Popular', to: '/movie/discover/popular' },
-  { label: 'Top Rated', to: '/movie/discover/top_rated' },
-  { label: 'Upcoming', to: '/movie/discover/upcoming' },
-  { label: 'Discover', to: '/movie/discover/discover' },
-];
-
-const TvLinks: readonly NavLink[] = [
-  { label: 'Popular', to: '/tv/discover/popular' },
-  { label: 'Top Rated', to: '/tv/discover/top_rated' },
-  { label: 'On The Air', to: '/tv/discover/on_the_air' },
-  { label: 'Discover', to: '/tv/discover/discover' },
+/**
+ * Top-level sections. Each lands on the section's default category — the catalog page's
+ * own rail switches categories from there, so the nav does not repeat them.
+ */
+const SectionLinks: readonly NavLink[] = [
+  { label: 'Movies', to: '/movie/discover/popular', section: '/movie' },
+  { label: 'TV Shows', to: '/tv/discover/popular', section: '/tv' },
 ];
 
 /** Detail routes (`/movie/123`, `/tv/123`) render a full-bleed hero; the nav floats over it. */
 const DETAIL_ROUTE_PATTERN = /^\/(movie|tv)\/\d+$/;
 
-interface NavDropdownProps {
-  /** Trigger label. */
-  readonly label: string;
-
-  /** Links to list. */
-  readonly links: readonly NavLink[];
-}
-
-const NavDropdown = ({ label, links }: NavDropdownProps) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-muted-foreground transition-colors outline-none hover:text-foreground data-[state=open]:text-foreground">
-      {label}
-      <ChevronDown className="h-3.5 w-3.5" />
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="start">
-      {links.map(link => (
-        <DropdownMenuItem key={link.to} asChild>
-          <Link to={link.to}>{link.label}</Link>
-        </DropdownMenuItem>
-      ))}
-    </DropdownMenuContent>
-  </DropdownMenu>
+const SectionLink = ({ link, pathname }: { link: NavLink; pathname: string }) => (
+  <Link
+    to={link.to}
+    aria-current={pathname.startsWith(link.section) ? 'page' : undefined}
+    className="text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:text-primary"
+  >
+    {link.label}
+  </Link>
 );
 
 interface MobileTabLinkProps {
@@ -157,8 +135,9 @@ const NavbarComponent = () => {
       </Link>
 
       <div className="hidden items-center gap-6 md:flex">
-        <NavDropdown label="Movies" links={MovieLinks} />
-        <NavDropdown label="TV Shows" links={TvLinks} />
+        {SectionLinks.map(link => (
+          <SectionLink key={link.to} link={link} pathname={location.pathname} />
+        ))}
       </div>
 
       <div className="ml-auto flex items-center gap-3">

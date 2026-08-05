@@ -135,19 +135,27 @@ export const Collaborators = ({ collection, currentUserId, onReload }: Collabora
     );
   };
 
+  // The Collection list page mounts this for the invitation inbox alone; with no
+  // invitations and no Collection there is nothing to render, and an empty section
+  // would still push the layout down by its margin.
+  if (invitations.length === 0 && collection === undefined) return null;
+
   return (
-    <section className="mt-8 border-t border-border pt-6">
+    <section className="mt-12">
       {invitations.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold">Your invitations</h2>
-          <ul className="mt-3 space-y-2">
+        <div className="mb-8 rounded-xl border border-primary/20 bg-primary/[0.04] p-5">
+          <h2 className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+            Your invitations
+          </h2>
+          <ul className="mt-4 space-y-2">
             {invitations.map(invitation => (
               <li
                 key={invitation.id}
-                className="flex flex-wrap items-center justify-between gap-2 rounded border border-border p-3"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-foreground/10 bg-background/40 px-4 py-3"
               >
-                <span>
-                  <strong>{invitation.collectionName}</strong> — {invitation.role}
+                <span className="text-sm">
+                  <strong className="font-medium">{invitation.collectionName}</strong>
+                  <span className="text-muted-foreground"> — {invitation.role}</span>
                 </span>
                 <div className="flex gap-2">
                   <Button
@@ -174,14 +182,18 @@ export const Collaborators = ({ collection, currentUserId, onReload }: Collabora
 
       {collection !== undefined && (
         <div>
-          <h2 className="text-lg font-semibold">Collaborators</h2>
-          <ul className="mt-3 space-y-2">
+          <h2 className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+            Collaborators
+          </h2>
+          <ul className="mt-4 space-y-2">
             {collection.collaborators.map(collaborator => (
               <li
                 key={collaborator.userId}
-                className="flex flex-wrap items-center justify-between gap-2 rounded border border-border p-3"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-foreground/10 bg-surface/40 px-4 py-3"
               >
-                <span>{collaborator.userId === currentUserId ? 'You' : collaborator.userId}</span>
+                <span className="truncate text-sm">
+                  {collaborator.userId === currentUserId ? 'You' : collaborator.userId}
+                </span>
                 {isOwner && collaborator.role !== 'owner' ? (
                   <div className="flex items-center gap-2">
                     <Select
@@ -229,8 +241,11 @@ export const Collaborators = ({ collection, currentUserId, onReload }: Collabora
           </ul>
 
           {isOwner && (
-            <form className="mt-4 flex flex-wrap items-end gap-2" onSubmit={handleInvite}>
-              <div className="grid gap-1.5">
+            <form
+              className="mt-4 flex flex-wrap items-end gap-3 rounded-lg border border-dashed border-foreground/15 p-4"
+              onSubmit={handleInvite}
+            >
+              <div className="grid gap-2">
                 <Label htmlFor={usernameId}>Invite by username</Label>
                 <Input
                   id={usernameId}
@@ -254,17 +269,17 @@ export const Collaborators = ({ collection, currentUserId, onReload }: Collabora
           )}
 
           {isOwner && sentInvitations.length > 0 && (
-            <div className="mt-4">
-              <h3 className="text-sm font-semibold text-muted-foreground">
+            <div className="mt-6">
+              <h3 className="text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase">
                 Pending invitations sent this session
               </h3>
-              <ul className="mt-2 space-y-2">
+              <ul className="mt-3 space-y-2">
                 {sentInvitations.map(invitation => (
                   <li
                     key={invitation.id}
-                    className="flex items-center justify-between gap-2 rounded border border-border p-3"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-foreground/10 bg-surface/40 px-4 py-3"
                   >
-                    <span className="text-sm">{invitation.role}</span>
+                    <span className="text-sm capitalize">{invitation.role}</span>
                     <Button
                       type="button"
                       size="sm"

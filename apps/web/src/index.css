@@ -45,6 +45,24 @@
   --radius-lg: 0.75rem;
 }
 
+/*
+ * The one page shell: DESIGN.md → Layout (content max 82rem, 3rem gutters,
+ * 1.25rem below the 860px collapse). Every routed page's <main> uses it, so
+ * page widths stay identical without each page restating the numbers.
+ */
+@utility page-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 82rem;
+  padding-inline: 1.25rem;
+  padding-block: 2rem;
+
+  @media (width >= 860px) {
+    padding-inline: 3rem;
+    padding-block: 3rem;
+  }
+}
+
 @utility grid-cols-autoFit {
   grid-template-columns: repeat(auto-fit, minmax(0, 16rem));
 }

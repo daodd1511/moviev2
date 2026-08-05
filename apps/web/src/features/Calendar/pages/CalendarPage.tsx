@@ -11,7 +11,7 @@ export const CalendarPage = () => {
   const { from, to } = range();
   const { data = [], isPending, isError, refetch } = CalendarQueries.useList(from, to);
   return (
-    <main className="px-4 py-8 md:px-8">
+    <main className="page-shell">
       <h1 className="text-2xl font-semibold">Release calendar</h1>
       <div className="mt-4" role="tablist">
         <button

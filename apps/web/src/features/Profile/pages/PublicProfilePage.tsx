@@ -108,48 +108,50 @@ export const PublicProfilePage = () => {
     setExpanded(current => (current === kind ? null : kind));
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8 md:px-8 md:py-12">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <UsersIcon aria-hidden="true" className="size-6 text-primary" />
-          <h1 className="mt-1 text-2xl font-semibold md:text-3xl">{displayName}</h1>
-          <p className="text-muted-foreground">@{profile.username}</p>
+    <main className="page-shell">
+      <div className="mx-auto max-w-3xl">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <UsersIcon aria-hidden="true" className="size-6 text-primary" />
+            <h1 className="mt-1 text-2xl font-semibold md:text-3xl">{displayName}</h1>
+            <p className="text-muted-foreground">@{profile.username}</p>
+          </div>
+          <FollowButton username={profile.username} />
         </div>
-        <FollowButton username={profile.username} />
-      </div>
 
-      <div className="mt-8 flex gap-6 border-y border-border py-4">
-        <button
-          type="button"
-          className="text-left"
-          onClick={() => toggleExpanded('followers')}
-          aria-expanded={expanded === 'followers'}
-          aria-label={`${profile.followerCount} Followers`}
-        >
-          <span className="block text-lg font-semibold" aria-hidden="true">
-            {profile.followerCount}
-          </span>
-          <span className="text-sm text-muted-foreground" aria-hidden="true">
-            Followers
-          </span>
-        </button>
-        <button
-          type="button"
-          className="text-left"
-          onClick={() => toggleExpanded('following')}
-          aria-expanded={expanded === 'following'}
-          aria-label={`${profile.followingCount} Following`}
-        >
-          <span className="block text-lg font-semibold" aria-hidden="true">
-            {profile.followingCount}
-          </span>
-          <span className="text-sm text-muted-foreground" aria-hidden="true">
-            Following
-          </span>
-        </button>
-      </div>
+        <div className="mt-8 flex gap-6 border-y border-border py-4">
+          <button
+            type="button"
+            className="text-left"
+            onClick={() => toggleExpanded('followers')}
+            aria-expanded={expanded === 'followers'}
+            aria-label={`${profile.followerCount} Followers`}
+          >
+            <span className="block text-lg font-semibold" aria-hidden="true">
+              {profile.followerCount}
+            </span>
+            <span className="text-sm text-muted-foreground" aria-hidden="true">
+              Followers
+            </span>
+          </button>
+          <button
+            type="button"
+            className="text-left"
+            onClick={() => toggleExpanded('following')}
+            aria-expanded={expanded === 'following'}
+            aria-label={`${profile.followingCount} Following`}
+          >
+            <span className="block text-lg font-semibold" aria-hidden="true">
+              {profile.followingCount}
+            </span>
+            <span className="text-sm text-muted-foreground" aria-hidden="true">
+              Following
+            </span>
+          </button>
+        </div>
 
-      {expanded !== null && <FollowList username={profile.username} kind={expanded} />}
+        {expanded !== null && <FollowList username={profile.username} kind={expanded} />}
+      </div>
     </main>
   );
 };

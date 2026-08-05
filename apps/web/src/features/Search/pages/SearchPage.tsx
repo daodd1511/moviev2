@@ -40,7 +40,7 @@ export const SearchPage = () => {
   };
   if (query === '')
     return (
-      <main className="px-4 py-8 md:px-8">
+      <main className="page-shell">
         <h1 className="text-2xl font-semibold">Search</h1>
         <p className="mt-3 text-muted-foreground">
           Search for movies, TV, and people from the quick search dialog.
@@ -71,7 +71,7 @@ export const SearchPage = () => {
     );
   const results = data?.pages.flatMap(page => page.results) ?? [];
   return (
-    <main className="px-4 py-8 md:px-8">
+    <main className="page-shell">
       <h1 className="text-2xl font-semibold">Search results for “{query}”</h1>
       <div className="mt-5 flex gap-2" role="tablist" aria-label="Search result type">
         {(['multi', 'movie', 'tv', 'person'] as const).map(tab => (

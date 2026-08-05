@@ -1,73 +1,59 @@
-import { useEffect, useState } from 'react';
-import { Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight, Image as ImageIcon, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'react-toastify';
 
-import { SearchService } from '@/api/services/searchService';
+import { AddTitlesDialog } from './AddTitlesDialog';
+
 import { Button } from '@/components/ui/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import type { Collection, CollectionItem, CollectionItemKey } from '@/models/collection.model';
-import { MovieSearch, TvSearch } from '@/models/search.model';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type {
+  Collection,
+  CollectionItem,
+  CollectionItemKey,
+  CollectionMediaType,
+} from '@/models/collection.model';
 import { getApiErrorMessage } from '@/api/utils/getApiErrorMessage';
+import { ConfirmDialog } from '@/shared/components/ui/ConfirmDialog';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { PosterSizes } from '@/shared/enums';
-import { useDebounce } from '@/shared/hooks';
 import { CollectionQueries } from '@/stores/queries/collectionQueries';
 
 interface CollectionItemsProps {
   readonly collection: Collection;
 }
 
+/** A title paired with its position in the full Collection, so numbering survives filtering. */
+interface PositionedItem {
+  readonly item: CollectionItem;
+  readonly position: number;
+}
+
 const itemKey = (item: CollectionItemKey): string => `${item.mediaType}:${item.tmdbId}`;
 
-const itemFromSearchResult = (result: MovieSearch | TvSearch): CollectionItem => ({
-  mediaType: result instanceof MovieSearch ? 'movie' : 'tv',
-  tmdbId: result.id,
-  title: result instanceof MovieSearch ? result.title : result.name,
-  posterPath: result.posterPath,
-  releaseDate: result instanceof MovieSearch ? result.releaseDate : result.firstAirDate,
-  voteAverage: result.voteAverage,
-});
+const posterUrl = (posterPath: string | null, size: PosterSizes): string =>
+  posterPath === null ? '/images/no-image.png' : `${IMAGE_BASE_URL}${size}${posterPath}`;
 
 export const CollectionItems = ({ collection }: CollectionItemsProps) => {
-  const [query, setQuery] = useState('');
-  const debouncedQuery = useDebounce(query, 300);
-  const [results, setResults] = useState<readonly (MovieSearch | TvSearch)[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [pendingRemoval, setPendingRemoval] = useState<CollectionItem | null>(null);
   const addItem = CollectionQueries.useAddItem();
   const removeItem = CollectionQueries.useRemoveItem();
   const reorder = CollectionQueries.useReorder();
   const update = CollectionQueries.useUpdate();
 
-  useEffect(() => {
-    const trimmed = debouncedQuery.trim();
-    if (trimmed === '') {
-      setResults([]);
-      setIsSearching(false);
-      return;
-    }
-    let cancelled = false;
-    setIsSearching(true);
-    SearchService.multi(trimmed)
-      .then(data => {
-        if (!cancelled) setResults(data);
-      })
-      .catch((error: unknown) => {
-        if (!cancelled) toast.error(getApiErrorMessage(error, 'Could not search for titles.'));
-      })
-      .finally(() => {
-        if (!cancelled) setIsSearching(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [debouncedQuery]);
+  const positioned: readonly PositionedItem[] = collection.items.map((item, position) => ({
+    item,
+    position,
+  }));
+  const movies = positioned.filter(entry => entry.item.mediaType === 'movie');
+  const shows = positioned.filter(entry => entry.item.mediaType === 'tv');
+  // Open on whichever kind the Collection actually holds, so a movies-only Collection
+  // never lands on an empty TV tab.
+  const [filter, setFilter] = useState<CollectionMediaType>(
+    shows.length > 0 && movies.length === 0 ? 'tv' : 'movie',
+  );
+  const visible = filter === 'movie' ? movies : shows;
+  const existingKeys = new Set(collection.items.map(itemKey));
 
   const handleAdd = (item: CollectionItem): void => {
     addItem.mutate(
@@ -79,25 +65,33 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
     );
   };
 
-  const handleRemove = (item: CollectionItem): void => {
+  const handleRemove = (): void => {
+    if (pendingRemoval === null) return;
+    const item = pendingRemoval;
     removeItem.mutate(
       { id: collection.id, version: collection.version, item },
       {
-        onSuccess: () => toast.success(`Removed “${item.title}”.`),
+        onSuccess: () => {
+          setPendingRemoval(null);
+          toast.success(`Removed “${item.title}”.`);
+        },
         onError: error => toast.error(getApiErrorMessage(error, 'Could not remove this title.')),
       },
     );
   };
 
+  /**
+   * Swaps a title with its neighbour *within the active tab*, so reordering in Movies or
+   * TV never shuffles titles the user cannot see.
+   */
   const handleMove = (item: CollectionItem, direction: -1 | 1): void => {
-    const currentIndex = collection.items.findIndex(
-      candidate => itemKey(candidate) === itemKey(item),
-    );
-    const nextIndex = currentIndex + direction;
-    if (nextIndex < 0 || nextIndex >= collection.items.length) return;
+    const fromIndex = visible.findIndex(entry => itemKey(entry.item) === itemKey(item));
+    const source = visible[fromIndex];
+    const target = visible[fromIndex + direction];
+    if (source === undefined || target === undefined) return;
     const nextItems = [...collection.items];
-    const [moved] = nextItems.splice(currentIndex, 1);
-    nextItems.splice(nextIndex, 0, moved);
+    nextItems[source.position] = target.item;
+    nextItems[target.position] = source.item;
     reorder.mutate(
       {
         id: collection.id,
@@ -125,129 +119,148 @@ export const CollectionItems = ({ collection }: CollectionItemsProps) => {
     );
   };
 
-  return (
-    <section
-      aria-labelledby="collection-items-heading"
-      className="mt-10 border-t border-border pt-8"
-    >
-      <h2 id="collection-items-heading" className="text-xl font-semibold">
-        Titles
-      </h2>
-      <Command shouldFilter={false} className="mt-4 rounded-lg border border-border">
-        <CommandInput
-          value={query}
-          onValueChange={setQuery}
-          placeholder="Search titles to add"
-          aria-label="Search titles to add"
-        />
-        {query.trim() !== '' && (
-          <CommandList>
-            {isSearching ? (
-              <CommandEmpty>Searching…</CommandEmpty>
-            ) : results.length === 0 ? (
-              <CommandEmpty>No titles found.</CommandEmpty>
-            ) : (
-              <CommandGroup>
-                {results.map(result => {
-                  const item = itemFromSearchResult(result);
-                  const exists = collection.items.some(
-                    candidate => itemKey(candidate) === itemKey(item),
-                  );
-                  return (
-                    <CommandItem
-                      key={itemKey(item)}
-                      value={itemKey(item)}
-                      disabled={exists || addItem.isPending}
-                      onSelect={() => handleAdd(item)}
-                    >
-                      <span className="min-w-0 flex-1 truncate">{item.title}</span>
-                      <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-                        {exists ? (
-                          'Added'
-                        ) : (
-                          <>
-                            <Plus aria-hidden="true" className="size-3.5" /> Add
-                          </>
-                        )}
-                      </span>
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-            )}
-          </CommandList>
-        )}
-      </Command>
-      {collection.items.length === 0 ? (
-        <p className="py-12 text-center text-muted-foreground">No titles in this Collection yet.</p>
-      ) : (
-        <ol className="mt-6 grid gap-3 sm:grid-cols-2">
-          {collection.items.map((item, index) => {
-            const imageUrl =
-              item.posterPath === null
-                ? '/images/no-image.png'
-                : `${IMAGE_BASE_URL}${PosterSizes.small}${item.posterPath}`;
-            const isCover =
-              collection.cover !== null && itemKey(collection.cover) === itemKey(item);
-            return (
-              <li key={itemKey(item)} className="flex gap-3 rounded-lg border border-border p-3">
+  const renderGrid = (entries: readonly PositionedItem[]) => {
+    if (entries.length === 0) {
+      return (
+        <p className="mt-6 rounded-xl border border-dashed border-foreground/15 py-14 text-center text-sm text-muted-foreground">
+          {collection.items.length === 0
+            ? 'No titles in this Collection yet.'
+            : `No ${filter === 'movie' ? 'movies' : 'TV shows'} in this Collection yet.`}
+        </p>
+      );
+    }
+
+    return (
+      <ol className="mt-6 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {entries.map(({ item, position }, index) => {
+          const isCover = collection.cover !== null && itemKey(collection.cover) === itemKey(item);
+          return (
+            <li key={itemKey(item)} className="group">
+              <div className="relative overflow-hidden rounded-md bg-surface shadow-[0_24px_48px_-12px_rgba(0,0,0,0.7)] outline outline-1 outline-foreground/15">
                 <img
-                  src={imageUrl}
+                  src={posterUrl(item.posterPath, PosterSizes.large)}
                   alt=""
-                  className="h-20 w-14 rounded object-cover"
                   loading="lazy"
+                  className="aspect-[2/3] size-full object-cover"
                 />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium">{item.title}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {item.mediaType === 'movie' ? 'Movie' : 'TV'} · {item.releaseDate.slice(0, 4)}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                <span className="absolute top-2 left-2 rounded-full bg-background/80 px-2 py-0.5 text-xs font-medium text-muted-foreground tabular-nums backdrop-blur-sm">
+                  {position + 1}
+                </span>
+                {isCover && (
+                  <span className="absolute top-2 right-2 rounded-full border border-primary/30 bg-background/80 px-2 py-0.5 text-xs font-medium tracking-[0.14em] text-primary uppercase backdrop-blur-sm">
+                    Cover
+                  </span>
+                )}
+                <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-background via-background/60 to-transparent p-2 opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100">
+                  <div className="flex flex-wrap items-center justify-center gap-1">
                     <Button
                       type="button"
-                      size="sm"
-                      variant="outline"
-                      aria-label={`Move ${item.title} up`}
+                      size="icon"
+                      variant="ghost"
+                      className="rounded-full bg-background/70 hover:bg-background"
+                      aria-label={`Move ${item.title} earlier`}
                       disabled={index === 0 || reorder.isPending}
                       onClick={() => handleMove(item, -1)}
                     >
-                      Move up
+                      <ChevronLeft aria-hidden="true" className="size-4" />
                     </Button>
                     <Button
                       type="button"
-                      size="sm"
-                      variant="outline"
-                      aria-label={`Move ${item.title} down`}
-                      disabled={index === collection.items.length - 1 || reorder.isPending}
+                      size="icon"
+                      variant="ghost"
+                      className="rounded-full bg-background/70 hover:bg-background"
+                      aria-label={`Move ${item.title} later`}
+                      disabled={index === entries.length - 1 || reorder.isPending}
                       onClick={() => handleMove(item, 1)}
                     >
-                      Move down
+                      <ChevronRight aria-hidden="true" className="size-4" />
                     </Button>
                     <Button
                       type="button"
-                      size="sm"
-                      variant="outline"
+                      size="icon"
+                      variant="ghost"
+                      className="rounded-full bg-background/70 hover:bg-background"
+                      aria-label={
+                        isCover ? `${item.title} is the cover` : `Set ${item.title} as cover`
+                      }
                       disabled={isCover || update.isPending}
                       onClick={() => handleCover(item)}
                     >
-                      {isCover ? 'Cover' : 'Set cover'}
+                      <ImageIcon aria-hidden="true" className="size-4" />
                     </Button>
                     <Button
                       type="button"
-                      size="sm"
-                      variant="destructive"
+                      size="icon"
+                      variant="ghost"
+                      className="rounded-full bg-background/70 text-muted-foreground hover:bg-destructive/20 hover:text-destructive"
+                      aria-label={`Remove ${item.title}`}
                       disabled={removeItem.isPending}
-                      onClick={() => handleRemove(item)}
+                      onClick={() => setPendingRemoval(item)}
                     >
-                      <Trash2 aria-hidden="true" className="size-4" /> Remove
+                      <Trash2 aria-hidden="true" className="size-4" />
                     </Button>
                   </div>
                 </div>
-              </li>
-            );
-          })}
-        </ol>
-      )}
+              </div>
+              <p className="mt-2 truncate text-sm font-medium">{item.title}</p>
+              <p className="text-xs text-muted-foreground">
+                {item.mediaType === 'movie' ? 'Movie' : 'TV'} · {item.releaseDate.slice(0, 4)}
+              </p>
+            </li>
+          );
+        })}
+      </ol>
+    );
+  };
+
+  return (
+    <section aria-labelledby="collection-items-heading" className="mt-12">
+      <h2 id="collection-items-heading" className="sr-only">
+        Titles
+      </h2>
+      <Tabs
+        value={filter}
+        onValueChange={value => setFilter(value as CollectionMediaType)}
+        className="mt-4"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-foreground/10 pb-2">
+          <TabsList variant="line">
+            <TabsTrigger value="movie">
+              Movies
+              <span className="text-muted-foreground tabular-nums">{movies.length}</span>
+            </TabsTrigger>
+            <TabsTrigger value="tv">
+              TV
+              <span className="text-muted-foreground tabular-nums">{shows.length}</span>
+            </TabsTrigger>
+          </TabsList>
+          <Button type="button" size="sm" variant="outline" onClick={() => setIsAdding(true)}>
+            <Plus aria-hidden="true" className="size-4" /> Add titles
+          </Button>
+        </div>
+        <TabsContent value="movie">{renderGrid(movies)}</TabsContent>
+        <TabsContent value="tv">{renderGrid(shows)}</TabsContent>
+      </Tabs>
+
+      <ConfirmDialog
+        open={pendingRemoval !== null}
+        onOpenChange={open => !open && setPendingRemoval(null)}
+        icon={<Trash2 aria-hidden="true" className="size-5" />}
+        title={`Remove “${pendingRemoval?.title ?? ''}”?`}
+        description="This takes the title out of this Collection. It stays in your Library and any other Collection."
+        confirmLabel="Remove title"
+        destructive
+        isLoading={removeItem.isPending}
+        onConfirm={handleRemove}
+      />
+
+      <AddTitlesDialog
+        open={isAdding}
+        onOpenChange={setIsAdding}
+        existingKeys={existingKeys}
+        onAdd={handleAdd}
+        isAdding={addItem.isPending}
+      />
     </section>
   );
 };
