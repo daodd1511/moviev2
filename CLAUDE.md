@@ -27,8 +27,6 @@ Never auto-commit a capture. Delete a line only when the item ships or graduates
 
 ## Spec-Driven Execution Workflow
 
-<!-- rulebook v3 -->
-
 Specs live in `specs/<feature>/`. Flow: `/grill-me` → `PLAN.md` → `/spec-plan` →
 `EXECUTION.md` → `/spec-phase` per phase.
 
@@ -43,8 +41,9 @@ Binding on all work in this repo, spec skill or not:
   earlier work in the session was authorized.
 
 Doing spec work? Read `specs/RULEBOOK.md` first — the state model (`done-with-debt`,
-`[~]`, verification debt), gate lanes, branch model, checkpoints, and capability baseline are
-defined there, not here. Don't improvise substitutes for those terms from this summary.
+`[~]`, verification debt), the phase/spec gate tiers, branch model, checkpoints,
+fresh-review triggers, and capability baseline are defined there, not here. Don't improvise
+substitutes for those terms from this summary.
 
 ## Coding Standards
 
