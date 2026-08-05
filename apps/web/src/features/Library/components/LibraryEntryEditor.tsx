@@ -1,7 +1,8 @@
 import { FormEvent, useId, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import { DialogFooter } from '@/components/ui/dialog';
+import { Field, FieldLabel } from '@/components/ui/field';
 import {
   Select,
   SelectContent,
@@ -17,6 +18,10 @@ import { LibraryEntryQueries } from '@/stores/queries/libraryEntryQueries';
 
 interface Props {
   readonly entry: LibraryEntry;
+  /** Called after a successful save, so a host dialog can dismiss itself. */
+  readonly onSaved?: () => void;
+  /** Renders a cancel action when provided; the host decides what dismissing means. */
+  readonly onCancel?: () => void;
 }
 
 const watchStates: readonly { readonly value: LibraryWatchState; readonly label: string }[] = [
@@ -34,7 +39,7 @@ const toIsoDate = (value: string): string | null =>
 const isDateOrderValid = (startedAt: string | null, completedAt: string | null): boolean =>
   startedAt === null || completedAt === null || startedAt <= completedAt;
 
-export const LibraryEntryEditor = ({ entry }: Props) => {
+export const LibraryEntryEditor = ({ entry, onSaved, onCancel }: Props) => {
   const notesId = useId();
   const statusId = useId();
   const ratingId = useId();
@@ -108,19 +113,17 @@ export const LibraryEntryEditor = ({ entry }: Props) => {
       mediaSnapshot: entry.mediaSnapshot,
     };
     setError(null);
-    upsert.mutate(input, { onError: () => setError('Could not save this Library entry.') });
+    upsert.mutate(input, {
+      onSuccess: () => onSaved?.(),
+      onError: () => setError('Could not save this Library entry.'),
+    });
   };
 
   return (
-    <form
-      noValidate
-      onSubmit={handleSubmit}
-      className="mt-4 grid gap-3 border-t border-border pt-4"
-      aria-label={`Edit ${entry.mediaSnapshot.title}`}
-    >
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="grid gap-1">
-          <Label htmlFor={statusId}>Status</Label>
+    <form noValidate onSubmit={handleSubmit} aria-label={`Edit ${entry.mediaSnapshot.title}`}>
+      <div className="grid gap-x-4 gap-y-5 sm:grid-cols-6">
+        <Field className="sm:col-span-3">
+          <FieldLabel htmlFor={statusId}>Status</FieldLabel>
           <Select
             value={watchState}
             onValueChange={value => setWatchState(value as LibraryWatchState)}
@@ -136,9 +139,9 @@ export const LibraryEntryEditor = ({ entry }: Props) => {
               ))}
             </SelectContent>
           </Select>
-        </div>
-        <div className="grid gap-1">
-          <Label htmlFor={ratingId}>Rating (1–10)</Label>
+        </Field>
+        <Field className="sm:col-span-3">
+          <FieldLabel htmlFor={ratingId}>Rating (1–10)</FieldLabel>
           <NumberField
             id={ratingId}
             min={1}
@@ -147,59 +150,64 @@ export const LibraryEntryEditor = ({ entry }: Props) => {
             value={rating}
             onChange={setRating}
           />
-        </div>
-        <div className="grid gap-1">
-          <Label htmlFor={startedAtId}>Started</Label>
+        </Field>
+        <Field className="sm:col-span-2">
+          <FieldLabel htmlFor={startedAtId}>Started</FieldLabel>
           <DatePicker id={startedAtId} value={startedAt} onChange={setStartedAt} />
-        </div>
-        <div className="grid gap-1">
-          <Label htmlFor={completedAtId}>Completed</Label>
+        </Field>
+        <Field className="sm:col-span-2">
+          <FieldLabel htmlFor={completedAtId}>Completed</FieldLabel>
           <DatePicker id={completedAtId} value={completedAt} onChange={setCompletedAt} />
-        </div>
-        <div className="grid gap-1">
-          <Label htmlFor={lastWatchedAtId}>Last watched</Label>
+        </Field>
+        <Field className="sm:col-span-2">
+          <FieldLabel htmlFor={lastWatchedAtId}>Last watched</FieldLabel>
           <DatePicker id={lastWatchedAtId} value={lastWatchedAt} onChange={setLastWatchedAt} />
-        </div>
-      </div>
-      {entry.mediaType === 'tv' && (
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="grid gap-1">
-            <Label htmlFor={seasonId}>Season</Label>
-            <NumberField id={seasonId} min={1} step={1} value={season} onChange={setSeason} />
-          </div>
-          <div className="grid gap-1">
-            <Label htmlFor={episodeId}>Episode</Label>
-            <NumberField id={episodeId} min={1} step={1} value={episode} onChange={setEpisode} />
-          </div>
-          <div className="grid gap-1">
-            <Label htmlFor={watchedEpisodeCountId}>Episodes watched</Label>
-            <NumberField
-              id={watchedEpisodeCountId}
-              min={1}
-              step={1}
-              value={watchedEpisodeCount}
-              onChange={setWatchedEpisodeCount}
-            />
-          </div>
-        </div>
-      )}
-      <div className="grid gap-1">
-        <Label htmlFor={notesId}>Notes</Label>
-        <Textarea id={notesId} value={notes} onChange={event => setNotes(event.target.value)} />
+        </Field>
+        {entry.mediaType === 'tv' && (
+          <>
+            <Field className="sm:col-span-2">
+              <FieldLabel htmlFor={seasonId}>Season</FieldLabel>
+              <NumberField id={seasonId} min={1} step={1} value={season} onChange={setSeason} />
+            </Field>
+            <Field className="sm:col-span-2">
+              <FieldLabel htmlFor={episodeId}>Episode</FieldLabel>
+              <NumberField id={episodeId} min={1} step={1} value={episode} onChange={setEpisode} />
+            </Field>
+            <Field className="sm:col-span-2">
+              <FieldLabel htmlFor={watchedEpisodeCountId}>Episodes watched</FieldLabel>
+              <NumberField
+                id={watchedEpisodeCountId}
+                min={1}
+                step={1}
+                value={watchedEpisodeCount}
+                onChange={setWatchedEpisodeCount}
+              />
+            </Field>
+          </>
+        )}
+        <Field className="sm:col-span-6">
+          <FieldLabel htmlFor={notesId}>Notes</FieldLabel>
+          <Textarea id={notesId} value={notes} onChange={event => setNotes(event.target.value)} />
+        </Field>
       </div>
       {error !== null && (
-        <p role="alert" className="text-sm text-destructive">
+        <p role="alert" className="mt-4 text-sm text-destructive">
           {error}
         </p>
       )}
-      <div className="flex items-center gap-3">
+      <p aria-live="polite" role="status" className="mt-4 text-sm text-muted-foreground empty:mt-0">
+        {upsert.isSuccess ? 'Library entry saved.' : ''}
+      </p>
+      <DialogFooter className="mt-5 sm:items-center">
+        {onCancel !== undefined && (
+          <Button type="button" variant="outline" size="lg" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
         <Button type="submit" size="lg" disabled={upsert.isPending}>
           Save changes
         </Button>
-        <p aria-live="polite" role="status" className="text-sm text-muted-foreground">
-          {upsert.isSuccess ? 'Library entry saved.' : ''}
-        </p>
-      </div>
+      </DialogFooter>
     </form>
   );
 };

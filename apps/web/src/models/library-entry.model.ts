@@ -48,11 +48,14 @@ export interface LibraryEntryKey {
   readonly tmdbId: number;
 }
 
+/** Entry field a Library listing is ordered by. */
+export type LibraryEntrySort = 'updatedAt' | 'createdAt' | 'lastWatchedAt';
+
 export interface LibraryEntryFilters {
   readonly watchState?: LibraryWatchState;
   readonly mediaType?: LibraryMediaType;
   readonly minRating?: number;
   readonly maxRating?: number;
-  readonly sort?: 'updatedAt' | 'createdAt' | 'lastWatchedAt';
+  readonly sort?: LibraryEntrySort;
   readonly order?: 'asc' | 'desc';
 }

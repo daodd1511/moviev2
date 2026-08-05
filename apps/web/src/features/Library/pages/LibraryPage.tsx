@@ -90,7 +90,7 @@ export const LibraryPage = () => {
       ) : (
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
           {entries.map(entry => (
-            <LibraryEntryCard key={entry.id} entry={entry} />
+            <LibraryEntryCard key={entry.id} entry={entry} sort={filters.sort} />
           ))}
         </div>
       )}
