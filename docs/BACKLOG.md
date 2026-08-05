@@ -32,6 +32,8 @@ into a `specs/<feature>/` plan.
       genre filter on the catalog Discover tab (2026-08-05)
 - [ ] TV season detail with per-episode ratings, IMDb-style — episode list per season with
       each episode's rating, air date, and still (2026-08-05)
+- [ ] Design a logo for the app — wordmark plus a standalone mark for the favicon and
+      navbar, aligned with `DESIGN.md` (2026-08-06)
 
 ## Ideas
 
