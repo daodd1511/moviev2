@@ -1,7 +1,6 @@
 import { FormEvent, useId, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -11,6 +10,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { DatePicker } from '@/shared/components/ui/DatePicker';
+import { NumberField } from '@/shared/components/ui/NumberField';
 import { LibraryEntry, LibraryEntryInput, LibraryWatchState } from '@/models/library-entry.model';
 import { LibraryEntryQueries } from '@/stores/queries/libraryEntryQueries';
 
@@ -138,77 +139,46 @@ export const LibraryEntryEditor = ({ entry }: Props) => {
         </div>
         <div className="grid gap-1">
           <Label htmlFor={ratingId}>Rating (1–10)</Label>
-          <Input
+          <NumberField
             id={ratingId}
-            type="number"
-            min="1"
-            max="10"
-            step="1"
+            min={1}
+            max={10}
+            step={1}
             value={rating}
-            onChange={event => setRating(event.target.value)}
+            onChange={setRating}
           />
         </div>
         <div className="grid gap-1">
           <Label htmlFor={startedAtId}>Started</Label>
-          <Input
-            id={startedAtId}
-            type="date"
-            value={startedAt}
-            onChange={event => setStartedAt(event.target.value)}
-          />
+          <DatePicker id={startedAtId} value={startedAt} onChange={setStartedAt} />
         </div>
         <div className="grid gap-1">
           <Label htmlFor={completedAtId}>Completed</Label>
-          <Input
-            id={completedAtId}
-            type="date"
-            value={completedAt}
-            onChange={event => setCompletedAt(event.target.value)}
-          />
+          <DatePicker id={completedAtId} value={completedAt} onChange={setCompletedAt} />
         </div>
         <div className="grid gap-1">
           <Label htmlFor={lastWatchedAtId}>Last watched</Label>
-          <Input
-            id={lastWatchedAtId}
-            type="date"
-            value={lastWatchedAt}
-            onChange={event => setLastWatchedAt(event.target.value)}
-          />
+          <DatePicker id={lastWatchedAtId} value={lastWatchedAt} onChange={setLastWatchedAt} />
         </div>
       </div>
       {entry.mediaType === 'tv' && (
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="grid gap-1">
             <Label htmlFor={seasonId}>Season</Label>
-            <Input
-              id={seasonId}
-              type="number"
-              min="1"
-              step="1"
-              value={season}
-              onChange={event => setSeason(event.target.value)}
-            />
+            <NumberField id={seasonId} min={1} step={1} value={season} onChange={setSeason} />
           </div>
           <div className="grid gap-1">
             <Label htmlFor={episodeId}>Episode</Label>
-            <Input
-              id={episodeId}
-              type="number"
-              min="1"
-              step="1"
-              value={episode}
-              onChange={event => setEpisode(event.target.value)}
-            />
+            <NumberField id={episodeId} min={1} step={1} value={episode} onChange={setEpisode} />
           </div>
           <div className="grid gap-1">
             <Label htmlFor={watchedEpisodeCountId}>Episodes watched</Label>
-            <Input
+            <NumberField
               id={watchedEpisodeCountId}
-              type="number"
-              min="1"
-              step="1"
+              min={1}
+              step={1}
               value={watchedEpisodeCount}
-              onChange={event => setWatchedEpisodeCount(event.target.value)}
+              onChange={setWatchedEpisodeCount}
             />
           </div>
         </div>
@@ -223,7 +193,7 @@ export const LibraryEntryEditor = ({ entry }: Props) => {
         </p>
       )}
       <div className="flex items-center gap-3">
-        <Button type="submit" disabled={upsert.isPending}>
+        <Button type="submit" size="lg" disabled={upsert.isPending}>
           Save changes
         </Button>
         <p aria-live="polite" role="status" className="text-sm text-muted-foreground">

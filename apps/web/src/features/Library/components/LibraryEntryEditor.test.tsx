@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { addDays, format, startOfMonth } from 'date-fns';
 import { http, HttpResponse } from 'msw';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -25,6 +26,13 @@ const entry: LibraryEntry = {
   updatedAt: '2026-08-02T00:00:00.000Z',
 };
 
+// Two days within the current calendar month, so the date picker's default month view
+// (which opens on today's month) shows both without navigation.
+const monthStart = startOfMonth(new Date());
+const earlierDay = addDays(monthStart, 8);
+const laterDay = addDays(monthStart, 9);
+const dayButtonName = (day: Date) => format(day, 'EEEE, MMMM do, yyyy');
+
 const renderEditor = () => {
   const queryClient = new QueryClient({ defaultOptions: { mutations: { retry: false } } });
   return render(
@@ -48,15 +56,22 @@ describe('LibraryEntryEditor', () => {
     );
 
     await user.clear(rating);
-    await user.type(screen.getByLabelText('Started'), '2026-08-02');
-    await user.type(screen.getByLabelText('Completed'), '2026-08-01');
+    await user.click(screen.getByLabelText('Started'));
+    await user.click(screen.getByRole('button', { name: dayButtonName(laterDay) }));
+    await user.click(screen.getByLabelText('Completed'));
+    await user.click(screen.getByRole('button', { name: dayButtonName(earlierDay) }));
     await user.click(screen.getByRole('button', { name: 'Save changes' }));
     expect(screen.getByRole('alert')).toHaveTextContent(
       'Completed date must be on or after the started date.',
     );
 
-    await user.clear(screen.getByLabelText('Started'));
-    await user.clear(screen.getByLabelText('Completed'));
+    const startedTrigger = screen.getByLabelText('Started').parentElement;
+    const completedTrigger = screen.getByLabelText('Completed').parentElement;
+    if (startedTrigger === null || completedTrigger === null) {
+      throw new Error('Expected Started/Completed date picker wrappers to exist.');
+    }
+    await user.click(within(startedTrigger).getByRole('button', { name: 'Clear date' }));
+    await user.click(within(completedTrigger).getByRole('button', { name: 'Clear date' }));
     await user.type(screen.getByLabelText('Season'), '0');
     await user.type(screen.getByLabelText('Episode'), '1');
     await user.click(screen.getByRole('button', { name: 'Save changes' }));
