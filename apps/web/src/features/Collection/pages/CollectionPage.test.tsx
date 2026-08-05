@@ -133,6 +133,8 @@ describe('Collection journeys', () => {
     renderPage();
 
     await screen.findByRole('heading', { name: 'Weekend films' });
+    await user.click(screen.getByRole('button', { name: 'Edit details' }));
+    await screen.findByRole('dialog');
     await user.clear(screen.getByLabelText('Name'));
     await user.type(screen.getByLabelText('Name'), 'My edited Collection');
     await user.click(screen.getByRole('button', { name: 'Save changes' }));
@@ -154,15 +156,19 @@ describe('Collection journeys', () => {
     const user = userEvent.setup();
     let reorderBody: unknown;
     let deleteBody: unknown;
+    // Two movies around a TV title: reordering happens inside the Movies tab, so the
+    // TV title must keep its position.
+    const third = { ...collection.items[0], tmdbId: 3, title: 'Third' };
+    const mixed = { ...collection, items: [...collection.items, third] };
     server.use(
       http.get('*/collections/invitations', () => HttpResponse.json({ invitations: [] })),
-      http.get('*/collections/:id', () => HttpResponse.json(collection)),
+      http.get('*/collections/:id', () => HttpResponse.json(mixed)),
       http.get('*/user/profile', () => HttpResponse.json(profile)),
       http.put('*/collections/:id/items/order', async ({ request }) => {
         reorderBody = await request.json();
         return HttpResponse.json({
-          ...collection,
-          items: [...collection.items].reverse(),
+          ...mixed,
+          items: [third, mixed.items[1], mixed.items[0]],
           version: 3,
         });
       }),
@@ -174,11 +180,12 @@ describe('Collection journeys', () => {
     renderPage();
 
     await screen.findByRole('heading', { name: 'Weekend films' });
-    await user.click(screen.getByRole('button', { name: 'Move First down' }));
+    await user.click(screen.getByRole('button', { name: 'Move First later' }));
     await waitFor(() =>
       expect(reorderBody).toEqual({
         version: 2,
         items: [
+          { mediaType: 'movie', tmdbId: 3 },
           { mediaType: 'tv', tmdbId: 2 },
           { mediaType: 'movie', tmdbId: 1 },
         ],
@@ -187,7 +194,7 @@ describe('Collection journeys', () => {
     // Confirms the reorder mutation's response (version 3) landed before deleting, so
     // deleteBody below reflects it rather than the stale pre-reorder version.
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Move First down' })).toBeDisabled(),
+      expect(screen.getByRole('button', { name: 'Move First later' })).toBeDisabled(),
     );
     await user.click(screen.getByRole('button', { name: 'Delete' }));
     await user.click(screen.getByRole('button', { name: 'Delete Collection' }));

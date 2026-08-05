@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
+import { DialogFooter } from '@/components/ui/dialog';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -35,6 +36,9 @@ interface CollectionFormProps {
   readonly onSubmit: (
     input: Pick<CreateCollectionInput, 'name' | 'description' | 'visibility'>,
   ) => void;
+
+  /** Renders a cancel action when provided; the host decides what dismissing means. */
+  readonly onCancel?: () => void;
 }
 
 export const CollectionForm = ({
@@ -42,6 +46,7 @@ export const CollectionForm = ({
   isPending,
   submitLabel,
   onSubmit,
+  onCancel,
 }: CollectionFormProps) => {
   const {
     register,
@@ -118,11 +123,16 @@ export const CollectionForm = ({
         />
         <FieldError errors={[errors.visibility]} />
       </Field>
-      <div>
+      <DialogFooter className="mt-2 sm:items-center">
+        {onCancel !== undefined && (
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
         <Button type="submit" disabled={isPending}>
           {submitLabel}
         </Button>
-      </div>
+      </DialogFooter>
     </form>
   );
 };

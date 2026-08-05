@@ -1,21 +1,13 @@
-import { ChevronRight, FolderHeart } from 'lucide-react';
+import { FolderHeart, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { Collaborators } from '../components/Collaborators';
+import { CollectionPosterStrip } from '../components/CollectionPosterStrip';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Loader } from '@/shared/components';
-import { IMAGE_BASE_URL } from '@/shared/constants';
-import { PosterSizes } from '@/shared/enums';
-import type { Collection, CollectionItem, CollectionVisibility } from '@/models/collection.model';
+import type { Collection, CollectionVisibility } from '@/models/collection.model';
 import { CollectionQueries } from '@/stores/queries/collectionQueries';
-
-const itemKey = (item: { readonly mediaType: string; readonly tmdbId: number }): string =>
-  `${item.mediaType}:${item.tmdbId}`;
-
-const posterUrl = (item: CollectionItem): string | null =>
-  item.posterPath === null ? null : `${IMAGE_BASE_URL}${PosterSizes.small}${item.posterPath}`;
 
 const VISIBILITY_LABEL: Record<CollectionVisibility, string> = {
   private: 'Private',
@@ -23,111 +15,86 @@ const VISIBILITY_LABEL: Record<CollectionVisibility, string> = {
   public: 'Public',
 };
 
-const VISIBILITY_VARIANT: Record<CollectionVisibility, 'outline' | 'secondary' | 'default'> = {
-  private: 'outline',
-  unlisted: 'secondary',
-  public: 'default',
-};
+const countLabel = (count: number, noun: string): string =>
+  `${count} ${noun}${count === 1 ? '' : 's'}`;
 
-const CoverArt = ({ collection }: { readonly collection: Collection }) => {
-  const coverItem =
-    collection.cover === null
-      ? undefined
-      : collection.items.find(item => itemKey(item) === itemKey(collection.cover!));
-
-  if (coverItem !== undefined) {
-    const url = posterUrl(coverItem);
-    if (url !== null) return <img src={url} alt="" className="size-full object-cover" />;
-  }
-
-  if (collection.items.length >= 4) {
-    return (
-      <div className="grid size-full grid-cols-2 gap-px">
-        {collection.items.slice(0, 4).map(item => {
-          const url = posterUrl(item);
-          return url === null ? (
-            <div key={itemKey(item)} className="bg-surface" />
-          ) : (
-            <img key={itemKey(item)} src={url} alt="" className="size-full object-cover" />
-          );
-        })}
+const CollectionTile = ({ collection }: { readonly collection: Collection }) => (
+  <li>
+    <Link
+      to={`/collections/${collection.id}`}
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-foreground/10 bg-surface/50 transition-colors duration-200 hover:border-foreground/25"
+    >
+      <div className="relative h-32">
+        <CollectionPosterStrip
+          items={collection.items}
+          className="size-full transition-transform duration-300 ease-[cubic-bezier(.2,.9,.3,1)] motion-safe:group-hover:scale-[1.03]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/10" />
+        <span className="absolute top-3 right-3 rounded-full border border-foreground/20 bg-background/70 px-2.5 py-0.5 text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase backdrop-blur-sm">
+          {VISIBILITY_LABEL[collection.visibility]}
+        </span>
       </div>
-    );
-  }
-
-  const firstItem = collection.items[0];
-  const firstUrl = firstItem === undefined ? null : posterUrl(firstItem);
-  if (firstUrl !== null) return <img src={firstUrl} alt="" className="size-full object-cover" />;
-
-  return (
-    <div className="flex size-full items-center justify-center bg-surface">
-      <FolderHeart className="size-6 text-muted-foreground" aria-hidden="true" />
-    </div>
-  );
-};
+      <div className="-mt-6 flex flex-1 flex-col gap-2 px-5 pb-5">
+        <h2 className="truncate text-xl leading-tight font-medium tracking-tight">
+          {collection.name}
+        </h2>
+        {collection.description !== null && (
+          <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+            {collection.description}
+          </p>
+        )}
+        <p className="mt-auto pt-2 text-xs tracking-[0.14em] text-muted-foreground uppercase">
+          {countLabel(collection.items.length, 'title')} ·{' '}
+          {countLabel(collection.likeCount, 'like')}
+        </p>
+      </div>
+    </Link>
+  </li>
+);
 
 export const CollectionListPage = () => {
   const { data: collections, isPending } = CollectionQueries.useAll();
   if (isPending) return <Loader className="min-h-[60vh]" />;
   return (
-    <main className="px-4 py-8 md:px-8 md:py-12">
-      <div className="mb-8 flex items-center justify-between gap-4">
+    <main className="page-shell">
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="mb-1 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
+          <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
             Your library
           </p>
-          <h1 className="text-2xl font-semibold md:text-3xl">My Collections</h1>
+          <h1 className="mt-2 text-3xl leading-tight font-light tracking-tight md:text-4xl">
+            Collections
+          </h1>
         </div>
         <Button asChild>
-          <Link to="/collections/new">New Collection</Link>
+          <Link to="/collections/new">
+            <Plus aria-hidden="true" className="size-4" />
+            New Collection
+          </Link>
         </Button>
-      </div>
+      </header>
+
       <Collaborators />
+
       {collections?.length === 0 ? (
-        <div className="flex min-h-80 items-center justify-center border-y border-border text-center">
-          <div>
-            <FolderHeart className="mx-auto size-8 text-primary" aria-hidden="true" />
+        <div className="flex min-h-80 items-center justify-center rounded-xl border border-dashed border-foreground/15 text-center">
+          <div className="px-6">
+            <FolderHeart className="mx-auto size-8 text-muted-foreground" aria-hidden="true" />
             <h2 className="mt-4 text-lg font-medium">No Collections yet</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Create a Collection for movies and TV you want to keep together.
             </p>
+            <Button asChild className="mt-6">
+              <Link to="/collections/new">Create your first Collection</Link>
+            </Button>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {collections?.map(collection => (
-            <Link
-              key={collection.id}
-              to={`/collections/${collection.id}`}
-              className="group flex items-center gap-4 rounded-lg border border-border bg-card/70 p-4 hover:border-foreground/20 hover:bg-card"
-            >
-              <div className="size-20 shrink-0 overflow-hidden rounded-md bg-surface">
-                <CoverArt collection={collection} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <h2 className="truncate text-lg font-semibold">{collection.name}</h2>
-                  <Badge variant={VISIBILITY_VARIANT[collection.visibility]}>
-                    {VISIBILITY_LABEL[collection.visibility]}
-                  </Badge>
-                </div>
-                {collection.description !== null && (
-                  <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                    {collection.description}
-                  </p>
-                )}
-                <p className="mt-3 text-xs font-medium text-primary">
-                  {collection.items.length} title{collection.items.length === 1 ? '' : 's'} ·{' '}
-                  {collection.likeCount} like{collection.likeCount === 1 ? '' : 's'}
-                </p>
-              </div>
-              <ChevronRight
-                className="ml-3 size-5 shrink-0 text-muted-foreground"
-                aria-hidden="true"
-              />
-            </Link>
+            <CollectionTile key={collection.id} collection={collection} />
           ))}
-        </div>
+        </ul>
       )}
     </main>
   );

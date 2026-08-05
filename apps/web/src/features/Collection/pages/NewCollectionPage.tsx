@@ -28,17 +28,24 @@ export const NewCollectionPage = () => {
   };
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-8 md:px-8 md:py-12">
-      <h1 className="text-2xl font-semibold md:text-3xl">Create Collection</h1>
-      <p className="mt-2 text-muted-foreground">
-        Keep it private, share an unlisted link, or publish it for everyone.
-      </p>
-      <div className="mt-8">
-        <CollectionForm
-          submitLabel="Create Collection"
-          isPending={create.isPending}
-          onSubmit={handleSubmit}
-        />
+    <main className="page-shell">
+      <div className="mx-auto max-w-2xl">
+        <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
+          Collections
+        </p>
+        <h1 className="mt-2 text-3xl leading-tight font-light tracking-tight md:text-4xl">
+          Create Collection
+        </h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          Keep it private, share an unlisted link, or publish it for everyone.
+        </p>
+        <div className="mt-8">
+          <CollectionForm
+            submitLabel="Create Collection"
+            isPending={create.isPending}
+            onSubmit={handleSubmit}
+          />
+        </div>
       </div>
     </main>
   );
