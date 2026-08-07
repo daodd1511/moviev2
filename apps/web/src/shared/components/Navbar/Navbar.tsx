@@ -3,6 +3,7 @@ import { memo, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Film, ListVideo, Tv, UserRound } from 'lucide-react';
 
+import { Logo } from '../Logo';
 import { Search } from '../Search/Search';
 
 import { ProfileDropdown } from './ProfileDropdown';
@@ -130,8 +131,8 @@ const NavbarComponent = () => {
 
   return (
     <NavShell isOverlay={isOverlay}>
-      <Link to="/" className="text-xl font-semibold tracking-wide text-foreground">
-        Flix<span className="text-primary">.</span>
+      <Link to="/" className="text-foreground">
+        <Logo />
       </Link>
 
       <div className="hidden items-center gap-6 md:flex">

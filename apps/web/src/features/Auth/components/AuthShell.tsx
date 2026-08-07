@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
+import { Logo } from '@/shared/components/Logo';
+
 const BACKDROP_URL = 'https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg';
 
 interface Props {
@@ -24,11 +26,8 @@ export const AuthShell = ({ kicker, title, description, children }: Props) => (
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/25 to-background/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/10 via-transparent to-background/80" />
 
-      <Link
-        to="/"
-        className="absolute top-8 left-10 z-2 text-2xl font-semibold tracking-wide text-foreground xl:top-10 xl:left-14"
-      >
-        Flix<span className="text-primary">.</span>
+      <Link to="/" className="absolute top-8 left-10 z-2 text-foreground xl:top-10 xl:left-14">
+        <Logo className="text-2xl" />
       </Link>
 
       <div className="absolute inset-x-0 bottom-0 z-2 p-10 xl:p-14">
@@ -46,9 +45,9 @@ export const AuthShell = ({ kicker, title, description, children }: Props) => (
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(217,231,238,0.06),transparent_42%)]" />
       <Link
         to="/"
-        className="absolute top-5 left-5 z-2 text-xl font-semibold tracking-wide text-foreground sm:top-7 sm:left-8 lg:hidden"
+        className="absolute top-5 left-5 z-2 text-foreground sm:top-7 sm:left-8 lg:hidden"
       >
-        Flix<span className="text-primary">.</span>
+        <Logo />
       </Link>
       <div className="relative z-1 w-full max-w-[31rem]">{children}</div>
     </section>
