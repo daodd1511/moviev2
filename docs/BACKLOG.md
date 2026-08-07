@@ -18,6 +18,9 @@ into a `specs/<feature>/` plan.
       because `isPending` short-circuits the render; now that categories are an on-page
       rail, keep the header, rail, and filters mounted and load only the results grid
       (2026-08-05)
+- [ ] Mobile tab bar labels (`MobileTabLink`, `apps/web/src/shared/components/Navbar/Navbar.tsx`)
+      use `text-[0.65rem]`, a literal size off the `DESIGN.md` type ramp — pick a documented
+      step or add the step to the design system if the smaller size is deliberate (2026-08-07)
 
 ## Features
 
@@ -32,8 +35,6 @@ into a `specs/<feature>/` plan.
       genre filter on the catalog Discover tab (2026-08-05)
 - [ ] TV season detail with per-episode ratings, IMDb-style — episode list per season with
       each episode's rating, air date, and still (2026-08-05)
-- [ ] Design a logo for the app — wordmark plus a standalone mark for the favicon and
-      navbar, aligned with `DESIGN.md` (2026-08-06)
 
 ## Ideas
 
