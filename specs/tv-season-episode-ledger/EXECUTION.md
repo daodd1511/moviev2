@@ -6,10 +6,10 @@ adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: 2 — done
+- Current phase: 3 — in-progress
 - Phase 1 — Season data contract: done
 - Phase 2 — Routed episode ledger: done
-- Phase 3 — Series quality data: pending
+- Phase 3 — Series quality data: in-progress
 - Phase 4 — Series quality matrix: pending
 - Verification debt: none
 
@@ -93,10 +93,10 @@ Produces: `TvQueries.seasonDetailOptions(id: number, seasonNumber: number)`,
 
 Fresh review: not required
 
-- [ ] Refactor `apps/web/src/stores/queries/tvQueries.ts` to expose `seasonDetailOptions`, keep `useSeasonDetail` on those options, and add `useSeasonDetails` with TanStack `useQueries` so single- and multi-season reads share cache keys
-- [ ] Add `apps/web/src/features/Tv/utils/seriesQuality.ts` with the fixed six band thresholds, explicit `notRated` result, rated/not-rated/nonexistent discriminated matrix cells, and rated-episode average calculation per PLAN.md → “Quality bands are fixed data semantics”
-- [ ] Add `apps/web/src/features/Tv/utils/seriesQuality.test.ts` for exact threshold boundaries, matrix cell kinds, regular/Specials averages, and empty input
-- [ ] Add `apps/web/src/stores/queries/tvQueries.test.tsx` for multi-season query keys, cache reuse with `useSeasonDetail`, result ordering, and independent season failures
+- [x] Refactor `apps/web/src/stores/queries/tvQueries.ts` to expose `seasonDetailOptions`, keep `useSeasonDetail` on those options, and add `useSeasonDetails` with TanStack `useQueries` so single- and multi-season reads share cache keys
+- [x] Add `apps/web/src/features/Tv/utils/seriesQuality.ts` with the fixed six band thresholds, explicit `notRated` result, rated/not-rated/nonexistent discriminated matrix cells, and rated-episode average calculation per PLAN.md → “Quality bands are fixed data semantics”
+- [x] Add `apps/web/src/features/Tv/utils/seriesQuality.test.ts` for exact threshold boundaries, matrix cell kinds, regular/Specials averages, and empty input
+- [x] Add `apps/web/src/stores/queries/tvQueries.test.tsx` for multi-season query keys, cache reuse with `useSeasonDetail`, result ordering, and independent season failures
 
 **Phase gate (hard):**
 - [ ] `pnpm typecheck`
