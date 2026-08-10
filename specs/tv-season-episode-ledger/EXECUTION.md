@@ -6,9 +6,9 @@ adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: 2 — in-progress
+- Current phase: 2 — done
 - Phase 1 — Season data contract: done
-- Phase 2 — Routed episode ledger: in-progress
+- Phase 2 — Routed episode ledger: done
 - Phase 3 — Series quality data: pending
 - Phase 4 — Series quality matrix: pending
 - Verification debt: none
@@ -66,8 +66,8 @@ Fresh review: not required
 - [x] Retain `docs/prototypes/tv-season-detail/{index.html,variant-a-cinematic.html,variant-b-ledger.html,variant-c-spotlight.html,prototype.css,prototype.js}` as the design record, with `variant-b-ledger.html` identified as the selected reference
 
 **Phase gate (hard):**
-- [ ] `pnpm typecheck`
-- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>`
+- [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
+- [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 2 files / 8 tests
 
 **Review checklist (user, at PR review):**
 - [ ] From a TV detail page, open a numbered season and Specials and confirm each dedicated URL is correct
