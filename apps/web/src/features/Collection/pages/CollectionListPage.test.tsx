@@ -20,6 +20,7 @@ const collection: Collection = {
   likeCount: 0,
   collaborators: [],
   version: 1,
+  legacyPublicId: null,
   createdAt: '2026-08-02T00:00:00.000Z',
   updatedAt: '2026-08-02T00:00:00.000Z',
 };
