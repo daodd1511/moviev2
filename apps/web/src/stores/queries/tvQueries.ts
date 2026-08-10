@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { Credits, Episode, Media, Pagination, TvDetail } from '@/models';
+import { Credits, Media, Pagination, SeasonDetail, TvDetail } from '@/models';
 import { TvService } from '@/api/services/tvService';
 
 export namespace TvQueries {
@@ -18,10 +18,9 @@ export namespace TvQueries {
     });
 
   export const useSeasonDetail = (id: number, seasonNumber: number) =>
-    useQuery<readonly Episode[], AxiosError>({
-      queryKey: ['seasonEpisode', id, seasonNumber],
+    useQuery<SeasonDetail, AxiosError>({
+      queryKey: ['tvSeasonDetail', id, seasonNumber],
       queryFn: () => TvService.getSeasonDetail(id, seasonNumber),
-      enabled: seasonNumber !== -1,
     });
 
   export const useCredits = (id: number) =>

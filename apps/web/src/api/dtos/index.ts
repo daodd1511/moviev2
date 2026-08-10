@@ -7,6 +7,7 @@ export * from './video.dto';
 export * from './tv/tv.dto';
 export * from './tv/tvDetail.dto';
 export * from './tv/season.dto';
+export * from './tv/seasonDetail.dto';
 export * from './tv/episode.dto';
 export * from './cast.dto';
 export * from './person/person.dto';

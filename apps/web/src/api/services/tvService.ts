@@ -1,8 +1,8 @@
 import { api } from '..';
-import { PaginationDto, EpisodeDto, TvDetailDto, TvDto, CreditsDto } from '../dtos';
+import { PaginationDto, SeasonDetailDto, TvDetailDto, TvDto, CreditsDto } from '../dtos';
 import {
   PaginationMapper,
-  EpisodeMapper,
+  SeasonDetailMapper,
   TvDetailMapper,
   TvMapper,
   CastMapper,
@@ -11,7 +11,7 @@ import {
 
 import { MediaMapper } from '../mappers/media.mapper';
 
-import { Episode, Pagination, TvDetail, Tv, Media, Credits } from '@/models';
+import { Pagination, SeasonDetail, TvDetail, Tv, Media, Credits } from '@/models';
 
 export namespace TvService {
   export const getTvs = async (
@@ -46,16 +46,13 @@ export namespace TvService {
     getTvs(1, `${tvId}/recommendations`);
 
   export const getSeasonDetail = async (
-    tvId: number | undefined,
-    seasonNumber: number | undefined,
-  ): Promise<readonly Episode[]> => {
-    if (tvId === undefined || seasonNumber === undefined) {
-      return [] as unknown as Episode[];
-    }
-    const { data: season } = await api.get<{ readonly episodes: readonly EpisodeDto[] }>(
+    tvId: number,
+    seasonNumber: number,
+  ): Promise<SeasonDetail> => {
+    const { data: season } = await api.get<SeasonDetailDto>(
       `/tv/${tvId}/season/${seasonNumber}`,
     );
-    return season.episodes.map(episodeDto => EpisodeMapper.fromDto(episodeDto));
+    return SeasonDetailMapper.fromDto(season);
   };
 
   export const getCredits = async (tvId: number): Promise<Credits> => {

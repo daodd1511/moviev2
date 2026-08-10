@@ -14,6 +14,9 @@ export namespace EpisodeMapper {
       name: dto.name,
       overview: dto.overview,
       episodeNumber: dto.episode_number,
+      runtime: dto.runtime,
+      stillPath: dto.still_path,
+      voteAverage: dto.vote_average > 0 ? dto.vote_average : null,
     });
   }
 }

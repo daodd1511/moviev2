@@ -9,6 +9,7 @@ export * from './video.mapper';
 export * from './tv/tv.mapper';
 export * from './tv/tvDetail.mapper';
 export * from './tv/season.mapper';
+export * from './tv/seasonDetail.mapper';
 export * from './tv/episode.mapper';
 export * from './media.mapper';
 export * from './person/person.mapper';
