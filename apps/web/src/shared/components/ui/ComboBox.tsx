@@ -76,7 +76,10 @@ export const ComboBox = ({
       <PopoverTrigger
         type="button"
         aria-labelledby={labelledBy}
-        className={cn(FIELD_TRIGGER_SURFACE, 'group flex h-11 w-full min-w-0 items-center justify-between gap-3 px-4 text-left text-sm')}
+        className={cn(
+          FIELD_TRIGGER_SURFACE,
+          'group flex h-11 w-full min-w-0 items-center justify-between gap-3 px-4 text-left text-sm',
+        )}
       >
         <span className="min-w-0 flex-1 truncate">
           {selectedOption === undefined ? (

@@ -39,7 +39,10 @@ export const DatePicker = ({ id, value, onChange, placeholder = 'Pick a date' }:
         <PopoverTrigger
           id={id}
           type="button"
-          className={cn(FIELD_TRIGGER_SURFACE, 'group flex h-11 w-full min-w-0 items-center gap-3 px-4 text-left text-sm')}
+          className={cn(
+            FIELD_TRIGGER_SURFACE,
+            'group flex h-11 w-full min-w-0 items-center gap-3 px-4 text-left text-sm',
+          )}
         >
           <CalendarIcon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
           <span

@@ -49,9 +49,7 @@ export namespace TvService {
     tvId: number,
     seasonNumber: number,
   ): Promise<SeasonDetail> => {
-    const { data: season } = await api.get<SeasonDetailDto>(
-      `/tv/${tvId}/season/${seasonNumber}`,
-    );
+    const { data: season } = await api.get<SeasonDetailDto>(`/tv/${tvId}/season/${seasonNumber}`);
     return SeasonDetailMapper.fromDto(season);
   };
 
