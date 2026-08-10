@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { format, parse } from 'date-fns';
 import { CalendarIcon, XIcon } from 'lucide-react';
 
+import { FIELD_TRIGGER_SURFACE } from '@/lib/fieldStyles';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -38,7 +39,7 @@ export const DatePicker = ({ id, value, onChange, placeholder = 'Pick a date' }:
         <PopoverTrigger
           id={id}
           type="button"
-          className="group flex h-11 w-full min-w-0 items-center gap-3 rounded-lg border border-foreground/15 bg-foreground/[0.06] px-4 text-left text-sm text-foreground shadow-[inset_0_1px_0_rgba(217,231,238,0.04)] transition-[border-color,background-color,box-shadow] duration-200 outline-none hover:border-foreground/25 hover:bg-foreground/[0.09] focus-visible:border-ring data-[state=open]:border-foreground/30 data-[state=open]:bg-surface-raised"
+          className={cn(FIELD_TRIGGER_SURFACE, 'group flex h-11 w-full min-w-0 items-center gap-3 px-4 text-left text-sm')}
         >
           <CalendarIcon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
           <span
