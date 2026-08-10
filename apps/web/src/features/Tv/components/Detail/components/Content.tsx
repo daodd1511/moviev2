@@ -33,7 +33,7 @@ const ContentComponent = ({ tv }: Props) => {
 
   return (
     <div className="relative z-2 w-full max-w-4xl flex-1 pb-3.5 text-center md:text-left">
-      <p className="mb-3 text-[0.72rem] font-medium tracking-[0.2em] text-primary uppercase md:mb-4 md:text-[0.82rem]">
+      <p className="mb-3 text-micro font-medium tracking-[0.2em] text-primary uppercase md:mb-4 md:text-kicker">
         Now Showing
       </p>
       <h1

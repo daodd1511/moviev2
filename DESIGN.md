@@ -176,9 +176,16 @@ section above calls the brand color "Amber," never "accent," in prose.
 
 - **Display** (200, clamp(2.6rem→5rem), uppercase, line-height 1.02): detail-page titles over the hero scrim.
 - **Headline** (300, 1.5rem): page-level headings outside detail heroes.
-- **Kicker** (500, 0.82rem, tracking .2em, uppercase, text-muted): every section label ("Overview", "Top Billed Cast", "More Like This"). Kickers replace old bold section headings.
+- **Kicker** (500, 0.82rem, `text-kicker`, tracking .2em, uppercase, text-muted): every section label ("Overview", "Top Billed Cast", "More Like This"). Kickers replace old bold section headings. In detail-page hero kickers it steps down to Micro below `md` (768px) — note this is Tailwind's breakpoint, not the 860px layout collapse.
 - **Body** (300, 1rem, lh 1.65) and **Body Large** (300, 1.08rem, lh 1.8) for overview paragraphs, max 65ch.
 - **Label** (500, 0.875rem): buttons, form labels, cast names.
+- **Compact** (0.8rem, `text-compact`): dense control text where Label would crowd the box — small buttons, calendar weekday and week-number cells.
+- **Micro** (500, 0.65rem, `text-micro`): the smallest step. Mobile tab-bar labels, media-type badges, `kbd` shortcut hints, and the hero kicker's step-down below `md`.
+
+Tailwind's own scale stops at 0.75rem, so Compact, Micro, and the Kicker size are
+declared as `--text-*` tokens in `src/index.css` and used as `text-compact`,
+`text-micro`, `text-kicker`. A literal `text-[…rem]` anywhere is a bug: either it
+matches a step and should name it, or it is a step nobody documented.
 
 ### Named Rules
 

@@ -65,7 +65,7 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
         className={cn(
           'group text-muted-foreground transition-colors hover:text-foreground',
           mobileTab
-            ? 'flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-[0.65rem] font-medium'
+            ? 'flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-micro font-medium'
             : 'flex h-10 items-center gap-2 rounded-full px-2.5 hover:bg-foreground/[0.08] md:px-3',
         )}
         onClick={() => setIsOpen(true)}
@@ -76,7 +76,7 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
         ) : (
           <>
             <span className="hidden text-sm lg:inline">Search</span>
-            <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.06] px-1.5 py-0.5 text-[0.65rem] font-medium text-muted-foreground xl:inline">
+            <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.06] px-1.5 py-0.5 text-micro font-medium text-muted-foreground xl:inline">
               ⌘K
             </kbd>
           </>

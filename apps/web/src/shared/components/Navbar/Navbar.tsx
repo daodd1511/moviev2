@@ -63,7 +63,7 @@ const MobileTabLink = ({ icon, label, to, active }: MobileTabLinkProps) => (
   <Link
     to={to}
     aria-current={active ? 'page' : undefined}
-    className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-[0.65rem] font-medium text-muted-foreground transition-colors aria-[current=page]:text-primary"
+    className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-micro font-medium text-muted-foreground transition-colors aria-[current=page]:text-primary"
   >
     {icon}
     <span>{label}</span>

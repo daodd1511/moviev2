@@ -42,7 +42,7 @@ const SearchResultComponent = ({ searchResult, onSelect }: Props) => {
         <div className="min-w-0 flex-1 py-0.5">
           <div className="flex items-start gap-3">
             <h3 className="truncate text-base font-medium text-foreground">{title}</h3>
-            <span className="ml-auto shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.06] px-2 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground uppercase">
+            <span className="ml-auto shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.06] px-2 py-0.5 text-micro font-medium tracking-wide text-muted-foreground uppercase">
               {searchResult.mediaType === Type.Movie ? 'Movie' : 'TV'}
             </span>
           </div>
