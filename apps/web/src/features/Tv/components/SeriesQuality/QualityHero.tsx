@@ -1,5 +1,8 @@
+import { useId } from 'react';
 import { Star } from 'lucide-react';
 
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { TvDetail } from '@/models';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { BackdropSizes, PosterSizes } from '@/shared/enums';
@@ -32,6 +35,7 @@ const QualityHero = ({
   tv,
   onShowSpecialsChange,
 }: Props) => {
+  const specialsId = useId();
   const posterUrl =
     tv.posterPath !== null
       ? `${IMAGE_BASE_URL}${PosterSizes.large}${tv.posterPath}`
@@ -39,6 +43,10 @@ const QualityHero = ({
   const backdropUrl =
     tv.backdropPath !== null ? `${IMAGE_BASE_URL}${BackdropSizes.large}${tv.backdropPath}` : null;
   const regularSeasonCount = tv.seasons.filter(season => season.seasonNumber > 0).length;
+
+  const handleSpecialsChange = (checked: boolean | 'indeterminate'): void => {
+    onShowSpecialsChange(checked === true);
+  };
 
   return (
     <header
@@ -97,15 +105,23 @@ const QualityHero = ({
         </div>
       </div>
       {hasSpecials ? (
-        <label className="absolute right-5 bottom-4 inline-flex cursor-pointer items-center gap-2 rounded-full border border-foreground/15 bg-background/70 px-3.5 py-2 text-xs font-medium text-muted-foreground backdrop-blur-md transition-colors has-checked:border-foreground/35 has-checked:text-foreground min-[860px]:right-12 min-[860px]:bottom-8">
-          <input
-            type="checkbox"
+        <div
+          className={`absolute right-5 bottom-4 inline-flex items-center gap-2 rounded-full border bg-background/70 px-3.5 py-2 text-xs font-medium backdrop-blur-md transition-colors min-[860px]:right-12 min-[860px]:bottom-8 ${
+            showSpecials
+              ? 'border-foreground/35 text-foreground'
+              : 'border-foreground/15 text-muted-foreground'
+          }`}
+        >
+          <Checkbox
+            id={specialsId}
             checked={showSpecials}
-            onChange={event => onShowSpecialsChange(event.target.checked)}
-            className="size-3.5 accent-primary"
+            onCheckedChange={handleSpecialsChange}
+            className="size-3.5"
           />
-          Show Specials
-        </label>
+          <Label htmlFor={specialsId} className="cursor-pointer text-inherit">
+            Show Specials
+          </Label>
+        </div>
       ) : null}
     </header>
   );

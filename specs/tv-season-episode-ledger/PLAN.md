@@ -180,6 +180,26 @@ Implementation: `apps/web/src/features/Tv/components/SeriesQuality/EpisodeMatrix
 Verification: `SeriesQualityPage.test.tsx` covers a 16-episode season, compact density, and
 the absence of the former nested vertical-scroll constraint.
 
+### 2026-08-10 — Use Shadcn controls for season selection and Specials
+
+Observed: Season detail uses a native `select` and Series quality uses a native checkbox,
+despite Shadcn Select and Checkbox components already being part of the application.
+
+Decision: use the shared Shadcn Select for season navigation and the shared Shadcn Checkbox
+for Show Specials. Preserve the existing labels, keyboard behavior, route navigation, and
+on-demand Specials loading.
+
+Implementation: `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx`,
+`apps/web/src/features/Tv/components/SeriesQuality/QualityHero.tsx`,
+`apps/web/src/features/Tv/pages/SeasonDetailPage.test.tsx`,
+`apps/web/src/features/Tv/pages/SeriesQualityPage.test.tsx`.
+
+Registry: `pnpm dlx shadcn@latest add select checkbox --yes` verified the Shadcn registry;
+the CLI found both local components and safely declined to overwrite them.
+
+Verification: the season-detail and series-quality page suites verify Shadcn registry data
+slots, Season 0 navigation, and on-demand Specials loading.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,
@@ -252,6 +272,9 @@ Add `apps/web/src/features/Tv/utils/seriesQuality.ts` with:
 - Update `features/Tv/components/SeriesQuality/EpisodeMatrix.tsx` so long seasons compact
   rows to the viewport without an internal vertical scroll area; retain horizontal overflow
   only when season columns cannot stay legible.
+- Use the shared Shadcn Select in `features/Tv/components/SeasonDetail/SeasonHero.tsx` for
+  season navigation and the shared Shadcn Checkbox in
+  `features/Tv/components/SeriesQuality/QualityHero.tsx` for Show Specials.
 - Add a **Series quality** `Link` in
   `features/Tv/components/Detail/components/Content.tsx` and
   `features/Tv/components/SeasonDetail/SeasonHero.tsx`.
@@ -296,6 +319,12 @@ Origin: delta ← specs/tv-season-episode-ledger
 **WHEN** a user activates a season card on a TV detail page
 **THEN** the app navigates to `/tv/:tvId/season/:seasonNumber`
 **AND** Season 0 is represented as Specials without being hidden.
+
+#### Scenario: Change seasons from the season detail page
+
+**WHEN** a user chooses a season from the shared Shadcn Select on a season detail page
+**THEN** the app navigates to that season's dedicated URL
+**AND** the selected season remains visibly labeled in the control.
 
 #### Scenario: Browse a season's episodes
 
@@ -346,7 +375,8 @@ comparison
 
 **WHEN** a TV has Season 0 and the user enables Show Specials
 **THEN** the app loads and adds the Specials column
-**AND** recalculates the episode average to include its rated episodes.
+**AND** recalculates the episode average to include its rated episodes
+**AND** the control is the shared Shadcn Checkbox with an accessible Show Specials label.
 
 #### Scenario: A season fails independently
 

@@ -1,8 +1,16 @@
-import { ChangeEvent, memo } from 'react';
+import { memo } from 'react';
 import { BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 import { SeasonDetail as SeasonDetailModel, TvDetail } from '@/models';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { BackdropSizes, PosterSizes } from '@/shared/enums';
@@ -47,8 +55,8 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
     tv.backdropPath !== null ? `${IMAGE_BASE_URL}${BackdropSizes.large}${tv.backdropPath}` : null;
   const seasonLabel = getSeasonLabel(season.seasonNumber, season.name);
 
-  const handleSeasonChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-    navigate(`/tv/${tv.id}/season/${event.target.value}`);
+  const handleSeasonChange = (seasonNumber: string): void => {
+    navigate(`/tv/${tv.id}/season/${seasonNumber}`);
   };
 
   const handlePreviousSeason = (): void => {
@@ -114,24 +122,24 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
 
       <div className="relative z-1 mx-auto -mt-5 flex w-full max-w-[82rem] items-center gap-3 px-5 min-[590px]:-mt-6 min-[860px]:px-12">
         <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 rounded-md border border-foreground/15 bg-surface-raised px-3 shadow-[0_16px_40px_-18px_rgba(0,0,0,0.85)] min-[590px]:px-4">
-          <label
+          <Label
             htmlFor="season-picker"
             className="hidden text-micro font-medium tracking-[0.16em] text-muted-foreground uppercase min-[590px]:block"
           >
             Viewing
-          </label>
-          <select
-            id="season-picker"
-            value={season.seasonNumber}
-            onChange={handleSeasonChange}
-            className="min-w-0 flex-1 rounded-sm bg-foreground/[0.08] px-3 py-2 text-sm font-medium text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring min-[590px]:max-w-56"
-          >
-            {tv.seasons.map(candidate => (
-              <option key={candidate.id} value={candidate.seasonNumber}>
-                {getSeasonLabel(candidate.seasonNumber, candidate.name)}
-              </option>
-            ))}
-          </select>
+          </Label>
+          <Select value={String(season.seasonNumber)} onValueChange={handleSeasonChange}>
+            <SelectTrigger id="season-picker" className="min-w-0 flex-1 min-[590px]:max-w-56">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {tv.seasons.map(candidate => (
+                <SelectItem key={candidate.id} value={String(candidate.seasonNumber)}>
+                  {getSeasonLabel(candidate.seasonNumber, candidate.name)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <span className="hidden text-xs tracking-[0.08em] text-muted-foreground uppercase min-[860px]:inline">
             {getSeasonMeta(season.episodes.length, season.airDate)}
           </span>

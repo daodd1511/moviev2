@@ -218,6 +218,10 @@ describe('SeriesQualityPage', () => {
     await screen.findByRole('heading', { name: 'Fixture show' });
     expect(screen.getByText('Episode average').parentElement).toHaveTextContent('7.0');
     expect(requestedSeasons).not.toContain(0);
+    expect(screen.getByRole('checkbox', { name: 'Show Specials' })).toHaveAttribute(
+      'data-slot',
+      'checkbox',
+    );
 
     await user.click(screen.getByRole('checkbox', { name: 'Show Specials' }));
 

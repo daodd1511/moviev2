@@ -202,14 +202,17 @@ describe('SeasonDetailPage', () => {
     );
   });
 
-  it('changes the URL and loaded ledger through the native selector and season controls', async () => {
+  it('changes the URL and loaded ledger through the Shadcn selector and season controls', async () => {
     useSeasonHandlers();
     const user = userEvent.setup();
 
     renderPage();
 
     await screen.findByRole('heading', { name: 'Season 1' });
-    await user.selectOptions(screen.getByLabelText('Viewing'), '0');
+    const seasonSelect = screen.getByRole('combobox', { name: 'Viewing' });
+    expect(seasonSelect).toHaveAttribute('data-slot', 'select-trigger');
+    await user.click(seasonSelect);
+    await user.click(await screen.findByRole('option', { name: 'Specials' }));
 
     expect(await screen.findByRole('heading', { name: 'Specials' })).toBeInTheDocument();
     expect(screen.getByTestId('location')).toHaveTextContent('/tv/42/season/0');
