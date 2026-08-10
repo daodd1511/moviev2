@@ -181,7 +181,10 @@ const renderSpotlight = () => {
       </div>`;
 
     filmstrip.querySelectorAll('button').forEach(button => {
-      button.setAttribute('aria-current', String(Number(button.dataset.episode) === episode.number));
+      button.setAttribute(
+        'aria-current',
+        String(Number(button.dataset.episode) === episode.number),
+      );
     });
   };
 

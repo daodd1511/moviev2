@@ -13,8 +13,7 @@
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 83% 8%, rgba(19, 58, 77, 0.36), transparent 28rem),
-    var(--ground);
+    radial-gradient(circle at 83% 8%, rgba(19, 58, 77, 0.36), transparent 28rem), var(--ground);
 }
 
 .quality-header {
@@ -30,7 +29,12 @@ body {
   inset: 0;
   background:
     linear-gradient(to top, var(--ground) 0%, rgba(4, 18, 25, 0.72) 48%, rgba(4, 18, 25, 0.28)),
-    linear-gradient(95deg, rgba(4, 18, 25, 0.96) 6%, rgba(4, 18, 25, 0.58) 50%, rgba(4, 18, 25, 0.2)),
+    linear-gradient(
+      95deg,
+      rgba(4, 18, 25, 0.96) 6%,
+      rgba(4, 18, 25, 0.58) 50%,
+      rgba(4, 18, 25, 0.2)
+    ),
     url('https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg') center 28% / cover;
 }
 
@@ -296,7 +300,9 @@ body {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   cursor: pointer;
-  transition: transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1), filter 180ms ease;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    filter 180ms ease;
 }
 
 .rating-cell:hover {
@@ -310,13 +316,31 @@ body {
   outline-offset: 2px;
 }
 
-.quality-awesome { background: var(--quality-awesome); color: var(--text); }
-.quality-great { background: var(--quality-great); }
-.quality-good { background: var(--quality-good); }
-.quality-regular { background: var(--quality-regular); }
-.quality-bad { background: var(--quality-bad); color: var(--text); }
-.quality-garbage { background: var(--quality-garbage); color: var(--text); }
-.quality-missing { background: var(--quality-missing); color: var(--muted); }
+.quality-awesome {
+  background: var(--quality-awesome);
+  color: var(--text);
+}
+.quality-great {
+  background: var(--quality-great);
+}
+.quality-good {
+  background: var(--quality-good);
+}
+.quality-regular {
+  background: var(--quality-regular);
+}
+.quality-bad {
+  background: var(--quality-bad);
+  color: var(--text);
+}
+.quality-garbage {
+  background: var(--quality-garbage);
+  color: var(--text);
+}
+.quality-missing {
+  background: var(--quality-missing);
+  color: var(--muted);
+}
 
 .matrix-inspector {
   display: flex;
@@ -673,7 +697,9 @@ body {
   background: var(--surface);
   color: var(--text);
   text-decoration: none;
-  transition: border-color 180ms ease, transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition:
+    border-color 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
 .quality-option:hover {
@@ -719,35 +745,98 @@ body {
 }
 
 @media (max-width: 860px) {
-  .quality-header { min-height: auto; padding-top: 4.5rem; }
-  .quality-header::before { background: linear-gradient(to top, var(--ground), var(--surface)); }
-  .quality-header-inner { align-items: center; min-height: auto; padding-top: 2.5rem; }
-  .show-poster { flex-basis: 7rem; }
-  .quality-intro { display: block; }
-  .quality-toggle { margin-top: 1.25rem; }
-  .quality-legend { margin-top: 1.25rem; }
-  .matrix-layout { grid-template-columns: 1fr; }
-  .matrix-inspector { border-top: 1px solid var(--line); border-left: 0; }
-  .scorecard-grid { grid-template-columns: 1fr; }
-  .show-verdict { grid-template-columns: 8rem 1fr; }
-  .quality-options { grid-template-columns: 1fr; }
-  .quality-option { min-height: 18rem; }
+  .quality-header {
+    min-height: auto;
+    padding-top: 4.5rem;
+  }
+  .quality-header::before {
+    background: linear-gradient(to top, var(--ground), var(--surface));
+  }
+  .quality-header-inner {
+    align-items: center;
+    min-height: auto;
+    padding-top: 2.5rem;
+  }
+  .show-poster {
+    flex-basis: 7rem;
+  }
+  .quality-intro {
+    display: block;
+  }
+  .quality-toggle {
+    margin-top: 1.25rem;
+  }
+  .quality-legend {
+    margin-top: 1.25rem;
+  }
+  .matrix-layout {
+    grid-template-columns: 1fr;
+  }
+  .matrix-inspector {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+  .scorecard-grid {
+    grid-template-columns: 1fr;
+  }
+  .show-verdict {
+    grid-template-columns: 8rem 1fr;
+  }
+  .quality-options {
+    grid-template-columns: 1fr;
+  }
+  .quality-option {
+    min-height: 18rem;
+  }
 }
 
 @media (max-width: 590px) {
-  .quality-header-inner { gap: 1rem; }
-  .show-poster { flex-basis: 5.5rem; }
-  .quality-header h1 { font-size: 2rem; }
-  .quality-shell { padding-top: 2.8rem; }
-  .matrix-scroll { padding: 1rem; }
-  .rating-matrix { grid-template-columns: 2.5rem repeat(var(--matrix-seasons, 3), minmax(5.2rem, 1fr)); min-width: 21rem; }
-  .rating-cell { min-height: 3.6rem; font-size: 1.05rem; }
-  .matrix-inspector { padding: 1.4rem; }
-  .trajectory-toolbar { display: block; }
-  .season-toggles { margin-bottom: 0.8rem; }
-  .trajectory-panel { padding: 1rem; }
-  .trajectory-summary { grid-template-columns: 1fr 1fr; }
-  .trajectory-stat:nth-child(2) { border-right: 0; }
-  .trajectory-stat:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
-  .show-verdict { grid-template-columns: 1fr; gap: 0.7rem; }
+  .quality-header-inner {
+    gap: 1rem;
+  }
+  .show-poster {
+    flex-basis: 5.5rem;
+  }
+  .quality-header h1 {
+    font-size: 2rem;
+  }
+  .quality-shell {
+    padding-top: 2.8rem;
+  }
+  .matrix-scroll {
+    padding: 1rem;
+  }
+  .rating-matrix {
+    grid-template-columns: 2.5rem repeat(var(--matrix-seasons, 3), minmax(5.2rem, 1fr));
+    min-width: 21rem;
+  }
+  .rating-cell {
+    min-height: 3.6rem;
+    font-size: 1.05rem;
+  }
+  .matrix-inspector {
+    padding: 1.4rem;
+  }
+  .trajectory-toolbar {
+    display: block;
+  }
+  .season-toggles {
+    margin-bottom: 0.8rem;
+  }
+  .trajectory-panel {
+    padding: 1rem;
+  }
+  .trajectory-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  .trajectory-stat:nth-child(2) {
+    border-right: 0;
+  }
+  .trajectory-stat:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+  .show-verdict {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
 }

@@ -10,23 +10,61 @@
   </head>
   <body>
     <nav class="site-nav" aria-label="Primary navigation">
-      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"></span><span>Flix<span class="brand-period">.</span></span></a>
-      <ul class="nav-links"><li><a href="#">Movies</a></li><li><a href="#" aria-current="page">TV Shows</a></li><li><a href="#">People</a></li></ul>
+      <a class="brand" href="#"
+        ><span class="brand-mark" aria-hidden="true"></span
+        ><span>Flix<span class="brand-period">.</span></span></a
+      >
+      <ul class="nav-links">
+        <li><a href="#">Movies</a></li>
+        <li><a href="#" aria-current="page">TV Shows</a></li>
+        <li><a href="#">People</a></li>
+      </ul>
       <button class="nav-action" type="button" aria-label="Search">⌕</button>
     </nav>
     <header class="quality-header">
       <div class="quality-header-inner">
-        <div class="show-poster"><img src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg" alt="The Wheel of Time poster" /></div>
-        <div class="quality-header-copy"><p class="kicker">Series quality</p><h1>The Wheel of Time</h1><div class="show-meta"><span>3 seasons</span><span class="meta-dot"></span><span>24 episodes</span><span class="meta-dot"></span><span>2021–present</span></div><div class="quality-metrics"><div class="quality-metric"><span>Series rating</span><strong>★ 7.7</strong></div><div class="quality-metric"><span>Episode average</span><strong>★ 8.0</strong></div></div></div>
+        <div class="show-poster">
+          <img
+            src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg"
+            alt="The Wheel of Time poster"
+          />
+        </div>
+        <div class="quality-header-copy">
+          <p class="kicker">Series quality</p>
+          <h1>The Wheel of Time</h1>
+          <div class="show-meta">
+            <span>3 seasons</span><span class="meta-dot"></span><span>24 episodes</span
+            ><span class="meta-dot"></span><span>2021–present</span>
+          </div>
+          <div class="quality-metrics">
+            <div class="quality-metric"><span>Series rating</span><strong>★ 7.7</strong></div>
+            <div class="quality-metric"><span>Episode average</span><strong>★ 8.0</strong></div>
+          </div>
+        </div>
       </div>
     </header>
     <main class="quality-shell">
-      <header class="quality-intro"><div class="quality-intro-copy"><p class="kicker">Option A · Episode matrix</p><h2 class="quality-title">Every episode, one glance</h2><p class="quality-description">Closest to your reference: seasons are columns, episode positions are rows, and quality bands make weak or exceptional runs immediately visible.</p><ul class="quality-legend" data-quality-legend></ul></div><label class="quality-toggle"><input type="checkbox" data-specials-toggle/><span>Show Specials</span></label></header>
+      <header class="quality-intro">
+        <div class="quality-intro-copy">
+          <p class="kicker">Option A · Episode matrix</p>
+          <h2 class="quality-title">Every episode, one glance</h2>
+          <p class="quality-description">
+            Closest to your reference: seasons are columns, episode positions are rows, and quality
+            bands make weak or exceptional runs immediately visible.
+          </p>
+          <ul class="quality-legend" data-quality-legend></ul>
+        </div>
+        <label class="quality-toggle"
+          ><input type="checkbox" data-specials-toggle /><span>Show Specials</span></label
+        >
+      </header>
       <section class="quality-panel matrix-layout" aria-label="Episode rating matrix">
         <div class="matrix-scroll"><div class="rating-matrix" data-rating-matrix></div></div>
         <aside class="matrix-inspector" data-matrix-inspector aria-live="polite"></aside>
       </section>
     </main>
-    <aside class="prototype-badge"><span>Prototype A</span><a href="index.html">Compare all</a></aside>
+    <aside class="prototype-badge">
+      <span>Prototype A</span><a href="index.html">Compare all</a>
+    </aside>
   </body>
 </html>

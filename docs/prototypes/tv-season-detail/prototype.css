@@ -158,7 +158,8 @@ img {
 .hero-image {
   position: absolute;
   inset: 0;
-  background: url('https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg') center 25% / cover no-repeat;
+  background: url('https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg') center 25%
+    / cover no-repeat;
   animation: hero-drift 40s ease-out forwards;
 }
 
@@ -172,8 +173,12 @@ img {
 }
 
 @keyframes hero-drift {
-  from { transform: scale(1.06); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .hero-inner {
@@ -313,7 +318,9 @@ h1 {
   background: rgba(217, 231, 238, 0.08);
   color: var(--text);
   cursor: pointer;
-  transition: background 180ms ease, transform 180ms ease;
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
 }
 
 .pager button:hover:not(:disabled) {
@@ -684,63 +691,190 @@ h1 {
 }
 
 @media (max-width: 860px) {
-  :root { --gutter: 1.25rem; }
-  .site-nav { gap: 1rem; min-height: 4.5rem; padding-inline: var(--gutter); }
-  .nav-links { display: none; }
-  .hero { min-height: auto; padding-top: 4.5rem; }
-  .hero-image { display: none; }
-  .hero::after { display: none; }
-  .hero-inner { align-items: center; min-height: auto; padding: 2.5rem var(--gutter) 3.8rem; }
-  .season-poster { flex-basis: 7rem; }
-  h1 { font-size: clamp(2.25rem, 10vw, 3.5rem); }
-  .hero-summary { display: none; }
-  .season-tools { align-items: stretch; margin-top: -1.5rem; }
-  .season-picker { flex: 1; }
-  .season-count { display: none; }
-  .page { padding-top: 3.3rem; }
-  .variant-a .episode-item { grid-template-columns: 10.5rem 1fr; gap: 1.2rem; }
-  .variant-a .episode-copy { padding-right: 0; }
-  .variant-a .episode-title-row { display: block; }
-  .variant-a .rating { justify-content: flex-start; margin-top: 0.4rem; }
-  .variant-a .episode-overview { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-  .ledger-header { display: none; }
-  .variant-b .episode-item { grid-template-columns: 2rem 9rem 1fr 4rem; gap: 0.8rem; padding-inline: 0; }
-  .variant-b .air-date { display: none; }
-  .variant-b .rating { grid-column: 4; }
-  .spotlight { grid-template-columns: 1fr; gap: 0; }
-  .spotlight-image { min-height: 25rem; }
-  .spotlight-panel { border-radius: 0 0 var(--radius) var(--radius); }
+  :root {
+    --gutter: 1.25rem;
+  }
+  .site-nav {
+    gap: 1rem;
+    min-height: 4.5rem;
+    padding-inline: var(--gutter);
+  }
+  .nav-links {
+    display: none;
+  }
+  .hero {
+    min-height: auto;
+    padding-top: 4.5rem;
+  }
+  .hero-image {
+    display: none;
+  }
+  .hero::after {
+    display: none;
+  }
+  .hero-inner {
+    align-items: center;
+    min-height: auto;
+    padding: 2.5rem var(--gutter) 3.8rem;
+  }
+  .season-poster {
+    flex-basis: 7rem;
+  }
+  h1 {
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+  }
+  .hero-summary {
+    display: none;
+  }
+  .season-tools {
+    align-items: stretch;
+    margin-top: -1.5rem;
+  }
+  .season-picker {
+    flex: 1;
+  }
+  .season-count {
+    display: none;
+  }
+  .page {
+    padding-top: 3.3rem;
+  }
+  .variant-a .episode-item {
+    grid-template-columns: 10.5rem 1fr;
+    gap: 1.2rem;
+  }
+  .variant-a .episode-copy {
+    padding-right: 0;
+  }
+  .variant-a .episode-title-row {
+    display: block;
+  }
+  .variant-a .rating {
+    justify-content: flex-start;
+    margin-top: 0.4rem;
+  }
+  .variant-a .episode-overview {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .ledger-header {
+    display: none;
+  }
+  .variant-b .episode-item {
+    grid-template-columns: 2rem 9rem 1fr 4rem;
+    gap: 0.8rem;
+    padding-inline: 0;
+  }
+  .variant-b .air-date {
+    display: none;
+  }
+  .variant-b .rating {
+    grid-column: 4;
+  }
+  .spotlight {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .spotlight-image {
+    min-height: 25rem;
+  }
+  .spotlight-panel {
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
 }
 
 @media (max-width: 590px) {
-  .hero-inner { align-items: flex-end; gap: 1rem; }
-  .season-poster { flex-basis: 5.5rem; }
-  .breadcrumb { font-size: 0.64rem; }
-  h1 { font-size: 2.1rem; }
-  .season-tools { flex-wrap: wrap; }
-  .season-picker { width: calc(100% - 7rem); }
-  .season-picker label { display: none; }
-  .season-picker select { width: 100%; min-width: 0; }
-  .pager { gap: 0.35rem; }
-  .pager button { width: 2.8rem; height: 2.8rem; }
-  .section-heading { display: block; }
-  .section-note { display: block; margin-top: 0.45rem; }
-  .variant-a .episode-item { display: block; padding: 1.25rem 0 1.5rem; }
-  .variant-a .episode-image { margin-bottom: 1rem; }
-  .variant-a .episode-title-row { display: flex; }
-  .variant-a .episode-overview { -webkit-line-clamp: 3; }
-  .variant-b .episode-item { grid-template-columns: 2rem 7.5rem 1fr; min-height: 7rem; }
-  .variant-b .rating { grid-column: 3; grid-row: 1; align-self: start; margin-top: 0.2rem; }
-  .variant-b .episode-content { grid-column: 3; grid-row: 1; padding-right: 3.5rem; }
-  .variant-b .episode-overview { display: none; }
-  .spotlight-image { min-height: 20rem; }
-  .spotlight-caption { inset: auto 1.25rem 1.25rem; }
-  .spotlight-title { font-size: 2rem; }
-  .spotlight-panel { padding: 1.5rem; }
+  .hero-inner {
+    align-items: flex-end;
+    gap: 1rem;
+  }
+  .season-poster {
+    flex-basis: 5.5rem;
+  }
+  .breadcrumb {
+    font-size: 0.64rem;
+  }
+  h1 {
+    font-size: 2.1rem;
+  }
+  .season-tools {
+    flex-wrap: wrap;
+  }
+  .season-picker {
+    width: calc(100% - 7rem);
+  }
+  .season-picker label {
+    display: none;
+  }
+  .season-picker select {
+    width: 100%;
+    min-width: 0;
+  }
+  .pager {
+    gap: 0.35rem;
+  }
+  .pager button {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+  .section-heading {
+    display: block;
+  }
+  .section-note {
+    display: block;
+    margin-top: 0.45rem;
+  }
+  .variant-a .episode-item {
+    display: block;
+    padding: 1.25rem 0 1.5rem;
+  }
+  .variant-a .episode-image {
+    margin-bottom: 1rem;
+  }
+  .variant-a .episode-title-row {
+    display: flex;
+  }
+  .variant-a .episode-overview {
+    -webkit-line-clamp: 3;
+  }
+  .variant-b .episode-item {
+    grid-template-columns: 2rem 7.5rem 1fr;
+    min-height: 7rem;
+  }
+  .variant-b .rating {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+    margin-top: 0.2rem;
+  }
+  .variant-b .episode-content {
+    grid-column: 3;
+    grid-row: 1;
+    padding-right: 3.5rem;
+  }
+  .variant-b .episode-overview {
+    display: none;
+  }
+  .spotlight-image {
+    min-height: 20rem;
+  }
+  .spotlight-caption {
+    inset: auto 1.25rem 1.25rem;
+  }
+  .spotlight-title {
+    font-size: 2rem;
+  }
+  .spotlight-panel {
+    padding: 1.5rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

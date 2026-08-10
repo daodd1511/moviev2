@@ -34,10 +34,12 @@ Fresh review: not required
 - [x] (amended 2026-08-10) Add the required `legacyPublicId` fixture field in `apps/web/src/features/Collection/pages/CollectionListPage.test.tsx` so the project-wide typecheck can verify this phase
 
 **Phase gate (hard):**
+
 - [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
 - [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 9 files / 21 tests
 
 **Review checklist (user, at PR review):**
+
 - [ ] An existing TV detail page still loads and its season rail remains visually unchanged
 
 **On completion:** run the phase gate; run `fresh-review` when the recorded or actual-diff
@@ -67,10 +69,12 @@ Fresh review: not required
 - [x] Retain `docs/prototypes/tv-season-detail/{index.html,variant-a-cinematic.html,variant-b-ledger.html,variant-c-spotlight.html,prototype.css,prototype.js}` as the design record, with `variant-b-ledger.html` identified as the selected reference
 
 **Phase gate (hard):**
+
 - [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
 - [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 2 files / 8 tests
 
 **Review checklist (user, at PR review):**
+
 - [ ] From a TV detail page, open a numbered season and Specials and confirm each dedicated URL is correct
 - [ ] Change seasons with the selector and previous/next controls and confirm the URL, heading, and ledger all update
 - [ ] Confirm complete and upcoming episode rows show the agreed metadata/fallbacks, remain non-clickable, and do not overflow below 860px
@@ -100,10 +104,12 @@ Fresh review: not required
 - [x] Add `apps/web/src/stores/queries/tvQueries.test.tsx` for multi-season query keys, cache reuse with `useSeasonDetail`, result ordering, and independent season failures
 
 **Phase gate (hard):**
+
 - [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
 - [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 3 files / 24 tests
 
 **Review checklist (user, at PR review):**
+
 - [ ] An existing season-detail URL still loads normally after single- and multi-season queries share options
 
 **On completion:** run the phase gate; run `fresh-review` when the recorded or actual-diff
@@ -135,10 +141,12 @@ Fresh review: not required
 - [x] (amended 2026-08-10) Make `LibraryEntryEditor.test.tsx` calendar date queries tolerate DayPicker's `Today,` accessible-name prefix so the final spec gate is date-stable
 
 **Phase gate (hard):**
+
 - [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
 - [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 3 files / 17 tests
 
 **Review checklist (user, at PR review):**
+
 - [ ] Open Series quality from TV detail and season detail, then confirm every numbered season appears and Series rating remains distinct from Episode average
 - [ ] Select rated cells, follow View in Season to the anchored ledger row, and confirm `?`, `—`, quality-band labels, and failed-season retry are distinct
 - [ ] Enable Specials and confirm its column appears and changes Episode average; below 860px confirm the matrix scrolls with sticky headers and episode labels
@@ -171,10 +179,12 @@ Fresh review: not required
 - [ ] For every accepted review item, append a dated decision in `PLAN.md` → Review Decisions and update the complete affected requirement in `PLAN.md` → Spec Delta; add an `(amended 2026-08-10)` checklist item naming its implementation and test files
 
 **Phase gate (hard):**
+
 - [ ] `pnpm typecheck`
 - [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>`
 
 **Review checklist (user, at PR review):**
+
 - [ ] Open a show with a long season and confirm the matrix compacts episode rows without an internal vertical scrollbar, while ratings and quality colors remain legible
 - [ ] On a narrow viewport, confirm only horizontal overflow remains when season columns cannot fit and both sticky axes remain usable
 - [ ] Confirm every accepted review adjustment is represented in PLAN.md → Review Decisions and its complete Spec Delta requirement

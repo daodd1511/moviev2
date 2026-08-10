@@ -17,6 +17,7 @@ into a `specs/<feature>/` plan.
       but will be at scale (2026-08-04)
 - [ ] Genre pages: a browsable route per genre for movies and TV, beyond the multi-select
       genre filter on the catalog Discover tab (2026-08-05)
+
 ## Ideas
 
 - [ ] Sweep `shared/components/ui/` for shadcn equivalents: `MultiSelect` →

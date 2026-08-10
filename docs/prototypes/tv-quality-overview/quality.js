@@ -3,19 +3,46 @@ const seasons = [
     number: 1,
     year: 2021,
     ratings: [7.3, 7.7, 7.6, 8.5, 7.4, 7.5, 7.8, 6.5],
-    titles: ['Leavetaking', "Shadow's Waiting", 'A Place of Safety', 'The Dragon Reborn', 'Blood Calls Blood', 'The Flame of Tar Valon', 'The Dark Along the Ways', 'The Eye of the World'],
+    titles: [
+      'Leavetaking',
+      "Shadow's Waiting",
+      'A Place of Safety',
+      'The Dragon Reborn',
+      'Blood Calls Blood',
+      'The Flame of Tar Valon',
+      'The Dark Along the Ways',
+      'The Eye of the World',
+    ],
   },
   {
     number: 2,
     year: 2023,
     ratings: [7.1, 7.4, 8.0, 7.9, 8.2, 8.6, 8.2, 8.9],
-    titles: ['A Taste of Solitude', 'Strangers and Friends', 'What Might Be', 'Daughter of the Night', 'Damane', 'Eyes Without Pity', 'Daes Dae’Mar', 'What Was Meant to Be'],
+    titles: [
+      'A Taste of Solitude',
+      'Strangers and Friends',
+      'What Might Be',
+      'Daughter of the Night',
+      'Damane',
+      'Eyes Without Pity',
+      'Daes Dae’Mar',
+      'What Was Meant to Be',
+    ],
   },
   {
     number: 3,
     year: 2025,
     ratings: [8.5, 8.4, 8.6, 8.8, 8.1, 8.7, 8.4, 8.9],
-    titles: ['To Race the Shadow', 'A Question of Crimson', 'Seeds of Shadow', 'The Road to the Spear', 'Tel’aran’rhiod', 'The Shadow in the Night', 'Goldeneyes', 'He Who Comes with the Dawn'],
+    titles: [
+      'To Race the Shadow',
+      'A Question of Crimson',
+      'Seeds of Shadow',
+      'The Road to the Spear',
+      'Tel’aran’rhiod',
+      'The Shadow in the Night',
+      'Goldeneyes',
+      'He Who Comes with the Dawn',
+    ],
   },
 ];
 
@@ -42,7 +69,10 @@ const showAverage = average(seasons.flatMap(season => season.ratings));
 const renderLegend = () => {
   document.querySelectorAll('[data-quality-legend]').forEach(legend => {
     legend.innerHTML = categories
-      .map(category => `<li><span class="legend-swatch" style="background:${category.color}"></span>${category.name}</li>`)
+      .map(
+        category =>
+          `<li><span class="legend-swatch" style="background:${category.color}"></span>${category.name}</li>`,
+      )
       .join('');
   });
 };
@@ -73,7 +103,13 @@ const renderMatrix = () => {
       </div>
       <a class="inspector-link" href="../tv-season-detail/variant-b-ledger.html#episode-${episodeNumber}">View in Season →</a>`;
     matrix.querySelectorAll('button').forEach(button => {
-      button.setAttribute('aria-pressed', String(Number(button.dataset.season) === seasonNumber && Number(button.dataset.episode) === episodeNumber));
+      button.setAttribute(
+        'aria-pressed',
+        String(
+          Number(button.dataset.season) === seasonNumber &&
+            Number(button.dataset.episode) === episodeNumber,
+        ),
+      );
     });
   };
 
@@ -82,22 +118,34 @@ const renderMatrix = () => {
     const episodeCount = Math.max(...visibleSeasons.map(season => season.titles.length));
     const cells = ['<span class="matrix-corner" aria-hidden="true"></span>'];
     matrix.style.setProperty('--matrix-seasons', String(visibleSeasons.length));
-    visibleSeasons.forEach(season => cells.push(`<span class="matrix-season">${season.number === 0 ? 'Specials' : `Season ${season.number}`}</span>`));
+    visibleSeasons.forEach(season =>
+      cells.push(
+        `<span class="matrix-season">${season.number === 0 ? 'Specials' : `Season ${season.number}`}</span>`,
+      ),
+    );
 
     for (let episodeIndex = 0; episodeIndex < episodeCount; episodeIndex += 1) {
-      cells.push(`<span class="matrix-episode">E${String(episodeIndex + 1).padStart(2, '0')}</span>`);
+      cells.push(
+        `<span class="matrix-episode">E${String(episodeIndex + 1).padStart(2, '0')}</span>`,
+      );
       visibleSeasons.forEach(season => {
         if (episodeIndex >= season.titles.length) {
-          cells.push('<span class="rating-cell quality-missing" aria-label="No episode at this position">—</span>');
+          cells.push(
+            '<span class="rating-cell quality-missing" aria-label="No episode at this position">—</span>',
+          );
           return;
         }
         const rating = season.ratings[episodeIndex];
         if (rating == null) {
-          cells.push('<span class="rating-cell quality-missing" aria-label="Episode not rated">?</span>');
+          cells.push(
+            '<span class="rating-cell quality-missing" aria-label="Episode not rated">?</span>',
+          );
           return;
         }
         const category = getCategory(rating);
-        cells.push(`<button class="rating-cell ${category.className}" type="button" data-season="${season.number}" data-episode="${episodeIndex + 1}" aria-pressed="false" aria-label="${season.number === 0 ? 'Specials' : `Season ${season.number}`}, episode ${episodeIndex + 1}, rated ${rating.toFixed(1)}">${rating.toFixed(1)}</button>`);
+        cells.push(
+          `<button class="rating-cell ${category.className}" type="button" data-season="${season.number}" data-episode="${episodeIndex + 1}" aria-pressed="false" aria-label="${season.number === 0 ? 'Specials' : `Season ${season.number}`}, episode ${episodeIndex + 1}, rated ${rating.toFixed(1)}">${rating.toFixed(1)}</button>`,
+        );
       });
     }
     matrix.innerHTML = cells.join('');
@@ -133,7 +181,13 @@ const renderScorecards = () => {
             <div><span class="episode-number">${season.year} · ${season.ratings.length} episodes</span><h2>Season ${season.number}</h2></div>
             <span class="season-average" aria-label="Season average ${seasonAverage.toFixed(1)}">${seasonAverage.toFixed(1)}</span>
           </header>
-          <div class="distribution" aria-label="Rating distribution">${categoryCounts.filter(item => item.count > 0).map(item => `<span style="flex:${item.count};background:${item.color}" title="${item.name}: ${item.count}"></span>`).join('')}</div>
+          <div class="distribution" aria-label="Rating distribution">${categoryCounts
+            .filter(item => item.count > 0)
+            .map(
+              item =>
+                `<span style="flex:${item.count};background:${item.color}" title="${item.name}: ${item.count}"></span>`,
+            )
+            .join('')}</div>
           <div class="mini-grid">${season.ratings.map((rating, index) => `<button class="mini-cell ${getCategory(rating).className}" type="button" aria-label="Season ${season.number}, episode ${index + 1}, rated ${rating.toFixed(1)}" title="E${index + 1} · ${season.titles[index]}">${rating.toFixed(1)}</button>`).join('')}</div>
           <div class="season-facts"><div class="season-fact"><span>Peak</span><strong>${best.toFixed(1)} · E${season.ratings.indexOf(best) + 1}</strong></div><div class="season-fact"><span>Low</span><strong>${worst.toFixed(1)} · E${season.ratings.indexOf(worst) + 1}</strong></div></div>
         </article>`;
@@ -159,20 +213,39 @@ const renderTrajectory = () => {
   const colors = ['#f5a524', '#8fb3c4', '#24b56e'];
 
   const gridLines = [5, 6, 7, 8, 9, 10]
-    .map(value => `<line class="chart-grid-line" x1="${padding.left}" x2="${width - padding.right}" y1="${y(value)}" y2="${y(value)}"/><text class="chart-label" x="${padding.left - 15}" y="${y(value) + 4}" text-anchor="middle">${value}</text>`)
+    .map(
+      value =>
+        `<line class="chart-grid-line" x1="${padding.left}" x2="${width - padding.right}" y1="${y(value)}" y2="${y(value)}"/><text class="chart-label" x="${padding.left - 15}" y="${y(value) + 4}" text-anchor="middle">${value}</text>`,
+    )
     .join('');
-  const xLabels = Array.from({ length: 8 }, (_, index) => `<text class="chart-label" x="${x(index + 1)}" y="${height - 18}" text-anchor="middle">E${index + 1}</text>`).join('');
+  const xLabels = Array.from(
+    { length: 8 },
+    (_, index) =>
+      `<text class="chart-label" x="${x(index + 1)}" y="${height - 18}" text-anchor="middle">E${index + 1}</text>`,
+  ).join('');
   const lines = seasons
     .map((season, seasonIndex) => {
-      const points = season.ratings.map((rating, index) => `${x(index + 1)},${y(rating)}`).join(' ');
-      const dots = season.ratings.map((rating, index) => `<circle class="chart-point" cx="${x(index + 1)}" cy="${y(rating)}" r="6" fill="${colors[seasonIndex]}"><title>Season ${season.number}, episode ${index + 1}: ${rating.toFixed(1)}</title></circle>`).join('');
+      const points = season.ratings
+        .map((rating, index) => `${x(index + 1)},${y(rating)}`)
+        .join(' ');
+      const dots = season.ratings
+        .map(
+          (rating, index) =>
+            `<circle class="chart-point" cx="${x(index + 1)}" cy="${y(rating)}" r="6" fill="${colors[seasonIndex]}"><title>Season ${season.number}, episode ${index + 1}: ${rating.toFixed(1)}</title></circle>`,
+        )
+        .join('');
       return `<g data-series="${season.number}"><polyline class="chart-line" points="${points}" stroke="${colors[seasonIndex]}"/>${dots}</g>`;
     })
     .join('');
   chart.setAttribute('viewBox', `0 0 ${width} ${height}`);
   chart.innerHTML = `${gridLines}${xLabels}${lines}`;
 
-  toggles.innerHTML = seasons.map((season, index) => `<label class="season-toggle"><input type="checkbox" value="${season.number}" checked/><span><i class="line-dot" style="background:${colors[index]}"></i>Season ${season.number}</span></label>`).join('');
+  toggles.innerHTML = seasons
+    .map(
+      (season, index) =>
+        `<label class="season-toggle"><input type="checkbox" value="${season.number}" checked/><span><i class="line-dot" style="background:${colors[index]}"></i>Season ${season.number}</span></label>`,
+    )
+    .join('');
   toggles.addEventListener('change', event => {
     const input = event.target.closest('input');
     if (input == null) return;

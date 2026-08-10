@@ -50,7 +50,9 @@
         border-radius: var(--radius);
         background: var(--surface);
         text-decoration: none;
-        transition: transform 220ms cubic-bezier(0.2, 0.9, 0.3, 1), border-color 220ms ease;
+        transition:
+          transform 220ms cubic-bezier(0.2, 0.9, 0.3, 1),
+          border-color 220ms ease;
       }
       .compare-card:hover {
         border-color: rgba(245, 165, 36, 0.6);
@@ -63,20 +65,33 @@
         background-position: center;
         background-size: cover;
         opacity: 0.32;
-        transition: transform 320ms cubic-bezier(0.2, 0.9, 0.3, 1), opacity 220ms ease;
+        transition:
+          transform 320ms cubic-bezier(0.2, 0.9, 0.3, 1),
+          opacity 220ms ease;
       }
       .compare-card:hover::before {
         opacity: 0.42;
         transform: scale(1.025);
       }
-      .compare-card:nth-child(1)::before { background-image: url('https://image.tmdb.org/t/p/w780/83vFYTHtCqWwaDtZluSU8bmnFYG.jpg'); }
-      .compare-card:nth-child(2)::before { background-image: url('https://image.tmdb.org/t/p/w780/k8atjbd5gAsntuhbPnFpvnvo0qn.jpg'); }
-      .compare-card:nth-child(3)::before { background-image: url('https://image.tmdb.org/t/p/w780/pbrkL804c8yAv3zBZR4QPEafpAR.jpg'); }
+      .compare-card:nth-child(1)::before {
+        background-image: url('https://image.tmdb.org/t/p/w780/83vFYTHtCqWwaDtZluSU8bmnFYG.jpg');
+      }
+      .compare-card:nth-child(2)::before {
+        background-image: url('https://image.tmdb.org/t/p/w780/k8atjbd5gAsntuhbPnFpvnvo0qn.jpg');
+      }
+      .compare-card:nth-child(3)::before {
+        background-image: url('https://image.tmdb.org/t/p/w780/pbrkL804c8yAv3zBZR4QPEafpAR.jpg');
+      }
       .compare-card::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(to top, rgba(4, 18, 25, 0.99) 5%, rgba(4, 18, 25, 0.58) 60%, rgba(4, 18, 25, 0.2));
+        background: linear-gradient(
+          to top,
+          rgba(4, 18, 25, 0.99) 5%,
+          rgba(4, 18, 25, 0.58) 60%,
+          rgba(4, 18, 25, 0.2)
+        );
       }
       .compare-copy {
         position: relative;
@@ -111,9 +126,15 @@
         font-weight: 500;
       }
       @media (max-width: 860px) {
-        .compare-shell { padding-top: 4.5rem; }
-        .compare-grid { grid-template-columns: 1fr; }
-        .compare-card { min-height: 19rem; }
+        .compare-shell {
+          padding-top: 4.5rem;
+        }
+        .compare-grid {
+          grid-template-columns: 1fr;
+        }
+        .compare-card {
+          min-height: 19rem;
+        }
       }
     </style>
   </head>
@@ -121,16 +142,34 @@
     <main class="compare-shell">
       <p class="compare-kicker">Flix design study</p>
       <h1 class="compare-title">TV season detail</h1>
-      <p class="compare-intro">Three approaches using the same season, episode metadata, rating scale, and navigation. Choose the hierarchy that best fits how you want people to browse a season.</p>
+      <p class="compare-intro">
+        Three approaches using the same season, episode metadata, rating scale, and navigation.
+        Choose the hierarchy that best fits how you want people to browse a season.
+      </p>
       <div class="compare-grid">
         <a class="compare-card" href="variant-a-cinematic.html">
-          <div class="compare-copy"><span class="compare-number">Option A</span><h2>Cinematic chapters</h2><p>Large stills, generous summaries, and an unhurried story-first reading flow.</p><span class="compare-link">Open prototype →</span></div>
+          <div class="compare-copy">
+            <span class="compare-number">Option A</span>
+            <h2>Cinematic chapters</h2>
+            <p>Large stills, generous summaries, and an unhurried story-first reading flow.</p>
+            <span class="compare-link">Open prototype →</span>
+          </div>
         </a>
         <a class="compare-card" href="variant-b-ledger.html">
-          <div class="compare-copy"><span class="compare-number">Option B</span><h2>Episode ledger</h2><p>A denser IMDb-like list optimized for scanning dates and comparing ratings.</p><span class="compare-link">Open prototype →</span></div>
+          <div class="compare-copy">
+            <span class="compare-number">Option B</span>
+            <h2>Episode ledger</h2>
+            <p>A denser IMDb-like list optimized for scanning dates and comparing ratings.</p>
+            <span class="compare-link">Open prototype →</span>
+          </div>
         </a>
         <a class="compare-card" href="variant-c-spotlight.html">
-          <div class="compare-copy"><span class="compare-number">Option C</span><h2>Episode spotlight</h2><p>One immersive featured episode with an interactive filmstrip for exploration.</p><span class="compare-link">Open prototype →</span></div>
+          <div class="compare-copy">
+            <span class="compare-number">Option C</span>
+            <h2>Episode spotlight</h2>
+            <p>One immersive featured episode with an interactive filmstrip for exploration.</p>
+            <span class="compare-link">Open prototype →</span>
+          </div>
         </a>
       </div>
     </main>
