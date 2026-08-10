@@ -3,6 +3,7 @@ import { Select as SelectPrimitive } from 'radix-ui';
 
 import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from 'lucide-react';
 
+import { FIELD_TRIGGER_SURFACE } from '@/lib/fieldStyles';
 import { cn } from '@/lib/utils';
 
 const Select = ({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) => (
@@ -36,7 +37,8 @@ const SelectTrigger = ({
     data-slot="select-trigger"
     data-size={size}
     className={cn(
-      "flex w-full items-center justify-between gap-3 rounded-lg border border-foreground/15 bg-foreground/[0.06] px-4 text-sm whitespace-nowrap text-foreground shadow-[inset_0_1px_0_rgba(217,231,238,0.04)] transition-[border-color,background-color,box-shadow] duration-200 outline-none select-none hover:border-foreground/25 hover:bg-foreground/[0.09] focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive data-placeholder:text-muted-foreground data-[size=default]:h-11 data-[size=sm]:h-9 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 data-[state=open]:border-foreground/30 data-[state=open]:bg-surface-raised [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-200 [&_svg:not([class*='size-'])]:size-4",
+      FIELD_TRIGGER_SURFACE,
+      "flex w-full items-center justify-between gap-3 px-4 text-sm whitespace-nowrap select-none data-placeholder:text-muted-foreground data-[size=default]:h-11 data-[size=sm]:h-9 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-200 [&_svg:not([class*='size-'])]:size-4",
       className,
     )}
     {...props}

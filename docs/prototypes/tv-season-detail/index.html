@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Flix — TV Season Detail Prototypes</title>
+    <link rel="stylesheet" href="prototype.css" />
+    <style>
+      .compare-page {
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 82% 12%, rgba(19, 58, 77, 0.52), transparent 30rem),
+          var(--ground);
+      }
+      .compare-shell {
+        width: min(100%, var(--page));
+        margin: 0 auto;
+        padding: 7rem var(--gutter);
+      }
+      .compare-kicker {
+        margin: 0 0 1rem;
+        color: var(--amber);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .compare-title {
+        max-width: 16ch;
+        margin-bottom: 1.25rem;
+      }
+      .compare-intro {
+        max-width: 61ch;
+        margin: 0 0 3.5rem;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+      .compare-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+      }
+      .compare-card {
+        position: relative;
+        display: flex;
+        min-height: 25rem;
+        overflow: hidden;
+        border: 1px solid rgba(217, 231, 238, 0.13);
+        border-radius: var(--radius);
+        background: var(--surface);
+        text-decoration: none;
+        transition: transform 220ms cubic-bezier(0.2, 0.9, 0.3, 1), border-color 220ms ease;
+      }
+      .compare-card:hover {
+        border-color: rgba(245, 165, 36, 0.6);
+        transform: translateY(-5px);
+      }
+      .compare-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-position: center;
+        background-size: cover;
+        opacity: 0.32;
+        transition: transform 320ms cubic-bezier(0.2, 0.9, 0.3, 1), opacity 220ms ease;
+      }
+      .compare-card:hover::before {
+        opacity: 0.42;
+        transform: scale(1.025);
+      }
+      .compare-card:nth-child(1)::before { background-image: url('https://image.tmdb.org/t/p/w780/83vFYTHtCqWwaDtZluSU8bmnFYG.jpg'); }
+      .compare-card:nth-child(2)::before { background-image: url('https://image.tmdb.org/t/p/w780/k8atjbd5gAsntuhbPnFpvnvo0qn.jpg'); }
+      .compare-card:nth-child(3)::before { background-image: url('https://image.tmdb.org/t/p/w780/pbrkL804c8yAv3zBZR4QPEafpAR.jpg'); }
+      .compare-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(4, 18, 25, 0.99) 5%, rgba(4, 18, 25, 0.58) 60%, rgba(4, 18, 25, 0.2));
+      }
+      .compare-copy {
+        position: relative;
+        z-index: 2;
+        align-self: flex-end;
+        padding: 1.75rem;
+      }
+      .compare-number {
+        display: block;
+        margin-bottom: 0.7rem;
+        color: var(--amber);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .compare-card h2 {
+        margin: 0 0 0.65rem;
+        font-size: 1.35rem;
+        font-weight: 400;
+      }
+      .compare-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+      .compare-link {
+        display: inline-block;
+        margin-top: 1.25rem;
+        color: var(--text);
+        font-size: 0.78rem;
+        font-weight: 500;
+      }
+      @media (max-width: 860px) {
+        .compare-shell { padding-top: 4.5rem; }
+        .compare-grid { grid-template-columns: 1fr; }
+        .compare-card { min-height: 19rem; }
+      }
+    </style>
+  </head>
+  <body class="compare-page">
+    <main class="compare-shell">
+      <p class="compare-kicker">Flix design study</p>
+      <h1 class="compare-title">TV season detail</h1>
+      <p class="compare-intro">Three approaches using the same season, episode metadata, rating scale, and navigation. Choose the hierarchy that best fits how you want people to browse a season.</p>
+      <div class="compare-grid">
+        <a class="compare-card" href="variant-a-cinematic.html">
+          <div class="compare-copy"><span class="compare-number">Option A</span><h2>Cinematic chapters</h2><p>Large stills, generous summaries, and an unhurried story-first reading flow.</p><span class="compare-link">Open prototype →</span></div>
+        </a>
+        <a class="compare-card" href="variant-b-ledger.html">
+          <div class="compare-copy"><span class="compare-number">Option B</span><h2>Episode ledger</h2><p>A denser IMDb-like list optimized for scanning dates and comparing ratings.</p><span class="compare-link">Open prototype →</span></div>
+        </a>
+        <a class="compare-card" href="variant-c-spotlight.html">
+          <div class="compare-copy"><span class="compare-number">Option C</span><h2>Episode spotlight</h2><p>One immersive featured episode with an interactive filmstrip for exploration.</p><span class="compare-link">Open prototype →</span></div>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

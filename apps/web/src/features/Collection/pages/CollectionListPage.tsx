@@ -24,7 +24,7 @@ const CollectionTile = ({ collection }: { readonly collection: Collection }) => 
       to={`/collections/${collection.id}`}
       className="group flex h-full flex-col overflow-hidden rounded-xl border border-foreground/10 bg-surface/50 transition-colors duration-200 hover:border-foreground/25"
     >
-      <div className="relative h-32">
+      <div className="relative h-32 overflow-hidden">
         <CollectionPosterStrip
           items={collection.items}
           className="size-full transition-transform duration-300 ease-[cubic-bezier(.2,.9,.3,1)] motion-safe:group-hover:scale-[1.03]"
@@ -34,7 +34,7 @@ const CollectionTile = ({ collection }: { readonly collection: Collection }) => 
           {VISIBILITY_LABEL[collection.visibility]}
         </span>
       </div>
-      <div className="-mt-6 flex flex-1 flex-col gap-2 px-5 pb-5">
+      <div className="relative z-10 -mt-6 flex flex-1 flex-col gap-2 px-5 pb-5">
         <h2 className="truncate text-xl leading-tight font-medium tracking-tight">
           {collection.name}
         </h2>

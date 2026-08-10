@@ -147,7 +147,7 @@ export const AddTitlesDialog = ({ open, onOpenChange, existingKeys, onAdd, isAdd
                       type="button"
                       disabled={exists || isAdding}
                       onClick={() => onAdd(item)}
-                      className="flex w-full gap-4 px-4 py-3.5 text-left transition-colors outline-none hover:bg-foreground/[0.06] focus-visible:bg-foreground/[0.08] disabled:pointer-events-none disabled:opacity-60 sm:px-5"
+                      className="flex w-full gap-4 px-4 py-3.5 text-left transition-colors outline-none hover:bg-foreground/[0.16] focus-visible:bg-foreground/[0.16] disabled:pointer-events-none disabled:opacity-60 sm:px-5"
                     >
                       <img
                         src={
@@ -164,7 +164,7 @@ export const AddTitlesDialog = ({ open, onOpenChange, existingKeys, onAdd, isAdd
                           <span className="truncate text-base font-medium text-foreground">
                             {item.title}
                           </span>
-                          <span className="ml-auto shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.06] px-2 py-0.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                          <span className="ml-auto shrink-0 rounded-full border border-foreground/10 bg-foreground/[0.08] px-2 py-0.5 text-xs font-medium tracking-wide text-muted-foreground uppercase">
                             {item.mediaType === 'movie' ? 'Movie' : 'TV'}
                           </span>
                         </span>

@@ -9,6 +9,7 @@ export * from './person/personCombinedCredits.model';
 export * from './spokenLang.model';
 export * from './tv/episode.model';
 export * from './tv/season.model';
+export * from './tv/seasonDetail.model';
 export * from './tv/tv.model';
 export * from './tv/tvDetail.model';
 export * from './video.model';

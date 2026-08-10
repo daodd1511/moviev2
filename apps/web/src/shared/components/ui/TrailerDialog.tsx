@@ -95,7 +95,7 @@ export const TrailerDialog = ({ open, onOpenChange, title, trailers }: Props) =>
                         'flex min-w-0 items-center gap-3 rounded-md border px-3 py-2.5 text-left transition-colors',
                         isSelected
                           ? 'border-primary/40 bg-primary/10 text-foreground'
-                          : 'border-transparent text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground',
+                          : 'border-transparent text-muted-foreground hover:bg-foreground/[0.16] hover:text-foreground',
                       )}
                       onClick={() => setSelectedTrailerId(trailer.id)}
                     >

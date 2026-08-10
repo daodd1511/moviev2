@@ -1,0 +1,753 @@
+@import url('../tv-season-detail/prototype.css');
+
+:root {
+  --quality-awesome: #128957;
+  --quality-great: #24b56e;
+  --quality-good: #e6b936;
+  --quality-regular: #e88d20;
+  --quality-bad: #cf514a;
+  --quality-garbage: #78558d;
+  --quality-missing: #173442;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 83% 8%, rgba(19, 58, 77, 0.36), transparent 28rem),
+    var(--ground);
+}
+
+.quality-header {
+  position: relative;
+  min-height: 28rem;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.quality-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, var(--ground) 0%, rgba(4, 18, 25, 0.72) 48%, rgba(4, 18, 25, 0.28)),
+    linear-gradient(95deg, rgba(4, 18, 25, 0.96) 6%, rgba(4, 18, 25, 0.58) 50%, rgba(4, 18, 25, 0.2)),
+    url('https://image.tmdb.org/t/p/original/pbrkL804c8yAv3zBZR4QPEafpAR.jpg') center 28% / cover;
+}
+
+.quality-header-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 2.25rem;
+  width: min(100%, var(--page));
+  min-height: 28rem;
+  margin: 0 auto;
+  padding: 8rem var(--gutter) 3.6rem;
+}
+
+.show-poster {
+  flex: 0 0 9.5rem;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: var(--radius);
+  outline: 1px solid rgba(217, 231, 238, 0.14);
+  background: var(--surface-raised);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.72);
+}
+
+.show-poster img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.quality-header-copy {
+  flex: 1;
+}
+
+.quality-header h1 {
+  max-width: 15ch;
+  margin-bottom: 0.9rem;
+}
+
+.show-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.show-score {
+  color: var(--amber);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.quality-shell {
+  width: min(100%, var(--page));
+  margin: 0 auto;
+  padding: 3.5rem var(--gutter) 7rem;
+}
+
+.quality-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.25rem;
+}
+
+.quality-intro-copy {
+  max-width: 52rem;
+}
+
+.quality-title {
+  margin: 0.4rem 0 0;
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.quality-description {
+  max-width: 62ch;
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.quality-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+
+.quality-metric {
+  min-width: 9.5rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(217, 231, 238, 0.13);
+  border-radius: var(--radius);
+  background: rgba(217, 231, 238, 0.055);
+}
+
+.quality-metric span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.quality-metric strong {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--amber);
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.quality-toggle {
+  position: relative;
+  display: inline-flex;
+}
+
+.quality-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quality-toggle span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.65rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(217, 231, 238, 0.16);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.quality-toggle input:checked + span {
+  border-color: rgba(217, 231, 238, 0.4);
+  background: rgba(217, 231, 238, 0.09);
+  color: var(--text);
+}
+
+.quality-toggle input:focus-visible + span {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.quality-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quality-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.legend-swatch {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 999px;
+}
+
+.quality-panel {
+  border: 1px solid rgba(217, 231, 238, 0.12);
+  border-radius: var(--radius);
+  background: rgba(7, 32, 46, 0.72);
+  box-shadow: 0 26px 58px -32px rgba(0, 0, 0, 0.84);
+}
+
+.prototype-badge {
+  position: fixed;
+  z-index: 30;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  gap: 0.65rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(217, 231, 238, 0.15);
+  border-radius: 999px;
+  background: rgba(11, 42, 58, 0.94);
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(14px);
+}
+
+.prototype-badge a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Option A — categorical matrix */
+.matrix-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  min-height: 34rem;
+}
+
+.matrix-scroll {
+  overflow-x: auto;
+  padding: 2rem;
+}
+
+.rating-matrix {
+  display: grid;
+  grid-template-columns: 3.5rem repeat(var(--matrix-seasons, 3), minmax(7rem, 1fr));
+  gap: 0.6rem;
+  min-width: 28rem;
+}
+
+.matrix-corner,
+.matrix-season,
+.matrix-episode {
+  display: flex;
+  align-items: center;
+  min-height: 2.2rem;
+}
+
+.matrix-season {
+  justify-content: center;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.matrix-episode {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.rating-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.35rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius);
+  color: #071219;
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1), filter 180ms ease;
+}
+
+.rating-cell:hover {
+  z-index: 2;
+  filter: saturate(1.12) brightness(1.08);
+  transform: translateY(-2px) scale(1.025);
+}
+
+.rating-cell[aria-pressed='true'] {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.quality-awesome { background: var(--quality-awesome); color: var(--text); }
+.quality-great { background: var(--quality-great); }
+.quality-good { background: var(--quality-good); }
+.quality-regular { background: var(--quality-regular); }
+.quality-bad { background: var(--quality-bad); color: var(--text); }
+.quality-garbage { background: var(--quality-garbage); color: var(--text); }
+.quality-missing { background: var(--quality-missing); color: var(--muted); }
+
+.matrix-inspector {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  border-left: 1px solid var(--line);
+  background: rgba(11, 42, 58, 0.52);
+}
+
+.inspector-rating {
+  margin: 0.5rem 0 0;
+  color: var(--amber);
+  font-size: 3.4rem;
+  font-weight: 200;
+  line-height: 1;
+}
+
+.inspector-title {
+  margin: 1.2rem 0 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.inspector-copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.inspector-link {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 1.3rem;
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.inspector-link:hover {
+  text-decoration: underline;
+}
+
+.season-shift {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-top: 1.6rem;
+}
+
+.shift-stat {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.shift-stat strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+.shift-stat span {
+  color: var(--muted);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Option B — season scorecards */
+.scorecard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.season-card {
+  overflow: hidden;
+  border: 1px solid rgba(217, 231, 238, 0.12);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.season-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1.4rem 1.1rem;
+}
+
+.season-card h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.season-average {
+  color: var(--amber);
+  font-size: 2.35rem;
+  font-weight: 200;
+  line-height: 1;
+}
+
+.distribution {
+  display: flex;
+  height: 0.5rem;
+  margin: 0 1.4rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--quality-missing);
+}
+
+.distribution span {
+  min-width: 2px;
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.45rem;
+  padding: 1.2rem 1.4rem;
+}
+
+.mini-cell {
+  display: flex;
+  aspect-ratio: 1.4 / 1;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.45rem;
+  color: #071219;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.mini-cell:hover {
+  filter: brightness(1.1);
+}
+
+.season-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 1.4rem 1.4rem;
+  border-top: 1px solid var(--line);
+}
+
+.season-fact span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.season-fact strong {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.88rem;
+  font-weight: 400;
+}
+
+.show-verdict {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1.6rem 1.8rem;
+}
+
+.verdict-score {
+  color: var(--amber);
+  font-size: 4rem;
+  font-weight: 200;
+  line-height: 1;
+}
+
+.verdict-copy h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.verdict-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+/* Option C — trajectory */
+.trajectory-panel {
+  padding: 1.6rem 1.6rem 1.2rem;
+}
+
+.trajectory-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.season-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.season-toggle {
+  position: relative;
+}
+
+.season-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.season-toggle span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 2.4rem;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(217, 231, 238, 0.16);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.season-toggle input:checked + span {
+  border-color: rgba(217, 231, 238, 0.42);
+  background: rgba(217, 231, 238, 0.08);
+  color: var(--text);
+}
+
+.season-toggle input:focus-visible + span {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.line-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+}
+
+.trajectory-chart {
+  width: 100%;
+  min-width: 42rem;
+  height: auto;
+  overflow: visible;
+}
+
+.chart-scroll {
+  overflow-x: auto;
+}
+
+.chart-grid-line {
+  stroke: rgba(143, 179, 196, 0.16);
+  stroke-width: 1;
+}
+
+.chart-label {
+  fill: var(--muted);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 11px;
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-point {
+  stroke: var(--ground);
+  stroke-width: 3;
+}
+
+.trajectory-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.trajectory-stat {
+  padding: 1.2rem;
+  border-right: 1px solid var(--line);
+}
+
+.trajectory-stat:last-child {
+  border-right: 0;
+}
+
+.trajectory-stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.trajectory-stat strong {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+/* Comparison index */
+.quality-compare {
+  min-height: 100vh;
+  padding: 7rem var(--gutter);
+}
+
+.quality-compare-inner {
+  width: min(100%, var(--page));
+  margin: 0 auto;
+}
+
+.quality-compare h1 {
+  max-width: 14ch;
+  margin-bottom: 1rem;
+}
+
+.compare-lede {
+  max-width: 62ch;
+  margin: 0 0 3rem;
+  color: var(--muted);
+}
+
+.quality-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.quality-option {
+  display: flex;
+  min-height: 24rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(217, 231, 238, 0.13);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.quality-option:hover {
+  border-color: rgba(245, 165, 36, 0.6);
+  transform: translateY(-4px);
+}
+
+.option-inner {
+  align-self: flex-end;
+  width: 100%;
+}
+
+.option-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  margin-bottom: 2.2rem;
+}
+
+.option-preview span {
+  aspect-ratio: 1.45 / 1;
+  border-radius: 0.35rem;
+}
+
+.option-label {
+  color: var(--amber);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.quality-option h2 {
+  margin: 0.45rem 0 0.55rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.quality-option p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 860px) {
+  .quality-header { min-height: auto; padding-top: 4.5rem; }
+  .quality-header::before { background: linear-gradient(to top, var(--ground), var(--surface)); }
+  .quality-header-inner { align-items: center; min-height: auto; padding-top: 2.5rem; }
+  .show-poster { flex-basis: 7rem; }
+  .quality-intro { display: block; }
+  .quality-toggle { margin-top: 1.25rem; }
+  .quality-legend { margin-top: 1.25rem; }
+  .matrix-layout { grid-template-columns: 1fr; }
+  .matrix-inspector { border-top: 1px solid var(--line); border-left: 0; }
+  .scorecard-grid { grid-template-columns: 1fr; }
+  .show-verdict { grid-template-columns: 8rem 1fr; }
+  .quality-options { grid-template-columns: 1fr; }
+  .quality-option { min-height: 18rem; }
+}
+
+@media (max-width: 590px) {
+  .quality-header-inner { gap: 1rem; }
+  .show-poster { flex-basis: 5.5rem; }
+  .quality-header h1 { font-size: 2rem; }
+  .quality-shell { padding-top: 2.8rem; }
+  .matrix-scroll { padding: 1rem; }
+  .rating-matrix { grid-template-columns: 2.5rem repeat(var(--matrix-seasons, 3), minmax(5.2rem, 1fr)); min-width: 21rem; }
+  .rating-cell { min-height: 3.6rem; font-size: 1.05rem; }
+  .matrix-inspector { padding: 1.4rem; }
+  .trajectory-toolbar { display: block; }
+  .season-toggles { margin-bottom: 0.8rem; }
+  .trajectory-panel { padding: 1rem; }
+  .trajectory-summary { grid-template-columns: 1fr 1fr; }
+  .trajectory-stat:nth-child(2) { border-right: 0; }
+  .trajectory-stat:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+  .show-verdict { grid-template-columns: 1fr; gap: 0.7rem; }
+}

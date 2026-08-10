@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-24T00:00:00.000Z",
+  "generatedAt": "2026-08-10T08:36:57.000Z",
   "title": "Design System: Flix — Projection Room",
   "extensions": {
     "colorMeta": {
@@ -13,10 +13,12 @@
     "typographyMeta": {
       "display": { "displayName": "Display", "purpose": "Uppercase hairline (200) titles over hero scrims; clamp 2.6rem to 5rem." },
       "headline": { "displayName": "Headline", "purpose": "Page headings outside detail heroes; weight 300." },
-      "kicker": { "displayName": "Kicker", "purpose": "Tracked uppercase section labels (Overview, Cast, More Like This)." },
+      "kicker": { "displayName": "Kicker", "purpose": "Tracked uppercase section labels (Overview, Cast, More Like This); 0.82rem, weight 500." },
       "body": { "displayName": "Body", "purpose": "General copy; weight 300, lh 1.65, max 65ch." },
       "body-large": { "displayName": "Body Large", "purpose": "Overview paragraphs on detail pages." },
-      "label": { "displayName": "Label", "purpose": "Buttons, form labels, cast names; weight 500." }
+      "label": { "displayName": "Label", "purpose": "Buttons, form labels, cast names; weight 500." },
+      "compact": { "displayName": "Compact", "purpose": "Dense control text at 0.8rem (`text-compact`), used where Label would crowd the box." },
+      "micro": { "displayName": "Micro", "purpose": "Smallest type step at 0.65rem, weight 500 (`text-micro`) for mobile tab labels, media-type badges, keyboard hints, and mobile hero kickers." }
     },
     "shadows": [
       { "name": "media-lift", "value": "0 24px 48px -12px rgba(0,0,0,0.7)", "purpose": "Poster plates and floating panels on the dark ground." },
@@ -33,6 +35,14 @@
     ]
   },
   "components": [
+    {
+      "name": "Logo",
+      "kind": "brand",
+      "refersTo": "logo",
+      "description": "Amber projector-lens mark with an arced beam, paired with the sentence-case, weight-600 Flix. wordmark. The mark is sized in em so callers control the full lockup from one font-size declaration.",
+      "html": "<a class=\"ds-logo\" href=\"/\" aria-label=\"Flix home\"><svg aria-hidden=\"true\"></svg><span>Flix<span>.</span></span></a>",
+      "css": ".ds-logo { display:inline-flex; align-items:center; gap:.5em; color:#d9e7ee; font-size:1.25rem; text-decoration:none; } .ds-logo svg { width:1.55em; height:1.55em; color:#f5a524; } .ds-logo > span { font-weight:600; letter-spacing:.025em; line-height:1; } .ds-logo > span > span { color:#f5a524; }"
+    },
     {
       "name": "Primary Button",
       "kind": "button",
@@ -101,7 +111,7 @@
       "Hairline uppercase display type; tracked uppercase kickers"
     ],
     "rules": [
-      { "name": "The Three-Job Amber Rule", "body": "Amber appears only as primary action, rating, and active/brand punctuation. A fourth job requires removing one of the three.", "section": "colors" },
+      { "name": "The Four-Job Amber Rule", "body": "Amber appears only as primary action, rating, active/brand punctuation, and the logo mark. A fifth job requires removing one of the four.", "section": "colors" },
       { "name": "The No-Gray Rule", "body": "On the dark ground every gray is teal-tinted (text-muted or an rgba of the text color). Tailwind gray/slate/zinc utilities are banned in new code.", "section": "colors" },
       { "name": "The Hairline Title Rule", "body": "Large titles use weight 200 and uppercase transform; hierarchy is weight and size contrast, not color.", "section": "typography" },
       { "name": "The Scrim Rule", "body": "Text never sits on raw imagery; a ground-colored gradient scrim always mediates, strong enough to keep AA at the text position.", "section": "elevation" }

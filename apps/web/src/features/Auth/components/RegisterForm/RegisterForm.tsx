@@ -70,7 +70,7 @@ const RegisterFormComponent = () => {
             id="register-email"
             type="email"
             placeholder="johndoe@gmail.com"
-            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            className="h-14 text-base"
             aria-invalid={errors.email?.message !== undefined}
             {...register('email')}
           />
@@ -84,7 +84,7 @@ const RegisterFormComponent = () => {
             id="register-username"
             type="text"
             placeholder="Enter your username"
-            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            className="h-14 text-base"
             aria-invalid={errors.username?.message !== undefined}
             {...register('username')}
           />
@@ -100,7 +100,7 @@ const RegisterFormComponent = () => {
             id="register-password"
             type="password"
             placeholder="Enter your password"
-            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            className="h-14 text-base"
             aria-invalid={errors.password?.message !== undefined}
             {...register('password')}
           />
@@ -116,7 +116,7 @@ const RegisterFormComponent = () => {
             id="register-confirm-password"
             type="password"
             placeholder="Confirm your password"
-            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            className="h-14 text-base"
             aria-invalid={errors.confirmPassword?.message !== undefined}
             {...register('confirmPassword')}
           />

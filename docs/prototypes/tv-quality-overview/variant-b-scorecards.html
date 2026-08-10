@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Flix — Series Quality Prototype B · Season Scorecards</title>
+    <link rel="stylesheet" href="quality.css" />
+    <script src="quality.js" defer></script>
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"></span><span>Flix<span class="brand-period">.</span></span></a>
+      <ul class="nav-links"><li><a href="#">Movies</a></li><li><a href="#" aria-current="page">TV Shows</a></li><li><a href="#">People</a></li></ul>
+      <button class="nav-action" type="button" aria-label="Search">⌕</button>
+    </nav>
+    <header class="quality-header">
+      <div class="quality-header-inner">
+        <div class="show-poster"><img src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg" alt="The Wheel of Time poster" /></div>
+        <div class="quality-header-copy"><p class="kicker">Series quality</p><h1>The Wheel of Time</h1><div class="show-meta"><span class="show-score">★ 8.0</span><span class="meta-dot"></span><span>3 seasons</span><span class="meta-dot"></span><span>24 episodes</span><span class="meta-dot"></span><span>2021–present</span></div></div>
+      </div>
+    </header>
+    <main class="quality-shell">
+      <header class="quality-intro"><div class="quality-intro-copy"><p class="kicker">Option B · Season scorecards</p><h2 class="quality-title">Compare seasons, then inspect episodes</h2><p class="quality-description">Season averages, ranges, and rating distributions lead. The mini-grids retain episode detail without making the full page feel like a spreadsheet.</p></div><ul class="quality-legend" data-quality-legend></ul></header>
+      <section class="scorecard-grid" data-scorecards aria-label="Season quality scorecards"></section>
+      <section class="quality-panel show-verdict" data-show-verdict aria-label="Overall series verdict"></section>
+    </main>
+    <aside class="prototype-badge"><span>Prototype B</span><a href="index.html">Compare all</a></aside>
+  </body>
+</html>

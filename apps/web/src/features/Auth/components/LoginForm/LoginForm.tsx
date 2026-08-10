@@ -79,7 +79,7 @@ const LoginFormComponent = () => {
             id="login-username"
             type="text"
             placeholder="Enter your username"
-            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            className="h-14 text-base"
             aria-invalid={errors.username?.message !== undefined}
             {...register('username')}
           />
@@ -95,7 +95,7 @@ const LoginFormComponent = () => {
             id="login-password"
             type="password"
             placeholder="Enter your password"
-            className="h-14 border-foreground/15 bg-foreground/[0.06] px-4 text-base shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+            className="h-14 text-base"
             aria-invalid={errors.password?.message !== undefined}
             {...register('password')}
           />
