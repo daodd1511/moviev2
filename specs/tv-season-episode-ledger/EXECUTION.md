@@ -6,8 +6,8 @@ official extension is not installed.
 
 ## STATUS
 
-- Current phase: 1 — pending
-- Phase 1 — Season data contract: pending
+- Current phase: 1 — done
+- Phase 1 — Season data contract: done
 - Phase 2 — Routed episode ledger: pending
 - Phase 3 — Series quality data: pending
 - Phase 4 — Series quality matrix: pending
@@ -26,14 +26,15 @@ Produces: `SeasonDetail`, `SeasonDetailDto`, `SeasonDetailMapper.fromDto(dto): S
 
 Fresh review: not required
 
-- [ ] Extend `apps/web/src/api/dtos/tv/episode.dto.ts`, `apps/web/src/models/tv/episode.model.ts`, and `apps/web/src/api/mappers/tv/episode.mapper.ts` with nullable `airDate`, `runtime`, `stillPath`, and `voteAverage`, mapping non-positive vote averages to `null`
-- [ ] Add `apps/web/src/api/dtos/tv/seasonDetail.dto.ts`, `apps/web/src/models/tv/seasonDetail.model.ts`, and `apps/web/src/api/mappers/tv/seasonDetail.mapper.ts`; export them from the DTO, model, and mapper barrels
-- [ ] Change `TvService.getSeasonDetail` in `apps/web/src/api/services/tvService.ts` to require numeric identifiers and return `SeasonDetail`; update `TvQueries.useSeasonDetail` in `apps/web/src/stores/queries/tvQueries.ts` to cache it under `['tvSeasonDetail', id, seasonNumber]`
-- [ ] Add `apps/web/src/api/mappers/tv/episode.mapper.test.ts` and `apps/web/src/api/mappers/tv/seasonDetail.mapper.test.ts` for complete, nullable, zero-rating, and ordered-episode mappings
+- [x] Extend `apps/web/src/api/dtos/tv/episode.dto.ts`, `apps/web/src/models/tv/episode.model.ts`, and `apps/web/src/api/mappers/tv/episode.mapper.ts` with nullable `airDate`, `runtime`, `stillPath`, and `voteAverage`, mapping non-positive vote averages to `null`
+- [x] Add `apps/web/src/api/dtos/tv/seasonDetail.dto.ts`, `apps/web/src/models/tv/seasonDetail.model.ts`, and `apps/web/src/api/mappers/tv/seasonDetail.mapper.ts`; export them from the DTO, model, and mapper barrels
+- [x] Change `TvService.getSeasonDetail` in `apps/web/src/api/services/tvService.ts` to require numeric identifiers and return `SeasonDetail`; update `TvQueries.useSeasonDetail` in `apps/web/src/stores/queries/tvQueries.ts` to cache it under `['tvSeasonDetail', id, seasonNumber]`
+- [x] Add `apps/web/src/api/mappers/tv/episode.mapper.test.ts` and `apps/web/src/api/mappers/tv/seasonDetail.mapper.test.ts` for complete, nullable, zero-rating, and ordered-episode mappings
+- [x] (amended 2026-08-10) Add the required `legacyPublicId` fixture field in `apps/web/src/features/Collection/pages/CollectionListPage.test.tsx` so the project-wide typecheck can verify this phase
 
 **Phase gate (hard):**
-- [ ] `pnpm typecheck`
-- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>`
+- [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
+- [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 9 files / 21 tests
 
 **Review checklist (user, at PR review):**
 - [ ] An existing TV detail page still loads and its season rail remains visually unchanged
