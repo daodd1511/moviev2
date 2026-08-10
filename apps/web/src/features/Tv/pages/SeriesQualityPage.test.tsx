@@ -185,6 +185,16 @@ describe('SeriesQualityPage', () => {
     expect(screen.getByLabelText('S2, episode 2, no episode at this position')).toHaveTextContent(
       '—',
     );
+    expect(screen.getByText('E01')).toHaveClass('justify-center', 'text-center');
+    expect(screen.queryByText('Episode matrix')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Every episode, one glance' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "Seasons run across the columns. Episode positions run down the rows; color and value reveal the show's quality at a glance.",
+      ),
+    ).not.toBeInTheDocument();
     expect(screen.getByLabelText('Episode quality bands')).toHaveTextContent(
       'AwesomeGreatGoodRegularBadGarbage',
     );

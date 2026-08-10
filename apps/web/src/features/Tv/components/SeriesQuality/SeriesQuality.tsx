@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import { EpisodeInspector } from './EpisodeInspector';
 import { EpisodeMatrix, EpisodeSelection, QualitySeasonColumn } from './EpisodeMatrix';
@@ -8,6 +8,8 @@ import { QualityLegend } from './QualityLegend';
 import { buildEpisodeMatrix, calculateEpisodeAverage } from '../../utils/seriesQuality';
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { Footer, Loader } from '@/shared/components';
 import { Season } from '@/models';
 import { goToTop } from '@/shared/utils';
@@ -43,6 +45,7 @@ const toColumn = (
 export const SeriesQuality = ({ tvId }: Props) => {
   const [showSpecials, setShowSpecials] = useState(false);
   const [selection, setSelection] = useState<EpisodeSelection | null>(null);
+  const specialsId = useId();
   const tvQuery = TvQueries.useDetail(tvId);
   const regularSeasons = tvQuery.data?.seasons.filter(season => season.seasonNumber > 0) ?? [];
   const specials = tvQuery.data?.seasons.find(season => season.seasonNumber === 0);
@@ -64,6 +67,10 @@ export const SeriesQuality = ({ tvId }: Props) => {
     if (!checked && selection?.season.seasonNumber === 0) {
       setSelection(null);
     }
+  };
+
+  const handleSpecialsChange = (checked: boolean | 'indeterminate'): void => {
+    handleShowSpecialsChange(checked === true);
   };
 
   const handleFullRetry = (): void => {
@@ -142,28 +149,30 @@ export const SeriesQuality = ({ tvId }: Props) => {
 
   return (
     <div>
-      <QualityHero
-        tv={tvQuery.data}
-        episodeAverage={episodeAverage}
-        episodeCount={episodeCount}
-        hasSpecials={specials !== undefined}
-        showSpecials={showSpecials}
-        onShowSpecialsChange={handleShowSpecialsChange}
-      />
+      <QualityHero tv={tvQuery.data} episodeAverage={episodeAverage} episodeCount={episodeCount} />
       <main className="relative page-shell py-12 min-[860px]:py-16">
-        <header className="mb-8 flex flex-col items-start justify-between gap-5 border-b border-border/80 pb-6 min-[860px]:flex-row min-[860px]:items-end">
-          <div className="max-w-2xl">
-            <p className="text-micro font-medium tracking-[0.2em] text-primary uppercase">
-              Episode matrix
-            </p>
-            <h2 className="mt-2 text-3xl font-extralight tracking-tight min-[860px]:text-4xl">
-              Every episode, one glance
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Seasons run across the columns. Episode positions run down the rows; color and value
-              reveal the show&apos;s quality at a glance.
-            </p>
-          </div>
+        <header className="mb-5 flex flex-wrap items-center justify-between gap-4 border-b border-border/80 pb-4">
+          {specials !== undefined ? (
+            <div
+              className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-medium transition-colors ${
+                showSpecials
+                  ? 'border-foreground/35 bg-foreground/[0.055] text-foreground'
+                  : 'border-foreground/15 bg-surface-raised text-muted-foreground'
+              }`}
+            >
+              <Checkbox
+                id={specialsId}
+                checked={showSpecials}
+                onCheckedChange={handleSpecialsChange}
+                className="size-3.5"
+              />
+              <Label htmlFor={specialsId} className="cursor-pointer text-inherit">
+                Show Specials
+              </Label>
+            </div>
+          ) : (
+            <span aria-hidden="true" />
+          )}
           <QualityLegend />
         </header>
         <section

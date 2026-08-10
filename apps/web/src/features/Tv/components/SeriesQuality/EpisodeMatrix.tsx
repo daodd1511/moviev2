@@ -186,7 +186,7 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
 
         {rows.map(row => (
           <div key={row.episodeNumber} className="contents">
-            <span className="sticky left-0 z-10 flex h-full min-h-0 items-center border-r border-border/50 bg-surface/95 text-xs font-medium tracking-[0.08em] text-muted-foreground backdrop-blur-md">
+            <span className="sticky left-0 z-10 flex h-full min-h-0 items-center justify-center border-r border-border/50 bg-surface/95 text-center text-xs font-medium tracking-[0.08em] text-muted-foreground backdrop-blur-md">
               E{String(row.episodeNumber).padStart(2, '0')}
             </span>
             {columns.map(column => {

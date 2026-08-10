@@ -264,6 +264,21 @@ Implementation: `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx
 Verification: retain `SeasonDetailPage.test.tsx` navigation coverage; visual spacing and
 centered alignment are included in the Phase 5 review checklist.
 
+### 2026-08-10 — Reduce matrix chrome and center episode markers
+
+Observed: the matrix repeats explanatory title copy after the page hero, and left-aligned
+episode markers make the first matrix column feel visually unbalanced.
+
+Decision: remove the Episode matrix eyebrow, Every episode, one glance title, and explanatory
+paragraph. Move the Show Specials control from the hero into the reclaimed matrix-header area
+next to the legend, and center each `E##` row marker in its fixed matrix column.
+
+Implementation: `apps/web/src/features/Tv/components/SeriesQuality/{SeriesQuality,QualityHero,EpisodeMatrix}.tsx`,
+`apps/web/src/features/Tv/pages/SeriesQualityPage.test.tsx`.
+
+Verification: `SeriesQualityPage.test.tsx` retains the accessible Shadcn Show Specials flow,
+asserts the removed matrix copy, and verifies centered `E01` styling.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,
@@ -448,7 +463,14 @@ comparison
 **WHEN** a TV has Season 0 and the user enables Show Specials
 **THEN** the app loads and adds the Specials column
 **AND** recalculates the episode average to include its rated episodes
-**AND** the control is the shared Shadcn Checkbox with an accessible Show Specials label.
+**AND** the control is the shared Shadcn Checkbox with an accessible Show Specials label in the
+matrix-header area beside the quality legend.
+
+#### Scenario: Read a streamlined matrix
+
+**WHEN** the series-quality matrix is displayed
+**THEN** it does not repeat an Episode matrix title or explanatory paragraph after the page hero
+**AND** each fixed `E##` episode marker is centered in its row-label column.
 
 #### Scenario: A season fails independently
 

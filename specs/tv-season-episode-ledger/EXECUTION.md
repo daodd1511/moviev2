@@ -167,6 +167,7 @@ Fresh review: not required
 - [x] (amended 2026-08-10) Consolidate `SeasonHero.tsx` season context, Series quality navigation, and previous/next controls into the documented compact navigation dock; retain `SeasonDetailPage.test.tsx` route-navigation coverage
 - [x] (amended 2026-08-10) Add an explicit Show details link in `SeasonHero.tsx`'s navigation dock back to `/tv/:id`; update `SeasonDetailPage.test.tsx` with the destination contract
 - [x] (amended 2026-08-10) Center `SeasonHero.tsx`'s navigation dock and add matching desktop icon-label spacing to Show details and Series quality; retain `SeasonDetailPage.test.tsx` navigation coverage
+- [x] (amended 2026-08-10) Center `EpisodeMatrix.tsx` `E##` labels; remove the matrix eyebrow, title, and explanation; move the Shadcn Show Specials control from `QualityHero.tsx` into `SeriesQuality.tsx`'s matrix-header area; update `SeriesQualityPage.test.tsx`
 - [ ] For every accepted review item, append a dated decision in `PLAN.md` → Review Decisions and update the complete affected requirement in `PLAN.md` → Spec Delta; add an `(amended 2026-08-10)` checklist item naming its implementation and test files
 
 **Phase gate (hard):**

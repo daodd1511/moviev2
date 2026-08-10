@@ -1,8 +1,5 @@
-import { useId } from 'react';
 import { Star } from 'lucide-react';
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 import { TvDetail } from '@/models';
 import { IMAGE_BASE_URL } from '@/shared/constants';
 import { BackdropSizes, PosterSizes } from '@/shared/enums';
@@ -14,28 +11,11 @@ interface Props {
   /** Count of episodes represented by visible loaded columns. */
   readonly episodeCount: number;
 
-  /** Whether the TV detail exposes Season 0. */
-  readonly hasSpecials: boolean;
-
-  /** Whether the Specials column is currently visible. */
-  readonly showSpecials: boolean;
-
   /** TV identity and public series rating. */
   readonly tv: TvDetail;
-
-  /** Updates the Specials visibility and fetch state. */
-  readonly onShowSpecialsChange: (checked: boolean) => void;
 }
 
-const QualityHero = ({
-  episodeAverage,
-  episodeCount,
-  hasSpecials,
-  showSpecials,
-  tv,
-  onShowSpecialsChange,
-}: Props) => {
-  const specialsId = useId();
+const QualityHero = ({ episodeAverage, episodeCount, tv }: Props) => {
   const posterUrl =
     tv.posterPath !== null
       ? `${IMAGE_BASE_URL}${PosterSizes.large}${tv.posterPath}`
@@ -43,10 +23,6 @@ const QualityHero = ({
   const backdropUrl =
     tv.backdropPath !== null ? `${IMAGE_BASE_URL}${BackdropSizes.large}${tv.backdropPath}` : null;
   const regularSeasonCount = tv.seasons.filter(season => season.seasonNumber > 0).length;
-
-  const handleSpecialsChange = (checked: boolean | 'indeterminate'): void => {
-    onShowSpecialsChange(checked === true);
-  };
 
   return (
     <header
@@ -104,25 +80,6 @@ const QualityHero = ({
           </div>
         </div>
       </div>
-      {hasSpecials ? (
-        <div
-          className={`absolute right-5 bottom-4 inline-flex items-center gap-2 rounded-full border bg-background/70 px-3.5 py-2 text-xs font-medium backdrop-blur-md transition-colors min-[860px]:right-12 min-[860px]:bottom-8 ${
-            showSpecials
-              ? 'border-foreground/35 text-foreground'
-              : 'border-foreground/15 text-muted-foreground'
-          }`}
-        >
-          <Checkbox
-            id={specialsId}
-            checked={showSpecials}
-            onCheckedChange={handleSpecialsChange}
-            className="size-3.5"
-          />
-          <Label htmlFor={specialsId} className="cursor-pointer text-inherit">
-            Show Specials
-          </Label>
-        </div>
-      ) : null}
     </header>
   );
 };
