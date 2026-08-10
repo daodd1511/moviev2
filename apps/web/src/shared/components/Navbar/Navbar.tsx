@@ -3,6 +3,7 @@ import { memo, ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Film, ListVideo, Tv, UserRound } from 'lucide-react';
 
+import { Logo } from '../Logo';
 import { Search } from '../Search/Search';
 
 import { ProfileDropdown } from './ProfileDropdown';
@@ -62,7 +63,7 @@ const MobileTabLink = ({ icon, label, to, active }: MobileTabLinkProps) => (
   <Link
     to={to}
     aria-current={active ? 'page' : undefined}
-    className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-[0.65rem] font-medium text-muted-foreground transition-colors aria-[current=page]:text-primary"
+    className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 text-micro font-medium text-muted-foreground transition-colors aria-[current=page]:text-primary"
   >
     {icon}
     <span>{label}</span>
@@ -130,8 +131,8 @@ const NavbarComponent = () => {
 
   return (
     <NavShell isOverlay={isOverlay}>
-      <Link to="/" className="text-xl font-semibold tracking-wide text-foreground">
-        Flix<span className="text-primary">.</span>
+      <Link to="/" className="text-foreground">
+        <Logo />
       </Link>
 
       <div className="hidden items-center gap-6 md:flex">

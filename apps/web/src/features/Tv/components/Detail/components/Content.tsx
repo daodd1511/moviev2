@@ -1,5 +1,6 @@
 import { memo, useState } from 'react';
-import { List as ListIcon, Play, Star } from 'lucide-react';
+import { BarChart3, List as ListIcon, Play, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { TvDetail, Video } from '@/models';
 import { formatToYear } from '@/shared/utils';
@@ -33,7 +34,7 @@ const ContentComponent = ({ tv }: Props) => {
 
   return (
     <div className="relative z-2 w-full max-w-4xl flex-1 pb-3.5 text-center md:text-left">
-      <p className="mb-3 text-[0.72rem] font-medium tracking-[0.2em] text-primary uppercase md:mb-4 md:text-[0.82rem]">
+      <p className="mb-3 text-micro font-medium tracking-[0.2em] text-primary uppercase md:mb-4 md:text-kicker">
         Now Showing
       </p>
       <h1
@@ -66,7 +67,7 @@ const ContentComponent = ({ tv }: Props) => {
         </ul>
       )}
 
-      <div className="mx-auto flex w-full max-w-md items-center justify-center gap-3 sm:w-auto sm:gap-4 md:mx-0 md:justify-start">
+      <div className="mx-auto flex w-full max-w-xl flex-wrap items-center justify-center gap-3 sm:w-auto sm:gap-4 md:mx-0 md:justify-start">
         {trailers.length > 0 && (
           <Button
             size="lg"
@@ -79,6 +80,17 @@ const ContentComponent = ({ tv }: Props) => {
               : 'Watch Trailer'}
           </Button>
         )}
+        <Button
+          asChild
+          size="lg"
+          variant="outline"
+          className="h-12 rounded-full border-white/20 bg-white/[0.08] px-5 hover:border-white/40 hover:bg-white/[0.16]"
+        >
+          <Link to={`/tv/${tv.id}/quality`}>
+            <BarChart3 aria-hidden="true" />
+            Series quality
+          </Link>
+        </Button>
         <CollectionMenu
           media={MediaMapper.fromTv(tv)}
           triggerLabel="Add to list"

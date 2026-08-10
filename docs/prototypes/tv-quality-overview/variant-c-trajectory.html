@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Flix — Series Quality Prototype C · Quality Trajectory</title>
+    <link rel="stylesheet" href="quality.css" />
+    <script src="quality.js" defer></script>
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="brand" href="#"
+        ><span class="brand-mark" aria-hidden="true"></span
+        ><span>Flix<span class="brand-period">.</span></span></a
+      >
+      <ul class="nav-links">
+        <li><a href="#">Movies</a></li>
+        <li><a href="#" aria-current="page">TV Shows</a></li>
+        <li><a href="#">People</a></li>
+      </ul>
+      <button class="nav-action" type="button" aria-label="Search">⌕</button>
+    </nav>
+    <header class="quality-header">
+      <div class="quality-header-inner">
+        <div class="show-poster">
+          <img
+            src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg"
+            alt="The Wheel of Time poster"
+          />
+        </div>
+        <div class="quality-header-copy">
+          <p class="kicker">Series quality</p>
+          <h1>The Wheel of Time</h1>
+          <div class="show-meta">
+            <span class="show-score">★ 8.0</span><span class="meta-dot"></span><span>3 seasons</span
+            ><span class="meta-dot"></span><span>24 episodes</span><span class="meta-dot"></span
+            ><span>2021–present</span>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="quality-shell">
+      <header class="quality-intro">
+        <div class="quality-intro-copy">
+          <p class="kicker">Option C · Quality trajectory</p>
+          <h2 class="quality-title">See momentum across every season</h2>
+          <p class="quality-description">
+            A comparative curve answers a different question: not only how good the show is, but
+            whether each season improves, declines, or swings wildly episode to episode.
+          </p>
+        </div>
+      </header>
+      <section class="quality-panel trajectory-panel" aria-label="Episode quality trajectory">
+        <div class="trajectory-toolbar">
+          <div class="season-toggles" data-season-toggles></div>
+          <span class="section-note">TMDB episode rating · 1–10</span>
+        </div>
+        <div class="chart-scroll">
+          <svg
+            class="trajectory-chart"
+            data-trajectory
+            role="img"
+            aria-label="Line chart comparing episode ratings across three seasons"
+          ></svg>
+        </div>
+        <div class="trajectory-summary" data-trajectory-summary></div>
+      </section>
+    </main>
+    <aside class="prototype-badge">
+      <span>Prototype C</span><a href="index.html">Compare all</a>
+    </aside>
+  </body>
+</html>

@@ -127,7 +127,7 @@ against weight-500 labels. Hierarchy is weight and size, not color.
 
 ### Accent
 
-- **Amber** (#f5a524) with **Accent Ink** (#1c1302) as its on-color: the primary CTA fill, the rating star and value, active nav state, kicker text when emphasized, focus rings. Nothing else. Text on amber is always accent-ink, never white.
+- **Amber** (#f5a524) with **Accent Ink** (#1c1302) as its on-color: the primary CTA fill, the rating star and value, active nav state, kicker text when emphasized, focus rings, and the logo mark. Nothing else. Text on amber is always accent-ink, never white.
 
 ### Text
 
@@ -165,7 +165,7 @@ section above calls the brand color "Amber," never "accent," in prose.
 
 ### Named Rules
 
-**The Three-Job Amber Rule.** Amber (the `primary` slot) appears only as: primary action, rating, active/brand punctuation. A fourth job requires removing one of the three.
+**The Four-Job Amber Rule.** Amber (the `primary` slot) appears only as: primary action, rating, active/brand punctuation, and the logo mark. A fifth job requires removing one of the four. The mark was admitted deliberately on 2026-08-07 — it is drawn entirely in amber (see Components → Logo) because a projected beam cannot be rendered in the text family without ceasing to read as light.
 **The No-Gray Rule.** On the dark ground every "gray" is teal-tinted (text-muted-foreground or a text-color rgba). Tailwind gray/slate/zinc utilities must not appear in new code.
 
 ## Typography
@@ -176,9 +176,16 @@ section above calls the brand color "Amber," never "accent," in prose.
 
 - **Display** (200, clamp(2.6rem→5rem), uppercase, line-height 1.02): detail-page titles over the hero scrim.
 - **Headline** (300, 1.5rem): page-level headings outside detail heroes.
-- **Kicker** (500, 0.82rem, tracking .2em, uppercase, text-muted): every section label ("Overview", "Top Billed Cast", "More Like This"). Kickers replace old bold section headings.
+- **Kicker** (500, 0.82rem, `text-kicker`, tracking .2em, uppercase, text-muted): every section label ("Overview", "Top Billed Cast", "More Like This"). Kickers replace old bold section headings. In detail-page hero kickers it steps down to Micro below `md` (768px) — note this is Tailwind's breakpoint, not the 860px layout collapse.
 - **Body** (300, 1rem, lh 1.65) and **Body Large** (300, 1.08rem, lh 1.8) for overview paragraphs, max 65ch.
 - **Label** (500, 0.875rem): buttons, form labels, cast names.
+- **Compact** (0.8rem, `text-compact`): dense control text where Label would crowd the box — small buttons, calendar weekday and week-number cells.
+- **Micro** (500, 0.65rem, `text-micro`): the smallest step. Mobile tab-bar labels, media-type badges, `kbd` shortcut hints, and the hero kicker's step-down below `md`.
+
+Tailwind's own scale stops at 0.75rem, so Compact, Micro, and the Kicker size are
+declared as `--text-*` tokens in `src/index.css` and used as `text-compact`,
+`text-micro`, `text-kicker`. A literal `text-[…rem]` anywhere is a bug: either it
+matches a step and should name it, or it is a step nobody documented.
 
 ### Named Rules
 
@@ -219,6 +226,16 @@ WCAG minimum) in tight contexts (a grid-card corner control) — never below
 
 ## Components
 
+- **Logo** (`shared/components/Logo`): `LogoMark` is a projector lens throwing a cone of light
+  rightward, drawn on a 64-unit grid in amber only — no plate, so it sits directly on the ground
+  and on hero scrims alike. The cone's far edge is an outward arc; flattening it turns the
+  silhouette into a megaphone. `Logo` is the lockup — mark plus the wordmark "Flix." in sentence
+  case at weight 600 with wide tracking and an amber period. The wordmark is the one place weight
+  600 appears outside a button: the hairline display treatment goes soft against the mark's solid
+  amber at nav scale. The mark is
+  sized in `em`, so callers set one font size on the lockup and both halves scale. Consumers wrap
+  it in their own `Link`. Ships as `public/favicon.svg` and `public/apple-touch-icon.png` (180px,
+  ground-filled).
 - **Primary button:** amber pill, accent-ink text, weight 600, tinted shadow, hover lifts -2px. One per viewport region.
 - **Ghost icon button:** 3rem circle, translucent fill + border, hover steps the fill; always has an aria-label.
 - **Genre chip:** transparent pill, translucent border, text-muted; hover borders amber with an .08 amber fill. Rendered as links.
@@ -226,7 +243,7 @@ WCAG minimum) in tight contexts (a grid-card corner control) — never below
 - **Cast card:** 2/3 portrait in a 0.75rem plate, name (label), character (muted); hover lifts image -4px.
 - **Rec card:** poster with a bottom ground-gradient caption overlay; hover scales image 1.05 inside the clipped plate.
 - **Rail header:** kicker left, amber text-link right ("View all →").
-- **Nav:** `fixed` overlay over the hero on detail routes (gradient scrim, auto-selected by matching the route against `/^\/(movie|tv)\/\d+$/`), static solid ground elsewhere; wordmark "Flix." with amber period; active link full text color, inactive muted. Movie/TV Shows are `DropdownMenu` triggers; mobile nav is a `Sheet` (right-side drawer).
+- **Nav:** `fixed` overlay over the hero on detail routes (gradient scrim, auto-selected by matching the route against `/^\/(movie|tv)\/\d+$/`), static solid ground elsewhere; the `Logo` lockup at top left; active link full text color, inactive muted. Movie/TV Shows are `DropdownMenu` triggers; mobile nav is a `Sheet` (right-side drawer).
 - **Text field:** label + input pair (`shared/components/ui/TextField`), label always associated via `useId` when no id is passed. Translucent fill/border on ground, amber focus ring via `:focus-visible`.
 - **Dialog:** shadcn's Radix `Dialog` (`components/ui/dialog`) — surface-raised panel, `role="dialog"`, real focus trap, Esc closes, backdrop click closes. Every use gives it a `DialogTitle` (visually hidden via `sr-only` where no heading is wanted, e.g. the trailer/full-size-image dialogs).
 - **Dropdown menu:** shadcn's Radix `DropdownMenu` (`components/ui/dropdown-menu`) — owns its own `aria-expanded`/id state, closes on Esc/outside-click/item-select. Used for the navbar's Movie/TV menus, the profile menu, and the shared add-to-list menu (`shared/components/List/Menu.tsx`, whose "Add to list" panel is a `DropdownMenuSub`).

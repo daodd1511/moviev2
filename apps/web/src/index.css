@@ -39,6 +39,15 @@
   --color-input: #133a4d;
   --color-ring: #f5a524;
 
+  /*
+   * Type ramp steps below Tailwind's text-sm (DESIGN.md → Typography). Tailwind's
+   * own scale stops at 0.75rem, so these three name the sizes the UI already used
+   * as one-off literals.
+   */
+  --text-micro: 0.65rem;
+  --text-compact: 0.8rem;
+  --text-kicker: 0.82rem;
+
   /* Two-radius system: 0.75rem for plates/cards/inputs, rounded-full for pills. */
   --radius-sm: 0.75rem;
   --radius-md: 0.75rem;

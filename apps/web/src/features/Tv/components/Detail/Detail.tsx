@@ -80,7 +80,7 @@ const TvDetailComponent = () => {
 
       <main className="mx-auto max-w-[90rem] px-4 md:px-12 lg:px-16 xl:px-20">
         <Overview tv={tv} />
-        <Seasons seasons={tv.seasons} />
+        <Seasons seasons={tv.seasons} tvId={tv.id} />
         {credits != null && <Cast credits={credits} mediaType={MediaType.Tv} mediaId={tv.id} />}
         <Recommend mediaId={tv.id} mediaType={MediaType.Tv} />
       </main>

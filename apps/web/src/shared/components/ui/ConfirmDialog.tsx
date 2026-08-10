@@ -55,7 +55,7 @@ export const ConfirmDialog = ({
             'mx-auto mb-5 flex size-12 items-center justify-center rounded-full border',
             destructive
               ? 'border-destructive/25 bg-destructive/10 text-destructive'
-              : 'border-foreground/10 bg-foreground/[0.06] text-foreground',
+              : 'border-foreground/10 bg-foreground/[0.08] text-foreground',
           )}
         >
           {icon}

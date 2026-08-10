@@ -6,19 +6,6 @@ into a `specs/<feature>/` plan.
 
 ## Fixes
 
-- [ ] `MovieService.getTestMovies` (`apps/web/src/api/services/movieService.ts`) and
-      `TvService.getTvsByGenre` (`apps/web/src/api/services/tvService.ts`) have zero
-      callers — their hooks were dropped in the product-capability-roadmap's Phase 15
-      cleanup, but the service methods themselves were missed (2026-08-04)
-- [ ] Form controls run on two different fill/border systems: `Input`/`Textarea` use
-      `border-input bg-transparent dark:bg-input/30`, while `SelectTrigger`/`DatePicker`/
-      `NumberField` use `border-foreground/15 bg-foreground/[0.06]` — unify on one before
-      more forms land (2026-08-05)
-- [ ] Catalog category and filter changes swap the whole page for a full-height `Loader`
-      because `isPending` short-circuits the render; now that categories are an on-page
-      rail, keep the header, rail, and filters mounted and load only the results grid
-      (2026-08-05)
-
 ## Features
 
 - [ ] Drag-and-drop reorder for Collection items, replacing the current
@@ -30,10 +17,6 @@ into a `specs/<feature>/` plan.
       but will be at scale (2026-08-04)
 - [ ] Genre pages: a browsable route per genre for movies and TV, beyond the multi-select
       genre filter on the catalog Discover tab (2026-08-05)
-- [ ] TV season detail with per-episode ratings, IMDb-style — episode list per season with
-      each episode's rating, air date, and still (2026-08-05)
-- [ ] Design a logo for the app — wordmark plus a standalone mark for the favicon and
-      navbar, aligned with `DESIGN.md` (2026-08-06)
 
 ## Ideas
 

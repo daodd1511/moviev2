@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQueries, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-import { Credits, Episode, Media, Pagination, TvDetail } from '@/models';
+import { Credits, Media, Pagination, SeasonDetail, TvDetail } from '@/models';
 import { TvService } from '@/api/services/tvService';
 
 export namespace TvQueries {
@@ -17,11 +17,21 @@ export namespace TvQueries {
       queryFn: () => TvService.getTvRecommendation(id),
     });
 
-  export const useSeasonDetail = (id: number, seasonNumber: number) =>
-    useQuery<readonly Episode[], AxiosError>({
-      queryKey: ['seasonEpisode', id, seasonNumber],
+  /** Shared cache contract for a single season-detail request. */
+  export const seasonDetailOptions = (id: number, seasonNumber: number) =>
+    queryOptions<SeasonDetail, AxiosError>({
+      queryKey: ['tvSeasonDetail', id, seasonNumber],
       queryFn: () => TvService.getSeasonDetail(id, seasonNumber),
-      enabled: seasonNumber !== -1,
+    });
+
+  /** Reads one season through the reusable season-detail cache contract. */
+  export const useSeasonDetail = (id: number, seasonNumber: number) =>
+    useQuery(seasonDetailOptions(id, seasonNumber));
+
+  /** Reads independent season-detail queries while preserving their requested order. */
+  export const useSeasonDetails = (id: number, seasonNumbers: readonly number[]) =>
+    useQueries({
+      queries: seasonNumbers.map(seasonNumber => seasonDetailOptions(id, seasonNumber)),
     });
 
   export const useCredits = (id: number) =>

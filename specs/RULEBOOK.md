@@ -1,4 +1,5 @@
 # Spec-Driven Execution Workflow
+
 <!-- rulebook v7 -->
 
 Large/architectural changes flow: `/grill-me` → `specs/<feature>/PLAN.md` →
@@ -12,6 +13,7 @@ lands on a `<feature-slug>/phase-<n>-<desc>` branch without invoking a spec skil
 by `spec-phase`'s skill description, which names that branch shape and points here.
 
 ## State model
+
 - **Git is the authoritative state store**: branch name encodes spec+phase
   (`<feature-slug>/phase-<n>-<desc>`), commits encode progress. Each `EXECUTION.md` opens
   with a **STATUS block** (current phase, per-phase state, verification debt) — the only
@@ -25,6 +27,7 @@ by `spec-phase`'s skill description, which names that branch shape and points he
   entry. A phase is in-progress iff it has unchecked **non-deferred** items.
 
 ## Branch model — stacked via `gh stack`
+
 - **Default: stacked, driven by `gh stack`** (GitHub's stacked-PR CLI). One stack per spec,
   rooted at the integration branch (currently `main`; resolve at plan time, never hardcode).
   Each phase is one branch on that stack, still named
@@ -59,6 +62,7 @@ by `spec-phase`'s skill description, which names that branch shape and points he
 - After a phase's PR merges, ask before deleting the merged phase branch (local + remote).
 
 ## Checkpoints
+
 - Starting a phase authorizes its commits — nothing else.
 - Gate pass → one ask: "push + update the stack on GitHub?" (sequential: "push + open
   PR?"). Remote actions are never bundled with anything else.
@@ -80,8 +84,8 @@ by `spec-phase`'s skill description, which names that branch shape and points he
   - **CI is opt-in.** Add a `CI green on the final phase PR` item to the spec gate only
     when the user asks for CI gating. Without that ask, the phase and spec gates are the
     verdict and no agent watches checks.
-  Manual verification scenarios are the **review checklist**, listed in the PR description
-  for the user to walk through before merging — they are the user's, not agent debt.
+    Manual verification scenarios are the **review checklist**, listed in the PR description
+    for the user to walk through before merging — they are the user's, not agent debt.
 - **Fresh review is conditional, not a universal gate.** Each phase records
   `Fresh review: required — <hard trigger>` or `Fresh review: not required` when planned.
   Require it for changes involving authentication/authorization, cryptography, secrets or
@@ -101,6 +105,7 @@ by `spec-phase`'s skill description, which names that branch shape and points he
   (never `git stash` — stashes are invisible to a cold agent and easy to orphan).
 
 ## Capability baseline
+
 - `specs/capabilities/<area>.md` is the **current-state truth**: what the system does
   today, as `## Requirement: <title>` blocks with `### Scenario:` / `**WHEN**` / `**THEN**`
   steps. One file per capability area; split past ~300 lines. **The requirement title is the

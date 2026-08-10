@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flix — Logo Concepts</title>
+    <style>
+      @font-face {
+        font-family: 'Be Vietnam Pro';
+        font-weight: 200;
+        font-display: swap;
+        src: url('../../node_modules/.pnpm/@fontsource+be-vietnam-pro@4.5.8/node_modules/@fontsource/be-vietnam-pro/files/be-vietnam-pro-latin-200-normal.woff2')
+          format('woff2');
+      }
+      @font-face {
+        font-family: 'Be Vietnam Pro';
+        font-weight: 300;
+        font-display: swap;
+        src: url('../../node_modules/.pnpm/@fontsource+be-vietnam-pro@4.5.8/node_modules/@fontsource/be-vietnam-pro/files/be-vietnam-pro-latin-300-normal.woff2')
+          format('woff2');
+      }
+      @font-face {
+        font-family: 'Be Vietnam Pro';
+        font-weight: 500;
+        font-display: swap;
+        src: url('../../node_modules/.pnpm/@fontsource+be-vietnam-pro@4.5.8/node_modules/@fontsource/be-vietnam-pro/files/be-vietnam-pro-latin-500-normal.woff2')
+          format('woff2');
+      }
+      @font-face {
+        font-family: 'Be Vietnam Pro';
+        font-weight: 600;
+        font-display: swap;
+        src: url('../../node_modules/.pnpm/@fontsource+be-vietnam-pro@4.5.8/node_modules/@fontsource/be-vietnam-pro/files/be-vietnam-pro-latin-600-normal.woff2')
+          format('woff2');
+      }
+
+      :root {
+        --ground: #041219;
+        --surface: #07202e;
+        --surface-raised: #0b2a3a;
+        --line: #133a4d;
+        --text: #d9e7ee;
+        --text-muted: #8fb3c4;
+        --amber: #f5a524;
+        --accent-ink: #1c1302;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+        font-weight: 300;
+        line-height: 1.65;
+        background: var(--ground);
+        color: var(--text);
+        padding: 4rem 1.25rem 8rem;
+      }
+
+      main {
+        max-width: 60rem;
+        margin: 0 auto;
+      }
+
+      .kicker {
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 6vw, 3.4rem);
+        font-weight: 200;
+        text-transform: uppercase;
+        letter-spacing: 0.015em;
+        line-height: 1.02;
+        margin: 0.6rem 0 1rem;
+      }
+
+      .lede {
+        max-width: 60ch;
+        color: var(--text-muted);
+      }
+
+      section.concept {
+        margin-top: 4.5rem;
+        padding-top: 2.5rem;
+        border-top: 1px solid var(--line);
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        line-height: 1.25;
+        margin: 0.4rem 0 0.5rem;
+      }
+
+      h3 {
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+      }
+
+      .idea {
+        max-width: 62ch;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+      }
+
+      .panel {
+        background: var(--surface);
+        border-radius: 0.75rem;
+        outline: 1px solid rgba(217, 231, 238, 0.14);
+        padding: 1.75rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+        gap: 1.25rem;
+      }
+
+      /* ---- Mark rendering ---- */
+      .hero-mark {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+      }
+
+      .hero-mark svg {
+        width: 128px;
+        height: 128px;
+      }
+
+      .ladder {
+        display: flex;
+        align-items: flex-end;
+        gap: 1.75rem;
+      }
+
+      .ladder figure {
+        text-align: center;
+      }
+
+      .ladder figcaption {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        margin-top: 0.75rem;
+        letter-spacing: 0.08em;
+      }
+
+      .s16 {
+        width: 16px;
+        height: 16px;
+      }
+      .s24 {
+        width: 24px;
+        height: 24px;
+      }
+      .s32 {
+        width: 32px;
+        height: 32px;
+      }
+      .s48 {
+        width: 48px;
+        height: 48px;
+      }
+
+      /* ---- Navbar mock ---- */
+      .nav-mock {
+        border-radius: 0.75rem;
+        overflow: hidden;
+        outline: 1px solid rgba(217, 231, 238, 0.14);
+      }
+
+      .nav-mock .bar {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 0.9rem 1.25rem;
+        background: var(--ground);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-mock.over-art .bar {
+        background: linear-gradient(to bottom, rgba(4, 18, 25, 0.85), rgba(4, 18, 25, 0));
+        border-bottom: 0;
+      }
+
+      .nav-mock.over-art .art {
+        height: 7rem;
+        background:
+          radial-gradient(120% 90% at 20% 10%, rgba(245, 165, 36, 0.35), transparent 60%),
+          linear-gradient(120deg, #24506b, #0b2a3a 55%, #5c3a1c);
+        margin-top: -3.4rem;
+      }
+
+      .nav-mock .links {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+      }
+
+      .nav-mock .links .on {
+        color: var(--amber);
+      }
+
+      .nav-mock .spacer {
+        margin-left: auto;
+      }
+
+      .pill {
+        border-radius: 9999px;
+        background: var(--amber);
+        color: var(--accent-ink);
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.4rem 1rem;
+      }
+
+      /* ---- Lockups ---- */
+      .lockup {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .lockup svg {
+        width: 1.55em;
+        height: 1.55em;
+        flex: none;
+      }
+
+      .wm {
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+
+      /* Wordmark treatment: hairline uppercase, on-system with DESIGN.md display type. */
+      .wm-hairline {
+        font-weight: 200;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+      }
+
+      /* Wordmark treatment: current shipped style (sentence case, weight 600). */
+      .wm-current {
+        font-weight: 600;
+        letter-spacing: 0.025em;
+      }
+
+      /* Wordmark treatment: mid-weight sentence case, tighter. */
+      .wm-mid {
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+
+      .dot {
+        color: var(--amber);
+      }
+
+      /* ---- Browser tab mock ---- */
+      .tabs {
+        display: flex;
+        gap: 0.4rem;
+        background: var(--surface-raised);
+        padding: 0.5rem 0.5rem 0;
+        border-radius: 0.75rem 0.75rem 0 0;
+      }
+
+      .tab {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--ground);
+        border-radius: 0.5rem 0.5rem 0 0;
+        padding: 0.5rem 0.9rem;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+      }
+
+      .tab.active {
+        color: var(--text);
+      }
+
+      .tab.dim {
+        background: rgba(217, 231, 238, 0.06);
+      }
+
+      /* Favicon tiles: a real favicon never sits on the page ground, so test both. */
+      .tiles {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .tile {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 1.1rem;
+        display: grid;
+        place-items: center;
+      }
+
+      .tile svg {
+        width: 60%;
+        height: 60%;
+      }
+
+      .tile.on-ground {
+        background: var(--ground);
+        outline: 1px solid rgba(217, 231, 238, 0.14);
+      }
+      .tile.on-white {
+        background: #fff;
+      }
+      .tile.on-chrome {
+        background: #35363a;
+      }
+
+      .notes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .notes h4 {
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .notes .for h4 {
+        color: var(--amber);
+      }
+      .notes .against h4 {
+        color: var(--text-muted);
+      }
+
+      .notes ul {
+        list-style: none;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .notes li {
+        padding-left: 1rem;
+        position: relative;
+        margin-bottom: 0.35rem;
+      }
+
+      .notes li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.72em;
+        width: 5px;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.6;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 0.7rem 0.6rem;
+        border-bottom: 1px solid var(--line);
+        vertical-align: middle;
+      }
+
+      th {
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      td.mono {
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Symbol library. Every mark is a 64x64 viewBox so it scales cleanly to 16/32/180/512. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <!-- User-space so every ray of the split cut fades on one shared axis, not per-path. -->
+        <linearGradient id="beam-fade" gradientUnits="userSpaceOnUse" x1="20" y1="0" x2="58" y2="0">
+          <stop offset="0" stop-color="#f5a524" stop-opacity="0.95" />
+          <stop offset="1" stop-color="#f5a524" stop-opacity="0.38" />
+        </linearGradient>
+        <radialGradient id="dot-halo">
+          <stop offset="0" stop-color="#f5a524" stop-opacity="0.45" />
+          <stop offset="1" stop-color="#f5a524" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <!-- A: Projection beam. Lens at the apex, light spreading right; the far edge is an
+           outward arc, not a flat cut — a flat cut plus a large ring reads as a megaphone. -->
+      <symbol id="mark-a" viewBox="0 0 64 64">
+        <path
+          d="M20 32 L48 8 A34 34 0 0 1 48 56 Z"
+          fill="url(#beam-fade)"
+          stroke="url(#beam-fade)"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+        <circle cx="11" cy="32" r="7.5" fill="#f5a524" />
+        <circle cx="11" cy="32" r="2.8" fill="#041219" />
+      </symbol>
+
+      <!-- A2: same idea, beam cut into three rays radiating from the lens. Rays span the same
+           cone; detail survives only above ~32px. -->
+      <symbol id="mark-a2" viewBox="0 0 64 64">
+        <g fill="url(#beam-fade)">
+          <path d="M20 32 L47.6 8.9 L53.8 19.7 Z" />
+          <path d="M20 32 L55.6 26.4 L55.6 37.6 Z" />
+          <path d="M20 32 L53.8 44.3 L47.6 55.1 Z" />
+        </g>
+        <circle cx="11" cy="32" r="7.5" fill="#f5a524" />
+        <circle cx="11" cy="32" r="2.8" fill="#041219" />
+      </symbol>
+
+      <!-- B: The amber period. The wordmark's dot, held on a screen plate. -->
+      <symbol id="mark-b" viewBox="0 0 64 64">
+        <rect
+          x="2"
+          y="2"
+          width="60"
+          height="60"
+          rx="15"
+          fill="#0b2a3a"
+          stroke="rgba(217,231,238,0.22)"
+          stroke-width="1.5"
+        />
+        <circle cx="42" cy="41" r="20" fill="url(#dot-halo)" />
+        <rect x="13" y="38.6" width="17" height="4.8" rx="2.4" fill="rgba(217,231,238,0.55)" />
+        <circle cx="42" cy="41" r="8.6" fill="#f5a524" />
+      </symbol>
+
+      <!-- B2: dot alone on the plate — the strict-minimum reading. -->
+      <symbol id="mark-b2" viewBox="0 0 64 64">
+        <rect
+          x="2"
+          y="2"
+          width="60"
+          height="60"
+          rx="15"
+          fill="#0b2a3a"
+          stroke="rgba(217,231,238,0.22)"
+          stroke-width="1.5"
+        />
+        <circle cx="32" cy="32" r="24" fill="url(#dot-halo)" />
+        <circle cx="32" cy="32" r="11" fill="#f5a524" />
+      </symbol>
+
+      <!-- C: Film gate. Punched sprockets left and right, amber frame at the aperture. -->
+      <symbol id="mark-c" viewBox="0 0 64 64">
+        <rect
+          x="2"
+          y="2"
+          width="60"
+          height="60"
+          rx="15"
+          fill="#0b2a3a"
+          stroke="rgba(217,231,238,0.22)"
+          stroke-width="1.5"
+        />
+        <g fill="#041219">
+          <rect x="7.5" y="15" width="7" height="11" rx="3.5" />
+          <rect x="7.5" y="38" width="7" height="11" rx="3.5" />
+          <rect x="49.5" y="15" width="7" height="11" rx="3.5" />
+          <rect x="49.5" y="38" width="7" height="11" rx="3.5" />
+        </g>
+        <rect x="21" y="21" width="22" height="22" rx="6" fill="#f5a524" />
+      </symbol>
+
+      <!-- C2: aperture as a circle rather than a frame. -->
+      <symbol id="mark-c2" viewBox="0 0 64 64">
+        <rect
+          x="2"
+          y="2"
+          width="60"
+          height="60"
+          rx="15"
+          fill="#0b2a3a"
+          stroke="rgba(217,231,238,0.22)"
+          stroke-width="1.5"
+        />
+        <g fill="#041219">
+          <rect x="7.5" y="15" width="7" height="11" rx="3.5" />
+          <rect x="7.5" y="38" width="7" height="11" rx="3.5" />
+          <rect x="49.5" y="15" width="7" height="11" rx="3.5" />
+          <rect x="49.5" y="38" width="7" height="11" rx="3.5" />
+        </g>
+        <circle cx="32" cy="32" r="11.5" fill="#f5a524" />
+      </symbol>
+    </svg>
+
+    <main>
+      <p class="kicker">Backlog · Design a logo</p>
+      <h1>Flix marks</h1>
+      <p class="lede">
+        Three directions, each drawn on the Projection Room palette and shown where it actually has
+        to survive: 16px in a browser tab, in the navbar lockup over both solid ground and a hero
+        scrim, and as an app tile against backgrounds we do not control. Pick one direction — the
+        variants inside it are mine to settle.
+      </p>
+
+      <!-- ================= A ================= -->
+      <section class="concept">
+        <p class="kicker">Direction A</p>
+        <h2>Projection beam</h2>
+        <p class="idea">
+          The literal north star: a lens throwing light rightward into the dark. The wedge is the
+          only amber shape, so the mark needs no plate and no second colour — it can sit directly on
+          the ground the app already paints.
+        </p>
+
+        <div class="panel hero-mark">
+          <svg><use href="#mark-a" /></svg>
+          <svg><use href="#mark-a2" /></svg>
+          <div>
+            <h3>Two cuts</h3>
+            <p class="idea" style="margin: 0">
+              Solid wedge (left) holds at any size. Split rays (right) read as film light above
+              ~32px and turn to mush below it — usable for the marketing header, not the favicon.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <h3>Size ladder</h3>
+            <div class="ladder">
+              <figure>
+                <svg class="s16"><use href="#mark-a" /></svg>
+                <figcaption>16</figcaption>
+              </figure>
+              <figure>
+                <svg class="s24"><use href="#mark-a" /></svg>
+                <figcaption>24</figcaption>
+              </figure>
+              <figure>
+                <svg class="s32"><use href="#mark-a" /></svg>
+                <figcaption>32</figcaption>
+              </figure>
+              <figure>
+                <svg class="s48"><use href="#mark-a" /></svg>
+                <figcaption>48</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Tile backgrounds</h3>
+            <div class="tiles">
+              <div class="tile on-ground">
+                <svg><use href="#mark-a" /></svg>
+              </div>
+              <div class="tile on-white">
+                <svg><use href="#mark-a" /></svg>
+              </div>
+              <div class="tile on-chrome">
+                <svg><use href="#mark-a" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>In the navbar</h3>
+          <div class="nav-mock">
+            <div class="bar">
+              <span class="lockup"
+                ><svg><use href="#mark-a" /></svg>
+                <span class="wm wm-hairline">Flix<span class="dot">.</span></span></span
+              >
+              <span class="links"><span class="on">Movies</span><span>TV Shows</span></span>
+              <span class="spacer pill">Sign up</span>
+            </div>
+          </div>
+          <div style="height: 1.25rem"></div>
+          <div class="nav-mock over-art">
+            <div class="art"></div>
+            <div class="bar" style="position: relative">
+              <span class="lockup"
+                ><svg><use href="#mark-a" /></svg>
+                <span class="wm wm-hairline">Flix<span class="dot">.</span></span></span
+              >
+              <span class="links"><span class="on">Movies</span><span>TV Shows</span></span>
+              <span class="spacer pill">Sign up</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Browser tab</h3>
+          <div class="tabs">
+            <span class="tab active"
+              ><svg class="s16"><use href="#mark-a" /></svg> Flix</span
+            >
+            <span class="tab dim">Inception (2010) — TMDB</span>
+            <span class="tab dim">letterboxd.com</span>
+          </div>
+        </div>
+
+        <div class="notes">
+          <div class="for">
+            <h4>For</h4>
+            <ul>
+              <li>Only direction that carries the "Projection Room" idea, not generic cinema.</li>
+              <li>No plate — works on ground, on a hero scrim, and inside the wordmark line.</li>
+              <li>Asymmetric silhouette; distinguishable from every square app icon in a dock.</li>
+            </ul>
+          </div>
+          <div class="against">
+            <h4>Against</h4>
+            <ul>
+              <li>
+                The gradient falloff flattens at 16px; the tab icon is effectively a solid wedge.
+              </li>
+              <li>
+                Amber-only means it leans on the accent for identity — brushes the three-job rule.
+              </li>
+              <li>
+                Lives one wrong curve away from a megaphone — the outward-arced far edge is what
+                keeps it a beam, and it has to stay.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= B ================= -->
+      <section class="concept">
+        <p class="kicker">Direction B</p>
+        <h2>The amber period</h2>
+        <p class="idea">
+          Promotes the punctuation the wordmark already ships. The dot is the projected light; the
+          hairline bar left of it is the wordmark cropped to its last stroke. Mark and wordmark stop
+          being two things.
+        </p>
+
+        <div class="panel hero-mark">
+          <svg><use href="#mark-b" /></svg>
+          <svg><use href="#mark-b2" /></svg>
+          <div>
+            <h3>Two cuts</h3>
+            <p class="idea" style="margin: 0">
+              With the baseline bar (left) the mark says "…x." — quiet, typographic. Without it
+              (right) it is a lamp on a plate: cleaner at 16px, but it stops referencing the
+              wordmark and becomes a generic dot.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <h3>Size ladder</h3>
+            <div class="ladder">
+              <figure>
+                <svg class="s16"><use href="#mark-b" /></svg>
+                <figcaption>16</figcaption>
+              </figure>
+              <figure>
+                <svg class="s24"><use href="#mark-b" /></svg>
+                <figcaption>24</figcaption>
+              </figure>
+              <figure>
+                <svg class="s32"><use href="#mark-b" /></svg>
+                <figcaption>32</figcaption>
+              </figure>
+              <figure>
+                <svg class="s48"><use href="#mark-b" /></svg>
+                <figcaption>48</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Tile backgrounds</h3>
+            <div class="tiles">
+              <div class="tile on-ground">
+                <svg><use href="#mark-b" /></svg>
+              </div>
+              <div class="tile on-white">
+                <svg><use href="#mark-b" /></svg>
+              </div>
+              <div class="tile on-chrome">
+                <svg><use href="#mark-b" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>In the navbar</h3>
+          <div class="nav-mock">
+            <div class="bar">
+              <span class="lockup"
+                ><svg><use href="#mark-b" /></svg>
+                <span class="wm wm-hairline">Flix<span class="dot">.</span></span></span
+              >
+              <span class="links"><span class="on">Movies</span><span>TV Shows</span></span>
+              <span class="spacer pill">Sign up</span>
+            </div>
+          </div>
+          <div style="height: 1.25rem"></div>
+          <div class="nav-mock over-art">
+            <div class="art"></div>
+            <div class="bar" style="position: relative">
+              <span class="lockup"
+                ><svg><use href="#mark-b" /></svg>
+                <span class="wm wm-hairline">Flix<span class="dot">.</span></span></span
+              >
+              <span class="links"><span class="on">Movies</span><span>TV Shows</span></span>
+              <span class="spacer pill">Sign up</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Browser tab</h3>
+          <div class="tabs">
+            <span class="tab active"
+              ><svg class="s16"><use href="#mark-b" /></svg> Flix</span
+            >
+            <span class="tab dim">Inception (2010) — TMDB</span>
+            <span class="tab dim">letterboxd.com</span>
+          </div>
+        </div>
+
+        <div class="notes">
+          <div class="for">
+            <h4>For</h4>
+            <ul>
+              <li>Continuous with what already ships — no new visual claim to defend.</li>
+              <li>Highest contrast at 16px of the three: one amber disc on a dark plate.</li>
+              <li>
+                The plate carries its own background, so it survives on white and on chrome grey.
+              </li>
+            </ul>
+          </div>
+          <div class="against">
+            <h4>Against</h4>
+            <ul>
+              <li>Beside the wordmark the dot appears twice; the lockup repeats itself.</li>
+              <li>A dot on a square is the least ownable shape here.</li>
+              <li>
+                The baseline bar is invisible below ~24px, so the small mark is the weaker cut.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= C ================= -->
+      <section class="concept">
+        <p class="kicker">Direction C</p>
+        <h2>Film gate</h2>
+        <p class="idea">
+          The frame the light passes through: punched sprockets on both edges, amber aperture at the
+          centre. Cinema-literal and instantly legible — the conventional answer, drawn on our
+          palette and our two radii.
+        </p>
+
+        <div class="panel hero-mark">
+          <svg><use href="#mark-c" /></svg>
+          <svg><use href="#mark-c2" /></svg>
+          <div>
+            <h3>Two cuts</h3>
+            <p class="idea" style="margin: 0">
+              Square aperture (left) echoes the 0.75rem plate radius everywhere else in the app.
+              Round aperture (right) reads as a lens and separates better from the sprockets at
+              small sizes.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <h3>Size ladder</h3>
+            <div class="ladder">
+              <figure>
+                <svg class="s16"><use href="#mark-c" /></svg>
+                <figcaption>16</figcaption>
+              </figure>
+              <figure>
+                <svg class="s24"><use href="#mark-c" /></svg>
+                <figcaption>24</figcaption>
+              </figure>
+              <figure>
+                <svg class="s32"><use href="#mark-c" /></svg>
+                <figcaption>32</figcaption>
+              </figure>
+              <figure>
+                <svg class="s48"><use href="#mark-c" /></svg>
+                <figcaption>48</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Tile backgrounds</h3>
+            <div class="tiles">
+              <div class="tile on-ground">
+                <svg><use href="#mark-c" /></svg>
+              </div>
+              <div class="tile on-white">
+                <svg><use href="#mark-c" /></svg>
+              </div>
+              <div class="tile on-chrome">
+                <svg><use href="#mark-c" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>In the navbar</h3>
+          <div class="nav-mock">
+            <div class="bar">
+              <span class="lockup"
+                ><svg><use href="#mark-c" /></svg>
+                <span class="wm wm-hairline">Flix<span class="dot">.</span></span></span
+              >
+              <span class="links"><span class="on">Movies</span><span>TV Shows</span></span>
+              <span class="spacer pill">Sign up</span>
+            </div>
+          </div>
+          <div style="height: 1.25rem"></div>
+          <div class="nav-mock over-art">
+            <div class="art"></div>
+            <div class="bar" style="position: relative">
+              <span class="lockup"
+                ><svg><use href="#mark-c" /></svg>
+                <span class="wm wm-hairline">Flix<span class="dot">.</span></span></span
+              >
+              <span class="links"><span class="on">Movies</span><span>TV Shows</span></span>
+              <span class="spacer pill">Sign up</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Browser tab</h3>
+          <div class="tabs">
+            <span class="tab active"
+              ><svg class="s16"><use href="#mark-c" /></svg> Flix</span
+            >
+            <span class="tab dim">Inception (2010) — TMDB</span>
+            <span class="tab dim">letterboxd.com</span>
+          </div>
+        </div>
+
+        <div class="notes">
+          <div class="for">
+            <h4>For</h4>
+            <ul>
+              <li>
+                Nobody has to be told what it is; the category reads in a fraction of a second.
+              </li>
+              <li>Symmetric and plated — the easiest of the three to place anywhere.</li>
+              <li>Built entirely from the existing radii, so it never looks bolted on.</li>
+            </ul>
+          </div>
+          <div class="against">
+            <h4>Against</h4>
+            <ul>
+              <li>Every streaming and film app has drawn this; it is the least distinctive.</li>
+              <li>The sprockets vanish at 16px, leaving an amber blob on a square.</li>
+              <li>Says "film" but nothing about this app's darkness-and-projection idea.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Wordmark ================= -->
+      <section class="concept">
+        <p class="kicker">Second decision</p>
+        <h2>Wordmark treatment</h2>
+        <p class="idea">
+          Independent of the mark. What ships today is weight 600 sentence case — a weight
+          <code>DESIGN.md</code> reserves for the primary button, not for display type. Two
+          on-system alternatives:
+        </p>
+
+        <div class="panel">
+          <table>
+            <tr>
+              <th>Treatment</th>
+              <th>At nav size</th>
+              <th>Large</th>
+              <th>Verdict</th>
+            </tr>
+            <tr>
+              <td class="mono">Weight 600, sentence case<br />(ships today)</td>
+              <td>
+                <span class="wm wm-current">Flix<span class="dot">.</span></span>
+              </td>
+              <td>
+                <span class="wm wm-current" style="font-size: 2.4rem"
+                  >Flix<span class="dot">.</span></span
+                >
+              </td>
+              <td class="mono">Off-system weight; fights the hairline title rule.</td>
+            </tr>
+            <tr>
+              <td class="mono">Weight 200 uppercase,<br />tracking .22em</td>
+              <td>
+                <span class="wm wm-hairline">Flix<span class="dot">.</span></span>
+              </td>
+              <td>
+                <span class="wm wm-hairline" style="font-size: 2.4rem"
+                  >Flix<span class="dot">.</span></span
+                >
+              </td>
+              <td class="mono">Matches the display scale exactly. Quietest, most cinematic.</td>
+            </tr>
+            <tr>
+              <td class="mono">Weight 500 sentence case,<br />tracking .01em</td>
+              <td>
+                <span class="wm wm-mid">Flix<span class="dot">.</span></span>
+              </td>
+              <td>
+                <span class="wm wm-mid" style="font-size: 2.4rem"
+                  >Flix<span class="dot">.</span></span
+                >
+              </td>
+              <td class="mono">Label weight — legal on-system, closest to today's shape.</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= Recommendation ================= -->
+      <section class="concept">
+        <p class="kicker">My call</p>
+        <h2>A, solid wedge — with the hairline wordmark</h2>
+        <p class="idea">
+          B and C both hide behind a plate, and a plate is what an app reaches for when its mark
+          cannot hold the ground on its own. A holds it. It is also the only one of the three that
+          could not belong to a different app: B is a dot, C is a film gate, A is
+          <em>this</em> app's stated idea drawn once. Its real cost is the amber dependency — the
+          mark becomes a fourth job for the accent, which <code>DESIGN.md</code> forbids without
+          removing one. That is a one-line amendment to the Three-Job Amber Rule ("…and the mark"),
+          and it should be made deliberately rather than by drift.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, ChevronDown, X } from 'lucide-react';
 
+import { FIELD_TRIGGER_SURFACE } from '@/lib/fieldStyles';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -63,7 +64,10 @@ export const MultiSelect = ({
       <PopoverTrigger
         type="button"
         aria-labelledby={labelledBy}
-        className="group flex h-11 w-full min-w-0 items-center justify-between gap-3 rounded-lg border border-foreground/15 bg-foreground/[0.06] px-4 text-left text-sm text-foreground shadow-[inset_0_1px_0_rgba(217,231,238,0.04)] transition-[border-color,background-color,box-shadow] duration-200 outline-none hover:border-foreground/25 hover:bg-foreground/[0.09] focus-visible:border-ring data-[state=open]:border-foreground/30 data-[state=open]:bg-surface-raised"
+        className={cn(
+          FIELD_TRIGGER_SURFACE,
+          'group flex h-11 w-full min-w-0 items-center justify-between gap-3 px-4 text-left text-sm',
+        )}
       >
         <span className="flex min-w-0 flex-1 items-center gap-2">
           {firstSelectedOption === undefined ? (
