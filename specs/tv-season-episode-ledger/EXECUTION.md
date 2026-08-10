@@ -6,11 +6,11 @@ adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: 4 — in-progress
+- Current phase: done
 - Phase 1 — Season data contract: done
 - Phase 2 — Routed episode ledger: done
 - Phase 3 — Series quality data: done
-- Phase 4 — Series quality matrix: in-progress
+- Phase 4 — Series quality matrix: done
 - Verification debt: none
 
 ## Phase 1 — Season data contract
@@ -134,8 +134,8 @@ Fresh review: not required
 - [x] (amended 2026-08-10) Make `LibraryEntryEditor.test.tsx` calendar date queries tolerate DayPicker's `Today,` accessible-name prefix so the final spec gate is date-stable
 
 **Phase gate (hard):**
-- [ ] `pnpm typecheck`
-- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>`
+- [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
+- [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 3 files / 17 tests
 
 **Review checklist (user, at PR review):**
 - [ ] Open Series quality from TV detail and season detail, then confirm every numbered season appears and Series rating remains distinct from Episode average
@@ -148,5 +148,5 @@ checklist goes into the PR description.
 
 ## Spec gate (hard — once, before the final phase's PR)
 
-- [ ] `pnpm test:unit`
-- [ ] `pnpm build`
+- [x] `pnpm test:unit` — passed via the bundled pnpm runtime with localhost permission for MongoMemoryServer; 44 files / 183 tests
+- [x] `pnpm build` — passed via the bundled pnpm runtime
