@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
+import { BarChart3, ChevronLeft, ChevronRight, Tv } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -150,6 +150,19 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
             </span>
           </div>
           <div className="flex min-h-12 items-center gap-1 border-t border-border/80 px-2 min-[590px]:border-t-0 min-[590px]:border-l">
+            <Button
+              asChild
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              className="min-[590px]:h-9 min-[590px]:w-auto min-[590px]:px-3"
+            >
+              <Link to={`/tv/${tv.id}`} aria-label="Open show details">
+                <Tv aria-hidden="true" />
+                <span className="hidden min-[590px]:inline">Show details</span>
+              </Link>
+            </Button>
+            <span aria-hidden="true" className="h-5 w-px bg-border/80" />
             <Button
               asChild
               type="button"

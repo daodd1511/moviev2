@@ -196,6 +196,10 @@ describe('SeasonDetailPage', () => {
     const episodeHeading = screen.getByRole('heading', { name: 'Episode one', level: 3 });
     expect(episodeHeading.closest('a')).toBeNull();
     expect(episodeHeading.closest('li')).toHaveAttribute('id', 'episode-1');
+    expect(screen.getByRole('link', { name: 'Open show details' })).toHaveAttribute(
+      'href',
+      '/tv/42',
+    );
     expect(screen.getByRole('link', { name: 'Open Series quality' })).toHaveAttribute(
       'href',
       '/tv/42/quality',

@@ -235,6 +235,21 @@ desktop and mobile widths through the Phase 5 review checklist.
 Result: the Shadcn season selector and all three navigation actions remain in the same
 accessible control group; `SeasonDetailPage.test.tsx` route-navigation coverage passes.
 
+### 2026-08-10 — Make show detail an explicit season action
+
+Observed: the only route back to the TV detail page is the small breadcrumb link, so it is
+not discoverable as primary season navigation.
+
+Decision: add a labeled Show details action to the SeasonHero navigation dock. It targets
+`/tv/:id` and sits alongside Series quality and season stepping; keep the breadcrumb as a
+secondary orientation cue.
+
+Implementation: `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx`,
+`apps/web/src/features/Tv/pages/SeasonDetailPage.test.tsx`.
+
+Verification: `SeasonDetailPage.test.tsx` asserts the explicit Show details link and its
+`/tv/42` destination alongside the Series quality route.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,
@@ -360,6 +375,12 @@ Origin: delta ← specs/tv-season-episode-ledger
 **WHEN** a user chooses a season from the shared Shadcn Select on a season detail page
 **THEN** the app navigates to that season's dedicated URL
 **AND** the selected season remains visibly labeled in the control.
+
+#### Scenario: Return to show detail
+
+**WHEN** a user is on a season detail page
+**THEN** an explicit Show details action in the navigation dock links to `/tv/:tvId`
+**AND** the season navigation and Series quality actions remain available.
 
 #### Scenario: Browse a season's episodes
 
