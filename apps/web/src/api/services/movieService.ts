@@ -2,14 +2,11 @@ import { api } from '..';
 import { PaginationDto, MovieDto, MovieDetailDto, CreditsDto } from '../dtos';
 import { PaginationMapper, MovieMapper, MovieDetailMapper, CrewMapper } from '../mappers';
 
-import { MovieQueryParamsMapper } from '../mappers/movie/movieQueryParams.mapper';
-
 import { MediaMapper } from '../mappers/media.mapper';
 
 import { CastMapper } from '../mappers/cast.mapper';
 
 import { Movie, Pagination, MovieDetail, Media, Credits } from '@/models';
-import { MovieQueryParams } from '@/models/movie/movieQueryParams.model';
 
 export namespace MovieService {
   export const getMovies = async (
@@ -19,20 +16,6 @@ export namespace MovieService {
     const response = await api.get<PaginationDto<MovieDto>>(
       `/movie/${discoverValue ?? 'popular'}?page=${page}`,
     );
-    const movies = PaginationMapper.fromDto(response.data, movieDto =>
-      MediaMapper.fromMovieDto(movieDto),
-    );
-    return movies;
-  };
-
-  export const getTestMovies = async (
-    page: number,
-    params: MovieQueryParams,
-  ): Promise<Pagination<Media>> => {
-    const paramsDto = MovieQueryParamsMapper.toDto({ ...params, page });
-    const response = await api.get<PaginationDto<MovieDto>>('/discover/movie', {
-      params: paramsDto,
-    });
     const movies = PaginationMapper.fromDto(response.data, movieDto =>
       MediaMapper.fromMovieDto(movieDto),
     );

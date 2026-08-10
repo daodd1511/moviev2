@@ -25,14 +25,6 @@ export namespace TvService {
     return tvs;
   };
 
-  export const getTvsByGenre = async (genreId: number, page: number): Promise<Pagination<Tv>> => {
-    const response = await api.get<PaginationDto<TvDto>>(
-      `/discover/tv?with_genres=${genreId}&page=${page}`,
-    );
-    const tvs = PaginationMapper.fromDto(response.data, tvDto => TvMapper.fromDto(tvDto));
-    return tvs;
-  };
-
   export const getTvDetail = async (tvId: number | undefined): Promise<TvDetail> => {
     if (tvId === undefined) {
       return [] as unknown as TvDetail;
