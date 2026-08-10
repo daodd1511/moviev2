@@ -250,6 +250,20 @@ Implementation: `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx
 Verification: `SeasonDetailPage.test.tsx` asserts the explicit Show details link and its
 `/tv/42` destination alongside the Series quality route.
 
+### 2026-08-10 — Center and space the season navigation dock
+
+Observed: the compact dock is left-aligned within the content column, and the Show details
+and Series quality icon-text pairs lack sufficient breathing room.
+
+Decision: center the dock horizontally beneath the hero. Give both labeled route actions a
+consistent icon-to-label gap at the desktop breakpoint while retaining compact icon-only
+controls on small screens.
+
+Implementation: `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx`.
+
+Verification: retain `SeasonDetailPage.test.tsx` navigation coverage; visual spacing and
+centered alignment are included in the Phase 5 review checklist.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,
@@ -380,6 +394,8 @@ Origin: delta ← specs/tv-season-episode-ledger
 
 **WHEN** a user is on a season detail page
 **THEN** an explicit Show details action in the navigation dock links to `/tv/:tvId`
+**AND** the dock is horizontally centered beneath the hero with consistently spaced labeled
+route actions
 **AND** the season navigation and Series quality actions remain available.
 
 #### Scenario: Browse a season's episodes

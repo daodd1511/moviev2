@@ -124,7 +124,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
         </div>
       </header>
 
-      <div className="relative z-1 mx-auto -mt-5 w-full max-w-[82rem] px-5 min-[590px]:-mt-6 min-[860px]:px-12">
+      <div className="relative z-1 mx-auto -mt-5 flex w-full max-w-[82rem] justify-center px-5 min-[590px]:-mt-6 min-[860px]:px-12">
         <div className="inline-flex max-w-full flex-wrap items-stretch overflow-hidden rounded-md border border-foreground/15 bg-surface-raised/95 shadow-[0_20px_45px_-22px_rgba(0,0,0,0.92)] backdrop-blur-xl min-[590px]:flex-nowrap">
           <div className="flex min-h-12 min-w-0 items-center gap-3 px-3 min-[590px]:px-4">
             <Label
@@ -155,7 +155,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="min-[590px]:h-9 min-[590px]:w-auto min-[590px]:px-3"
+              className="min-[590px]:h-9 min-[590px]:w-auto min-[590px]:gap-2 min-[590px]:px-3"
             >
               <Link to={`/tv/${tv.id}`} aria-label="Open show details">
                 <Tv aria-hidden="true" />
@@ -168,7 +168,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="min-[590px]:h-9 min-[590px]:w-auto min-[590px]:px-3"
+              className="min-[590px]:h-9 min-[590px]:w-auto min-[590px]:gap-2 min-[590px]:px-3"
             >
               <Link to={`/tv/${tv.id}/quality`} aria-label="Open Series quality">
                 <BarChart3 aria-hidden="true" />
