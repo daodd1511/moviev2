@@ -31,7 +31,7 @@ const entry: LibraryEntry = {
 const monthStart = startOfMonth(new Date());
 const earlierDay = addDays(monthStart, 8);
 const laterDay = addDays(monthStart, 9);
-const dayButtonName = (day: Date) => format(day, 'EEEE, MMMM do, yyyy');
+const dayButtonName = (day: Date) => new RegExp(`${format(day, 'EEEE, MMMM do, yyyy')}$`);
 
 const renderEditor = () => {
   const queryClient = new QueryClient({ defaultOptions: { mutations: { retry: false } } });

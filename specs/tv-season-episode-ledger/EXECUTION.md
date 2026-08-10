@@ -131,6 +131,7 @@ Fresh review: not required
 - [x] Add `apps/web/src/features/Tv/components/SeriesQuality/EpisodeInspector.tsx` with in-place cell selection, season-relative comparison, and `/tv/:id/season/:seasonNumber#episode-:episodeNumber` link
 - [x] Add `apps/web/src/features/Tv/pages/SeriesQualityPage.test.tsx` for route validation, all-season loading, Specials toggle, separate aggregates, selection/inspector, anchored ledger links, partial/full failure and retry, and matrix missing-position states
 - [x] Retain `docs/prototypes/tv-quality-overview/{index.html,variant-a-matrix.html,variant-b-scorecards.html,variant-c-trajectory.html,quality.css,quality.js}` as the design record, with `variant-a-matrix.html` identified as the selected reference
+- [x] (amended 2026-08-10) Make `LibraryEntryEditor.test.tsx` calendar date queries tolerate DayPicker's `Today,` accessible-name prefix so the final spec gate is date-stable
 
 **Phase gate (hard):**
 - [ ] `pnpm typecheck`
