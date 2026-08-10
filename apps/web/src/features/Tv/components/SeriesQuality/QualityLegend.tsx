@@ -23,7 +23,10 @@ export const QUALITY_BAND_STYLES: Readonly<
 
 /** Fixed quality-band legend for the episode matrix. */
 export const QualityLegend = () => (
-  <ul aria-label="Episode quality bands" className="flex flex-wrap gap-x-4 gap-y-2">
+  <ul
+    aria-label="Episode quality bands"
+    className="flex flex-wrap gap-x-3 gap-y-2 rounded-sm border border-foreground/10 bg-surface-raised/60 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(217,231,238,0.04)]"
+  >
     {BAND_ORDER.map(band => (
       <li
         key={band}

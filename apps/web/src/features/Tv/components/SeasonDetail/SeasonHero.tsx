@@ -74,7 +74,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
   return (
     <>
       <header
-        className="relative isolate overflow-hidden border-b border-border/60 bg-surface"
+        className="relative isolate overflow-hidden border-b border-border/60 bg-surface [background:radial-gradient(circle_at_82%_14%,rgba(45,128,142,0.18),transparent_31rem)]"
         aria-labelledby="season-title"
       >
         {backdropUrl !== null ? (
@@ -90,7 +90,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
           <img
             src={posterUrl}
             alt={`${seasonLabel} poster`}
-            className="w-[5.5rem] shrink-0 rounded-md object-cover shadow-[0_24px_48px_-12px_rgba(0,0,0,0.72)] outline outline-1 outline-foreground/15 min-[590px]:w-28 min-[860px]:w-42"
+            className="w-[5.5rem] shrink-0 rounded-sm object-cover shadow-[0_28px_56px_-16px_rgba(0,0,0,0.86)] outline outline-1 outline-foreground/20 min-[590px]:w-28 min-[860px]:w-42"
           />
           <div className="max-w-3xl min-w-0">
             <nav
@@ -111,8 +111,12 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
             >
               {seasonLabel}
             </h1>
+            <div className="mt-4 flex items-center gap-3 text-micro font-medium tracking-[0.16em] text-primary uppercase">
+              <span className="h-px w-8 bg-primary/70" aria-hidden="true" />
+              Season archive
+            </div>
             {season.overview !== '' ? (
-              <p className="mt-4 hidden max-w-[58ch] text-sm leading-relaxed text-muted-foreground min-[860px]:block">
+              <p className="mt-3 hidden max-w-[58ch] text-sm leading-relaxed text-muted-foreground min-[860px]:block">
                 {season.overview}
               </p>
             ) : null}
@@ -121,7 +125,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
       </header>
 
       <div className="relative z-1 mx-auto -mt-5 flex w-full max-w-[82rem] items-center gap-3 px-5 min-[590px]:-mt-6 min-[860px]:px-12">
-        <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 rounded-md border border-foreground/15 bg-surface-raised px-3 shadow-[0_16px_40px_-18px_rgba(0,0,0,0.85)] min-[590px]:px-4">
+        <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 rounded-md border border-foreground/15 bg-surface-raised/95 px-3 shadow-[0_20px_45px_-22px_rgba(0,0,0,0.92)] backdrop-blur-xl min-[590px]:px-4">
           <Label
             htmlFor="season-picker"
             className="hidden text-micro font-medium tracking-[0.16em] text-muted-foreground uppercase min-[590px]:block"
@@ -140,7 +144,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
               ))}
             </SelectContent>
           </Select>
-          <span className="hidden text-xs tracking-[0.08em] text-muted-foreground uppercase min-[860px]:inline">
+          <span className="hidden border-l border-border pl-3 text-xs tracking-[0.08em] text-muted-foreground uppercase min-[860px]:inline">
             {getSeasonMeta(season.episodes.length, season.airDate)}
           </span>
         </div>

@@ -200,6 +200,24 @@ the CLI found both local components and safely declined to overwrite them.
 Verification: the season-detail and series-quality page suites verify Shadcn registry data
 slots, Season 0 navigation, and on-demand Specials loading.
 
+### 2026-08-10 — Refine both TV detail experiences as a noir field guide
+
+Observed: the Season Detail and Series Quality pages are functional but lack a shared visual
+language strong enough to support repeated scanning across long episode lists and matrices.
+
+Decision: refine both pages into a restrained noir technical field guide: ruled surfaces,
+calibrated metadata, deliberate score modules, and high-contrast focus states. Preserve every
+route, loading/error state, responsive matrix rule, and accessible interactive control.
+
+Implementation: `apps/web/src/features/Tv/components/SeasonDetail/{SeasonDetail,SeasonHero,EpisodeLedger}.tsx`,
+`apps/web/src/features/Tv/components/SeriesQuality/{QualityHero,EpisodeMatrix,EpisodeInspector,QualityLegend,SeriesQuality}.tsx`.
+
+Verification: retain the Season Detail and Series Quality page behavior suites; visual
+verification is recorded in the Phase 5 review checklist.
+
+Result: no route, interaction, or data-semantic change was introduced; `SeasonDetailPage` and
+`SeriesQualityPage` behavior suites pass after the visual refinement.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,

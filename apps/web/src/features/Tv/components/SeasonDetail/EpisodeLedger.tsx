@@ -24,7 +24,7 @@ const getEpisodeMeta = (episode: Episode): string => {
 const EpisodeLedgerComponent = ({ episodes }: Props) => {
   if (episodes.length === 0) {
     return (
-      <section className="rounded-md border border-border bg-surface/45 px-5 py-12 text-center">
+      <section className="rounded-md border border-border bg-surface/45 px-5 py-14 text-center shadow-[0_22px_52px_-32px_rgba(0,0,0,0.9)]">
         <h2 className="text-lg font-normal">No episodes yet</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           This season does not have any episode information yet.
@@ -35,20 +35,27 @@ const EpisodeLedgerComponent = ({ episodes }: Props) => {
 
   return (
     <section aria-labelledby="episode-ledger-title">
-      <div className="mb-5 flex items-baseline justify-between gap-4">
-        <h2
-          id="episode-ledger-title"
-          className="text-kicker font-medium tracking-[0.2em] text-muted-foreground uppercase"
-        >
-          Episode ledger
-        </h2>
-        <span className="hidden text-xs text-muted-foreground min-[590px]:inline">
-          Fast scanning and comparison
-        </span>
+      <div className="mb-6 flex items-end justify-between gap-4 border-b border-border/80 pb-4">
+        <div>
+          <p className="text-micro font-medium tracking-[0.18em] text-primary uppercase">
+            Viewing record
+          </p>
+          <h2 id="episode-ledger-title" className="mt-1 text-2xl font-extralight tracking-tight">
+            Episode ledger
+          </h2>
+        </div>
+        <div className="text-right">
+          <span className="block text-lg font-extralight text-foreground tabular-nums">
+            {String(episodes.length).padStart(2, '0')}
+          </span>
+          <span className="hidden text-micro font-medium tracking-[0.14em] text-muted-foreground uppercase min-[590px]:block">
+            Episodes logged
+          </span>
+        </div>
       </div>
       <div
         aria-hidden="true"
-        className="hidden min-h-11 grid-cols-[3rem_9rem_minmax(12rem,1fr)_7.5rem_5rem] items-center gap-5 border-b border-border px-4 text-micro font-medium tracking-[0.15em] text-muted-foreground uppercase min-[860px]:grid"
+        className="hidden min-h-11 grid-cols-[3rem_9rem_minmax(12rem,1fr)_7.5rem_5rem] items-center gap-5 border-y border-border/80 bg-foreground/[0.025] px-4 text-micro font-medium tracking-[0.15em] text-muted-foreground uppercase min-[860px]:grid"
       >
         <span>No.</span>
         <span>Still</span>
@@ -56,27 +63,27 @@ const EpisodeLedgerComponent = ({ episodes }: Props) => {
         <span>Aired</span>
         <span className="text-right">Rating</span>
       </div>
-      <ol>
+      <ol className="divide-y divide-border/75">
         {episodes.map(episode => (
           <li
             key={episode.id}
             id={`episode-${episode.episodeNumber}`}
-            className="grid min-h-28 grid-cols-[2rem_7.5rem_minmax(0,1fr)] items-start gap-x-3 border-b border-border px-0 py-3 transition-colors duration-200 hover:bg-foreground/[0.045] min-[590px]:grid-cols-[2rem_9rem_minmax(0,1fr)_4.5rem] min-[590px]:gap-x-4 min-[860px]:min-h-32 min-[860px]:grid-cols-[3rem_9rem_minmax(12rem,1fr)_7.5rem_5rem] min-[860px]:items-center min-[860px]:gap-5 min-[860px]:px-4"
+            className="group relative grid min-h-28 grid-cols-[2rem_7.5rem_minmax(0,1fr)] items-start gap-x-3 px-0 py-3 transition-colors duration-200 hover:bg-primary/[0.045] min-[590px]:grid-cols-[2rem_9rem_minmax(0,1fr)_4.5rem] min-[590px]:gap-x-4 min-[860px]:min-h-32 min-[860px]:grid-cols-[3rem_9rem_minmax(12rem,1fr)_7.5rem_5rem] min-[860px]:items-center min-[860px]:gap-5 min-[860px]:px-4"
           >
-            <span className="pt-1 text-xl font-extralight text-muted-foreground/70 tabular-nums min-[860px]:pt-0">
+            <span className="pt-1 text-xl font-extralight text-muted-foreground/70 tabular-nums transition-colors group-hover:text-primary min-[860px]:pt-0">
               {episode.episodeNumber}
             </span>
             <img
               src={getStillUrl(episode)}
               alt={`${episode.name} still`}
               loading="lazy"
-              className="aspect-video w-full rounded-md object-cover outline outline-1 outline-foreground/12"
+              className="aspect-video w-full rounded-sm object-cover outline outline-1 outline-foreground/12 transition-[filter,transform] duration-300 group-hover:scale-[1.015] group-hover:brightness-110"
             />
             <div className="col-start-3 row-start-1 min-w-0 pr-14 min-[590px]:pr-0">
               <p className="mt-0.5 text-micro font-medium tracking-[0.16em] text-muted-foreground uppercase min-[860px]:hidden">
                 Episode {episode.episodeNumber}
               </p>
-              <h3 className="mt-1 text-base leading-snug font-normal text-foreground">
+              <h3 className="mt-1 text-base leading-snug font-normal text-foreground transition-colors group-hover:text-primary">
                 {episode.name}
               </h3>
               <p className="mt-1.5 line-clamp-2 text-compact leading-relaxed text-muted-foreground">
@@ -86,7 +93,7 @@ const EpisodeLedgerComponent = ({ episodes }: Props) => {
                 {getEpisodeMeta(episode)}
               </p>
             </div>
-            <p className="col-start-3 row-start-1 justify-self-end pt-0.5 text-sm font-medium text-primary min-[590px]:col-start-4 min-[860px]:col-start-5 min-[860px]:pt-0">
+            <p className="col-start-3 row-start-1 justify-self-end rounded-sm bg-primary/10 px-2 py-1 text-sm font-medium text-primary min-[590px]:col-start-4 min-[860px]:col-start-5 min-[860px]:pt-0">
               {episode.voteAverage === null ? (
                 'Not rated'
               ) : (

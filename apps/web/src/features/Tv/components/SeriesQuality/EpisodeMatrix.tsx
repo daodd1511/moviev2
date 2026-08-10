@@ -147,7 +147,10 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
   };
 
   return (
-    <div className="overflow-x-auto" aria-label="Episode rating matrix">
+    <div
+      className="overflow-x-auto bg-[linear-gradient(90deg,rgba(4,17,23,0.54),transparent_12%,transparent_88%,rgba(4,17,23,0.54))]"
+      aria-label="Episode rating matrix"
+    >
       <div
         className={`grid gap-x-2 p-4 min-[590px]:p-6 ${isCompact ? 'gap-y-1' : 'gap-y-2'}`}
         data-density={isCompact ? 'compact' : 'standard'}
@@ -155,12 +158,12 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
       >
         <span
           aria-hidden="true"
-          className="sticky top-0 left-0 z-30 bg-surface/95 backdrop-blur-md"
+          className="sticky top-0 left-0 z-30 border-b border-border/70 bg-surface/95 backdrop-blur-md"
         />
         {columns.map(column => (
           <div
             key={column.season.id}
-            className="sticky top-0 z-20 flex min-h-12 flex-col items-center justify-center bg-surface/95 px-1 text-center text-micro font-medium tracking-[0.13em] text-foreground uppercase backdrop-blur-md"
+            className="sticky top-0 z-20 flex min-h-12 flex-col items-center justify-center border-b border-border/70 bg-surface/95 px-1 text-center text-micro font-medium tracking-[0.13em] text-foreground uppercase backdrop-blur-md"
           >
             <span>{seasonLabel(column.season)}</span>
             {column.kind === 'error' ? (
@@ -183,7 +186,7 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
 
         {rows.map(row => (
           <div key={row.episodeNumber} className="contents">
-            <span className="sticky left-0 z-10 flex h-full min-h-0 items-center bg-surface/95 text-xs font-medium tracking-[0.08em] text-muted-foreground backdrop-blur-md">
+            <span className="sticky left-0 z-10 flex h-full min-h-0 items-center border-r border-border/50 bg-surface/95 text-xs font-medium tracking-[0.08em] text-muted-foreground backdrop-blur-md">
               E{String(row.episodeNumber).padStart(2, '0')}
             </span>
             {columns.map(column => {

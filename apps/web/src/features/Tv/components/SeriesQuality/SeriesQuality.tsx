@@ -150,13 +150,15 @@ export const SeriesQuality = ({ tvId }: Props) => {
         showSpecials={showSpecials}
         onShowSpecialsChange={handleShowSpecialsChange}
       />
-      <main className="page-shell py-12 min-[860px]:py-14">
-        <header className="mb-8 flex flex-col items-start justify-between gap-5 min-[860px]:flex-row min-[860px]:items-end">
+      <main className="relative page-shell py-12 min-[860px]:py-16">
+        <header className="mb-8 flex flex-col items-start justify-between gap-5 border-b border-border/80 pb-6 min-[860px]:flex-row min-[860px]:items-end">
           <div className="max-w-2xl">
             <p className="text-micro font-medium tracking-[0.2em] text-primary uppercase">
               Episode matrix
             </p>
-            <h2 className="mt-2 text-3xl font-light tracking-tight">Every episode, one glance</h2>
+            <h2 className="mt-2 text-3xl font-extralight tracking-tight min-[860px]:text-4xl">
+              Every episode, one glance
+            </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               Seasons run across the columns. Episode positions run down the rows; color and value
               reveal the show&apos;s quality at a glance.
@@ -165,7 +167,7 @@ export const SeriesQuality = ({ tvId }: Props) => {
           <QualityLegend />
         </header>
         <section
-          className="grid overflow-hidden rounded-md border border-foreground/12 bg-surface/70 shadow-[0_26px_58px_-32px_rgba(0,0,0,0.84)] min-[860px]:grid-cols-[minmax(0,1fr)_18rem]"
+          className="grid overflow-hidden rounded-sm border border-foreground/14 bg-surface/70 shadow-[0_30px_66px_-34px_rgba(0,0,0,0.94)] min-[860px]:grid-cols-[minmax(0,1fr)_18rem]"
           aria-label="Series episode quality"
         >
           <EpisodeMatrix

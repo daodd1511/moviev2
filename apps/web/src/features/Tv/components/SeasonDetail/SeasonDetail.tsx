@@ -61,9 +61,9 @@ const SeasonDetailComponent = ({ tvId, seasonNumber }: Props) => {
   }
 
   return (
-    <div>
+    <div className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_86%_18%,rgba(19,78,91,0.14),transparent_26rem)]">
       <SeasonHero tv={tvQuery.data} season={seasonQuery.data} />
-      <main className="page-shell pt-14 min-[860px]:pt-16">
+      <main className="relative page-shell pt-14 pb-8 min-[860px]:pt-18 min-[860px]:pb-12">
         <EpisodeLedger episodes={seasonQuery.data.episodes} />
       </main>
       <Footer />
