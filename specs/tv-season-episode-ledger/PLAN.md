@@ -147,6 +147,36 @@ average only while Show Specials is enabled.
 On screens below 860px the matrix remains a matrix inside a horizontal scroller. Season
 headers and the episode-number column are sticky; it does not collapse into cards.
 
+### Matrix height fits the review viewport
+
+The episode matrix must not create an independent vertical scroll area. `EpisodeMatrix` uses
+the available viewport height to compact episode rows for long seasons while retaining
+one-decimal ratings and recognizable quality bands. Once cells reach the readable lower
+bound, additional height uses normal document scrolling rather than nested matrix scrolling.
+Horizontal overflow remains available only when season columns cannot remain legible.
+
+### Review refinements remain part of the specification
+
+Phase 5 is the explicit review/refinement phase for this feature. Each accepted user review
+item is recorded below in **Review Decisions** with its observed behavior, implementation
+files, focused verification, and resulting product decision. The affected requirement in
+**Spec Delta** is then updated with its complete post-change text; rejected observations are
+recorded as decisions without code changes. This keeps the final specification aligned with
+the reviewed product rather than only the initial prototype.
+
+## Review Decisions
+
+### 2026-08-10 — Fit long-season rows without nested vertical scrolling
+
+Observed: a long season makes the quality matrix internally scrollable, interrupting
+comparison across the whole season.
+
+Decision: compact rows to the available viewport height, remove internal vertical overflow,
+and retain horizontal overflow only for column legibility.
+
+Implementation: `apps/web/src/features/Tv/components/SeriesQuality/EpisodeMatrix.tsx`,
+`apps/web/src/features/Tv/pages/SeriesQualityPage.test.tsx`.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,
@@ -216,6 +246,9 @@ Add `apps/web/src/features/Tv/utils/seriesQuality.ts` with:
 - Add `features/Tv/components/SeriesQuality/{QualityLegend,EpisodeMatrix,EpisodeInspector}.tsx`
   for the fixed thresholds, sticky responsive grid, selectable cells, per-season retry
   columns, and deep link to the ledger.
+- Update `features/Tv/components/SeriesQuality/EpisodeMatrix.tsx` so long seasons compact
+  rows to the viewport without an internal vertical scroll area; retain horizontal overflow
+  only when season columns cannot stay legible.
 - Add a **Series quality** `Link` in
   `features/Tv/components/Detail/components/Content.tsx` and
   `features/Tv/components/SeasonDetail/SeasonHero.tsx`.
@@ -240,7 +273,8 @@ Add `apps/web/src/features/Tv/utils/seriesQuality.ts` with:
   `useSeasonDetail`, and independent season failure results.
 - `features/Tv/pages/SeriesQualityPage.test.tsx`: route validation, all-season loading,
   Specials toggle, separate aggregates, cell selection/inspector, ledger deep links,
-  partial/full failure and retry, and matrix missing-position states.
+  partial/full failure and retry, matrix missing-position states, and no nested vertical
+  matrix scroll for long seasons.
 
 ## Open Items
 
@@ -322,3 +356,11 @@ comparison
 **WHEN** the viewport is narrower than 860px
 **THEN** the matrix scrolls horizontally while season headers and episode labels remain
 sticky.
+
+#### Scenario: Fit a long season without nested vertical scrolling
+
+**WHEN** a loaded season has more episode rows than the matrix's baseline cell height fits
+in the available viewport
+**THEN** the matrix compacts rows while keeping one-decimal ratings and quality bands legible
+**AND** does not create an internal vertical scroll area
+**AND** preserves horizontal overflow only when season columns cannot remain legible.

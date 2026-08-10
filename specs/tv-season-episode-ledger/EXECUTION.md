@@ -6,11 +6,12 @@ adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: done
+- Current phase: 5 — pending
 - Phase 1 — Season data contract: done
 - Phase 2 — Routed episode ledger: done
 - Phase 3 — Series quality data: done
 - Phase 4 — Series quality matrix: done
+- Phase 5 — Review refinements: pending
 - Verification debt: none
 
 ## Phase 1 — Season data contract
@@ -146,7 +147,39 @@ Fresh review: not required
 decision requires it; update STATUS + checkboxes; stop and ask before push/PR. Review
 checklist goes into the PR description.
 
+## Phase 5 — Review refinements
+
+Branch: `tv-season-episode-ledger/phase-5-review-refinements` (stacked: `gh stack add`)
+
+Applies accepted review feedback to the completed matrix while keeping every final behavior
+and its verification traceable in the specification.
+
+Consumes: Phase 4's `EpisodeMatrix`, `SeriesQualityPage`, `SeriesQualityPage.test.tsx`, and
+the TV series quality overview requirement in `PLAN.md` → Spec Delta.
+Produces: the reviewed `EpisodeMatrix` behavior and dated Review Decisions in `PLAN.md`.
+
+Fresh review: not required
+
+- [ ] Replace `EpisodeMatrix.tsx`'s fixed `min-h-16`/`max-h-[72vh]` vertical-scroll layout with viewport-aware compact rows and no internal vertical overflow; retain horizontal overflow only when columns cannot stay legible
+- [ ] Extend `SeriesQualityPage.test.tsx` to cover the long-season matrix layout contract and retain its existing rating, missing-position, and inspector coverage
+- [ ] For every accepted review item, append a dated decision in `PLAN.md` → Review Decisions and update the complete affected requirement in `PLAN.md` → Spec Delta; add an `(amended 2026-08-10)` checklist item naming its implementation and test files
+
+**Phase gate (hard):**
+- [ ] `pnpm typecheck`
+- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>`
+
+**Review checklist (user, at PR review):**
+- [ ] Open a show with a long season and confirm the matrix compacts episode rows without an internal vertical scrollbar, while ratings and quality colors remain legible
+- [ ] On a narrow viewport, confirm only horizontal overflow remains when season columns cannot fit and both sticky axes remain usable
+- [ ] Confirm every accepted review adjustment is represented in PLAN.md → Review Decisions and its complete Spec Delta requirement
+
+**On completion:** run the phase gate and final spec gate; run `fresh-review` when the
+recorded or actual-diff decision requires it; update STATUS + checkboxes; stop and ask before
+push/PR. Review checklist goes into the PR description.
+
 ## Spec gate (hard — once, before the final phase's PR)
 
 - [x] `pnpm test:unit` — passed via the bundled pnpm runtime with localhost permission for MongoMemoryServer; 44 files / 183 tests
 - [x] `pnpm build` — passed via the bundled pnpm runtime
+- [ ] (amended 2026-08-10) `pnpm test:unit` — rerun after Phase 5 review refinements
+- [ ] (amended 2026-08-10) `pnpm build` — rerun after Phase 5 review refinements
