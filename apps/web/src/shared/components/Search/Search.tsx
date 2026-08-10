@@ -76,7 +76,7 @@ const SearchComponent = ({ mobileTab = false }: Props) => {
         ) : (
           <>
             <span className="hidden text-sm lg:inline">Search</span>
-            <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.06] px-1.5 py-0.5 text-micro font-medium text-muted-foreground xl:inline">
+            <kbd className="ml-1 hidden rounded-md border border-foreground/10 bg-foreground/[0.08] px-1.5 py-0.5 text-micro font-medium text-muted-foreground xl:inline">
               ⌘K
             </kbd>
           </>
