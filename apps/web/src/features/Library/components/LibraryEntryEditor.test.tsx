@@ -45,17 +45,9 @@ const renderEditor = () => {
 describe('LibraryEntryEditor', () => {
   afterEach(() => server.resetHandlers());
 
-  it('rejects non-integer ratings and invalid date order', async () => {
+  it('validates date order and TV progress', async () => {
     const user = userEvent.setup();
     renderEditor();
-    const rating = screen.getByLabelText('Rating (1–10)');
-    await user.type(rating, '10.5');
-    await user.click(screen.getByRole('button', { name: 'Save changes' }));
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      'Rating must be a whole number from 1 to 10.',
-    );
-
-    await user.clear(rating);
     await user.click(screen.getByLabelText('Started'));
     await user.click(screen.getByRole('button', { name: dayButtonName(laterDay) }));
     await user.click(screen.getByLabelText('Completed'));
@@ -78,6 +70,37 @@ describe('LibraryEntryEditor', () => {
     expect(screen.getByRole('alert')).toHaveTextContent(
       'TV progress must use positive whole-number season and episode values.',
     );
+  });
+
+  it('offers the bounded rating choices and saves the selected rating', async () => {
+    let requestBody: unknown;
+    server.use(
+      http.put('*/library/entries', async ({ request }) => {
+        requestBody = await request.json();
+        return HttpResponse.json({ ...entry, rating: 10 });
+      }),
+    );
+    const user = userEvent.setup();
+    renderEditor();
+
+    await user.click(screen.getByLabelText('Rating (1–10)'));
+    expect(screen.getAllByRole('option').map(option => option.textContent)).toEqual([
+      'Not rated',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+    ]);
+    await user.click(screen.getByRole('option', { name: '10' }));
+    await user.click(screen.getByRole('button', { name: 'Save changes' }));
+
+    await waitFor(() => expect(requestBody).toMatchObject({ rating: 10 }));
   });
 
   it('supports keyboard submission and announces a successful save', async () => {

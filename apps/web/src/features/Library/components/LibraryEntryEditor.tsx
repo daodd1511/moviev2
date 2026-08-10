@@ -32,6 +32,9 @@ const watchStates: readonly { readonly value: LibraryWatchState; readonly label:
   { value: 'dropped', label: 'Dropped' },
 ];
 
+const UNRATED_VALUE = 'unrated';
+const ratings = Array.from({ length: 10 }, (_, index) => String(index + 1));
+
 const toDateInputValue = (value: string | null): string => value?.slice(0, 10) ?? '';
 const toIsoDate = (value: string): string | null =>
   value === '' ? null : new Date(`${value}T00:00:00.000Z`).toISOString();
@@ -74,13 +77,6 @@ export const LibraryEntryEditor = ({ entry, onSaved, onCancel }: Props) => {
     const parsedEpisode = Number(episode);
     const parsedCount = watchedEpisodeCount === '' ? null : Number(watchedEpisodeCount);
 
-    if (
-      parsedRating !== null &&
-      (!Number.isInteger(parsedRating) || parsedRating < 1 || parsedRating > 10)
-    ) {
-      setError('Rating must be a whole number from 1 to 10.');
-      return;
-    }
     if (!isDateOrderValid(start, completed)) {
       setError('Completed date must be on or after the started date.');
       return;
@@ -142,14 +138,22 @@ export const LibraryEntryEditor = ({ entry, onSaved, onCancel }: Props) => {
         </Field>
         <Field className="sm:col-span-3">
           <FieldLabel htmlFor={ratingId}>Rating (1–10)</FieldLabel>
-          <NumberField
-            id={ratingId}
-            min={1}
-            max={10}
-            step={1}
-            value={rating}
-            onChange={setRating}
-          />
+          <Select
+            value={rating === '' ? UNRATED_VALUE : rating}
+            onValueChange={value => setRating(value === UNRATED_VALUE ? '' : value)}
+          >
+            <SelectTrigger id={ratingId}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={UNRATED_VALUE}>Not rated</SelectItem>
+              {ratings.map(value => (
+                <SelectItem key={value} value={value}>
+                  {value}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Field>
         <Field className="sm:col-span-2">
           <FieldLabel htmlFor={startedAtId}>Started</FieldLabel>
