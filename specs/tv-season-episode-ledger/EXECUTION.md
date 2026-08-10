@@ -1,21 +1,21 @@
 # TV Season Episode Ledger — Execution Plan
 
 Spec: [PLAN.md](PLAN.md). Rulebook: `specs/RULEBOOK.md`.
-Integration branch: `dev`. Branch model: sequential — `gh stack` unavailable because the
-official extension is not installed.
+Integration branch: `dev`. Branch model: stacked via `gh stack` — existing Phase 1 is
+adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: 1 — done
+- Current phase: 2 — in-progress
 - Phase 1 — Season data contract: done
-- Phase 2 — Routed episode ledger: pending
+- Phase 2 — Routed episode ledger: in-progress
 - Phase 3 — Series quality data: pending
 - Phase 4 — Series quality matrix: pending
 - Verification debt: none
 
 ## Phase 1 — Season data contract
 
-Branch: `tv-season-episode-ledger/phase-1-season-data` (sequential: off `dev`)
+Branch: `tv-season-episode-ledger/phase-1-season-data` (stacked: `gh stack init --base dev`)
 
 Defines the typed season response that the routed UI depends on without changing visible UI.
 
@@ -45,7 +45,7 @@ checklist goes into the PR description.
 
 ## Phase 2 — Routed episode ledger
 
-Branch: `tv-season-episode-ledger/phase-2-ledger-ui` (sequential: off `dev`)
+Branch: `tv-season-episode-ledger/phase-2-ledger-ui` (stacked: `gh stack add`)
 
 Consumes Phase 1's season contract and exposes it through the selected responsive route/UI.
 
@@ -57,13 +57,13 @@ Produces: route `/tv/:id/season/:seasonNumber`, `SeasonDetailPage`, `SeasonDetai
 
 Fresh review: not required
 
-- [ ] Add lazy `SeasonDetailPage` and route `tv/:id/season/:seasonNumber` in `apps/web/src/features/Tv/routes.tsx`; validate numeric route params in `apps/web/src/features/Tv/pages/SeasonDetailPage.tsx`
-- [ ] Add `tvId` to `Seasons` in `apps/web/src/features/Tv/components/Detail/components/Seasons.tsx`, pass `tv.id` from `apps/web/src/features/Tv/components/Detail/Detail.tsx`, and render each season card as a `Link` to its dedicated route
-- [ ] Add `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx` with the TV breadcrumb, season artwork/summary, Specials label, native season selector, and URL-backed previous/next controls per PLAN.md → “A season is a dedicated route”
-- [ ] Add `apps/web/src/features/Tv/components/SeasonDetail/EpisodeLedger.tsx` with the responsive prototype-2 columns, semantic non-interactive rows, two-line overviews, formatted air dates, optional runtimes, one-decimal vote averages, and agreed missing-data fallbacks
-- [ ] Add `apps/web/src/features/Tv/components/SeasonDetail/SeasonDetail.tsx` to coordinate `TvQueries.useDetail` and `useSeasonDetail`, render `Loader`, retryable error, `NotFound`, empty-season, hero, and ledger states, and restore scroll position to the top when the routed season changes
-- [ ] Add `apps/web/src/features/Tv/components/Detail/components/Seasons.test.tsx` and `apps/web/src/features/Tv/pages/SeasonDetailPage.test.tsx` for route links, Specials, navigation, complete rows, one-decimal ratings, loading/error/retry, invalid params, empty episodes, and missing-data fallbacks
-- [ ] Retain `docs/prototypes/tv-season-detail/{index.html,variant-a-cinematic.html,variant-b-ledger.html,variant-c-spotlight.html,prototype.css,prototype.js}` as the design record, with `variant-b-ledger.html` identified as the selected reference
+- [x] Add lazy `SeasonDetailPage` and route `tv/:id/season/:seasonNumber` in `apps/web/src/features/Tv/routes.tsx`; validate numeric route params in `apps/web/src/features/Tv/pages/SeasonDetailPage.tsx`
+- [x] Add `tvId` to `Seasons` in `apps/web/src/features/Tv/components/Detail/components/Seasons.tsx`, pass `tv.id` from `apps/web/src/features/Tv/components/Detail/Detail.tsx`, and render each season card as a `Link` to its dedicated route
+- [x] Add `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx` with the TV breadcrumb, season artwork/summary, Specials label, native season selector, and URL-backed previous/next controls per PLAN.md → “A season is a dedicated route”
+- [x] Add `apps/web/src/features/Tv/components/SeasonDetail/EpisodeLedger.tsx` with the responsive prototype-2 columns, semantic non-interactive rows, two-line overviews, formatted air dates, optional runtimes, one-decimal vote averages, and agreed missing-data fallbacks
+- [x] Add `apps/web/src/features/Tv/components/SeasonDetail/SeasonDetail.tsx` to coordinate `TvQueries.useDetail` and `useSeasonDetail`, render `Loader`, retryable error, `NotFound`, empty-season, hero, and ledger states, and restore scroll position to the top when the routed season changes
+- [x] Add `apps/web/src/features/Tv/components/Detail/components/Seasons.test.tsx` and `apps/web/src/features/Tv/pages/SeasonDetailPage.test.tsx` for route links, Specials, navigation, complete rows, one-decimal ratings, loading/error/retry, invalid params, empty episodes, and missing-data fallbacks
+- [x] Retain `docs/prototypes/tv-season-detail/{index.html,variant-a-cinematic.html,variant-b-ledger.html,variant-c-spotlight.html,prototype.css,prototype.js}` as the design record, with `variant-b-ledger.html` identified as the selected reference
 
 **Phase gate (hard):**
 - [ ] `pnpm typecheck`
@@ -80,7 +80,7 @@ checklist goes into the PR description.
 
 ## Phase 3 — Series quality data
 
-Branch: `tv-season-episode-ledger/phase-3-quality-data` (sequential: off `dev`)
+Branch: `tv-season-episode-ledger/phase-3-quality-data` (stacked: `gh stack add`)
 
 Appends reusable multi-season queries and pure matrix calculations after the ledger ships.
 
@@ -111,7 +111,7 @@ checklist goes into the PR description.
 
 ## Phase 4 — Series quality matrix
 
-Branch: `tv-season-episode-ledger/phase-4-quality-matrix` (sequential: off `dev`)
+Branch: `tv-season-episode-ledger/phase-4-quality-matrix` (stacked: `gh stack add`)
 
 Consumes the appended quality data layer and exposes the selected whole-series visualization.
 
