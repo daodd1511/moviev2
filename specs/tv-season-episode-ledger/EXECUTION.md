@@ -6,12 +6,12 @@ adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: 5 — pending
+- Current phase: 5 — in-progress
 - Phase 1 — Season data contract: done
 - Phase 2 — Routed episode ledger: done
 - Phase 3 — Series quality data: done
 - Phase 4 — Series quality matrix: done
-- Phase 5 — Review refinements: pending
+- Phase 5 — Review refinements: in-progress
 - Verification debt: none
 
 ## Phase 1 — Season data contract
@@ -160,8 +160,8 @@ Produces: the reviewed `EpisodeMatrix` behavior and dated Review Decisions in `P
 
 Fresh review: not required
 
-- [ ] Replace `EpisodeMatrix.tsx`'s fixed `min-h-16`/`max-h-[72vh]` vertical-scroll layout with viewport-aware compact rows and no internal vertical overflow; retain horizontal overflow only when columns cannot stay legible
-- [ ] Extend `SeriesQualityPage.test.tsx` to cover the long-season matrix layout contract and retain its existing rating, missing-position, and inspector coverage
+- [x] Replace `EpisodeMatrix.tsx`'s fixed `min-h-16`/`max-h-[72vh]` vertical-scroll layout with viewport-aware compact rows and no internal vertical overflow; retain horizontal overflow only when columns cannot stay legible
+- [x] Extend `SeriesQualityPage.test.tsx` to cover the long-season matrix layout contract and retain its existing rating, missing-position, and inspector coverage
 - [ ] For every accepted review item, append a dated decision in `PLAN.md` → Review Decisions and update the complete affected requirement in `PLAN.md` → Spec Delta; add an `(amended 2026-08-10)` checklist item naming its implementation and test files
 
 **Phase gate (hard):**

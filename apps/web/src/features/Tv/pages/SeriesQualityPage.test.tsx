@@ -104,6 +104,13 @@ const seasonDetail = (seasonNumber: number) => {
   };
 };
 
+const longSeasonDetail = {
+  ...seasonDetail(2),
+  episodes: Array.from({ length: 16 }, (_, index) =>
+    episode(200 + index, index + 1, `Long season episode ${index + 1}`, 7.5),
+  ),
+};
+
 const renderPage = (route = '/tv/42/quality') => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
@@ -217,6 +224,29 @@ describe('SeriesQualityPage', () => {
     expect(await screen.findByLabelText('Specials, episode 1, rated 10.0')).toBeInTheDocument();
     expect(requestedSeasons).toContain(0);
     expect(screen.getByText('Episode average').parentElement).toHaveTextContent('7.8');
+  });
+
+  it('compacts long seasons without creating a nested vertical scroll area', async () => {
+    server.use(
+      http.get('*/tv/42', () => HttpResponse.json(tvDetail)),
+      http.get('*/tv/42/season/:seasonNumber', ({ params }) => {
+        const seasonNumber = Number(params.seasonNumber);
+        return HttpResponse.json(
+          seasonNumber === 2 ? longSeasonDetail : seasonDetail(seasonNumber),
+        );
+      }),
+    );
+
+    renderPage();
+
+    await screen.findByLabelText('S2, episode 16, rated 7.5');
+    const matrix = screen.getByLabelText('Episode rating matrix');
+    const grid = matrix.firstElementChild;
+
+    expect(matrix).toHaveClass('overflow-x-auto');
+    expect(matrix).not.toHaveClass('max-h-[72vh]');
+    expect(grid).toHaveAttribute('data-density', 'compact');
+    expect(grid).toHaveClass('gap-y-1');
   });
 
   it('keeps successful columns visible and retries one unavailable season independently', async () => {

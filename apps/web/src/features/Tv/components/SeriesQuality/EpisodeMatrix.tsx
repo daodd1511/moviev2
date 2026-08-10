@@ -49,24 +49,39 @@ interface Props {
 const seasonLabel = (season: Season): string =>
   season.seasonNumber === 0 ? 'Specials' : `S${season.seasonNumber}`;
 
+const getEpisodeRowHeight = (rowCount: number): string => {
+  if (rowCount <= 10) {
+    return '4rem';
+  }
+
+  const viewportShare = (72 / rowCount).toFixed(3);
+  const chromeShare = (6 + (rowCount - 1) * 0.25) / rowCount;
+
+  return `clamp(1.75rem, calc(${viewportShare}dvh - ${chromeShare.toFixed(3)}rem), 4rem)`;
+};
+
 const Cell = ({
   cell,
   column,
   episodeNumber,
   isSelected,
+  isCompact,
   onSelect,
 }: {
   readonly cell: EpisodeMatrixCell;
   readonly column: Extract<QualitySeasonColumn, { readonly kind: 'loaded' }>;
   readonly episodeNumber: number;
   readonly isSelected: boolean;
+  readonly isCompact: boolean;
   readonly onSelect: (selection: EpisodeSelection) => void;
 }) => {
+  const valueSize = isCompact ? 'text-sm' : 'text-lg';
+
   if (cell.kind === 'nonexistent') {
     return (
       <span
         aria-label={`${seasonLabel(column.season)}, episode ${episodeNumber}, no episode at this position`}
-        className="flex min-h-16 items-center justify-center rounded-md bg-[#173442] text-lg font-medium text-muted-foreground"
+        className={`flex h-full min-h-0 items-center justify-center rounded-md bg-[#173442] font-medium text-muted-foreground ${valueSize}`}
       >
         —
       </span>
@@ -77,7 +92,7 @@ const Cell = ({
     return (
       <span
         aria-label={`${seasonLabel(column.season)}, episode ${episodeNumber}, not rated`}
-        className="flex min-h-16 items-center justify-center rounded-md bg-[#173442] text-lg font-medium text-muted-foreground"
+        className={`flex h-full min-h-0 items-center justify-center rounded-md bg-[#173442] font-medium text-muted-foreground ${valueSize}`}
       >
         ?
       </span>
@@ -92,7 +107,7 @@ const Cell = ({
       type="button"
       aria-label={`${seasonLabel(column.season)}, episode ${episodeNumber}, rated ${cell.voteAverage.toFixed(1)}`}
       aria-pressed={isSelected}
-      className={`min-h-16 rounded-md text-lg font-semibold tabular-nums transition-[transform,filter] duration-200 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-offset-2 aria-pressed:outline-2 aria-pressed:outline-foreground ${cellStyle}`}
+      className={`h-full min-h-0 rounded-md font-semibold tabular-nums transition-[transform,filter] duration-200 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-offset-2 aria-pressed:outline-2 aria-pressed:outline-foreground ${valueSize} ${cellStyle}`}
       onClick={() =>
         onSelect({
           detail: column.detail,
@@ -124,14 +139,20 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
   const loadedIndex = new Map(
     loadedColumns.map((column, index) => [column.season.seasonNumber, index]),
   );
+  const isCompact = rows.length > 10;
   const matrixStyle: CSSProperties = {
     gridTemplateColumns: `3.25rem repeat(${columns.length}, minmax(6rem, 1fr))`,
+    gridTemplateRows: `3rem repeat(${rows.length}, ${getEpisodeRowHeight(rows.length)})`,
     minWidth: `${3.25 + columns.length * 6.6}rem`,
   };
 
   return (
-    <div className="max-h-[72vh] overflow-auto" aria-label="Episode rating matrix">
-      <div className="grid gap-2 p-4 min-[590px]:p-6" style={matrixStyle}>
+    <div className="overflow-x-auto" aria-label="Episode rating matrix">
+      <div
+        className={`grid gap-x-2 p-4 min-[590px]:p-6 ${isCompact ? 'gap-y-1' : 'gap-y-2'}`}
+        data-density={isCompact ? 'compact' : 'standard'}
+        style={matrixStyle}
+      >
         <span
           aria-hidden="true"
           className="sticky top-0 left-0 z-30 bg-surface/95 backdrop-blur-md"
@@ -162,7 +183,7 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
 
         {rows.map(row => (
           <div key={row.episodeNumber} className="contents">
-            <span className="sticky left-0 z-10 flex min-h-16 items-center bg-surface/95 text-xs font-medium tracking-[0.08em] text-muted-foreground backdrop-blur-md">
+            <span className="sticky left-0 z-10 flex h-full min-h-0 items-center bg-surface/95 text-xs font-medium tracking-[0.08em] text-muted-foreground backdrop-blur-md">
               E{String(row.episodeNumber).padStart(2, '0')}
             </span>
             {columns.map(column => {
@@ -171,7 +192,9 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
                   <span
                     key={column.season.id}
                     aria-label={`${seasonLabel(column.season)} loading`}
-                    className="flex min-h-16 items-center justify-center rounded-md bg-[#173442] text-lg text-muted-foreground"
+                    className={`flex h-full min-h-0 items-center justify-center rounded-md bg-[#173442] text-muted-foreground ${
+                      isCompact ? 'text-sm' : 'text-lg'
+                    }`}
                   >
                     …
                   </span>
@@ -183,7 +206,7 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
                   <span
                     key={column.season.id}
                     aria-label={`${seasonLabel(column.season)} unavailable`}
-                    className="flex min-h-16 items-center justify-center rounded-md border border-danger/25 bg-danger/10 px-1 text-center text-micro font-medium text-danger"
+                    className="flex h-full min-h-0 items-center justify-center rounded-md border border-danger/25 bg-danger/10 px-1 text-center text-micro font-medium text-danger"
                   >
                     Unavailable
                   </span>
@@ -206,6 +229,7 @@ export const EpisodeMatrix = ({ columns, rows, selection, onSelect }: Props) => 
                     selection?.season.seasonNumber === column.season.seasonNumber &&
                     selection.episode.episodeNumber === row.episodeNumber
                   }
+                  isCompact={isCompact}
                   onSelect={onSelect}
                 />
               );

@@ -177,6 +177,9 @@ and retain horizontal overflow only for column legibility.
 Implementation: `apps/web/src/features/Tv/components/SeriesQuality/EpisodeMatrix.tsx`,
 `apps/web/src/features/Tv/pages/SeriesQualityPage.test.tsx`.
 
+Verification: `SeriesQualityPage.test.tsx` covers a 16-episode season, compact density, and
+the absence of the former nested vertical-scroll constraint.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,
