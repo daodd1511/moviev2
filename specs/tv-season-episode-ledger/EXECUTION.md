@@ -6,11 +6,11 @@ adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: 3 — done
+- Current phase: 4 — in-progress
 - Phase 1 — Season data contract: done
 - Phase 2 — Routed episode ledger: done
 - Phase 3 — Series quality data: done
-- Phase 4 — Series quality matrix: pending
+- Phase 4 — Series quality matrix: in-progress
 - Verification debt: none
 
 ## Phase 1 — Season data contract
@@ -123,14 +123,14 @@ Produces: route `/tv/:id/quality`, `SeriesQualityPage`, `SeriesQuality`, `Qualit
 
 Fresh review: not required
 
-- [ ] Add lazy `SeriesQualityPage` and route `tv/:id/quality` in `apps/web/src/features/Tv/routes.tsx`; validate the numeric TV id in `apps/web/src/features/Tv/pages/SeriesQualityPage.tsx`
-- [ ] Add Series quality links to `apps/web/src/features/Tv/components/Detail/components/Content.tsx` and `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx`; add stable `episode-${episode.episodeNumber}` ids in `apps/web/src/features/Tv/components/SeasonDetail/EpisodeLedger.tsx`
-- [ ] Add `apps/web/src/features/Tv/components/SeriesQuality/SeriesQuality.tsx` to load every numbered season immediately, fetch Season 0 only while enabled, preserve successful columns on partial errors, expose per-season retry, and use a full-page retry only when TV detail or every regular season fails
-- [ ] Add `apps/web/src/features/Tv/components/SeriesQuality/QualityHero.tsx` with TV identity, separately labeled `TvDetail.voteAverage` and calculated episode average, and a Show Specials control only when Season 0 exists
-- [ ] Add `apps/web/src/features/Tv/components/SeriesQuality/QualityLegend.tsx` and `EpisodeMatrix.tsx` with numeric/text cell content, six fixed bands, `?` versus `—`, unavailable/retry columns, horizontal mobile scrolling, sticky season headers, and sticky episode labels
-- [ ] Add `apps/web/src/features/Tv/components/SeriesQuality/EpisodeInspector.tsx` with in-place cell selection, season-relative comparison, and `/tv/:id/season/:seasonNumber#episode-:episodeNumber` link
-- [ ] Add `apps/web/src/features/Tv/pages/SeriesQualityPage.test.tsx` for route validation, all-season loading, Specials toggle, separate aggregates, selection/inspector, anchored ledger links, partial/full failure and retry, and matrix missing-position states
-- [ ] Retain `docs/prototypes/tv-quality-overview/{index.html,variant-a-matrix.html,variant-b-scorecards.html,variant-c-trajectory.html,quality.css,quality.js}` as the design record, with `variant-a-matrix.html` identified as the selected reference
+- [x] Add lazy `SeriesQualityPage` and route `tv/:id/quality` in `apps/web/src/features/Tv/routes.tsx`; validate the numeric TV id in `apps/web/src/features/Tv/pages/SeriesQualityPage.tsx`
+- [x] Add Series quality links to `apps/web/src/features/Tv/components/Detail/components/Content.tsx` and `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx`; add stable `episode-${episode.episodeNumber}` ids in `apps/web/src/features/Tv/components/SeasonDetail/EpisodeLedger.tsx`
+- [x] Add `apps/web/src/features/Tv/components/SeriesQuality/SeriesQuality.tsx` to load every numbered season immediately, fetch Season 0 only while enabled, preserve successful columns on partial errors, expose per-season retry, and use a full-page retry only when TV detail or every regular season fails
+- [x] Add `apps/web/src/features/Tv/components/SeriesQuality/QualityHero.tsx` with TV identity, separately labeled `TvDetail.voteAverage` and calculated episode average, and a Show Specials control only when Season 0 exists
+- [x] Add `apps/web/src/features/Tv/components/SeriesQuality/QualityLegend.tsx` and `EpisodeMatrix.tsx` with numeric/text cell content, six fixed bands, `?` versus `—`, unavailable/retry columns, horizontal mobile scrolling, sticky season headers, and sticky episode labels
+- [x] Add `apps/web/src/features/Tv/components/SeriesQuality/EpisodeInspector.tsx` with in-place cell selection, season-relative comparison, and `/tv/:id/season/:seasonNumber#episode-:episodeNumber` link
+- [x] Add `apps/web/src/features/Tv/pages/SeriesQualityPage.test.tsx` for route validation, all-season loading, Specials toggle, separate aggregates, selection/inspector, anchored ledger links, partial/full failure and retry, and matrix missing-position states
+- [x] Retain `docs/prototypes/tv-quality-overview/{index.html,variant-a-matrix.html,variant-b-scorecards.html,variant-c-trajectory.html,quality.css,quality.js}` as the design record, with `variant-a-matrix.html` identified as the selected reference
 
 **Phase gate (hard):**
 - [ ] `pnpm typecheck`

@@ -190,8 +190,16 @@ describe('SeasonDetailPage', () => {
     expect(screen.getByText('Aug 3, 2026 · 54 min')).toBeInTheDocument();
     expect(screen.getByLabelText('8.4 rating')).toBeInTheDocument();
     expect(screen.getByText('Not rated')).toBeInTheDocument();
-    expect(screen.getByText('The first fixture episode introduces the ledger.')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Episode one', level: 3 }).closest('a')).toBeNull();
+    expect(
+      screen.getByText('The first fixture episode introduces the ledger.'),
+    ).toBeInTheDocument();
+    const episodeHeading = screen.getByRole('heading', { name: 'Episode one', level: 3 });
+    expect(episodeHeading.closest('a')).toBeNull();
+    expect(episodeHeading.closest('li')).toHaveAttribute('id', 'episode-1');
+    expect(screen.getByRole('link', { name: 'Open Series quality' })).toHaveAttribute(
+      'href',
+      '/tv/42/quality',
+    );
   });
 
   it('changes the URL and loaded ledger through the native selector and season controls', async () => {
@@ -251,7 +259,9 @@ describe('SeasonDetailPage', () => {
 
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: "Couldn't load this season" })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: "Couldn't load this season" }),
+    ).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Try again' }));
 
     expect(await screen.findByRole('heading', { name: 'Season 1' })).toBeInTheDocument();

@@ -25,6 +25,12 @@ export const SeasonDetailPage = lazy(() =>
   })),
 );
 
+export const SeriesQualityPage = lazy(() =>
+  import('./pages/SeriesQualityPage').then(module => ({
+    default: module.SeriesQualityPage,
+  })),
+);
+
 export const tvRoutes: RouteObject[] = [
   {
     path: 'tv',
@@ -36,6 +42,10 @@ export const tvRoutes: RouteObject[] = [
       {
         path: ':id/season/:seasonNumber',
         element: <SeasonDetailPage />,
+      },
+      {
+        path: ':id/quality',
+        element: <SeriesQualityPage />,
       },
       {
         path: ':id',

@@ -60,6 +60,7 @@ const EpisodeLedgerComponent = ({ episodes }: Props) => {
         {episodes.map(episode => (
           <li
             key={episode.id}
+            id={`episode-${episode.episodeNumber}`}
             className="grid min-h-28 grid-cols-[2rem_7.5rem_minmax(0,1fr)] items-start gap-x-3 border-b border-border px-0 py-3 transition-colors duration-200 hover:bg-foreground/[0.045] min-[590px]:grid-cols-[2rem_9rem_minmax(0,1fr)_4.5rem] min-[590px]:gap-x-4 min-[860px]:min-h-32 min-[860px]:grid-cols-[3rem_9rem_minmax(12rem,1fr)_7.5rem_5rem] min-[860px]:items-center min-[860px]:gap-5 min-[860px]:px-4"
           >
             <span className="pt-1 text-xl font-extralight text-muted-foreground/70 tabular-nums min-[860px]:pt-0">
@@ -89,7 +90,10 @@ const EpisodeLedgerComponent = ({ episodes }: Props) => {
               {episode.voteAverage === null ? (
                 'Not rated'
               ) : (
-                <span className="inline-flex items-center gap-1" aria-label={`${episode.voteAverage.toFixed(1)} rating`}>
+                <span
+                  className="inline-flex items-center gap-1"
+                  aria-label={`${episode.voteAverage.toFixed(1)} rating`}
+                >
                   <Star aria-hidden="true" className="size-3.5 fill-current" />
                   {episode.voteAverage.toFixed(1)}
                 </span>

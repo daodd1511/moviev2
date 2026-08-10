@@ -1,5 +1,5 @@
 import { ChangeEvent, memo } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -34,8 +34,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
   const currentSeasonIndex = tv.seasons.findIndex(
     candidate => candidate.seasonNumber === season.seasonNumber,
   );
-  const previousSeason =
-    currentSeasonIndex > 0 ? tv.seasons[currentSeasonIndex - 1] : undefined;
+  const previousSeason = currentSeasonIndex > 0 ? tv.seasons[currentSeasonIndex - 1] : undefined;
   const nextSeason =
     currentSeasonIndex !== -1 && currentSeasonIndex < tv.seasons.length - 1
       ? tv.seasons[currentSeasonIndex + 1]
@@ -45,9 +44,7 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
       ? `${IMAGE_BASE_URL}${PosterSizes.large}${season.posterPath}`
       : '/images/no-image.png';
   const backdropUrl =
-    tv.backdropPath !== null
-      ? `${IMAGE_BASE_URL}${BackdropSizes.large}${tv.backdropPath}`
-      : null;
+    tv.backdropPath !== null ? `${IMAGE_BASE_URL}${BackdropSizes.large}${tv.backdropPath}` : null;
   const seasonLabel = getSeasonLabel(season.seasonNumber, season.name);
 
   const handleSeasonChange = (event: ChangeEvent<HTMLSelectElement>): void => {
@@ -87,8 +84,11 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
             alt={`${seasonLabel} poster`}
             className="w-[5.5rem] shrink-0 rounded-md object-cover shadow-[0_24px_48px_-12px_rgba(0,0,0,0.72)] outline outline-1 outline-foreground/15 min-[590px]:w-28 min-[860px]:w-42"
           />
-          <div className="min-w-0 max-w-3xl">
-            <nav aria-label="Breadcrumb" className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-micro font-medium tracking-[0.14em] text-muted-foreground uppercase">
+          <div className="max-w-3xl min-w-0">
+            <nav
+              aria-label="Breadcrumb"
+              className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-micro font-medium tracking-[0.14em] text-muted-foreground uppercase"
+            >
               <Link to={`/tv/${tv.id}`} className="transition-colors hover:text-foreground">
                 {tv.name}
               </Link>
@@ -114,7 +114,10 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
 
       <div className="relative z-1 mx-auto -mt-5 flex w-full max-w-[82rem] items-center gap-3 px-5 min-[590px]:-mt-6 min-[860px]:px-12">
         <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 rounded-md border border-foreground/15 bg-surface-raised px-3 shadow-[0_16px_40px_-18px_rgba(0,0,0,0.85)] min-[590px]:px-4">
-          <label htmlFor="season-picker" className="hidden text-micro font-medium tracking-[0.16em] text-muted-foreground uppercase min-[590px]:block">
+          <label
+            htmlFor="season-picker"
+            className="hidden text-micro font-medium tracking-[0.16em] text-muted-foreground uppercase min-[590px]:block"
+          >
             Viewing
           </label>
           <select
@@ -133,6 +136,18 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
             {getSeasonMeta(season.episodes.length, season.airDate)}
           </span>
         </div>
+        <Button
+          asChild
+          type="button"
+          variant="outline"
+          size="icon-sm"
+          className="shrink-0 min-[590px]:h-9 min-[590px]:w-auto min-[590px]:px-3"
+        >
+          <Link to={`/tv/${tv.id}/quality`} aria-label="Open Series quality">
+            <BarChart3 aria-hidden="true" />
+            <span className="hidden min-[590px]:inline">Series quality</span>
+          </Link>
+        </Button>
         <div className="flex shrink-0 gap-1.5">
           <Button
             type="button"
