@@ -218,6 +218,23 @@ verification is recorded in the Phase 5 review checklist.
 Result: no route, interaction, or data-semantic change was introduced; `SeasonDetailPage` and
 `SeriesQualityPage` behavior suites pass after the visual refinement.
 
+### 2026-08-10 — Consolidate the season navigation dock
+
+Observed: the season navigation rail stretches into an empty full-width surface while the
+Series quality and previous/next actions float beside it, weakening the visual hierarchy.
+
+Decision: compose season context, quality navigation, and season stepping into one compact
+navigation dock. The dock may wrap on small screens but must retain the labeled Shadcn Select,
+accessible quality link, and previous/next buttons.
+
+Implementation: `apps/web/src/features/Tv/components/SeasonDetail/SeasonHero.tsx`.
+
+Verification: retain the Season Detail route-navigation test and visually inspect the dock at
+desktop and mobile widths through the Phase 5 review checklist.
+
+Result: the Shadcn season selector and all three navigation actions remain in the same
+accessible control group; `SeasonDetailPage.test.tsx` route-navigation coverage passes.
+
 ## Data Changes
 
 Extend `apps/web/src/api/dtos/tv/episode.dto.ts` with nullable `air_date`, `runtime`,

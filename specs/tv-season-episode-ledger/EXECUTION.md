@@ -164,6 +164,7 @@ Fresh review: not required
 - [x] Extend `SeriesQualityPage.test.tsx` to cover the long-season matrix layout contract and retain its existing rating, missing-position, and inspector coverage
 - [x] (amended 2026-08-10) Replace the native season `select` in `SeasonHero.tsx` with the shared Shadcn Select and the native Show Specials checkbox in `QualityHero.tsx` with the shared Shadcn Checkbox; update `SeasonDetailPage.test.tsx` and `SeriesQualityPage.test.tsx` for their accessible controls and retained behavior
 - [x] (amended 2026-08-10) Refine the Season Detail and Series Quality interfaces across `SeasonDetail/{SeasonDetail,SeasonHero,EpisodeLedger}.tsx` and `SeriesQuality/{QualityHero,EpisodeMatrix,EpisodeInspector,QualityLegend,SeriesQuality}.tsx` with the documented noir field-guide treatment; retain `SeasonDetailPage.test.tsx` and `SeriesQualityPage.test.tsx` behavior coverage
+- [x] (amended 2026-08-10) Consolidate `SeasonHero.tsx` season context, Series quality navigation, and previous/next controls into the documented compact navigation dock; retain `SeasonDetailPage.test.tsx` route-navigation coverage
 - [ ] For every accepted review item, append a dated decision in `PLAN.md` → Review Decisions and update the complete affected requirement in `PLAN.md` → Spec Delta; add an `(amended 2026-08-10)` checklist item naming its implementation and test files
 
 **Phase gate (hard):**

@@ -124,63 +124,66 @@ const SeasonHeroComponent = ({ tv, season }: Props) => {
         </div>
       </header>
 
-      <div className="relative z-1 mx-auto -mt-5 flex w-full max-w-[82rem] items-center gap-3 px-5 min-[590px]:-mt-6 min-[860px]:px-12">
-        <div className="flex min-h-12 min-w-0 flex-1 items-center gap-3 rounded-md border border-foreground/15 bg-surface-raised/95 px-3 shadow-[0_20px_45px_-22px_rgba(0,0,0,0.92)] backdrop-blur-xl min-[590px]:px-4">
-          <Label
-            htmlFor="season-picker"
-            className="hidden text-micro font-medium tracking-[0.16em] text-muted-foreground uppercase min-[590px]:block"
-          >
-            Viewing
-          </Label>
-          <Select value={String(season.seasonNumber)} onValueChange={handleSeasonChange}>
-            <SelectTrigger id="season-picker" className="min-w-0 flex-1 min-[590px]:max-w-56">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {tv.seasons.map(candidate => (
-                <SelectItem key={candidate.id} value={String(candidate.seasonNumber)}>
-                  {getSeasonLabel(candidate.seasonNumber, candidate.name)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <span className="hidden border-l border-border pl-3 text-xs tracking-[0.08em] text-muted-foreground uppercase min-[860px]:inline">
-            {getSeasonMeta(season.episodes.length, season.airDate)}
-          </span>
-        </div>
-        <Button
-          asChild
-          type="button"
-          variant="outline"
-          size="icon-sm"
-          className="shrink-0 min-[590px]:h-9 min-[590px]:w-auto min-[590px]:px-3"
-        >
-          <Link to={`/tv/${tv.id}/quality`} aria-label="Open Series quality">
-            <BarChart3 aria-hidden="true" />
-            <span className="hidden min-[590px]:inline">Series quality</span>
-          </Link>
-        </Button>
-        <div className="flex shrink-0 gap-1.5">
-          <Button
-            type="button"
-            variant="outline"
-            size="icon-sm"
-            aria-label="Previous season"
-            disabled={previousSeason === undefined}
-            onClick={handlePreviousSeason}
-          >
-            <ChevronLeft aria-hidden="true" />
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="icon-sm"
-            aria-label="Next season"
-            disabled={nextSeason === undefined}
-            onClick={handleNextSeason}
-          >
-            <ChevronRight aria-hidden="true" />
-          </Button>
+      <div className="relative z-1 mx-auto -mt-5 w-full max-w-[82rem] px-5 min-[590px]:-mt-6 min-[860px]:px-12">
+        <div className="inline-flex max-w-full flex-wrap items-stretch overflow-hidden rounded-md border border-foreground/15 bg-surface-raised/95 shadow-[0_20px_45px_-22px_rgba(0,0,0,0.92)] backdrop-blur-xl min-[590px]:flex-nowrap">
+          <div className="flex min-h-12 min-w-0 items-center gap-3 px-3 min-[590px]:px-4">
+            <Label
+              htmlFor="season-picker"
+              className="hidden text-micro font-medium tracking-[0.16em] text-muted-foreground uppercase min-[590px]:block"
+            >
+              Viewing
+            </Label>
+            <Select value={String(season.seasonNumber)} onValueChange={handleSeasonChange}>
+              <SelectTrigger id="season-picker" className="min-w-36 flex-1 min-[590px]:w-52">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {tv.seasons.map(candidate => (
+                  <SelectItem key={candidate.id} value={String(candidate.seasonNumber)}>
+                    {getSeasonLabel(candidate.seasonNumber, candidate.name)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span className="hidden border-l border-border pl-3 text-xs tracking-[0.08em] text-muted-foreground uppercase min-[860px]:inline">
+              {getSeasonMeta(season.episodes.length, season.airDate)}
+            </span>
+          </div>
+          <div className="flex min-h-12 items-center gap-1 border-t border-border/80 px-2 min-[590px]:border-t-0 min-[590px]:border-l">
+            <Button
+              asChild
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              className="min-[590px]:h-9 min-[590px]:w-auto min-[590px]:px-3"
+            >
+              <Link to={`/tv/${tv.id}/quality`} aria-label="Open Series quality">
+                <BarChart3 aria-hidden="true" />
+                <span className="hidden min-[590px]:inline">Series quality</span>
+              </Link>
+            </Button>
+            <span aria-hidden="true" className="h-5 w-px bg-border/80" />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Previous season"
+              disabled={previousSeason === undefined}
+              onClick={handlePreviousSeason}
+            >
+              <ChevronLeft aria-hidden="true" />
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Next season"
+              disabled={nextSeason === undefined}
+              onClick={handleNextSeason}
+            >
+              <ChevronRight aria-hidden="true" />
+            </Button>
+          </div>
         </div>
       </div>
     </>
