@@ -6,10 +6,10 @@ adopted as the stack bottom on 2026-08-10.
 
 ## STATUS
 
-- Current phase: 3 — in-progress
+- Current phase: 3 — done
 - Phase 1 — Season data contract: done
 - Phase 2 — Routed episode ledger: done
-- Phase 3 — Series quality data: in-progress
+- Phase 3 — Series quality data: done
 - Phase 4 — Series quality matrix: pending
 - Verification debt: none
 
@@ -99,8 +99,8 @@ Fresh review: not required
 - [x] Add `apps/web/src/stores/queries/tvQueries.test.tsx` for multi-season query keys, cache reuse with `useSeasonDetail`, result ordering, and independent season failures
 
 **Phase gate (hard):**
-- [ ] `pnpm typecheck`
-- [ ] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>`
+- [x] `pnpm typecheck` — passed via the bundled pnpm runtime; configured pnpm shims hung before invocation in this environment
+- [x] `pnpm exec vitest related --project web --run <changed files from the phase diff, repo-root-relative>` — passed via the bundled pnpm runtime; 3 files / 24 tests
 
 **Review checklist (user, at PR review):**
 - [ ] An existing season-detail URL still loads normally after single- and multi-season queries share options
